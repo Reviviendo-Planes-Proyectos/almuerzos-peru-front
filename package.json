@@ -7,7 +7,10 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:almuerzos-peru-front": "node dist/almuerzos-peru-front/server/server.mjs"
+    "serve:ssr:almuerzos-peru-front": "node dist/almuerzos-peru-front/server/server.mjs",
+    "lint": "ng lint",
+    "format": "prettier --write \"src/**/*.{ts,html,css,scss}\"",
+    "prepare": "husky"
   },
   "private": true,
   "dependencies": {
@@ -33,12 +36,18 @@
     "@types/express": "^4.17.17",
     "@types/jasmine": "~5.1.0",
     "@types/node": "^18.18.0",
+    "angular-eslint": "20.1.1",
+    "eslint": "^9.29.0",
+    "husky": "^9.1.7",
     "jasmine-core": "~5.2.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "typescript": "~5.5.2"
+    "lint-staged": "^15.5.2",
+    "prettier": "3.5.3",
+    "typescript": "~5.5.2",
+    "typescript-eslint": "8.34.1"
   }
 }
