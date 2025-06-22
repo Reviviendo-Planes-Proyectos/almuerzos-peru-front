@@ -7,6 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "test:ci": "ng test --browsers=ChromeHeadless --watch=false",
     "serve:ssr:almuerzos-peru-front": "node dist/almuerzos-peru-front/server/server.mjs",
     "lint": "ng lint",
     "lint:fix": "ng lint --fix",
