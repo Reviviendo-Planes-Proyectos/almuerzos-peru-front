@@ -1,0 +1,7 @@
+npx --no -- commitlint --edit "$1"
+
+# Validación de idioma:
+if grep -iE '\b(agregar|añadir|arreglar|actualizar|borrar|corregir|crear|eliminar|función|mensaje|modificar|pantalla|vista|botón|usuario|cliente|componente|interfaz|servicio|controlador|ruta|modelo|dato|cambiar|mejorar|mostrar|ocultar|rediseñar|formulario|validar|buscar|respuesta|petición|guardar|cargar|seleccionar|opción|listado|registro|sesión|clave|contraseña|error|advertencia|éxito|fallo|desplegar|subir|bajar|colapsar|expandir|logrando|usando|haciendo|creando|mostrando|eliminando|editando|probando|dejando|configurando|desarrollando|implementando|refactorizando|optimizando|integrando|mejorando|añadiendo|agregando|actualizando|corrigiendo|validando|visualizando|cambiando|subiendo|bajando|guardando|modificando)\b' "$1"; then
+  echo "❌ El mensaje contiene palabras en español o gerundios. Usa inglés en infinitivo y capitalizado."
+  exit 1
+fi
