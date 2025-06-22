@@ -1,0 +1,6 @@
+{
+  "sonarlint.connectedMode.project": {
+    "connectionId": "reviviendo-planes-proyectos",
+    "projectKey": "almuerzos-peru-front"
+  }
+}
