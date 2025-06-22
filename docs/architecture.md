@@ -67,7 +67,9 @@ La UI se construye con componentes reutilizables, encapsulados en módulos:
 
 ## 🔹 Modularización + Lazy Loading
 
-![Lazy Loading](./assets/lazy-loading-architecture.png)
+<p align="center">
+  <img src="./assets/lazy-loading-architecture.png" alt="Lazy Loading" style="max-width: 100%; width: 600px;" />
+</p>
 
 Cada módulo funcional se carga **dinámicamente** solo cuando se necesita, usando rutas como esta:
 
