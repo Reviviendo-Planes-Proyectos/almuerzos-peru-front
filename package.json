@@ -9,6 +9,7 @@
     "test": "ng test",
     "serve:ssr:almuerzos-peru-front": "node dist/almuerzos-peru-front/server/server.mjs",
     "lint": "ng lint",
+    "lint:fix": "ng lint --fix",
     "format": "prettier --write \"src/**/*.{ts,html,css,scss}\"",
     "prepare": "husky"
   },
@@ -38,7 +39,7 @@
     "@types/express": "^4.17.17",
     "@types/jasmine": "~5.1.0",
     "@types/node": "^18.18.0",
-    "angular-eslint": "20.1.1",
+    "angular-eslint": "^20.1.1",
     "eslint": "^9.29.0",
     "husky": "^9.1.7",
     "jasmine-core": "~5.2.0",
