@@ -2,9 +2,7 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import { appConfig } from './app/app.config';
 import { AppComponent } from './app/app.component';
 
-bootstrapApplication(AppComponent, appConfig).catch((err) =>
-  console.error(...oo_tx(`11056721_5_61_5_79_11`, err))
-);
+bootstrapApplication(AppComponent, appConfig).catch((err) => console.error(...oo_tx(`11056721_5_61_5_79_11`, err)));
 /* istanbul ignore next */ /* c8 ignore start */ /* eslint-disable */ function oo_cm() {
   try {
     return (
