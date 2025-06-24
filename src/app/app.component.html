@@ -86,8 +86,7 @@
     justify-content: center;
     align-items: center;
     padding: 1rem;
-    box-sizing: inherit;
-    position: relative;
+    flex-direction: column;
   }
 
   .angular-logo {
@@ -197,7 +196,20 @@
 
 <main class="main">
   <div class="bg-green-500 text-white p-4 rounded">Test Tailwind</div>
-
+  <br />
+  <button mat-raised-button color="primary">Hola Material</button>
+  <br />
+  <button matButton="elevated" disabled disabledInteractive matTooltip="This is a tooltip!">
+    Disabled button allowing interactivity
+  </button>
+  <br />
+  <button mat-raised-button color="primary">Hola Material</button>
+  <br />
+  <button mat-raised-button color="accent">Click</button>
+  <br />
+  <span matTooltip="Este botón está deshabilitado">
+    <button mat-raised-button disabled>No disponible</button>
+  </span>
   <div class="content">
     <div class="left-side">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 982 239" fill="none" class="angular-logo">
@@ -230,7 +242,9 @@
             <stop offset=".526" stop-color="#CC26D5" />
             <stop offset="1" stop-color="#7702FF" />
           </linearGradient>
-          <clipPath id="a"><path fill="#fff" d="M0 0h982v239H0z" /></clipPath>
+          <clipPath id="a">
+            <path fill="#fff" d="M0 0h982v239H0z" />
+          </clipPath>
         </defs>
       </svg>
       <h1>Hello, {{ title }}</h1>
