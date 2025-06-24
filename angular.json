@@ -17,12 +17,9 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/almuerzos-peru-front",
+            "outputPath": "dist/almuerzos-peru-front/browser",
             "index": "src/index.html",
-            "browser": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
@@ -35,12 +32,7 @@
               "@angular/material/prebuilt-themes/azure-blue.css",
               "src/styles.scss"
             ],
-            "scripts": [],
-            "server": "src/main.server.ts",
-            "prerender": true,
-            "ssr": {
-              "entry": "server.ts"
-            }
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -65,6 +57,22 @@
             }
           },
           "defaultConfiguration": "production"
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/almuerzos-peru-front/server",
+            "main": "server/server.netlify.ts",
+            "tsConfig": "tsconfig.server.json"
+          }
+        },
+        "prerender": {
+          "builder": "@angular-devkit/build-angular:prerender",
+          "options": {
+            "browserTarget": "almuerzos-peru-front:build:production",
+            "serverTarget": "almuerzos-peru-front:server:production",
+            "routes": ["/"]
+          }
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -117,7 +125,7 @@
     }
   },
   "cli": {
-    "analytics": "61af28d2-9eb9-4024-b69a-3e613cca6ab9",
+    "analytics": false,
     "schematicCollections": [
       "angular-eslint"
     ]

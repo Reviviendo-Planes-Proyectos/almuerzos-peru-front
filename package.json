@@ -6,10 +6,11 @@
     "start": "ng serve",
     "build": "ng build",
     "build:ssr": "ng build && ng run almuerzos-peru-front:server",
+    "build:ssr:netlify": "ng build && ng run almuerzos-peru-front:server && cp server/server.netlify.ts dist/almuerzos-peru-front/server/server.ts",
+    "serve:ssr": "node dist/almuerzos-peru-front/server/server.mjs",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "test:ci": "ng test --browsers=ChromeHeadless --watch=false",
-    "serve:ssr:almuerzos-peru-front": "node dist/almuerzos-peru-front/server/server.mjs",
     "lint": "ng lint",
     "lint:fix": "ng lint --fix",
     "format": "prettier --write \"src/**/*.{ts,html,css,scss}\"",
@@ -58,6 +59,7 @@
     "postcss": "^8.5.6",
     "prettier": "3.5.3",
     "tailwindcss": "^3.4.17",
+    "ts-node": "^10.9.2",
     "typescript": "~5.8.3",
     "typescript-eslint": "8.34.1"
   }
