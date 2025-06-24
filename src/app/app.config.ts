@@ -6,10 +6,5 @@ import { provideClientHydration } from '@angular/platform-browser';
 import { MATERIAL_MODULES } from './shared/material.module';
 
 export const appConfig: ApplicationConfig = {
-  providers: [
-    provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes),
-    provideClientHydration(),
-    MATERIAL_MODULES
-  ]
+  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes), provideClientHydration(), MATERIAL_MODULES]
 };
