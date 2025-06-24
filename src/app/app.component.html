@@ -35,22 +35,6 @@
     );
 
     --pill-accent: var(--bright-blue);
-
-    font-family:
-      'Inter',
-      -apple-system,
-      BlinkMacSystemFont,
-      'Segoe UI',
-      Roboto,
-      Helvetica,
-      Arial,
-      sans-serif,
-      'Apple Color Emoji',
-      'Segoe UI Emoji',
-      'Segoe UI Symbol';
-    box-sizing: border-box;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
   }
 
   h1 {
@@ -60,18 +44,6 @@
     line-height: 100%;
     letter-spacing: -0.125rem;
     margin: 0;
-    font-family:
-      'Inter Tight',
-      -apple-system,
-      BlinkMacSystemFont,
-      'Segoe UI',
-      Roboto,
-      Helvetica,
-      Arial,
-      sans-serif,
-      'Apple Color Emoji',
-      'Segoe UI Emoji',
-      'Segoe UI Symbol';
   }
 
   p {
@@ -134,7 +106,6 @@
     border-radius: 2.75rem;
     border: 0;
     transition: background 0.3s ease;
-    font-family: var(--inter-font);
     font-size: 0.875rem;
     font-style: normal;
     font-weight: 500;
@@ -150,9 +121,11 @@
   .pill-group .pill:nth-child(6n + 1) {
     --pill-accent: var(--bright-blue);
   }
+
   .pill-group .pill:nth-child(6n + 2) {
     --pill-accent: var(--french-violet);
   }
+
   .pill-group .pill:nth-child(6n + 3),
   .pill-group .pill:nth-child(6n + 4),
   .pill-group .pill:nth-child(6n + 5) {
@@ -195,13 +168,100 @@
 </style>
 
 <main class="main">
-  <div class="bg-green-500 text-white p-4 rounded">Test Tailwind</div>
-  <br />
-  <button mat-raised-button color="primary">Hola Material</button>
-  <br />
-  <button matButton="elevated" disabled disabledInteractive matTooltip="This is a tooltip!">
-    Disabled button allowing interactivity
-  </button>
+  <div class="p-6 space-y-4 font-sans">
+    <h1 class="text-2xl font-bold text-brand-dark">Hello, almuerzos-peru-front</h1>
+
+    <div class="bg-brand-yellow p-4 rounded-xl text-brand-dark shadow-md">
+      <p class="text-lg">Explora menús del día cerca de ti.</p>
+    </div>
+    <mat-card style="background-color: var(--color-gray-100); color: var(--color-brand-dark)">
+      <mat-card-title>Restaurante Favorito</mat-card-title>
+      <mat-card-content>Hoy: Ceviche mixto + bebida</mat-card-content>
+    </mat-card>
+
+    <mat-card class="rounded-xl p-4 shadow-md bg-white">
+      <mat-card-title class="text-xl font-bold font-quicksand">Restaurante El Buen Sabor</mat-card-title>
+      <mat-card-content>
+        <p>Hoy: Arroz con pollo + bebida</p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary">Ver menú</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <p class="text-lg font-quicksand">Esto usa Quicksand</p>
+  <p class="text-base font-roboto">Esto usa Roboto</p>
+
+  <button mat-raised-button class="font-sans">Hola con Tailwinds</button>
+  <p class="text-sm">Fuente activa: <span style="font-family: Quicksand, sans-serif">Quicksand</span></p>
+  <button mat-raised-button class="font-sans">Botón con Quicksand</button>
+  <p style="font-family: Quicksand, sans-serif">Texto directo con Quicksand</p>
+  <mat-card>Texto dentro de mat-card</mat-card>
+
+  <div class="flex flex-row">
+    <div class="p-6 bg-gray-100 min-h-screen font-sans space-y-6">
+      <h2 class="text-2xl font-bold font-quicksand text-brand-dark">🌮 Restaurantes recomendados</h2>
+
+      <mat-card class="bg-white rounded-xl shadow-lg p-4 font-roboto max-w-md">
+        <!-- Header -->
+        <mat-card-header class="flex items-center space-x-4">
+          <img
+            mat-card-avatar
+            src="https://source.unsplash.com/80x80/?restaurant"
+            alt="Logo del restaurante"
+            class="rounded-full"
+          />
+          <div>
+            <mat-card-title class="text-xl font-bold font-quicksand text-brand-dark"> El Sabor Criollo </mat-card-title>
+            <mat-card-subtitle class="text-sm text-gray-200 font-roboto">
+              Comida casera todos los días
+            </mat-card-subtitle>
+          </div>
+        </mat-card-header>
+        <!-- Contenido -->
+        <mat-card-content class="mt-4">
+          <p class="text-base font-roboto">Hoy servimos: Lomo saltado con arroz + bebida natural. a</p>
+        </mat-card-content>
+
+        <!-- Botones -->
+        <mat-card-actions class="mt-4 flex justify-between">
+          <button mat-raised-button color="primary" class="font-quicksand">Ver menú</button>
+          <button mat-stroked-button color="accent" class="font-quicksand">WhatsApp</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+    <div class="p-6 bg-gray-100 min-h-screen font-sans">
+      <h2 class="text-2xl font-bold mb-6 text-brand-dark font-quicksand">🍽️ Restaurantes destacados</h2>
+
+      <mat-card class="rounded-xl shadow-md p-4 bg-white font-quicksand text-brand-dark max-w-md">
+        <mat-card-header class="flex items-center space-x-4">
+          <img
+            mat-card-avatar
+            src="https://source.unsplash.com/80x80/?restaurant,food"
+            alt="Logo"
+            class="rounded-full"
+          />
+          <div>
+            <mat-card-title class="text-xl font-bold">El Buen Sabor</mat-card-title>
+            <mat-card-subtitle class="text-sm text-gray-200">Comida criolla y casera</mat-card-subtitle>
+          </div>
+        </mat-card-header>
+
+        <mat-card-content class="mt-4">
+          <p class="text-base">Hoy: Arroz con pollo + ensalada + bebida</p>
+        </mat-card-content>
+
+        <mat-card-actions class="mt-4 flex justify-between">
+          <button mat-raised-button color="primary" class="font-quicksand">Ver menú</button>
+          <button mat-stroked-button color="accent" class="font-quicksand">WhatsApp</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+  <p class="text-lg font-sans text-brand-dark">Quicksand aplicada por defecto</p>
+  <p class="text-base font-roboto text-gray-200">Texto secundario con Roboto</p>
+
   <br />
   <button mat-raised-button color="primary">Hola Material</button>
   <br />
