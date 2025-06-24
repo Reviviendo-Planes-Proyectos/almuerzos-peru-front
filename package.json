@@ -5,8 +5,6 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "build:ssr": "ng build && ng run almuerzos-peru-front:server",
-    "build:ssr:netlify": "ng build && ng run almuerzos-peru-front:server && copy server\\server.netlify.ts dist\\almuerzos-peru-front\\server\\server.ts && if not exist dist\\almuerzos-peru-front\\browser\\browser mkdir dist\\almuerzos-peru-front\\browser\\browser && xcopy dist\\almuerzos-peru-front\\browser dist\\almuerzos-peru-front\\browser\\browser /E /I /Y",    "serve:ssr": "node dist/almuerzos-peru-front/server/server.mjs",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "test:ci": "ng test --browsers=ChromeHeadless --watch=false",
@@ -40,7 +38,6 @@
     "@angular/compiler-cli": "^20.0.4",
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
-    "@netlify/angular-runtime": "^2.4.0",
     "@types/express": "^4.17.17",
     "@types/jasmine": "~5.1.0",
     "@types/node": "^18.18.0",
@@ -58,7 +55,6 @@
     "postcss": "^8.5.6",
     "prettier": "3.5.3",
     "tailwindcss": "^3.4.17",
-    "ts-node": "^10.9.2",
     "typescript": "~5.8.3",
     "typescript-eslint": "8.34.1"
   }
