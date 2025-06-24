@@ -20,37 +20,11 @@
     --gray-700: oklch(36.98% 0.014 302.71);
     --gray-400: oklch(70.9% 0.015 304.04);
 
-    --red-to-pink-to-purple-vertical-gradient: linear-gradient(
-      180deg,
-      var(--orange-red) 0%,
-      var(--vivid-pink) 50%,
-      var(--electric-violet) 100%
-    );
+    --red-to-pink-to-purple-vertical-gradient: linear-gradient(180deg, var(--orange-red) 0%, var(--vivid-pink) 50%, var(--electric-violet) 100%);
 
-    --red-to-pink-to-purple-horizontal-gradient: linear-gradient(
-      90deg,
-      var(--orange-red) 0%,
-      var(--vivid-pink) 50%,
-      var(--electric-violet) 100%
-    );
+    --red-to-pink-to-purple-horizontal-gradient: linear-gradient(90deg, var(--orange-red) 0%, var(--vivid-pink) 50%, var(--electric-violet) 100%);
 
     --pill-accent: var(--bright-blue);
-
-    font-family:
-      'Inter',
-      -apple-system,
-      BlinkMacSystemFont,
-      'Segoe UI',
-      Roboto,
-      Helvetica,
-      Arial,
-      sans-serif,
-      'Apple Color Emoji',
-      'Segoe UI Emoji',
-      'Segoe UI Symbol';
-    box-sizing: border-box;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
   }
 
   h1 {
@@ -60,18 +34,6 @@
     line-height: 100%;
     letter-spacing: -0.125rem;
     margin: 0;
-    font-family:
-      'Inter Tight',
-      -apple-system,
-      BlinkMacSystemFont,
-      'Segoe UI',
-      Roboto,
-      Helvetica,
-      Arial,
-      sans-serif,
-      'Apple Color Emoji',
-      'Segoe UI Emoji',
-      'Segoe UI Symbol';
   }
 
   p {
@@ -86,8 +48,7 @@
     justify-content: center;
     align-items: center;
     padding: 1rem;
-    box-sizing: inherit;
-    position: relative;
+    flex-direction: column;
   }
 
   .angular-logo {
@@ -135,7 +96,6 @@
     border-radius: 2.75rem;
     border: 0;
     transition: background 0.3s ease;
-    font-family: var(--inter-font);
     font-size: 0.875rem;
     font-style: normal;
     font-weight: 500;
@@ -151,9 +111,11 @@
   .pill-group .pill:nth-child(6n + 1) {
     --pill-accent: var(--bright-blue);
   }
+
   .pill-group .pill:nth-child(6n + 2) {
     --pill-accent: var(--french-violet);
   }
+
   .pill-group .pill:nth-child(6n + 3),
   .pill-group .pill:nth-child(6n + 4),
   .pill-group .pill:nth-child(6n + 5) {
@@ -196,6 +158,96 @@
 </style>
 
 <main class="main">
+  <div class="p-6 space-y-4 font-sans">
+    <h1 class="text-2xl font-bold text-brand-dark">Hello, almuerzos-peru-front</h1>
+
+    <div class="bg-brand-yellow p-4 rounded-xl text-brand-dark shadow-md">
+      <p class="text-lg">Explora menús del día cerca de ti.</p>
+    </div>
+    <mat-card style="background-color: var(--color-gray-100); color: var(--color-brand-dark)">
+      <mat-card-title>Restaurante Favorito</mat-card-title>
+      <mat-card-content>Hoy: Ceviche mixto + bebida</mat-card-content>
+    </mat-card>
+
+    <mat-card class="rounded-xl p-4 shadow-md bg-white">
+      <mat-card-title class="text-xl font-bold font-quicksand">Restaurante El Buen Sabor</mat-card-title>
+      <mat-card-content>
+        <p>Hoy: Arroz con pollo + bebida</p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary">Ver menú</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <p class="text-lg font-quicksand">Esto usa Quicksand</p>
+  <p class="text-base font-roboto">Esto usa Roboto</p>
+
+  <button mat-raised-button class="font-sans">Hola con Tailwinds</button>
+  <p class="text-sm">Fuente activa: <span style="font-family: Quicksand, sans-serif">Quicksand</span></p>
+  <button mat-raised-button class="font-sans">Botón con Quicksand</button>
+  <p style="font-family: Quicksand, sans-serif">Texto directo con Quicksand</p>
+  <mat-card>Texto dentro de mat-card</mat-card>
+
+  <div class="flex flex-row">
+    <div class="p-6 bg-gray-100 min-h-screen font-sans space-y-6">
+      <h2 class="text-2xl font-bold font-quicksand text-brand-dark">🌮 Restaurantes recomendados</h2>
+
+      <mat-card class="bg-white rounded-xl shadow-lg p-4 font-roboto max-w-md">
+        <!-- Header -->
+        <mat-card-header class="flex items-center space-x-4">
+          <img mat-card-avatar src="https://source.unsplash.com/80x80/?restaurant" alt="Logo del restaurante" class="rounded-full" />
+          <div>
+            <mat-card-title class="text-xl font-bold font-quicksand text-brand-dark"> El Sabor Criollo </mat-card-title>
+            <mat-card-subtitle class="text-sm text-gray-200 font-roboto"> Comida casera todos los días </mat-card-subtitle>
+          </div>
+        </mat-card-header>
+        <!-- Contenido -->
+        <mat-card-content class="mt-4">
+          <p class="text-base font-roboto">Hoy servimos: Lomo saltado con arroz + bebida natural. a</p>
+        </mat-card-content>
+
+        <!-- Botones -->
+        <mat-card-actions class="mt-4 flex justify-between">
+          <button mat-raised-button color="primary" class="font-quicksand">Ver menú</button>
+          <button mat-stroked-button color="accent" class="font-quicksand">WhatsApp</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+    <div class="p-6 bg-gray-100 min-h-screen font-sans">
+      <h2 class="text-2xl font-bold mb-6 text-brand-dark font-quicksand">🍽️ Restaurantes destacados</h2>
+
+      <mat-card class="rounded-xl shadow-md p-4 bg-white font-quicksand text-brand-dark max-w-md">
+        <mat-card-header class="flex items-center space-x-4">
+          <img mat-card-avatar src="https://source.unsplash.com/80x80/?restaurant,food" alt="Logo" class="rounded-full" />
+          <div>
+            <mat-card-title class="text-xl font-bold">El Buen Sabor</mat-card-title>
+            <mat-card-subtitle class="text-sm text-gray-200">Comida criolla y casera</mat-card-subtitle>
+          </div>
+        </mat-card-header>
+
+        <mat-card-content class="mt-4">
+          <p class="text-base">Hoy: Arroz con pollo + ensalada + bebida</p>
+        </mat-card-content>
+
+        <mat-card-actions class="mt-4 flex justify-between">
+          <button mat-raised-button color="primary" class="font-quicksand">Ver menú</button>
+          <button mat-stroked-button color="accent" class="font-quicksand">WhatsApp</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+  <p class="text-lg font-sans text-brand-dark">Quicksand aplicada por defecto</p>
+  <p class="text-base font-roboto text-gray-200">Texto secundario con Roboto</p>
+
+  <br />
+  <button mat-raised-button color="primary">Hola Material</button>
+  <br />
+  <button mat-raised-button color="accent">Click</button>
+  <br />
+  <span matTooltip="Este botón está deshabilitado">
+    <button mat-raised-button disabled>No disponible</button>
+  </span>
   <div class="content">
     <div class="left-side">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 982 239" fill="none" class="angular-logo">
@@ -210,14 +262,7 @@
           />
         </g>
         <defs>
-          <radialGradient
-            id="c"
-            cx="0"
-            cy="0"
-            r="1"
-            gradientTransform="rotate(118.122 171.182 60.81) scale(205.794)"
-            gradientUnits="userSpaceOnUse"
-          >
+          <radialGradient id="c" cx="0" cy="0" r="1" gradientTransform="rotate(118.122 171.182 60.81) scale(205.794)" gradientUnits="userSpaceOnUse">
             <stop stop-color="#FF41F8" />
             <stop offset=".707" stop-color="#FF41F8" stop-opacity=".5" />
             <stop offset="1" stop-color="#FF41F8" stop-opacity="0" />
@@ -228,7 +273,9 @@
             <stop offset=".526" stop-color="#CC26D5" />
             <stop offset="1" stop-color="#7702FF" />
           </linearGradient>
-          <clipPath id="a"><path fill="#fff" d="M0 0h982v239H0z" /></clipPath>
+          <clipPath id="a">
+            <path fill="#fff" d="M0 0h982v239H0z" />
+          </clipPath>
         </defs>
       </svg>
       <h1>Hello, {{ title }}</h1>
@@ -278,20 +325,6 @@
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" alt="Twitter">
             <path
               d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
-            />
-          </svg>
-        </a>
-        <a
-          href="https://www.youtube.com/channel/UCbn1OgGei-DV7aSRo_HaAiw"
-          aria-label="Youtube"
-          target="_blank"
-          rel="noopener"
-        >
-          <svg width="29" height="20" viewBox="0 0 29 20" fill="none" xmlns="http://www.w3.org/2000/svg" alt="Youtube">
-            <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M27.4896 1.52422C27.9301 1.96749 28.2463 2.51866 28.4068 3.12258C29.0004 5.35161 29.0004 10 29.0004 10C29.0004 10 29.0004 14.6484 28.4068 16.8774C28.2463 17.4813 27.9301 18.0325 27.4896 18.4758C27.0492 18.9191 26.5 19.2389 25.8972 19.4032C23.6778 20 14.8068 20 14.8068 20C14.8068 20 5.93586 20 3.71651 19.4032C3.11363 19.2389 2.56449 18.9191 2.12405 18.4758C1.68361 18.0325 1.36732 17.4813 1.20683 16.8774C0.613281 14.6484 0.613281 10 0.613281 10C0.613281 10 0.613281 5.35161 1.20683 3.12258C1.36732 2.51866 1.68361 1.96749 2.12405 1.52422C2.56449 1.08095 3.11363 0.76113 3.71651 0.596774C5.93586 0 14.8068 0 14.8068 0C14.8068 0 23.6778 0 25.8972 0.596774C26.5 0.76113 27.0492 1.08095 27.4896 1.52422ZM19.3229 10L11.9036 5.77905V14.221L19.3229 10Z"
             />
           </svg>
         </a>
