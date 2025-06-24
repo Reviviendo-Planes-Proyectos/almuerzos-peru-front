@@ -1,0 +1,9 @@
+[build]
+command = "npm run build:ssr"
+publish = "dist/almuerzos-peru-front/browser"
+
+[functions]
+included_files = ["dist/almuerzos-peru-front/server/**"]
+
+[[plugins]]
+package = "@netlify/angular-runtime"
