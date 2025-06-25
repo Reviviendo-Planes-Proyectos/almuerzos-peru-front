@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { MATERIAL_MODULES } from './shared/material.module';
+import { MaterialModule } from './shared/material.module';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, ...MATERIAL_MODULES],
+  imports: [RouterOutlet, MaterialModule],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
