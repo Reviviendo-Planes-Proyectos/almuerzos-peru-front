@@ -45,11 +45,14 @@ Sigue estos pasos para clonar y levantar el proyecto localmente:
 | `npm start`                          | Inicia la aplicación Angular en modo desarrollo (`ng serve`).              |
 | `npm run build`                      | Compila la aplicación para producción (`ng build`).                        |
 | `npm run watch`                      | Compila en modo observador para desarrollo (`ng build --watch`).          |
-| `npm test`                           | Ejecuta pruebas unitarias con Karma + Jasmine (`ng test`).                |
+| `npm test`                           | Ejecuta pruebas unitarias con Jest.                                        |
+| `npm run test:watch`                 | Ejecuta pruebas en modo observador con Jest.                               |
+| `npm run test:coverage`              | Ejecuta pruebas con reporte de cobertura usando Jest.                      |
 | `npm run lint`                       | Ejecuta ESLint para analizar el código (`ng lint`).                        |
 | `npm run format`                     | Aplica Prettier para formatear archivos `.ts`, `.html`, `.css`, `.scss`.  |
 | `npm run prepare`                    | Inicializa Husky para configurar los Git Hooks.                            |
 | `npm run serve:ssr:almuerzos-peru-front` | Inicia el servidor SSR en producción desde la carpeta `dist/`.         |
+| `npm run test:ci`                   | Ejecuta pruebas en modo CI con cobertura y sin observador.                 |
 
 
 &nbsp;
