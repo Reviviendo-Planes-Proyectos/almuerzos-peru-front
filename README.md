@@ -48,8 +48,9 @@ Sigue estos pasos para clonar y levantar el proyecto localmente:
 | `npm test`                           | Ejecuta pruebas unitarias con Jest.                                        |
 | `npm run test:watch`                 | Ejecuta pruebas en modo observador con Jest.                               |
 | `npm run test:coverage`              | Ejecuta pruebas con reporte de cobertura usando Jest.                      |
-| `npm run lint`                       | Ejecuta ESLint para analizar el código (`ng lint`).                        |
-| `npm run format`                     | Aplica Prettier para formatear archivos `.ts`, `.html`, `.css`, `.scss`.  |
+| `npm run lint`                       | Ejecuta Biome para analizar el código.                                      |
+| `npm run lint:fix`                   | Ejecuta Biome para corregir problemas automáticamente.                      |
+| `npm run format`                     | Aplica Biome para formatear archivos.                                       |
 | `npm run prepare`                    | Inicializa Husky para configurar los Git Hooks.                            |
 | `npm run serve:ssr:almuerzos-peru-front` | Inicia el servidor SSR en producción desde la carpeta `dist/`.         |
 | `npm run test:ci`                   | Ejecuta pruebas en modo CI con cobertura y sin observador.                 |
