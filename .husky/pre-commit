@@ -1,5 +1,6 @@
-#npm run format
-#npm run lint --fix
-
+# Ejecutar Biome automáticamente antes de cada commit
+npm run format
+npm run lint:fix
 npm run test:ci
+npm run test:e2e
 npx lint-staged
