@@ -9,7 +9,7 @@
   [disabled]="!isActive"
   (click)="(!isActive ? null : null)"
 >
-  <img *ngIf="imageSrc" [src]="imageSrc" [alt]="imageAlt" class="w-5 h-5" />
+  <img *ngIf="imageSrc" [src]="imageSrc" [alt]="imgAlt" class="w-5 h-5" />
 
   <span *ngIf="iconName" class="material-icons text-lg mr-2">{{ iconName }}</span>
 
