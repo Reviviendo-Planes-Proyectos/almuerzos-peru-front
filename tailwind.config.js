@@ -1,9 +1,19 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: ['class'],
   content: [
-    './src/**/*.{html,ts,scss}',
+    './src/**/*.{html,ts}',
+    './src/app/**/*.{html,ts}',
+    './src/environments/**/*.{html,ts}',
   ],
   theme: {
+    container: {
+      center: true,
+      padding: '1rem',
+      screens: {
+        '2xl': '1280px',
+      },
+    },
     extend: {
       fontFamily: {
         quicksand: ['var(--font-primary)', 'sans-serif'],
@@ -24,12 +34,7 @@ module.exports = {
         success: 'var(--color-success)',
         danger: 'var(--color-danger)',
         info: 'var(--color-info)',
-      },
-
-      borderRadius: {
-        'xl': 'var(--radius-xl)',
-        '2xl': 'var(--radius-2xl)',
-      },
+      }
     },
   },
   plugins: [],
