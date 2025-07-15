@@ -2,6 +2,15 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
+    path: '',
+    redirectTo: 'home',
+    pathMatch: 'full'
+  },
+  {
+    path: 'home',
+    loadChildren: () => import('./features/landing/landing.module').then((m) => m.LandingModule)
+  },
+  {
     path: 'auth',
     children: [
       {
@@ -10,9 +19,4 @@ export const routes: Routes = [
       }
     ]
   },
-  {
-    path: '',
-    redirectTo: 'auth/login',
-    pathMatch: 'full'
-  }
 ];
