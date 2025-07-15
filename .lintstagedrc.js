@@ -1,5 +1,7 @@
 module.exports = {
-  "**/*.ts": ["prettier --write", "eslint --fix"],
-  "**/*.html": ["prettier --write", "eslint --fix"],
-  "**/*.scss": ["prettier --write"]
-}
+  "**/*.ts": ["biome format", "biome lint"],
+  "**/*.html": ["biome format", "biome lint"],
+  "**/*.scss": ["biome format"],
+  "**/*.{js,jsx,ts,tsx}": ["biome lint", "biome format"],
+  "**/*.{json,md}": ["biome format"]
+};

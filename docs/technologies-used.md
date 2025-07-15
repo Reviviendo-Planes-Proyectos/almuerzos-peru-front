@@ -46,10 +46,9 @@ Para mantener el código limpio, consistente y profesional, se utilizan estas he
 
 | Herramienta        | Descripción                                                                                                                                        |
 |--------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
-| **ESLint**         | Analizador de código estático para detectar errores y aplicar reglas de estilo en TypeScript y HTML.                                               |
-| **Prettier**       | Formateador automático que asegura un estilo uniforme de escritura en todo el proyecto.                                                            |
+| **Biome**          | Herramienta única para linting y formateo que asegura un estilo uniforme y detecta errores en TypeScript, HTML y SCSS.                                                                  |
 | **Husky**          | Permite ejecutar scripts automáticos en los Git Hooks, como validar código antes de cada commit.                                                   |
-| **Lint-staged**    | Ejecuta ESLint y Prettier **solo en los archivos modificados**, lo que acelera validaciones previas al commit.                                     |
+| **Lint-staged**    | Ejecuta Biome **solo en los archivos modificados**, lo que acelera validaciones previas al commit.                                                 |
 | **Commitlint**     | Asegura que los mensajes de commit sigan el estándar `Conventional Commits` (ej: `feat(menu): add daily specials section`).                        |
 | **SonarCloud**     | Plataforma de análisis continuo de calidad y seguridad de código. Evalúa bugs, code smells, duplicaciones, y cobertura desde GitHub Actions.       |
 
