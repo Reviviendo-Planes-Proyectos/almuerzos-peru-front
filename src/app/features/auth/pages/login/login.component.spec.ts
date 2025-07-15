@@ -73,7 +73,7 @@ describe('LoginComponent', () => {
 
   it('should display "Regístrate más tarde" link', () => {
     const linkElement = debugElement.query(By.css('a'));
-    expect(linkElement.nativeElement.textContent.trim()).toBe('Regístrate más tarde');
+    expect(linkElement.nativeElement.textContent.trim()).toBe('Registrarme luego');
     expect(linkElement.nativeElement.getAttribute('href')).toBe('#');
   });
 

@@ -13,7 +13,7 @@ export class ButtonComponent {
   @Input() isActive = true;
   @Input() isOutline = false;
   @Input() imageSrc: string | null = null;
-  @Input() imageAlt: string | null = '';
+  @Input() imgAlt: string | null = '';
   @Input() iconName: string | null = null;
 
   constructor() {

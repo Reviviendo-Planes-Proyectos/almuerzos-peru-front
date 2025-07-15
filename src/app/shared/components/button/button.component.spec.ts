@@ -21,6 +21,7 @@ describe('ButtonComponent', () => {
     component = fixture.componentInstance;
     debugElement = fixture.debugElement;
     buttonElement = debugElement.query(By.css('button')).nativeElement;
+    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -32,7 +33,7 @@ describe('ButtonComponent', () => {
     expect(component.isActive).toBe(true);
     expect(component.isOutline).toBe(false);
     expect(component.imageSrc).toBeNull();
-    expect(component.imageAlt).toBe('');
+    expect(component.imgAlt).toBe('');
     expect(component.iconName).toBeNull();
   });
 
@@ -92,7 +93,7 @@ describe('ButtonComponent', () => {
 
   it('should display image when imageSrc is provided', () => {
     component.imageSrc = 'test-image.png';
-    component.imageAlt = 'Test Image';
+    component.imgAlt = 'Test Image';
     fixture.detectChanges();
 
     const imageElement = debugElement.query(By.css('img'));
