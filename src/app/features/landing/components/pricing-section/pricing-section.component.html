@@ -1,0 +1,60 @@
+<section id="precios" class="py-20 bg-white">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-16">
+      <h2 class="text-4xl font-bold text-gray-900 mb-4">
+        Planes que se Adaptan a tu <span class="gradient-text">Restaurante</span>
+      </h2>
+      <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+        Elige el plan perfecto para hacer crecer tu negocio
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+      <div *ngFor="let plan of plans" class="relative rounded-2xl p-8 border-2"
+        [ngClass]="[plan.bgClass, plan.borderClass]">
+
+        <div *ngIf="plan.popular" class="absolute -top-4 left-1/2 transform -translate-x-1/2">
+          <span
+            class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-4 py-2 rounded-full text-sm font-semibold">
+            Más Popular
+          </span>
+        </div>
+
+        <div class="text-center mb-8">
+          <h3 class="text-2xl font-bold text-gray-900 mb-2">{{ plan.title }}</h3>
+          <div class="text-4xl font-bold text-gray-900 mb-2">{{ plan.price }}</div>
+          <p class="text-gray-600">{{ plan.period }}</p>
+        </div>
+
+        <ul class="space-y-4 mb-8">
+          <li *ngFor="let feature of plan.features" class="flex items-center space-x-3">
+            <span class="text-green-500 material-icons">check</span>
+            <span class="text-gray-600">{{ feature.label }}</span>
+          </li>
+        </ul>
+
+        <button class="w-full py-2 px-4 rounded transition-all" [ngClass]="plan.buttonClass">
+          {{ plan.buttonLabel }}
+        </button>
+
+        <div *ngIf="plan.type === 'premium'" class="mt-4 text-center">
+          <p class="text-sm text-gray-600">Acepta pagos con:</p>
+          <div class="flex justify-center items-center space-x-4 mt-2">
+            <span class="flex items-center space-x-2 text-sm text-gray-600">
+              <span class="material-icons-outlined text-xs">phone_android</span>
+              <span>Yape</span>
+            </span>
+            <span class="flex items-center space-x-2 text-sm text-gray-600">
+              <span class="material-icons-outlined text-xs">payments</span>
+              <span>Plin</span>
+            </span>
+            <span class="flex items-center space-x-2 text-sm text-gray-600">
+              <span class="material-icons-outlined text-xs">credit_card</span>
+              <span>Tarjetas</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
