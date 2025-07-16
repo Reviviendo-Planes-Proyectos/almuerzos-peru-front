@@ -27,6 +27,22 @@
   // Utilitarios
   --radius-xl: 1rem;
   --radius-2xl: 1.5rem;
+
+  // General
+  --primary-dark: #E6B43A;
+  --muted-foreground: #6B7280;
+  --border: #E5E7EB;
+  --input: #F3F4F6;
+  --radius: 0.5rem;
+  --destructive-foreground: #FFFFFF;
+  --secondary: #F8F9FA;
+  --secondary-foreground: #374151;
+  --accent: #FEF3C7;
+  --accent-foreground: #92400E;
+  --card: #FFFFFF;
+  --card-foreground: #1F2937;
+  --popover: #FFFFFF;
+  --popover-foreground: #1F2937;
 }
 
 html,
@@ -35,7 +51,12 @@ body {
   margin: 0;
   font-family: var(--font-primary) !important;
   background-color: var(--color-brand-beige);
-  color: var(--color-brand-dark);
+  color: var(--color-foreground);
+  line-height: 1.6;
+}
+
+* {
+  border-color: hsl(var(--border));
 }
 
 .font-quicksand {
@@ -44,4 +65,24 @@ body {
 
 .font-roboto {
   font-family: var(--font-secondary) !important;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #FDC94C 0%, #F59E0B 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-gradient {
+  background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 50%, #FDC94C 100%);
+}
+
+.floating-animation {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
 }

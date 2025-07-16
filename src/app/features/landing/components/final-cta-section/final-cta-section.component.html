@@ -1,0 +1,36 @@
+<section class="py-20 bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 relative overflow-hidden">
+  <div class="absolute inset-0 bg-black/10"></div>
+  <div class="container mx-auto px-4 text-center relative">
+    <div class="max-w-4xl mx-auto space-y-8">
+      <h2 class="text-4xl lg:text-5xl font-bold text-white leading-tight">
+        Únete a la Revolución Digital de los Restaurantes
+      </h2>
+      <p class="text-xl text-white/90 max-w-2xl mx-auto">
+        ¡Regístrate ahora y comienza a disfrutar de los beneficios de tener un menú digital!
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-0 sm:gap-4 justify-center">
+        <app-button [label]="'Comienza Gratis Ahora'" [isActive]="true" [isOutline]="false" iconName="rocket_launch"
+          class="px-8 py-4 text-lg font-semibold" (click)="onStartFree()"></app-button>
+
+        <app-button [label]="'Hablar con un Experto'" [isActive]="true" [isOutline]="true" iconName="support_agent"
+          class="px-8 py-4 text-lg font-semibold text-white border-white" (click)="onContactExpert()"></app-button>
+      </div>
+
+      <div class="flex flex-col sm:flex-row sm:justify-center sm:items-center sm:space-x-8 text-white/80 text-sm mt-4">
+        <div class="flex items-center space-x-2 mb-2 sm:mb-0">
+          <mat-icon class="!w-6 !h-6 text-white">check_circle</mat-icon>
+          <span>Configuración gratuita</span>
+        </div>
+        <div class="flex items-center space-x-2 mb-2 sm:mb-0">
+          <mat-icon class="!w-6 !h-6 text-white">check_circle</mat-icon>
+          <span>Sin compromisos</span>
+        </div>
+        <div class="flex items-center space-x-2">
+          <mat-icon class="!w-6 !h-6 text-white">check_circle</mat-icon>
+          <span>Soporte incluido</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

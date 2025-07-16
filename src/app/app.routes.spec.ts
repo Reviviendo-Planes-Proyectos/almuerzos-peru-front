@@ -1,31 +1,43 @@
 import { routes } from './app.routes';
 
 describe('app.routes', () => {
+  it('should define redirect route correctly', () => {
+    const redirectRoute = routes.find((route) => route.path === '');
+    expect(redirectRoute).toBeTruthy();
+    expect(redirectRoute?.redirectTo).toBe('home');
+    expect(redirectRoute?.pathMatch).toBe('full');
+  });
+
+  it('should define home route with loadChildren correctly', async () => {
+    const homeRoute = routes.find((route) => route.path === 'home');
+    expect(homeRoute).toBeTruthy();
+    expect(homeRoute?.loadChildren).toBeDefined();
+
+    const loadedModule = await homeRoute?.loadChildren?.();
+    expect(loadedModule).toBeTruthy();
+    expect(['function', 'object']).toContain(typeof loadedModule);
+  });
+
   it('should define auth route correctly', () => {
     const authRoute = routes.find((route) => route.path === 'auth');
     expect(authRoute).toBeTruthy();
     expect(authRoute?.children?.[0]?.loadChildren).toBeDefined();
   });
 
-  it('should define auth route with children correctly', async () => {
+  it('should load auth children routes correctly', async () => {
     const authRoute = routes.find((route) => route.path === 'auth');
     expect(authRoute).toBeTruthy();
-    expect(authRoute?.children?.[0]?.loadChildren).toBeDefined();
 
-    const loadedModule = await authRoute?.children?.[0]?.loadChildren?.();
-    expect(loadedModule).toBeTruthy();
+    const loadChildrenFn = authRoute?.children?.[0]?.loadChildren;
+    expect(loadChildrenFn).toBeDefined();
 
-    if (Array.isArray(loadedModule)) {
-      expect(loadedModule.length).toBeGreaterThan(0);
+    const loadedRoutes = await loadChildrenFn?.();
+    expect(loadedRoutes).toBeTruthy();
+
+    if (Array.isArray(loadedRoutes)) {
+      expect(loadedRoutes.length).toBeGreaterThan(0);
     } else {
-      expect(typeof loadedModule).toBe('object');
+      expect(typeof loadedRoutes).toBe('object');
     }
-  });
-
-  it('should define redirect route correctly', () => {
-    const redirectRoute = routes.find((route) => route.path === '');
-    expect(redirectRoute).toBeTruthy();
-    expect(redirectRoute?.redirectTo).toBe('auth/login');
-    expect(redirectRoute?.pathMatch).toBe('full');
   });
 });

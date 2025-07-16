@@ -1,0 +1,26 @@
+<header class="fixed top-0 w-full bg-white/95 backdrop-blur-sm border-b border-gray-100 z-50">
+  <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+    <!-- Logo -->
+    <div class="flex items-center space-x-2">
+      <div
+        class="w-10 h-10 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-lg flex items-center justify-center">
+        <mat-icon class="text-white">restaurant_menu</mat-icon>
+      </div>
+      <span class="text-2xl font-bold gradient-text hidden sm:inline">ALMUERZOSPERÚ</span>
+    </div>
+
+    <!-- Navegación -->
+    <nav class="hidden md:flex space-x-8">
+      <a routerLink="/#beneficios" class="text-gray-600 hover:text-yellow-500 transition-colors">Beneficios</a>
+      <a routerLink="/#como-funciona" class="text-gray-600 hover:text-yellow-500 transition-colors">Cómo Funciona</a>
+      <a routerLink="/#precios" class="text-gray-600 hover:text-yellow-500 transition-colors">Precios</a>
+      <a routerLink="/#testimonios" class="text-gray-600 hover:text-yellow-500 transition-colors">Testimonios</a>
+    </nav>
+
+     <app-button [label]="'Iniciar Sesión'" [isActive]="true" [isOutline]="false" class="w-auto px-0" iconName="login"
+       (click)="navigateToLogin()"> </app-button>
+
+  </div>
+</header>
+
+
