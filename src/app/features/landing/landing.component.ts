@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { MaterialModule } from '../../shared/material.module';
 import { BenefitsSectionComponent } from './components/benefits-section/benefits-section.component';
 import { FinalCtaSectionComponent } from './components/final-cta-section/final-cta-section.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -24,7 +24,7 @@ import { TestimonialsSectionComponent } from './components/testimonials-section/
     TestimonialsSectionComponent,
     PricingSectionComponent,
     FinalCtaSectionComponent,
-    MatIconModule,
+    MaterialModule,
   ],
   providers: [provideAnimations()], // Proveer animaciones
 })

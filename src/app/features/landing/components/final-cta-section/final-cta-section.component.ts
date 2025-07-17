@@ -1,15 +1,13 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
+import { MaterialModule } from '../../../../shared/material.module';
 
 @Component({
   selector: 'app-final-cta-section',
   standalone: true,
   templateUrl: './final-cta-section.component.html',
   styleUrls: ['./final-cta-section.component.scss'],
-  imports: [CommonModule, MatIconModule, MatButtonModule, ButtonComponent],
+  imports: [MaterialModule, ButtonComponent],
 })
 export class FinalCtaSectionComponent {
   onStartFree() {}

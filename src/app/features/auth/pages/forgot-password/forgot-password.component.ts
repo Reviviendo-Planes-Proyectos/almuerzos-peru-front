@@ -1,11 +1,10 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { MaterialModule } from '../../../../shared/material.module';
 
 @Component({
   selector: 'app-forgot-password',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [MaterialModule],
   templateUrl: './forgot-password.component.html',
   styleUrl: './forgot-password.component.scss',
 })

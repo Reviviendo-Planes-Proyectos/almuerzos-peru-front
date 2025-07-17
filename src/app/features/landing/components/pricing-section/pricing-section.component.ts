@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { MaterialModule } from '../../../../shared/material.module';
 
 enum PlanType {
   FREE = 'free',
@@ -28,7 +28,7 @@ interface Plan {
   templateUrl: './pricing-section.component.html',
   styleUrls: ['./pricing-section.component.scss'],
   standalone: true,
-  imports: [CommonModule],
+  imports: [MaterialModule],
 })
 export class PricingSectionComponent {
   plans: Plan[] = [

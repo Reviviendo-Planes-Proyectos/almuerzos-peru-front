@@ -1,7 +1,5 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
+import { MaterialModule } from '../../../../shared/material.module';
 
 enum Audience {
   RESTAURANT = 'Para Restaurantes',
@@ -19,7 +17,7 @@ interface Benefit {
 @Component({
   selector: 'app-benefits-section',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatIconModule],
+  imports: [MaterialModule],
   templateUrl: './benefits-section.component.html',
   styleUrls: ['./benefits-section.component.scss'],
 })

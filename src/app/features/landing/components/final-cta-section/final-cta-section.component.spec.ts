@@ -1,9 +1,7 @@
-import { CommonModule } from '@angular/common';
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
+import { MaterialModule } from '../../../../shared/material.module';
 import { FinalCtaSectionComponent } from './final-cta-section.component';
 
 describe('FinalCtaSectionComponent', () => {
@@ -12,14 +10,7 @@ describe('FinalCtaSectionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        FinalCtaSectionComponent,
-        CommonModule,
-        MatIconModule,
-        MatButtonModule,
-        ButtonComponent,
-        NoopAnimationsModule,
-      ],
+      imports: [FinalCtaSectionComponent, MaterialModule, ButtonComponent, NoopAnimationsModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(FinalCtaSectionComponent);

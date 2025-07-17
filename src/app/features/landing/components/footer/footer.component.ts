@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
+import { MaterialModule } from '../../../../shared/material.module';
 
 @Component({
   selector: 'app-footer',
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.scss'],
   standalone: true,
-  imports: [MatIconModule],
+  imports: [MaterialModule],
 })
 export class FooterComponent {}

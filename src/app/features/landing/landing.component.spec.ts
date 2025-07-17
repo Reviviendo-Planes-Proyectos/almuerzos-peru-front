@@ -1,14 +1,14 @@
 import { TestBed } from '@angular/core/testing';
-import { MatIconModule } from '@angular/material/icon';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
+import { MaterialModule } from '../../shared/material.module';
 import { LandingComponent } from './landing.component';
 
 describe('LandingComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LandingComponent, MatIconModule],
+      imports: [LandingComponent, MaterialModule],
       providers: [
         provideAnimations(),
         {

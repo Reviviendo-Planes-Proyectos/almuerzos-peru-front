@@ -1,6 +1,6 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, type Routes } from '@angular/router';
+import { MaterialModule } from '../../shared/material.module';
 import { LandingComponent } from './landing.component';
 
 const routes: Routes = [
@@ -11,6 +11,6 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [CommonModule, RouterModule.forChild(routes), LandingComponent],
+  imports: [MaterialModule, RouterModule.forChild(routes), LandingComponent],
 })
 export class LandingModule {}

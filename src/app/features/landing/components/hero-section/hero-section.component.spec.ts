@@ -1,6 +1,6 @@
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatIconModule } from '@angular/material/icon';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
+import { MaterialModule } from '../../../../shared/material.module';
 import { HeroSectionComponent } from './hero-section.component';
 
 describe('HeroSectionComponent', () => {
@@ -9,7 +9,7 @@ describe('HeroSectionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HeroSectionComponent, MatIconModule, ButtonComponent],
+      imports: [HeroSectionComponent, MaterialModule, ButtonComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(HeroSectionComponent);
