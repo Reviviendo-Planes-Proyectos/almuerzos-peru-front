@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
-import { CommonModule } from '@angular/common';
+import { MaterialModule } from '../../../../shared/material.module';
 
 enum StepId {
   REGISTRO = 1,
@@ -11,7 +10,7 @@ enum StepId {
 @Component({
   selector: 'app-how-it-works-section',
   standalone: true,
-  imports: [CommonModule, MatCardModule],
+  imports: [MaterialModule],
   templateUrl: './how-it-works-section.component.html',
   styleUrls: ['./how-it-works-section.component.scss'],
 })

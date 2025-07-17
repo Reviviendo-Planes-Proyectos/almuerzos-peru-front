@@ -1,7 +1,7 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HeroSectionComponent } from './hero-section.component';
-import { MatIconModule } from '@angular/material/icon';
+import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
+import { MaterialModule } from '../../../../shared/material.module';
+import { HeroSectionComponent } from './hero-section.component';
 
 describe('HeroSectionComponent', () => {
   let component: HeroSectionComponent;
@@ -9,7 +9,7 @@ describe('HeroSectionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HeroSectionComponent, MatIconModule, ButtonComponent],
+      imports: [HeroSectionComponent, MaterialModule, ButtonComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(HeroSectionComponent);
@@ -27,13 +27,13 @@ describe('HeroSectionComponent', () => {
     expect(compiled.querySelector('.gradient-text')?.textContent).toContain('Restaurante');
   });
 
-  it('should log feature when handleFeatureClick is called', () => {
-    const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
+  it('should alert feature when handleFeatureClick is called', () => {
+    const alertSpy = jest.spyOn(window, 'alert').mockImplementation();
     const feature = 'Menú Digital';
 
     component.handleFeatureClick(feature);
 
-    expect(consoleSpy).toHaveBeenCalledWith(`Feature clicked: ${feature}`);
-    consoleSpy.mockRestore();
+    expect(alertSpy).toHaveBeenCalledWith(`Feature clicked: ${feature}`);
+    alertSpy.mockRestore();
   });
 });

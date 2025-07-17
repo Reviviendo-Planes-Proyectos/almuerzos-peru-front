@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { MaterialModule } from '../../../../shared/material.module';
 
 enum PlanType {
   FREE = 'free',
@@ -28,9 +28,8 @@ interface Plan {
   templateUrl: './pricing-section.component.html',
   styleUrls: ['./pricing-section.component.scss'],
   standalone: true,
-  imports: [CommonModule],
+  imports: [MaterialModule],
 })
-
 export class PricingSectionComponent {
   plans: Plan[] = [
     {
@@ -65,7 +64,8 @@ export class PricingSectionComponent {
         { label: 'Personalización avanzada' },
       ],
       buttonLabel: 'Comenzar Premium',
-      buttonClass: 'bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white',
+      buttonClass:
+        'bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white',
       bgClass: 'bg-yellow-100/25',
       borderClass: 'border-orange-300',
     },

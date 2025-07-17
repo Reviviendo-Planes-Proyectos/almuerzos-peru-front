@@ -1,10 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { DebugElement } from '@angular/core';
+import type { DebugElement } from '@angular/core';
+import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-
-import { ButtonComponent } from './button.component';
 import { MaterialModule } from '../../material.module';
+import { ButtonComponent } from './button.component';
 
 describe('ButtonComponent', () => {
   let component: ButtonComponent;
@@ -14,7 +13,7 @@ describe('ButtonComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ButtonComponent, MaterialModule, NoopAnimationsModule]
+      imports: [ButtonComponent, MaterialModule, NoopAnimationsModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ButtonComponent);

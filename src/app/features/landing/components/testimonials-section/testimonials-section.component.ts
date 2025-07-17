@@ -1,7 +1,5 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
+import { MaterialModule } from '../../../../shared/material.module';
 
 enum Role {
   DUENO = 'Dueño de restaurante',
@@ -14,7 +12,7 @@ enum Role {
   standalone: true,
   templateUrl: './testimonials-section.component.html',
   styleUrls: ['./testimonials-section.component.scss'],
-  imports: [MatCardModule, CommonModule, MatIconModule],
+  imports: [MaterialModule],
 })
 export class TestimonialsSectionComponent {
   roles = Role;
@@ -26,7 +24,7 @@ export class TestimonialsSectionComponent {
       restaurant: 'Restaurante El Sabor',
       image: 'https://images.unsplash.com/photo-1659354218682-86007e49d844',
       text: `Gracias a esta plataforma, podemos mantener nuestro menú siempre actualizado y nuestros clientes ahora nos encuentran más fácilmente. ¡Las ventas aumentaron un 40%!"`,
-      rating: 3
+      rating: 3,
     },
     {
       name: 'María González',
@@ -34,7 +32,7 @@ export class TestimonialsSectionComponent {
       restaurant: 'Cocina Tradicional',
       image: 'https://images.unsplash.com/photo-1615090509943-dd93a62a60f6',
       text: `La facilidad para actualizar nuestro menú diario es increíble. Antes perdíamos clientes por no tener información actualizada. Ahora todo es automático.`,
-      rating: 5
+      rating: 5,
     },
     {
       name: 'Carlos Mendoza',
@@ -42,7 +40,7 @@ export class TestimonialsSectionComponent {
       restaurant: 'Bistró Moderno',
       image: 'https://images.unsplash.com/photo-1698827623494-c4e1196ba0ca',
       text: `Nuestros clientes aman poder ver las fotos de los platos antes de venir. El sistema de WhatsApp nos ha conectado mejor con nuestra comunidad.`,
-      rating: 4
-    }
+      rating: 4,
+    },
   ];
 }

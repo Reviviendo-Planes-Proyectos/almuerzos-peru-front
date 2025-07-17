@@ -1,5 +1,5 @@
-<section class="py-20 bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 relative overflow-hidden">
-  <div class="absolute inset-0 bg-black/10"></div>
+<section class="py-20 final-cta-gradient relative overflow-hidden">
+  <div class="absolute inset-0"></div>
   <div class="container mx-auto px-4 text-center relative">
     <div class="max-w-4xl mx-auto space-y-8">
       <h2 class="text-4xl lg:text-5xl font-bold text-white leading-tight">
@@ -10,11 +10,23 @@
       </p>
 
       <div class="flex flex-col sm:flex-row gap-0 sm:gap-4 justify-center">
-        <app-button [label]="'Comienza Gratis Ahora'" [isActive]="true" [isOutline]="false" iconName="rocket_launch"
-          class="px-8 py-4 text-lg font-semibold" (click)="onStartFree()"></app-button>
+        <button
+          type="button"
+          (click)="onStartFree()"
+          class="px-10 py-4 text-lg font-bold rounded-full bg-yellow-400 text-gray-900 shadow-lg border-2 border-yellow-500 flex items-center gap-3 hover:bg-yellow-500 hover:text-white hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-yellow-200 transition-all duration-200 mb-3 sm:mb-0 sm:mr-4"
+        >
+          <span class="material-icons text-xl mr-2">rocket_launch</span>
+          Comienza Gratis Ahora
+        </button>
 
-        <app-button [label]="'Hablar con un Experto'" [isActive]="true" [isOutline]="true" iconName="support_agent"
-          class="px-8 py-4 text-lg font-semibold text-white border-white" (click)="onContactExpert()"></app-button>
+        <button
+          type="button"
+          (click)="onContactExpert()"
+          class="px-10 py-4 text-lg font-bold rounded-full bg-white/10 text-white border-2 border-white flex items-center gap-3 hover:bg-white/20 hover:text-yellow-300 hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-white/30 transition-all duration-200"
+        >
+          <span class="material-icons text-xl mr-2">support_agent</span>
+          Hablar con un Experto
+        </button>
       </div>
 
       <div class="flex flex-col sm:flex-row sm:justify-center sm:items-center sm:space-x-8 text-white/80 text-sm mt-4">

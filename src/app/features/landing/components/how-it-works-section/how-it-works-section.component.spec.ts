@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { HowItWorksSectionComponent } from './how-it-works-section.component';
 
 describe('HowItWorksSectionComponent', () => {
@@ -7,7 +7,7 @@ describe('HowItWorksSectionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HowItWorksSectionComponent] // componente standalone
+      imports: [HowItWorksSectionComponent], // componente standalone
     }).compileComponents();
 
     fixture = TestBed.createComponent(HowItWorksSectionComponent);

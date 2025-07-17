@@ -1,8 +1,10 @@
-<section id="como-funciona" class="py-20 bg-white">
+<section id="como-funciona" class="py-16 bg-white">
   <div class="container mx-auto px-4">
     <div class="text-center mb-16">
       <h2 class="text-4xl font-bold text-gray-900 mb-4">
-        ¿Cómo <span class="gradient-text">Funciona</span>?
+        ¿Cómo
+        <span class="gradient-text">Funciona</span>
+        ?
       </h2>
       <p class="text-xl text-gray-600 max-w-3xl mx-auto">
         En solo 3 pasos simples, tu restaurante estará listo para la era digital
@@ -10,11 +12,11 @@
     </div>
 
     <div class="grid md:grid-cols-3 gap-8">
-      <div *ngFor="let step of steps"
-        class="text-center space-y-6 transform">
+      <div *ngFor="let step of steps" class="text-center space-y-6 transform">
         <div class="relative">
           <div
-            class="w-20 h-20 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+            class="w-20 h-20 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg"
+          >
             <span class="text-2xl font-bold text-white">{{ step.id }}</span>
           </div>
         </div>
@@ -24,10 +26,12 @@
           <p class="text-gray-600 px-2">{{ step.description }}</p>
         </div>
 
-        <mat-card
-          class="bg-yellow-50 rounded-xl overflow-hidden p-0">
-          <img class="w-full h-40 object-cover transform transition-transform duration-500 hover:scale-105"
-            [src]="step.image" [alt]="step.alt" />
+        <mat-card class="bg-yellow-50 rounded-xl overflow-hidden p-0">
+          <img
+            class="w-full h-40 object-cover transform transition-transform duration-500 hover:scale-105"
+            [src]="step.image"
+            [alt]="step.alt"
+          />
         </mat-card>
       </div>
     </div>
