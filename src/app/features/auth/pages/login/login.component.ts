@@ -9,7 +9,7 @@ import { MaterialModule } from '../../../../shared/material.module';
   standalone: true,
   imports: [MaterialModule, ButtonComponent],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
   constructor(private readonly location: Location) {}

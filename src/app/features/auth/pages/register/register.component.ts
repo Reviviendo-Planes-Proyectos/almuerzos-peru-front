@@ -6,6 +6,6 @@ import { MaterialModule } from '../../../../shared/material.module';
   standalone: true,
   imports: [MaterialModule],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.scss',
+  styleUrl: './register.component.scss'
 })
 export class RegisterComponent {}

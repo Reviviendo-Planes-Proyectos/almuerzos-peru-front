@@ -8,7 +8,7 @@ import { MaterialModule } from '../../../../shared/material.module';
   selector: 'app-header',
   standalone: true,
   imports: [MaterialModule, RouterModule, ButtonComponent],
-  templateUrl: './header.component.html',
+  templateUrl: './header.component.html'
 })
 export class HeaderComponent {
   constructor(public router: Router) {}

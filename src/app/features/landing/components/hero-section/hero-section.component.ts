@@ -8,7 +8,7 @@ import { MaterialModule } from '../../../../shared/material.module';
   styleUrls: ['./hero-section.component.scss'],
   standalone: true,
   imports: [MaterialModule, ButtonComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class HeroSectionComponent {
   handleFeatureClick(feature: string) {

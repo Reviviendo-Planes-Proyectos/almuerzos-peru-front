@@ -6,6 +6,6 @@ import { LoginComponent } from './pages/login/login.component';
 const routes: Routes = [{ path: '', component: LoginComponent }];
 
 @NgModule({
-  imports: [MaterialModule, RouterModule.forChild(routes), LoginComponent],
+  imports: [MaterialModule, RouterModule.forChild(routes), LoginComponent]
 })
 export class AuthModule {}

@@ -24,9 +24,9 @@ import { TestimonialsSectionComponent } from './components/testimonials-section/
     TestimonialsSectionComponent,
     PricingSectionComponent,
     FinalCtaSectionComponent,
-    MaterialModule,
+    MaterialModule
   ],
-  providers: [provideAnimations()], // Proveer animaciones
+  providers: [provideAnimations()] // Proveer animaciones
 })
 export class LandingComponent {
   // Lógica del componente

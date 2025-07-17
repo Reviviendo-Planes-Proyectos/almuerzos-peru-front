@@ -17,10 +17,10 @@ describe('LandingComponent', () => {
             fragment: of(null),
             params: of({}),
             queryParams: of({}),
-            data: of({}),
-          },
-        },
-      ],
+            data: of({})
+          }
+        }
+      ]
     }).compileComponents();
   });
 

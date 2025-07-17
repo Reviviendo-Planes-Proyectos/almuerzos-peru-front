@@ -7,7 +7,7 @@ describe('HowItWorksSectionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HowItWorksSectionComponent], // componente standalone
+      imports: [HowItWorksSectionComponent] // componente standalone
     }).compileComponents();
 
     fixture = TestBed.createComponent(HowItWorksSectionComponent);

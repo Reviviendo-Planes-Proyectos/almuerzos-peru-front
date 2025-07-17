@@ -6,6 +6,6 @@ import { MaterialModule } from '../../../../shared/material.module';
   standalone: true,
   imports: [MaterialModule],
   templateUrl: './forgot-password.component.html',
-  styleUrl: './forgot-password.component.scss',
+  styleUrl: './forgot-password.component.scss'
 })
 export class ForgotPasswordComponent {}

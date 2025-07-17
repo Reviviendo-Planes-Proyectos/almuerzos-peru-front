@@ -11,8 +11,8 @@ describe('app.config', () => {
         provideZoneChangeDetection({ eventCoalescing: true }).toString(),
         provideRouter(expect.any(Array)).toString(),
         provideClientHydration().toString(),
-        MaterialModule.toString(),
-      ]),
+        MaterialModule.toString()
+      ])
     );
   });
 });

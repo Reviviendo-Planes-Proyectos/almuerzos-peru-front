@@ -10,7 +10,7 @@ describe('FinalCtaSectionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FinalCtaSectionComponent, MaterialModule, ButtonComponent, NoopAnimationsModule],
+      imports: [FinalCtaSectionComponent, MaterialModule, ButtonComponent, NoopAnimationsModule]
     }).compileComponents();
 
     fixture = TestBed.createComponent(FinalCtaSectionComponent);
@@ -35,8 +35,8 @@ describe('FinalCtaSectionComponent', () => {
     expect(btnTexts).toEqual(
       expect.arrayContaining([
         expect.stringContaining('Comienza Gratis Ahora'),
-        expect.stringContaining('Hablar con un Experto'),
-      ]),
+        expect.stringContaining('Hablar con un Experto')
+      ])
     );
   });
 

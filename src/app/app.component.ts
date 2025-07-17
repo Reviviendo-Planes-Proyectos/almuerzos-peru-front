@@ -7,7 +7,7 @@ import { MaterialModule } from './shared/material.module';
   standalone: true,
   imports: [RouterOutlet, MaterialModule],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
   title = 'almuerzos-peru-front';

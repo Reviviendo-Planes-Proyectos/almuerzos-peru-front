@@ -9,7 +9,7 @@ describe('HeroSectionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HeroSectionComponent, MaterialModule, ButtonComponent],
+      imports: [HeroSectionComponent, MaterialModule, ButtonComponent]
     }).compileComponents();
 
     fixture = TestBed.createComponent(HeroSectionComponent);

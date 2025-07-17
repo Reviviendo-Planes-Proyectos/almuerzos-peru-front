@@ -13,7 +13,7 @@ describe('ButtonComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ButtonComponent, MaterialModule, NoopAnimationsModule],
+      imports: [ButtonComponent, MaterialModule, NoopAnimationsModule]
     }).compileComponents();
 
     fixture = TestBed.createComponent(ButtonComponent);
