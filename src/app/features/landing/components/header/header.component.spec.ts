@@ -1,14 +1,12 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HeaderComponent } from './header.component';
-import { Router, provideRouter } from '@angular/router';
-import { Location } from '@angular/common';
+import { type ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter, Router } from '@angular/router';
 import { routes } from '../../../../app.routes'; // Asegúrate de tener tus rutas aquí
+import { HeaderComponent } from './header.component';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
   let router: Router;
-  let location: Location;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

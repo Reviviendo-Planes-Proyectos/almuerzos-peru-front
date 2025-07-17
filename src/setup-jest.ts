@@ -6,5 +6,5 @@ setupZoneTestEnv();
 Object.defineProperty(globalThis, '__coverage__', {
   value: {},
   writable: true,
-  configurable: true
+  configurable: true,
 });

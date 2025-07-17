@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
-import { MaterialModule } from '../../../../shared/material.module';
-import { ButtonComponent } from '../../../../shared/components/button/button.component';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
+// biome-ignore lint/style/useImportType: Regular import required for Angular DI
 import { Location } from '@angular/common';
+import { Component } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { ButtonComponent } from '../../../../shared/components/button/button.component';
+import { MaterialModule } from '../../../../shared/material.module';
 
 @Component({
   selector: 'app-login',
@@ -13,9 +14,7 @@ import { Location } from '@angular/common';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
-  constructor(
-    private readonly location: Location
-  ) {}
+  constructor(private readonly location: Location) {}
 
   goBack(): void {
     this.location.back();

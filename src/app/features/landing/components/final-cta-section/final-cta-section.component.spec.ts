@@ -1,10 +1,10 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FinalCtaSectionComponent } from './final-cta-section.component';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { ButtonComponent } from '../../../../shared/components/button/button.component';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
+import { type ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { ButtonComponent } from '../../../../shared/components/button/button.component';
+import { FinalCtaSectionComponent } from './final-cta-section.component';
 
 describe('FinalCtaSectionComponent', () => {
   let component: FinalCtaSectionComponent;
@@ -18,8 +18,8 @@ describe('FinalCtaSectionComponent', () => {
         MatIconModule,
         MatButtonModule,
         ButtonComponent,
-        NoopAnimationsModule
-      ]
+        NoopAnimationsModule,
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(FinalCtaSectionComponent);
@@ -48,7 +48,7 @@ describe('FinalCtaSectionComponent', () => {
 
     const iconTexts = Array.from(icons)
       .map((el: Element) => el.textContent?.trim())
-      .filter(text => text === 'check_circle');
+      .filter((text) => text === 'check_circle');
 
     expect(iconTexts.length).toBe(3);
   });

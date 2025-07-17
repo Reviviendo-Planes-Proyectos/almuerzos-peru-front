@@ -1,7 +1,7 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { CommonModule } from '@angular/common';
 
 enum Audience {
   RESTAURANT = 'Para Restaurantes',
@@ -21,9 +21,8 @@ interface Benefit {
   standalone: true,
   imports: [CommonModule, MatCardModule, MatIconModule],
   templateUrl: './benefits-section.component.html',
-  styleUrls: ['./benefits-section.component.scss']
+  styleUrls: ['./benefits-section.component.scss'],
 })
-
 export class BenefitsSectionComponent {
   audience = Audience;
 

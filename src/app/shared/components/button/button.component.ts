@@ -6,7 +6,7 @@ import { MaterialModule } from '../../material.module';
   standalone: true,
   imports: [MaterialModule],
   templateUrl: './button.component.html',
-  styleUrls: ['./button.component.scss']
+  styleUrls: ['./button.component.scss'],
 })
 export class ButtonComponent {
   @Input() label = '';
@@ -15,8 +15,4 @@ export class ButtonComponent {
   @Input() imageSrc: string | null = null;
   @Input() imgAlt: string | null = '';
   @Input() iconName: string | null = null;
-
-  constructor() {
-    // Initialization logic can go here if needed
-  }
 }

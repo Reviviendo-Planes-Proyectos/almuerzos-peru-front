@@ -12,6 +12,6 @@ import { ButtonComponent } from '../../../../shared/components/button/button.com
 })
 export class HeroSectionComponent {
   handleFeatureClick(feature: string) {
-    console.log(`Feature clicked: ${feature}`);
-   }
+    window.alert(`Feature clicked: ${feature}`);
+  }
 }

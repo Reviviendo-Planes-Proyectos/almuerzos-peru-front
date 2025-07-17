@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
 
 @Component({
@@ -12,7 +12,7 @@ import { ButtonComponent } from '../../../../shared/components/button/button.com
   imports: [CommonModule, MatIconModule, MatButtonModule, ButtonComponent],
 })
 export class FinalCtaSectionComponent {
-  onStartFree() { }
+  onStartFree() {}
 
-  onContactExpert() { }
+  onContactExpert() {}
 }

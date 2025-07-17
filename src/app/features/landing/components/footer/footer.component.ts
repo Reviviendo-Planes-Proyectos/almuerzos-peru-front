@@ -8,4 +8,4 @@ import { MatIconModule } from '@angular/material/icon';
   standalone: true,
   imports: [MatIconModule],
 })
-export class FooterComponent { }
+export class FooterComponent {}

@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import { LandingComponent } from './landing.component';
 import { MatIconModule } from '@angular/material/icon';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
+import { LandingComponent } from './landing.component';
 
 describe('LandingComponent', () => {
   beforeEach(async () => {
