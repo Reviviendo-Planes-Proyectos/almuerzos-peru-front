@@ -2,7 +2,9 @@
   <div class="container mx-auto px-4">
     <div class="text-center mb-16">
       <h2 class="text-4xl font-bold text-gray-900 mb-4">
-        Beneficios que <span class="gradient-text">Transforman</span> tu Negocio
+        Beneficios que
+        <span class="gradient-text">Transforman</span>
+        tu Negocio
       </h2>
       <p class="text-xl text-gray-600 max-w-3xl mx-auto">
         Descubre cómo nuestro software revoluciona la experiencia gastronómica tanto para restaurantes como para
@@ -13,14 +15,25 @@
     <div class="grid lg:grid-cols-2 gap-16 mb-16">
       <div class="space-y-8" *ngFor="let audience of ['Para Restaurantes', 'Para Comensales']">
         <div class="text-center lg:text-left">
-          <div [ngClass]="{
+          <div
+            [ngClass]="{
               'bg-yellow-100 text-yellow-900': audience === 'Para Restaurantes',
-              'bg-orange-100 text-orange-700': audience === 'Para Comensales'
-            }" class="inline-flex items-center space-x-2 px-4 py-2 rounded-full mb-4">
-            <mat-icon *ngIf="audience === 'Para Comensales'"
-              class="transform transition-transform duration-500 hover:scale-105">favorite_border</mat-icon>
-            <span class="material-symbols-outlined transform transition-transform duration-500 hover:scale-105"
-              *ngIf="audience === 'Para Restaurantes'">restaurant_menu</span>
+              'bg-orange-100 text-orange-700': audience === 'Para Comensales',
+            }"
+            class="inline-flex items-center space-x-2 px-4 py-2 rounded-full mb-4"
+          >
+            <mat-icon
+              *ngIf="audience === 'Para Comensales'"
+              class="transform transition-transform duration-500 hover:scale-105"
+            >
+              favorite_border
+            </mat-icon>
+            <span
+              class="material-symbols-outlined transform transition-transform duration-500 hover:scale-105"
+              *ngIf="audience === 'Para Restaurantes'"
+            >
+              restaurant_menu
+            </span>
             <span class="font-semibold">{{ audience }}</span>
           </div>
           <h3 class="text-3xl font-bold text-gray-900 mb-4">
@@ -29,13 +42,17 @@
         </div>
 
         <ng-container *ngFor="let benefit of benefits">
-          <mat-card *ngIf="benefit.audience === audience"
-            class="flex !flex-row items-center space-x-4 p-4 shadow-lg hover:shadow-xl hover:-translate-y-1
-            transition-all border border-transparent rounded-lg !bg-white">
+          <mat-card
+            *ngIf="benefit.audience === audience"
+            class="flex !flex-row items-center space-x-4 p-4 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all border border-transparent rounded-lg !bg-white"
+          >
             <div [ngClass]="[benefit.bgColor, 'rounded-md w-10 h-10 flex items-center justify-center flex-shrink-0']">
-              <mat-icon [ngClass]="benefit.iconColor"
-                class="transform transition-transform duration-500 hover:scale-105">
-                {{ benefit.icon }}</mat-icon>
+              <mat-icon
+                [ngClass]="benefit.iconColor"
+                class="transform transition-transform duration-500 hover:scale-105"
+              >
+                {{ benefit.icon }}
+              </mat-icon>
             </div>
 
             <div>

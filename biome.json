@@ -18,8 +18,8 @@
     "lineWidth": 120,
     "attributePosition": "auto",
     "bracketSpacing": true,
-    "includes": ["./src/**/*.ts", "./src/**/*.js", "./src/**/*.json", "./src/**/*.md"],
-    "bracketSameLine": true
+    "bracketSameLine": true,
+    "includes": ["./src/**", "next.config.ts", "package.json"]
   },
   "linter": {
     "enabled": true,
