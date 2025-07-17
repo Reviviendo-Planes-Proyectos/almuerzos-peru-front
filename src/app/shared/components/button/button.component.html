@@ -1,14 +1,7 @@
-<button [ngClass]="{
-    'border-yellow-500 border-2 text-gray-900 bg-transparent': isOutline || isActive,
-    'bg-yellow-500 text-white': isActive && !isOutline,
-    'bg-transparent text-[#ffffff] hover:bg-[#1C212D] hover:text-neutral-light06 focus:border-brand-medium focus:border-0 focus:bg-[#2b303b] focus:text-neutral-light06 active:text-neutral-light06 active:bg-[#2b303b] active:border-0':
-      !isActive && !isOutline
-  }"
+<button [ngClass]="buttonClasses"
   class="text-lg font-bold rounded-lg w-full h-auto mt-0 flex items-center justify-center gap-2 transition-all duration-300 ease-in-out transform hover:scale-105 p-3 sm:p-4 cursor-pointer"
-  [disabled]="!isActive" (click)="(!isActive ? null : null)">
+  [disabled]="!isActive">
   <img *ngIf="imageSrc" [src]="imageSrc" [alt]="imgAlt" class="w-5 h-5" />
-
   <span *ngIf="iconName" class="material-icons text-lg mr-2">{{ iconName }}</span>
-
   <span class="text-base sm:text-sm md:text-base lg:text-lg">{{ label }}</span>
 </button>

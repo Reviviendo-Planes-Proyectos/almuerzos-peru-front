@@ -28,9 +28,16 @@ describe('FinalCtaSectionComponent', () => {
     expect(compiled.querySelector('p')?.textContent).toContain('beneficios de tener un menú digital');
   });
 
-  it('should render two app-button components', () => {
-    const buttons = fixture.nativeElement.querySelectorAll('app-button');
-    expect(buttons.length).toBe(2);
+  it('should render dos botones de acción', () => {
+    const buttons = fixture.nativeElement.querySelectorAll('button');
+    expect(buttons.length).toBeGreaterThanOrEqual(2);
+    const btnTexts = Array.from(buttons as NodeListOf<Element>).map((b) => b.textContent?.trim());
+    expect(btnTexts).toEqual(
+      expect.arrayContaining([
+        expect.stringContaining('Comienza Gratis Ahora'),
+        expect.stringContaining('Hablar con un Experto'),
+      ]),
+    );
   });
 
   it('should render checklist with 3 check_circle icons', () => {

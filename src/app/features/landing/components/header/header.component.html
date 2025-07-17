@@ -11,16 +11,18 @@
 
     <!-- Navegación -->
     <nav class="hidden md:flex space-x-8">
-      <a routerLink="/#beneficios" class="text-gray-600 hover:text-yellow-500 transition-colors">Beneficios</a>
-      <a routerLink="/#como-funciona" class="text-gray-600 hover:text-yellow-500 transition-colors">Cómo Funciona</a>
-      <a routerLink="/#precios" class="text-gray-600 hover:text-yellow-500 transition-colors">Precios</a>
-      <a routerLink="/#testimonios" class="text-gray-600 hover:text-yellow-500 transition-colors">Testimonios</a>
+      <a (click)="scrollToSection('beneficios')"
+        class="text-gray-600 hover:text-yellow-500 transition-colors cursor-pointer">Beneficios</a>
+      <a (click)="scrollToSection('como-funciona')"
+        class="text-gray-600 hover:text-yellow-500 transition-colors cursor-pointer">Cómo Funciona</a>
+      <a (click)="scrollToSection('precios')"
+        class="text-gray-600 hover:text-yellow-500 transition-colors cursor-pointer">Precios</a>
+      <a (click)="scrollToSection('testimonios')"
+        class="text-gray-600 hover:text-yellow-500 transition-colors cursor-pointer">Testimonios</a>
     </nav>
 
-     <app-button [label]="'Iniciar Sesión'" [isActive]="true" [isOutline]="false" class="w-auto px-0" iconName="login"
-       (click)="navigateToLogin()"> </app-button>
+    <app-button [label]="'Iniciar Sesión'" [isActive]="true" [isOutline]="false" class="w-auto px-0" iconName="login"
+      (click)="navigateToLogin()"> </app-button>
 
   </div>
 </header>
-
-

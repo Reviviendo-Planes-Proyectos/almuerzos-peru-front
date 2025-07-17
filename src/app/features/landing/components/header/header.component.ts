@@ -16,4 +16,13 @@ export class HeaderComponent {
   navigateToLogin() {
     this.router.navigate(['auth/login']);
   }
+
+  scrollToSection(sectionId: string) {
+    const el = document.getElementById(sectionId);
+    if (el) {
+      const yOffset = -80;
+      const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  }
 }
