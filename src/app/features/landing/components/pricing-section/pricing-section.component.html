@@ -1,21 +1,23 @@
-<section id="precios" class="py-20 bg-white">
+<section id="precios" class="py-16 bg-white">
   <div class="container mx-auto px-4">
     <div class="text-center mb-16">
       <h2 class="text-4xl font-bold text-gray-900 mb-4">
-        Planes que se Adaptan a tu <span class="gradient-text">Restaurante</span>
+        Planes que se Adaptan a tu
+        <span class="gradient-text">Restaurante</span>
       </h2>
-      <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-        Elige el plan perfecto para hacer crecer tu negocio
-      </p>
+      <p class="text-xl text-gray-600 max-w-3xl mx-auto">Elige el plan perfecto para hacer crecer tu negocio</p>
     </div>
 
     <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-      <div *ngFor="let plan of plans" class="relative rounded-2xl p-8 border-2"
-        [ngClass]="[plan.bgClass, plan.borderClass]">
-
+      <div
+        *ngFor="let plan of plans"
+        class="relative rounded-2xl p-8 border-2"
+        [ngClass]="[plan.bgClass, plan.borderClass]"
+      >
         <div *ngIf="plan.popular" class="absolute -top-4 left-1/2 transform -translate-x-1/2">
           <span
-            class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-4 py-2 rounded-full text-sm font-semibold">
+            class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-4 py-2 rounded-full text-sm font-semibold"
+          >
             Más Popular
           </span>
         </div>

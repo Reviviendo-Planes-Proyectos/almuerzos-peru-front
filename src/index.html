@@ -1,59 +1,78 @@
 <!doctype html>
 <html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>Almuerzos Perú | Menús del Día Cercanos y Caseros</title>
+    <base href="/" />
 
-<head>
-  <meta charset="utf-8" />
-  <title>Almuerzos Perú | Menús del Día Cercanos y Caseros</title>
-  <base href="/" />
+    <!-- Meta accesibilidad & responsive -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- Meta accesibilidad & responsive -->
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- SEO básico -->
+    <meta
+      name="description"
+      content="Consulta menús del día en restaurantes locales con Almuerzos Perú. Comida casera, rápida y cerca de ti."
+    />
+    <meta name="keywords" content="almuerzos, menú del día, comida peruana, restaurantes, delivery" />
+    <meta name="author" content="Almuerzos Perú" />
 
-  <!-- SEO básico -->
-  <meta name="description"
-    content="Consulta menús del día en restaurantes locales con Almuerzos Perú. Comida casera, rápida y cerca de ti." />
-  <meta name="keywords" content="almuerzos, menú del día, comida peruana, restaurantes, delivery" />
-  <meta name="author" content="Almuerzos Perú" />
+    <!-- Social preview -->
+    <meta property="og:title" content="Almuerzos Perú" />
+    <meta property="og:description" content="Descubre menús caseros cerca de ti." />
+    <meta property="og:image" content="https://almuerzos-peru-public.s3.us-east-1.amazonaws.com/preview.png" />
+    <meta property="og:url" content="https://almuerzos-peru.netlify.app" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_PE" />
 
-  <!-- Social preview -->
-  <meta property="og:title" content="Almuerzos Perú" />
-  <meta property="og:description" content="Descubre menús caseros cerca de ti." />
-  <meta property="og:image" content="https://almuerzos-peru-public.s3.us-east-1.amazonaws.com/preview.png" />
-  <meta property="og:url" content="https://almuerzos-peru.netlify.app" />
-  <meta property="og:type" content="website" />
-  <meta property="og:locale" content="es_PE" />
+    <!-- Favicon & PWA -->
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="https://almuerzos-peru-public.s3.us-east-1.amazonaws.com/favicon_almuerza_peru.svg"
+    />
+    <link rel="manifest" href="manifest.webmanifest" />
 
-  <!-- Favicon & PWA -->
-  <link rel="icon" type="image/svg+xml"
-    href="https://almuerzos-peru-public.s3.us-east-1.amazonaws.com/favicon_almuerza_peru.svg" />
-  <link rel="manifest" href="manifest.webmanifest" />
+    <!-- Preloads -->
+    <link
+      rel="preload"
+      as="font"
+      href="https://fonts.gstatic.com/s/quicksand/v30/6xKtdSZaM9iE8KbpRA.woff2"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap"
+    />
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap"
+    />
 
-  <!-- Preloads -->
-  <link rel="preload" as="font" href="https://fonts.gstatic.com/s/quicksand/v30/6xKtdSZaM9iE8KbpRA.woff2"
-    type="font/woff2" crossorigin />
-  <link rel="preload" as="style"
-    href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" />
-  <link rel="preload" as="style"
-    href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" />
+    <!-- Fuentes -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
 
-  <!-- Fuentes -->
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap"
-    rel="stylesheet" />
+    <!-- Material Icons -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" media="all" />
 
-  <!-- Material Icons -->
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" media="all" />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" media="all" />
 
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" media="all" />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Material+Icons+Outlined" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons+Outlined" rel="stylesheet" media="all" />
+  </head>
 
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Material+Icons+Outlined" />
-  <link href="https://fonts.googleapis.com/css2?family=Material+Icons+Outlined" rel="stylesheet" media="all" />
-</head>
-
-<body>
-  <app-root></app-root>
-</body>
-
+  <body>
+    <app-root></app-root>
+  </body>
 </html>

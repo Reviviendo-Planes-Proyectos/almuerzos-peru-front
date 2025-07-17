@@ -1,11 +1,10 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { DebugElement } from '@angular/core';
+import type { DebugElement } from '@angular/core';
+import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-
-import { LoginComponent } from './login.component';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
 import { MaterialModule } from '../../../../shared/material.module';
+import { LoginComponent } from './login.component';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -91,7 +90,6 @@ describe('LoginComponent', () => {
     expect(mainContainer.nativeElement.className).toContain('sm:px-4');
     expect(mainContainer.nativeElement.className).toContain('sm:py-6');
     expect(mainContainer.nativeElement.className).toContain('lg:px-8');
-    // Puede ser lg:py-10 o lg:py-8 según el diseño, así que solo comprobamos que tenga lg:py-
     expect(mainContainer.nativeElement.className).toMatch(/lg:py-(8|10)/);
   });
 });

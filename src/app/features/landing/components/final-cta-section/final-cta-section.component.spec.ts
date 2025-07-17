@@ -1,10 +1,8 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FinalCtaSectionComponent } from './final-cta-section.component';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { ButtonComponent } from '../../../../shared/components/button/button.component';
+import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { CommonModule } from '@angular/common';
+import { ButtonComponent } from '../../../../shared/components/button/button.component';
+import { MaterialModule } from '../../../../shared/material.module';
+import { FinalCtaSectionComponent } from './final-cta-section.component';
 
 describe('FinalCtaSectionComponent', () => {
   let component: FinalCtaSectionComponent;
@@ -12,14 +10,7 @@ describe('FinalCtaSectionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        FinalCtaSectionComponent,
-        CommonModule,
-        MatIconModule,
-        MatButtonModule,
-        ButtonComponent,
-        NoopAnimationsModule
-      ]
+      imports: [FinalCtaSectionComponent, MaterialModule, ButtonComponent, NoopAnimationsModule]
     }).compileComponents();
 
     fixture = TestBed.createComponent(FinalCtaSectionComponent);
@@ -37,9 +28,16 @@ describe('FinalCtaSectionComponent', () => {
     expect(compiled.querySelector('p')?.textContent).toContain('beneficios de tener un menú digital');
   });
 
-  it('should render two app-button components', () => {
-    const buttons = fixture.nativeElement.querySelectorAll('app-button');
-    expect(buttons.length).toBe(2);
+  it('should render dos botones de acción', () => {
+    const buttons = fixture.nativeElement.querySelectorAll('button');
+    expect(buttons.length).toBeGreaterThanOrEqual(2);
+    const btnTexts = Array.from(buttons as NodeListOf<Element>).map((b) => b.textContent?.trim());
+    expect(btnTexts).toEqual(
+      expect.arrayContaining([
+        expect.stringContaining('Comienza Gratis Ahora'),
+        expect.stringContaining('Hablar con un Experto')
+      ])
+    );
   });
 
   it('should render checklist with 3 check_circle icons', () => {
@@ -48,7 +46,7 @@ describe('FinalCtaSectionComponent', () => {
 
     const iconTexts = Array.from(icons)
       .map((el: Element) => el.textContent?.trim())
-      .filter(text => text === 'check_circle');
+      .filter((text) => text === 'check_circle');
 
     expect(iconTexts.length).toBe(3);
   });

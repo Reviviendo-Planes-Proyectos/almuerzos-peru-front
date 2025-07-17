@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { MaterialModule } from '../../../../shared/material.module';
 
 enum PlanType {
   FREE = 'free',
-  PREMIUM = 'premium',
+  PREMIUM = 'premium'
 }
 
 interface PlanFeature {
@@ -28,9 +28,8 @@ interface Plan {
   templateUrl: './pricing-section.component.html',
   styleUrls: ['./pricing-section.component.scss'],
   standalone: true,
-  imports: [CommonModule],
+  imports: [MaterialModule]
 })
-
 export class PricingSectionComponent {
   plans: Plan[] = [
     {
@@ -43,12 +42,12 @@ export class PricingSectionComponent {
         { label: 'Hasta 20 platos' },
         { label: 'Compartir por WhatsApp' },
         { label: 'Actualizaciones en tiempo real' },
-        { label: 'Soporte por email' },
+        { label: 'Soporte por email' }
       ],
       buttonLabel: 'Comenzar Gratis',
       buttonClass: 'bg-gray-900 hover:bg-gray-800 text-white',
       bgClass: 'bg-white',
-      borderClass: 'border-gray-200',
+      borderClass: 'border-gray-200'
     },
     {
       type: PlanType.PREMIUM,
@@ -62,12 +61,13 @@ export class PricingSectionComponent {
         { label: 'Pagos en línea integrados' },
         { label: 'Informes de desempeño' },
         { label: 'Soporte premium 24/7' },
-        { label: 'Personalización avanzada' },
+        { label: 'Personalización avanzada' }
       ],
       buttonLabel: 'Comenzar Premium',
-      buttonClass: 'bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white',
+      buttonClass:
+        'bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white',
       bgClass: 'bg-yellow-100/25',
-      borderClass: 'border-orange-300',
-    },
+      borderClass: 'border-orange-300'
+    }
   ];
 }

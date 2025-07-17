@@ -1,4 +1,4 @@
-{
+﻿{
   "$schema": "https://biomejs.dev/schemas/2.0.6/schema.json",
   "vcs": {
     "enabled": false,
@@ -12,14 +12,14 @@
   "formatter": {
     "enabled": true,
     "formatWithErrors": true,
-    "indentStyle": "tab",
+    "indentStyle": "space",
     "indentWidth": 2,
     "lineEnding": "lf",
     "lineWidth": 120,
     "attributePosition": "auto",
     "bracketSpacing": true,
-    "includes": ["./src/**", "next.config.ts"],
-    "bracketSameLine": true
+    "bracketSameLine": true,
+    "includes": ["./src/**", "next.config.ts", "package.json"]
   },
   "linter": {
     "enabled": true,
@@ -79,13 +79,13 @@
   },
   "javascript": {
     "formatter": {
-      "jsxQuoteStyle": "double",
+      "jsxQuoteStyle": "single",
       "quoteProperties": "asNeeded",
-      "trailingCommas": "all",
+      "trailingCommas": "none",
       "semicolons": "always",
       "arrowParentheses": "always",
       "bracketSameLine": false,
-      "quoteStyle": "double",
+      "quoteStyle": "single",
       "attributePosition": "auto",
       "bracketSpacing": true
     }

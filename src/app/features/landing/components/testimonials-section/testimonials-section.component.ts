@@ -1,12 +1,10 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
+import { MaterialModule } from '../../../../shared/material.module';
 
 enum Role {
   DUENO = 'Dueño de restaurante',
   DUENA = 'Dueña de restaurante',
-  CHEF = 'Chef y dueño',
+  CHEF = 'Chef y dueño'
 }
 
 @Component({
@@ -14,7 +12,7 @@ enum Role {
   standalone: true,
   templateUrl: './testimonials-section.component.html',
   styleUrls: ['./testimonials-section.component.scss'],
-  imports: [MatCardModule, CommonModule, MatIconModule],
+  imports: [MaterialModule]
 })
 export class TestimonialsSectionComponent {
   roles = Role;

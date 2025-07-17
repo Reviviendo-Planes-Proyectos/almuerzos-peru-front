@@ -1,7 +1,7 @@
-import { appConfig } from './app.config';
-import { provideRouter } from '@angular/router';
 import { provideZoneChangeDetection } from '@angular/core';
 import { provideClientHydration } from '@angular/platform-browser';
+import { provideRouter } from '@angular/router';
+import { appConfig } from './app.config';
 import { MaterialModule } from './shared/material.module';
 
 describe('app.config', () => {

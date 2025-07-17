@@ -1,6 +1,6 @@
-import { config } from './app.config.server';
-import { appConfig } from './app.config';
 import { provideServerRendering } from '@angular/platform-server';
+import { appConfig } from './app.config';
+import { config } from './app.config.server';
 
 describe('app.config.server', () => {
   it('should merge appConfig and serverConfig correctly', () => {

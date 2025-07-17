@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { TestimonialsSectionComponent } from './testimonials-section.component';
 
 describe('TestimonialsSectionComponent', () => {
@@ -34,7 +34,7 @@ describe('TestimonialsSectionComponent', () => {
 
   it('should render correct rating icons per testimonial', () => {
     const compiled = fixture.nativeElement as HTMLElement;
-    const ratings = component.testimonials.map(t => t.rating);
+    const ratings = component.testimonials.map((t) => t.rating);
     const iconRows = compiled.querySelectorAll('.rating');
 
     iconRows.forEach((row, i) => {

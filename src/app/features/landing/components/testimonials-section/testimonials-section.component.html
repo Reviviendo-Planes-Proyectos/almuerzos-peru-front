@@ -2,7 +2,8 @@
   <div class="container mx-auto px-4">
     <div class="text-center mb-16">
       <h2 class="text-4xl font-bold text-gray-900 mb-4">
-        Lo que Dicen Nuestros <span class="gradient-text">Clientes</span>
+        Lo que Dicen Nuestros
+        <span class="gradient-text">Clientes</span>
       </h2>
       <p class="text-xl text-gray-600 max-w-3xl mx-auto">
         Historias reales de restaurantes que han transformado su negocio
@@ -10,8 +11,10 @@
     </div>
 
     <div class="grid md:grid-cols-3 gap-8">
-      <mat-card *ngFor="let t of testimonials"
-        class="!bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all border border-transparent hover:border-orange-400 hover:-translate-y-1">
+      <mat-card
+        *ngFor="let t of testimonials"
+        class="!bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all border border-transparent hover:border-orange-400 hover:-translate-y-1"
+      >
         <div class="flex items-center mb-4 text-yellow-400">
           <ng-container *ngFor="let star of [].constructor(t.rating)">
             <mat-icon class="text-yellow-500">star</mat-icon>
@@ -21,9 +24,7 @@
           </ng-container>
         </div>
 
-        <p class="text-gray-600 mb-6 italic">
-          "{{ t.text }}"
-        </p>
+        <p class="text-gray-600 mb-6 italic">"{{ t.text }}"</p>
 
         <div class="flex items-center space-x-4 mt-auto">
           <img [src]="t.image" class="w-12 h-12 rounded-full object-cover" [alt]="t.name + ', ' + t.role" />
@@ -33,7 +34,6 @@
           </div>
         </div>
       </mat-card>
-
     </div>
   </div>
 </section>

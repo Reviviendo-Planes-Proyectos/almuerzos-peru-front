@@ -1,12 +1,13 @@
 <section class="pt-36 pb-16 hero-gradient relative overflow-hidden">
-  <div class="absolute inset-0 bg-gradient-to-r from-yellow-100/10 to-orange-200/10"></div>
   <div class="container mx-auto px-4 sm:px-8 relative">
     <div class="grid lg:grid-cols-2 gap-12 items-center">
       <!-- Texto -->
       <div class="space-y-8">
         <div class="space-y-4">
           <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
-            Transforma tu <span class="gradient-text">Restaurante</span> con Menús Digitales
+            Transforma tu
+            <span class="gradient-text">Restaurante</span>
+            con Menús Digitales
           </h1>
           <p class="text-lg sm:text-xl text-gray-600 leading-relaxed">
             ¡Lleva tu restaurante al siguiente nivel con un menú digital fácil de usar y accesible desde cualquier
@@ -16,11 +17,23 @@
 
         <!-- Botones con componente reutilizable -->
         <div class="flex flex-col sm:flex-row gap-2 sm:gap-5 w-full">
-          <app-button [label]="'Comienza Gratis'" [isActive]="true" [isOutline]="false" class="w-full sm:flex-1"
-            iconName="rocket_launch" (click)="handleFeatureClick('registro')"></app-button>
+          <app-button
+            [label]="'Comienza Gratis'"
+            [isActive]="true"
+            [isOutline]="false"
+            class="w-full sm:flex-1"
+            iconName="rocket_launch"
+            (click)="handleFeatureClick('registro')"
+          ></app-button>
 
-          <app-button [label]="'Ver Demo'" [isActive]="true" [isOutline]="true" iconName="smart_display"
-            class="w-full sm:flex-1" (click)="handleFeatureClick('demo')"></app-button>
+          <app-button
+            [label]="'Ver Demo'"
+            [isActive]="true"
+            [isOutline]="true"
+            iconName="smart_display"
+            class="w-full sm:flex-1"
+            (click)="handleFeatureClick('demo')"
+          ></app-button>
         </div>
 
         <!-- Beneficios -->
@@ -39,8 +52,11 @@
       <!-- Imagen -->
       <div class="relative">
         <div class="floating-animation">
-          <img alt="Restaurante moderno con menú digital" class="w-full h-auto rounded-2xl shadow-2xl"
-            src="https://images.unsplash.com/photo-1649034472225-2438b0c97d57" />
+          <img
+            alt="Restaurante moderno con menú digital"
+            class="w-full h-auto rounded-2xl shadow-2xl"
+            src="https://images.unsplash.com/photo-1649034472225-2438b0c97d57"
+          />
         </div>
 
         <div class="absolute -bottom-6 -left-6 bg-white rounded-xl p-4 shadow-lg">

@@ -29,20 +29,20 @@
   --radius-2xl: 1.5rem;
 
   // General
-  --primary-dark: #E6B43A;
-  --muted-foreground: #6B7280;
-  --border: #E5E7EB;
-  --input: #F3F4F6;
+  --primary-dark: #e6b43a;
+  --muted-foreground: #6b7280;
+  --border: #e5e7eb;
+  --input: #f3f4f6;
   --radius: 0.5rem;
-  --destructive-foreground: #FFFFFF;
-  --secondary: #F8F9FA;
+  --destructive-foreground: #ffffff;
+  --secondary: #f8f9fa;
   --secondary-foreground: #374151;
-  --accent: #FEF3C7;
-  --accent-foreground: #92400E;
-  --card: #FFFFFF;
-  --card-foreground: #1F2937;
-  --popover: #FFFFFF;
-  --popover-foreground: #1F2937;
+  --accent: #fef3c7;
+  --accent-foreground: #92400e;
+  --card: #ffffff;
+  --card-foreground: #1f2937;
+  --popover: #ffffff;
+  --popover-foreground: #1f2937;
 }
 
 html,
@@ -68,14 +68,10 @@ body {
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, #FDC94C 0%, #F59E0B 100%);
+  background: linear-gradient(135deg, #fdc94c 0%, #f59e0b 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-}
-
-.hero-gradient {
-  background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 50%, #FDC94C 100%);
 }
 
 .floating-animation {
@@ -83,6 +79,11 @@ body {
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-20px); }
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
 }
