@@ -11,7 +11,7 @@ describe('HeaderComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [HeaderComponent],
-      providers: [provideRouter(routes)],
+      providers: [provideRouter(routes)]
     }).compileComponents();
 
     fixture = TestBed.createComponent(HeaderComponent);

@@ -13,7 +13,7 @@ describe('LoginComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LoginComponent, ButtonComponent, MaterialModule, NoopAnimationsModule],
+      imports: [LoginComponent, ButtonComponent, MaterialModule, NoopAnimationsModule]
     }).compileComponents();
 
     fixture = TestBed.createComponent(LoginComponent);

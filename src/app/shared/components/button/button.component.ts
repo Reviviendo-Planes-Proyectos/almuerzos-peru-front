@@ -6,7 +6,7 @@ import { MaterialModule } from '../../material.module';
   standalone: true,
   imports: [MaterialModule],
   templateUrl: './button.component.html',
-  styleUrls: ['./button.component.scss'],
+  styleUrls: ['./button.component.scss']
 })
 export class ButtonComponent {
   @Input() label = '';

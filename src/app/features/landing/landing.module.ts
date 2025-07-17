@@ -6,11 +6,11 @@ import { LandingComponent } from './landing.component';
 const routes: Routes = [
   {
     path: '',
-    component: LandingComponent,
-  },
+    component: LandingComponent
+  }
 ];
 
 @NgModule({
-  imports: [MaterialModule, RouterModule.forChild(routes), LandingComponent],
+  imports: [MaterialModule, RouterModule.forChild(routes), LandingComponent]
 })
 export class LandingModule {}

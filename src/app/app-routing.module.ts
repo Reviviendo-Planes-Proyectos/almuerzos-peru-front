@@ -7,11 +7,11 @@ const routes: Routes = [
   { path: 'login', loadChildren: () => AuthModule },
   { path: 'home', component: LandingComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: '**', redirectTo: 'home' },
+  { path: '**', redirectTo: 'home' }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class AppRoutingModule {}

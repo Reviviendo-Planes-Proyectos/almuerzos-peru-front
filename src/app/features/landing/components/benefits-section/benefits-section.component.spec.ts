@@ -7,7 +7,7 @@ describe('BenefitsSectionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BenefitsSectionComponent],
+      imports: [BenefitsSectionComponent]
     }).compileComponents();
 
     fixture = TestBed.createComponent(BenefitsSectionComponent);

@@ -6,6 +6,6 @@ import { MaterialModule } from '../../../../shared/material.module';
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.scss'],
   standalone: true,
-  imports: [MaterialModule],
+  imports: [MaterialModule]
 })
 export class FooterComponent {}

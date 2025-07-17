@@ -6,7 +6,7 @@ import { MaterialModule } from '../../../../shared/material.module';
   standalone: true,
   templateUrl: './final-cta-section.component.html',
   styleUrls: ['./final-cta-section.component.scss'],
-  imports: [MaterialModule],
+  imports: [MaterialModule]
 })
 export class FinalCtaSectionComponent {
   onStartFree() {}
