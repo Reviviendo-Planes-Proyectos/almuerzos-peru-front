@@ -3,15 +3,26 @@
 La estructura del proyecto se organiza de manera que permita una escalabilidad fácil, con una distinción clara entre componentes, servicios, módulos y configuración.
 
 ```bash
-almuerza-peru/
+almuerzos-peru-front/
 │
-├── e2e/
-│   └── src/
-│       ├── app.e2e-spec.ts         # ✅ Casos de prueba E2E que simulan flujos reales del usuario.
-│       ├── app.po.ts               # ✅ Page Object para encapsular interacción con UI durante pruebas.
-│       ├── app.component.e2e.ts    # ✅ Validaciones E2E específicas del componente principal.
-│       └── test-setup.ts           # ✅ Config inicial para ejecutar pruebas de extremo a extremo.
+├── angular.json                    # ⚙️ Configuración principal de Angular.
+├── biome.json                      # ⚙️ Configuración de Biome (lint/format).
+├── jest.config.js                  # ⚙️ Configuración de Jest.
+├── package.json                    # 📦 Dependencias, scripts y build info.
+├── README.md                       # � Documentación básica del proyecto.
+├── server.ts                       # 🚀 Servidor Express para SSR.
+├── tailwind.config.js              # ⚙️ Configuración de TailwindCSS.
+├── tsconfig.json                   # ⚙️ Configuración global de TypeScript.
+├── tsconfig.app.json               # ⚙️ Configuración TS para la app.
+├── tsconfig.spec.json              # ⚙️ Configuración TS para pruebas.
 │
+├── coverage/                       # � Reportes de cobertura de pruebas.
+├── docs/                           # � Documentación adicional y diagramas.
+├── e2e/                            # 🧪 Pruebas end-to-end con Playwright.
+│   └── tests/                      # Archivos de pruebas E2E.
+├── node_modules/                  # 📦 Dependencias instaladas por npm.
+│
+├── public/                         # 🌐 Archivos públicos (favicon, imágenes).
 ├── src/
 │   ├── app/
 │   │   ├── core/                   # 🧠 Lógica transversal: no depende de ningún feature. Reutilizable globalmente.
@@ -76,7 +87,6 @@ almuerza-peru/
 └── README.md                       # 📘 Documentación básica del proyecto.
 ```
 
-&nbsp;
----
+## &nbsp;
 
 © Almuerza Perú – 2025
