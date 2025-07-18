@@ -11,6 +11,7 @@ module.exports = {
           !f.includes('jest.config')
       )
       .map((f) => `biome lint ${f}`),
-  '**/*.{json,md}': ['biome format --write'],
+  '**/*.json': ['biome format --write'],
+  '**/*.md': ['prettier --write'],
   '**/*.{html,scss}': (files) => files.map((f) => `prettier --write ${f}`),
 };
