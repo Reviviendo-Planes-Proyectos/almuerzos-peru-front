@@ -8,27 +8,27 @@ describe('app.routes', () => {
     expect(redirectRoute?.pathMatch).toBe('full');
   });
 
-  it('should define home route with loadChildren correctly', async () => {
+  it('should define home route with loadComponent correctly', async () => {
     const homeRoute = routes.find((route) => route.path === 'home');
     expect(homeRoute).toBeTruthy();
-    expect(homeRoute?.loadChildren).toBeDefined();
+    expect(homeRoute?.loadComponent).toBeDefined();
 
-    const loadedModule = await homeRoute?.loadChildren?.();
-    expect(loadedModule).toBeTruthy();
-    expect(['function', 'object']).toContain(typeof loadedModule);
+    const loadedComponent = await homeRoute?.loadComponent?.();
+    expect(loadedComponent).toBeTruthy();
+    expect(typeof loadedComponent).toBe('function');
   });
 
   it('should define auth route correctly', () => {
     const authRoute = routes.find((route) => route.path === 'auth');
     expect(authRoute).toBeTruthy();
-    expect(authRoute?.children?.[0]?.loadChildren).toBeDefined();
+    expect(authRoute?.loadChildren).toBeDefined();
   });
 
   it('should load auth children routes correctly', async () => {
     const authRoute = routes.find((route) => route.path === 'auth');
     expect(authRoute).toBeTruthy();
 
-    const loadChildrenFn = authRoute?.children?.[0]?.loadChildren;
+    const loadChildrenFn = authRoute?.loadChildren;
     expect(loadChildrenFn).toBeDefined();
 
     const loadedRoutes = await loadChildrenFn?.();

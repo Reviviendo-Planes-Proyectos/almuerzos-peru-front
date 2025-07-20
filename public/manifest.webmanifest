@@ -1,0 +1,22 @@
+{
+  "name": "Almuerzos Perú",
+  "short_name": "Almuerzos Perú",
+  "description": "Consulta menús del día en restaurantes locales con Almuerzos Perú. Comida casera, rápida y cerca de ti.",
+  "theme_color": "#fdc94c",
+  "background_color": "#fff7e3",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "https://almuerzos-peru-public.s3.us-east-1.amazonaws.com/favicon_almuerza_peru.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

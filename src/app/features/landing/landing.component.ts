@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { provideAnimations } from '@angular/platform-browser/animations';
 import { MaterialModule } from '../../shared/material.module';
 import { BenefitsSectionComponent } from './components/benefits-section/benefits-section.component';
 import { FinalCtaSectionComponent } from './components/final-cta-section/final-cta-section.component';
@@ -25,8 +24,7 @@ import { TestimonialsSectionComponent } from './components/testimonials-section/
     PricingSectionComponent,
     FinalCtaSectionComponent,
     MaterialModule
-  ],
-  providers: [provideAnimations()] // Proveer animaciones
+  ]
 })
 export class LandingComponent {
   // Lógica del componente
