@@ -105,4 +105,12 @@ export class PwaService {
       }
     }
   }
+
+  public isInstalled(): boolean {
+    return this.isAppInstalled.value;
+  }
+
+  public hasInstallPrompt(): boolean {
+    return !!this.promptEvent;
+  }
 }

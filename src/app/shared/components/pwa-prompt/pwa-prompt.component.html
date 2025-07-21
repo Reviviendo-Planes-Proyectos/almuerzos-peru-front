@@ -1,0 +1,163 @@
+<!-- Overlay de fondo para el modal -->
+<button
+  *ngIf="showInstallPrompt"
+  type="button"
+  class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm z-[9998] animate-in fade-in duration-400 cursor-default border-none"
+  (click)="dismissPrompt()"
+  (keydown.escape)="dismissPrompt()"
+  aria-label="Cerrar modal de instalación"
+></button>
+
+<!-- Banner para actualizaciones disponibles -->
+<header
+  *ngIf="updateAvailable"
+  class="fixed bottom-0 left-0 right-0 bg-gradient-to-r from-amber-500 to-orange-500 text-white z-[1000] animate-in slide-in-from-bottom duration-300"
+  aria-label="Actualización disponible"
+>
+  <div class="flex items-center justify-between px-4 py-3 gap-3">
+    <div class="flex items-center gap-3">
+      <mat-icon class="text-white">system_update</mat-icon>
+      <span class="text-sm font-medium">Nueva versión disponible</span>
+    </div>
+    <div class="flex items-center gap-2">
+      <button
+        mat-button
+        (click)="updateApp()"
+        class="text-white hover:bg-white hover:bg-opacity-20 transition-colors"
+        aria-label="Actualizar aplicación"
+      >
+        Actualizar
+      </button>
+      <button
+        mat-icon-button
+        (click)="dismissUpdate()"
+        class="text-white hover:bg-white hover:bg-opacity-20 transition-colors"
+        aria-label="Cerrar banner de actualización"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Prompt de instalación automático -->
+<dialog
+  *ngIf="showInstallPrompt"
+  class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[10000] w-full max-w-md mx-4 bg-white bg-opacity-95 backdrop-blur-3xl border border-white border-opacity-40 rounded-3xl shadow-2xl animate-in zoom-in-95 duration-600 overflow-hidden"
+  [attr.aria-modal]="true"
+  aria-labelledby="install-title"
+  aria-describedby="install-description"
+>
+  <!-- Header con gradiente -->
+  <header class="relative h-28 flex items-center justify-center overflow-hidden">
+    <div
+      class="absolute inset-0 bg-gradient-to-br from-orange-500 via-red-500 to-red-600 bg-[length:400%_400%] animate-gradient-shift"
+    ></div>
+    <div
+      class="absolute inset-0 bg-gradient-to-r from-transparent via-white via-opacity-10 to-transparent animate-shine"
+    ></div>
+
+    <div class="relative z-20">
+      <mat-icon class="text-white text-5xl w-12 h-12 drop-shadow-lg animate-pulse">restaurant_menu</mat-icon>
+      <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+        <div class="absolute w-20 h-20 border-2 border-white border-opacity-30 rounded-full animate-ping"></div>
+        <div
+          class="absolute w-24 h-24 border-2 border-white border-opacity-30 rounded-full animate-ping animation-delay-300"
+        ></div>
+        <div
+          class="absolute w-28 h-28 border-2 border-white border-opacity-30 rounded-full animate-ping animation-delay-600"
+        ></div>
+      </div>
+    </div>
+
+    <button
+      type="button"
+      class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center bg-black bg-opacity-20 hover:bg-opacity-30 backdrop-blur-sm rounded-full transition-all hover:scale-110 z-30"
+      (click)="dismissPrompt()"
+      aria-label="Cerrar modal de instalación"
+    >
+      <mat-icon class="text-white text-xl">close</mat-icon>
+    </button>
+  </header>
+
+  <!-- Contenido principal -->
+  <main class="p-7">
+    <div class="text-center space-y-6">
+      <div class="space-y-2">
+        <h2
+          id="install-title"
+          class="text-2xl font-extrabold bg-gradient-to-r from-orange-500 via-amber-500 to-red-500 bg-clip-text text-transparent"
+        >
+          ¡Instala Almuerzos Perú!
+        </h2>
+        <p id="install-description" class="text-gray-600 font-medium">La mejor experiencia gastronómica peruana</p>
+      </div>
+
+      <!-- Lista de características -->
+      <ul class="space-y-3">
+        <li
+          class="flex items-center gap-3 p-3 bg-white bg-opacity-60 border border-white border-opacity-80 rounded-xl backdrop-blur-sm transition-all hover:bg-opacity-80 hover:translate-x-1"
+        >
+          <mat-icon class="text-orange-500 text-xl flex-shrink-0" aria-hidden="true">notifications_active</mat-icon>
+          <span class="font-medium text-gray-700">Notificaciones de ofertas</span>
+        </li>
+        <li
+          class="flex items-center gap-3 p-3 bg-white bg-opacity-60 border border-white border-opacity-80 rounded-xl backdrop-blur-sm transition-all hover:bg-opacity-80 hover:translate-x-1"
+        >
+          <mat-icon class="text-orange-500 text-xl flex-shrink-0" aria-hidden="true">offline_bolt</mat-icon>
+          <span class="font-medium text-gray-700">Funciona sin internet</span>
+        </li>
+        <li
+          class="flex items-center gap-3 p-3 bg-white bg-opacity-60 border border-white border-opacity-80 rounded-xl backdrop-blur-sm transition-all hover:bg-opacity-80 hover:translate-x-1"
+        >
+          <mat-icon class="text-orange-500 text-xl flex-shrink-0" aria-hidden="true">speed</mat-icon>
+          <span class="font-medium text-gray-700">Acceso ultra rápido</span>
+        </li>
+      </ul>
+
+      <!-- Botones de acción -->
+      <div class="flex flex-col gap-3 pt-2">
+        <button
+          type="button"
+          class="install-btn relative w-full bg-gradient-to-r from-orange-500 via-red-500 to-red-600 text-white font-bold py-4 px-8 rounded-2xl shadow-lg shadow-orange-500/40 transition-all hover:shadow-xl hover:shadow-orange-500/60 hover:-translate-y-1 hover:scale-105 overflow-hidden min-h-[56px] animate-pulse-soft"
+          (click)="installApp()"
+          mat-raised-button
+          aria-label="Instalar aplicación Almuerzos Perú"
+        >
+          <div class="flex items-center justify-center gap-2">
+            <mat-icon aria-hidden="true">get_app</mat-icon>
+            <span>Instalar App</span>
+          </div>
+          <div
+            class="btn-shine absolute inset-0 bg-gradient-to-r from-transparent via-white via-opacity-20 to-transparent transform -skew-x-12 -translate-x-full animate-shine-sweep"
+          ></div>
+        </button>
+
+        <button
+          type="button"
+          class="w-full text-gray-600 font-semibold py-3 px-6 border-2 border-gray-200 rounded-2xl bg-white bg-opacity-50 transition-all hover:bg-opacity-80 hover:border-gray-300 hover:-translate-y-0.5"
+          (click)="dismissPrompt()"
+          mat-button
+          aria-label="Instalar más tarde"
+        >
+          Más tarde
+        </button>
+      </div>
+    </div>
+  </main>
+</dialog>
+
+<!-- FAB principal para instalación PWA -->
+<button
+  *ngIf="!showInstallPrompt && isMobile && showFabAfter30Seconds"
+  type="button"
+  mat-fab
+  color="primary"
+  class="install-fab fixed bottom-5 right-5 z-[1000] bg-gradient-to-r from-orange-500 to-red-500 shadow-lg shadow-orange-500/40 transition-all hover:shadow-xl hover:shadow-orange-500/60 hover:-translate-y-1 hover:scale-110 animate-pulse-soft"
+  (click)="showPrompt()"
+  matTooltip="Instalar Almuerzos Perú"
+  matTooltipPosition="left"
+  aria-label="Abrir modal de instalación de la aplicación"
+>
+  <mat-icon class="text-white text-2xl">restaurant_menu</mat-icon>
+</button>

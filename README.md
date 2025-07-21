@@ -152,6 +152,28 @@ Sigue estos pasos para clonar y levantar el proyecto localmente:
 - 🧪 **Testing Completo**: Jest + Playwright para testing integral
 - 🎯 **TypeScript**: Tipado fuerte con versión 5.5.4
 
+### 📱 Funcionalidades PWA
+
+- **Instalación Automática**: Prompt de instalación aparece automáticamente después de 3 segundos
+- **Diseño Premium**: Gradiente 3D animado con efectos glassmorphism y animaciones bouncy
+- **Instalación Inteligente**: Respeta las preferencias del usuario (no molesta por 24 horas si se rechaza)
+- **Botón Flotante**: FAB con animación de flotación y efectos hover espectaculares
+- **Service Worker**: Cacheo offline y actualizaciones automáticas
+- **Manifest Configurado**: Iconos, tema y configuración de instalación completa
+- **Compatibilidad SSR**: Funciona correctamente con Server-Side Rendering
+- **Responsive Premium**: Se adapta perfectamente a móviles con animaciones fluidas
+- **Efectos Visuales**: Shimmer effects, pulse animations y gradientes fluidos
+
 ## &nbsp;
+
+## 📚 Documentación Adicional
+
+- [📐 Arquitectura del Proyecto](docs/architecture.md) - Estructura y patrones de diseño
+- [⚙️ Tecnologías Utilizadas](docs/technologies-used.md) - Stack tecnológico detallado
+- [📁 Estructura del Proyecto](docs/project-structure.md) - Organización de archivos y carpetas
+- [📱 Configuración PWA](docs/pwa-application.md) - Progressive Web App setup
+- [🔄 PWA Prompt Automático](docs/pwa-auto-prompt.md) - Configuración y personalización del prompt de instalación
+
+&nbsp;
 
 © 2025 Almuerza Perú
