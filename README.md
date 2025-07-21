@@ -104,7 +104,7 @@ npm start
 
 ### ⚙️ Configuración Adicional
 
-El proyecto incluye configuración preestablecida para:
+El proyecto incluye configuración preestablecida para las dependencias:
 
 - **Tailwind CSS**: Framework CSS utilitario con tema personalizado
 - **Jest**: Testing framework con configuración Angular optimizada
