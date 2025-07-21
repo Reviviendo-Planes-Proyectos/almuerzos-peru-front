@@ -1,4 +1,4 @@
-import { type ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
 import { MaterialModule } from '../../../../shared/material.module';
 import { HeroSectionComponent } from './hero-section.component';

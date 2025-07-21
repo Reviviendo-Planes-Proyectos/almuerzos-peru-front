@@ -1,4 +1,4 @@
-import { type ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TestimonialsSectionComponent } from './testimonials-section.component';
 
 describe('TestimonialsSectionComponent', () => {

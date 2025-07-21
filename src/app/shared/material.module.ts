@@ -8,26 +8,19 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+export const MATERIAL_MODULES = [
+  CommonModule,
+  MatButtonModule,
+  MatTooltipModule,
+  MatCardModule,
+  ReactiveFormsModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatIconModule
+];
+
 @NgModule({
-  imports: [
-    CommonModule,
-    MatButtonModule,
-    MatTooltipModule,
-    MatCardModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule
-  ],
-  exports: [
-    CommonModule,
-    MatButtonModule,
-    MatTooltipModule,
-    MatCardModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule
-  ]
+  imports: MATERIAL_MODULES,
+  exports: MATERIAL_MODULES
 })
 export class MaterialModule {}

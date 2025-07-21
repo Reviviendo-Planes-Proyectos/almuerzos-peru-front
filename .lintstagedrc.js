@@ -11,6 +11,17 @@ module.exports = {
           !f.includes('jest.config')
       )
       .map((f) => `biome lint ${f}`),
-  '**/*.{json,md}': ['biome format --write'],
+  '**/*.json': (files) =>
+    files
+      .filter(
+        (f) =>
+          !f.includes('package-lock.json') &&
+          !f.includes('tsconfig') &&
+          f.includes('package.json') || 
+          f.includes('angular.json') ||
+          f.includes('biome.json')
+      )
+      .map((f) => `biome format --write ${f}`),
+  '**/*.md': ['prettier --write'],
   '**/*.{html,scss}': (files) => files.map((f) => `prettier --write ${f}`),
 };

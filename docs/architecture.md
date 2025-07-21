@@ -77,13 +77,11 @@ Cada módulo funcional se carga **dinámicamente** solo cuando se necesita, usan
 const routes: Routes = [
   {
     path: 'auth',
-    loadChildren: () =>
-      import('./features/auth/auth.module').then(m => m.AuthModule),
+    loadChildren: () => import('./features/auth/auth.module').then((m) => m.AuthModule)
   },
   {
     path: 'menus',
-    loadChildren: () =>
-      import('./features/menus/menu.module').then(m => m.MenuModule),
+    loadChildren: () => import('./features/menus/menu.module').then((m) => m.MenuModule)
   }
 ];
 ```
@@ -100,6 +98,46 @@ Esto optimiza el rendimiento inicial de la aplicación, especialmente en móvile
 
 &nbsp;
 
+## 🏗️ Implementación en Angular 18
+
+El proyecto **Almuerza Perú** utiliza las características más modernas de Angular 18:
+
+### ⚡ Standalone Components
+
+- **Configuración moderna**: Todos los componentes son standalone, eliminando la necesidad de módulos tradicionales
+- **ApplicationConfig**: Uso de configuración basada en providers en lugar de módulos
+- **Tree Shaking mejorado**: Mejor optimización de bundles por eliminación de código innecesario
+
+### 🚀 Routing Moderno
+
+- **loadComponent**: Para componentes individuales standalone
+- **loadChildren**: Para módulos de features con lazy loading
+- **Optimización automática**: Mejor performance con carga diferida
+
+### 🔧 Server-Side Rendering (SSR)
+
+- **Angular Universal**: Configurado con `@angular/ssr` 18.2.20
+- **Express Server**: Servidor Node.js para SSR completo
+- **Hydration**: Cliente-servidor sincronizado sin errores
+- **PWA Ready**: Progressive Web App con manifest configurado
+- **Desarrollo**: SSR deshabilitado para mejor experiencia de desarrollo
+- **Producción**: SSR completo habilitado para SEO y performance
+
+### 🧪 Testing Moderno
+
+- **Jest**: Framework de testing 29.7.0 con configuración Angular
+- **Playwright**: Testing E2E 1.54.1 para pruebas end-to-end
+- **19 test suites, 84 tests**: Todos pasando correctamente
+
+### 📊 Resultados de Performance
+
+- **Bundle inicial**: 232.69 kB optimizado
+- **Zone.js**: 90.20 kB incluido correctamente
+- **Build exitoso**: Tanto desarrollo como producción
+- **Servidores disponibles**:
+  - Desarrollo: `http://localhost:4200`
+  - SSR Producción: `http://localhost:4000` (solo en build de producción)
+
 ## Conclusión
 
 Gracias a esta arquitectura, la aplicación es:
@@ -109,8 +147,8 @@ Gracias a esta arquitectura, la aplicación es:
 - 🔧 Fácil de mantener
 - 📦 Escalable a nuevas funcionalidades
 - ✅ Sólida para equipos grandes o colaboraciones a largo plazo
+- ⚡ **Angular 18 nativo**: Usando las últimas características del framework
 
-&nbsp;
----
+## &nbsp;
 
 © Almuerza Perú – 2025

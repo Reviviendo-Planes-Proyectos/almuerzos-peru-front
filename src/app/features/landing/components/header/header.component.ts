@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-// biome-ignore lint/style/useImportType: Regular import required for Angular DI
 import { Router, RouterModule } from '@angular/router';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
 import { MaterialModule } from '../../../../shared/material.module';

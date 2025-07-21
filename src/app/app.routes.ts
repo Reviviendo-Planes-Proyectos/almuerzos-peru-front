@@ -1,4 +1,4 @@
-import type { Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
@@ -8,15 +8,10 @@ export const routes: Routes = [
   },
   {
     path: 'home',
-    loadChildren: () => import('./features/landing/landing.module').then((m) => m.LandingModule)
+    loadComponent: () => import('./features/landing/landing.component').then((m) => m.LandingComponent)
   },
   {
     path: 'auth',
-    children: [
-      {
-        path: '',
-        loadChildren: () => import('./features/auth/auth.routes').then((m) => m.AUTH_ROUTES)
-      }
-    ]
+    loadChildren: () => import('./features/auth/auth.routes').then((m) => m.AUTH_ROUTES)
   }
 ];

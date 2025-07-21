@@ -24,11 +24,13 @@ Una PWA es una aplicación web avanzada que puede:
 
 ## 🔧 Tecnologías clave
 
-- `@angular/pwa`: paquete oficial Angular para activar funcionalidades de PWA.
-- `Service Worker`: script que cachea archivos y maneja respuestas offline.
-- `Manifest.json`: permite definir el comportamiento como app (nombre, ícono, color).
+| Tecnología                | Versión | Descripción                                                        |
+| ------------------------- | ------- | ------------------------------------------------------------------ |
+| `@angular/service-worker` | 18.2.13 | Paquete oficial Angular para activar funcionalidades de PWA.       |
+| `@angular/pwa`            | -       | Esquema Angular CLI para configurar automáticamente una PWA.       |
+| `Service Worker`          | -       | Script que cachea archivos y maneja respuestas offline.            |
+| `Manifest.json`           | -       | Permite definir el comportamiento como app (nombre, ícono, color). |
 
-&nbsp;
----
+## &nbsp;
 
 © Almuerza Perú – 2025
