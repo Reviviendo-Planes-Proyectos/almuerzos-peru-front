@@ -1,12 +1,12 @@
 <section id="beneficios" class="py-20 bg-gray-50">
   <div class="container mx-auto px-4">
     <div class="text-center mb-16">
-      <h2 class="text-4xl font-bold text-gray-900 mb-4">
+      <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
         Beneficios que
         <span class="gradient-text">Transforman</span>
         tu Negocio
       </h2>
-      <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+      <p class="text-base sm:text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
         Descubre cómo nuestro software revoluciona la experiencia gastronómica tanto para restaurantes como para
         comensales
       </p>
@@ -36,7 +36,7 @@
             </span>
             <span class="font-semibold">{{ audience }}</span>
           </div>
-          <h3 class="text-3xl font-bold text-gray-900 mb-4">
+          <h3 class="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-4">
             {{ audience === 'Para Restaurantes' ? 'Gestiona tu menú como nunca antes' : 'Descubre sabores increíbles' }}
           </h3>
         </div>
@@ -56,8 +56,8 @@
             </div>
 
             <div>
-              <h4 class="text-xl font-semibold text-gray-900">{{ benefit.title }}</h4>
-              <p class="text-lg text-gray-600 mt-1">{{ benefit.subtitle }}</p>
+              <h4 class="text-lg sm:text-xl font-semibold text-gray-900">{{ benefit.title }}</h4>
+              <p class="text-base sm:text-lg text-gray-600 mt-1">{{ benefit.subtitle }}</p>
             </div>
           </mat-card>
         </ng-container>

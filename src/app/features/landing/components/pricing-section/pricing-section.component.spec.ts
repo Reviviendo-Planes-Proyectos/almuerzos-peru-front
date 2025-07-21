@@ -27,7 +27,7 @@ describe('PricingSectionComponent', () => {
 
   it('should render two pricing cards', () => {
     const compiled = fixture.nativeElement as HTMLElement;
-    const plans = compiled.querySelectorAll('.rounded-2xl');
+    const plans = compiled.querySelectorAll('.rounded-xl');
     expect(plans.length).toBe(2);
   });
 
