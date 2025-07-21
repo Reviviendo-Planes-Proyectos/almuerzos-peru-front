@@ -117,8 +117,8 @@ El proyecto incluye configuración preestablecida para:
 ### 🌐 Acceder a la Aplicación
 
 📍 **Desarrollo**: La aplicación estará disponible en [http://localhost:4200](http://localhost:4200)
-
 📍 **SSR Producción**: Servidor con Server-Side Rendering en [http://localhost:4000](http://localhost:4000) (después de ejecutar `npm run build:serve:ssr`)
+
 
 ---
 
