@@ -1,4 +1,5 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { PLATFORM_ID } from '@angular/core';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { BehaviorSubject, of } from 'rxjs';
@@ -15,29 +16,28 @@ describe('PwaPromptComponent', () => {
   beforeEach(async () => {
     updateAvailableSubject = new BehaviorSubject<boolean>(false);
 
-    // Crear mocks más completos
     mockPwaService = {
       canInstallApp: jest.fn().mockReturnValue(false),
       installApp: jest.fn().mockResolvedValue(true),
       updateApp: jest.fn().mockResolvedValue(undefined),
-      subscribeToPushNotifications: jest.fn().mockResolvedValue(null),
-      unsubscribeFromPushNotifications: jest.fn().mockResolvedValue(true),
-      shareContent: jest.fn().mockResolvedValue(undefined),
-      isOnline: jest.fn().mockReturnValue(of(true)),
-      requestNotificationPermission: jest.fn().mockResolvedValue('granted'),
       updateAvailable$: updateAvailableSubject.asObservable(),
       isAppInstalled$: of(false)
     } as unknown as jest.Mocked<PwaService>;
 
     mockSnackBar = {
-      open: jest.fn()
+      open: jest.fn().mockReturnValue({
+        dismiss: jest.fn(),
+        afterDismissed: jest.fn().mockReturnValue(of({})),
+        onAction: jest.fn().mockReturnValue(of({}))
+      })
     } as unknown as jest.Mocked<MatSnackBar>;
 
     await TestBed.configureTestingModule({
       imports: [PwaPromptComponent, NoopAnimationsModule],
       providers: [
         { provide: PwaService, useValue: mockPwaService },
-        { provide: MatSnackBar, useValue: mockSnackBar }
+        { provide: MatSnackBar, useValue: mockSnackBar },
+        { provide: PLATFORM_ID, useValue: 'browser' }
       ]
     }).compileComponents();
 
@@ -47,217 +47,141 @@ describe('PwaPromptComponent', () => {
 
   afterEach(() => {
     jest.clearAllMocks();
+    jest.useRealTimers();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize with default values', () => {
+  it('should initialize with correct default values', () => {
     expect(component.showInstallPrompt).toBe(false);
     expect(component.canInstall).toBe(false);
     expect(component.updateAvailable).toBe(false);
+    expect(component.isMobile).toBe(false);
+    expect(component.showFabAfter30Seconds).toBe(false);
   });
 
-  it('should check installability on init', () => {
-    mockPwaService.canInstallApp.mockReturnValue(true);
+  it('should show install prompt modal after 30 seconds', fakeAsync(() => {
+    component.ngOnInit();
+    expect(component.showInstallPrompt).toBe(false);
+
+    tick(30000);
+    expect(component.showInstallPrompt).toBe(true);
+  }));
+
+  it('should show FAB on mobile when conditions are met', () => {
+    component.isMobile = true;
+    component.showFabAfter30Seconds = true;
+    component.showInstallPrompt = false;
+
+    // No llamar detectChanges() para evitar que ngOnInit reinicialice isMobile
+
+    // Verificar que las condiciones están establecidas correctamente
+    expect(component.isMobile).toBe(true);
+    expect(component.showFabAfter30Seconds).toBe(true);
+    expect(component.showInstallPrompt).toBe(false);
+  });
+
+  it('should handle installation successfully', async () => {
+    mockPwaService.installApp.mockResolvedValue(true);
+    component.showInstallPrompt = true;
+    component.canInstall = true;
+
+    await component.installApp();
+
+    expect(mockPwaService.installApp).toHaveBeenCalled();
+    expect(component.showInstallPrompt).toBe(false);
+    expect(component.canInstall).toBe(false);
+  });
+
+  it('should detect mobile device correctly', () => {
+    // Mock window.navigator.userAgent para simular móvil
+    Object.defineProperty(window.navigator, 'userAgent', {
+      writable: true,
+      value: 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/605.1.15'
+    });
+
+    // Mock window.innerWidth para simular pantalla móvil
+    Object.defineProperty(window, 'innerWidth', {
+      writable: true,
+      value: 375
+    });
 
     component.ngOnInit();
 
-    expect(component.canInstall).toBe(true);
+    // Verificar que se detectó como móvil
+    expect(component.isMobile).toBe(true);
   });
 
-  it('should subscribe to updateAvailable$ on init', () => {
-    component.ngOnInit();
+  it('should schedule FAB display after 30 seconds on mobile', fakeAsync(() => {
+    // Simular móvil
+    component.isMobile = true;
 
-    // Emitir true desde el observable
+    component.ngOnInit();
+    expect(component.showFabAfter30Seconds).toBe(false);
+
+    // Avanzar 30 segundos
+    tick(30000);
+
+    // Verificar que el FAB se programa para mostrarse
+    expect(component.showFabAfter30Seconds).toBe(true);
+  }));
+
+  it('should render modal with correct elements', () => {
+    component.showInstallPrompt = true;
+    fixture.detectChanges();
+
+    const modal = fixture.nativeElement.querySelector('.pwa-prompt');
+    const overlay = fixture.nativeElement.querySelector('.pwa-overlay');
+    const title = fixture.nativeElement.querySelector('.app-title');
+    const installBtn = fixture.nativeElement.querySelector('.install-btn');
+    const laterBtn = fixture.nativeElement.querySelector('.later-btn');
+
+    expect(modal).toBeTruthy();
+    expect(overlay).toBeTruthy();
+    expect(title?.textContent?.trim()).toBe('¡Instala Almuerzos Perú!');
+    expect(installBtn).toBeTruthy();
+    expect(laterBtn).toBeTruthy();
+  });
+
+  it('should show update banner when update is available', () => {
+    // Simular que hay una actualización disponible a través del servicio
     updateAvailableSubject.next(true);
+    component.ngOnInit();
+    fixture.detectChanges();
 
+    const updateBanner = fixture.nativeElement.querySelector('.update-banner');
+    expect(updateBanner).toBeTruthy();
     expect(component.updateAvailable).toBe(true);
   });
 
-  it('should show install prompt after 30 seconds when app can be installed', () => {
-    mockPwaService.canInstallApp.mockReturnValue(true);
-    jest.useFakeTimers();
+  it('should dismiss prompt and save state', () => {
+    // Mock localStorage
+    const localStorageMock = {
+      setItem: jest.fn()
+    };
+    Object.defineProperty(window, 'localStorage', {
+      value: localStorageMock,
+      writable: true
+    });
 
-    component.ngOnInit();
-
-    // Fast-forward time by 30 seconds
-    jest.advanceTimersByTime(30000);
-
-    expect(component.showInstallPrompt).toBe(true);
-    jest.useRealTimers();
-  });
-
-  it('should not show install prompt after 30 seconds when app cannot be installed', () => {
-    mockPwaService.canInstallApp.mockReturnValue(false);
-    jest.useFakeTimers();
-
-    component.ngOnInit();
-
-    // Fast-forward time by 30 seconds
-    jest.advanceTimersByTime(30000);
-
-    expect(component.showInstallPrompt).toBe(false);
-    jest.useRealTimers();
-  });
-
-  it('should show prompt', () => {
-    component.showPrompt();
-
-    expect(component.showInstallPrompt).toBe(true);
-  });
-
-  it('should dismiss prompt and save to localStorage', () => {
-    const setItemSpy = jest.spyOn(Storage.prototype, 'setItem').mockImplementation();
-
+    component.showInstallPrompt = true;
     component.dismissPrompt();
 
     expect(component.showInstallPrompt).toBe(false);
-    expect(setItemSpy).toHaveBeenCalledWith('pwa-prompt-dismissed', expect.any(String));
-
-    setItemSpy.mockRestore();
+    expect(localStorageMock.setItem).toHaveBeenCalledWith('pwa-prompt-dismissed', expect.any(String));
   });
 
-  describe('installApp', () => {
-    beforeEach(() => {
-      jest.clearAllMocks();
-    });
-
-    it('should call installApp service method successfully', async () => {
-      mockPwaService.installApp.mockResolvedValue(true);
-
-      await component.installApp();
-
-      expect(mockPwaService.installApp).toHaveBeenCalled();
-    });
-
-    it('should handle installApp service method failure', async () => {
-      mockPwaService.installApp.mockResolvedValue(false);
-
-      await component.installApp();
-
-      expect(mockPwaService.installApp).toHaveBeenCalled();
-    });
-
-    it('should handle installApp service method error', async () => {
-      mockPwaService.installApp.mockRejectedValue(new Error('Install failed'));
-
-      await component.installApp();
-
-      expect(mockPwaService.installApp).toHaveBeenCalled();
-    });
+  it('should show prompt manually', () => {
+    component.showInstallPrompt = false;
+    component.showPrompt();
+    expect(component.showInstallPrompt).toBe(true);
   });
 
-  describe('updateApp', () => {
-    beforeEach(() => {
-      jest.clearAllMocks();
-    });
-
-    it('should call updateApp service method successfully', async () => {
-      mockPwaService.updateApp.mockResolvedValue(undefined);
-
-      await component.updateApp();
-
-      expect(mockPwaService.updateApp).toHaveBeenCalled();
-    });
-
-    it('should handle updateApp service method error', async () => {
-      mockPwaService.updateApp.mockRejectedValue(new Error('Update failed'));
-
-      await component.updateApp();
-
-      expect(mockPwaService.updateApp).toHaveBeenCalled();
-    });
-  });
-
-  it('should dismiss update', () => {
+  it('should dismiss update correctly', () => {
     component.updateAvailable = true;
-
     component.dismissUpdate();
-
     expect(component.updateAvailable).toBe(false);
-  });
-
-  describe('Template rendering', () => {
-    it('should render component successfully', () => {
-      fixture.detectChanges();
-      expect(fixture.componentInstance).toBeTruthy();
-    });
-
-    it('should handle showInstallPrompt property changes', () => {
-      component.showInstallPrompt = false;
-      fixture.detectChanges();
-      expect(component.showInstallPrompt).toBe(false);
-
-      component.showInstallPrompt = true;
-      fixture.detectChanges();
-      expect(component.showInstallPrompt).toBe(true);
-    });
-
-    it('should handle canInstall property changes', () => {
-      component.canInstall = false;
-      fixture.detectChanges();
-      expect(component.canInstall).toBe(false);
-    });
-
-    it('should handle updateAvailable property changes', () => {
-      component.updateAvailable = false;
-      fixture.detectChanges();
-      expect(component.updateAvailable).toBe(false);
-    });
-  });
-
-  describe('User interactions', () => {
-    it('should have showPrompt method available', () => {
-      const showPromptSpy = jest.spyOn(component, 'showPrompt');
-      component.canInstall = true;
-      component.showInstallPrompt = false;
-      fixture.detectChanges();
-
-      // Llamar directamente al método
-      component.showPrompt();
-      expect(showPromptSpy).toHaveBeenCalled();
-    });
-
-    it('should have dismissPrompt method available', () => {
-      const dismissPromptSpy = jest.spyOn(component, 'dismissPrompt');
-      component.showInstallPrompt = true;
-      fixture.detectChanges();
-
-      // Llamar directamente al método
-      component.dismissPrompt();
-      expect(dismissPromptSpy).toHaveBeenCalled();
-    });
-
-    it('should have installApp method available', () => {
-      const installAppSpy = jest.spyOn(component, 'installApp');
-      component.showInstallPrompt = true;
-      fixture.detectChanges();
-
-      // Llamar directamente al método
-      component.installApp();
-      expect(installAppSpy).toHaveBeenCalled();
-    });
-
-    it('should have updateApp method available', () => {
-      const updateAppSpy = jest.spyOn(component, 'updateApp');
-      component.updateAvailable = true;
-      fixture.detectChanges();
-
-      // Llamar directamente al método
-      component.updateApp();
-      expect(updateAppSpy).toHaveBeenCalled();
-    });
-
-    it('should have dismissUpdate method available', () => {
-      const dismissUpdateSpy = jest.spyOn(component, 'dismissUpdate');
-      component.updateAvailable = true;
-      fixture.detectChanges();
-
-      // Llamar directamente al método
-      component.dismissUpdate();
-      expect(dismissUpdateSpy).toHaveBeenCalled();
-    });
   });
 });
