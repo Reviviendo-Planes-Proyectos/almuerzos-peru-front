@@ -1,5 +1,5 @@
 ﻿{
-  "$schema": "https://biomejs.dev/schemas/2.0.6/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.1.2/schema.json",
   "vcs": {
     "enabled": false,
     "clientKind": "git",
@@ -7,7 +7,7 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "experimentalScannerIgnores": ["**/.next", "**/node_modules", "**/npm-lock.yaml", "**/package.json"]
+    "experimentalScannerIgnores": ["**/.next", "**/node_modules", "**/npm-lock.yaml"]
   },
   "formatter": {
     "enabled": true,
@@ -19,7 +19,7 @@
     "attributePosition": "auto",
     "bracketSpacing": true,
     "bracketSameLine": true,
-    "includes": ["./src/**", "next.config.ts", "package.json"]
+    "includes": ["./src/**", "*.json", "*.ts", "*.js"]
   },
   "linter": {
     "enabled": true,
@@ -28,7 +28,7 @@
       "recommended": true,
       "style": {
         "noUselessElse": "error",
-        "useImportType": "error",
+        "useImportType": "off",
         "useShorthandFunctionType": "error",
         "useAsConstAssertion": "error",
         "noNamespace": "error",
@@ -36,10 +36,7 @@
         "useConsistentCurlyBraces": "error",
         "noNestedTernary": "error",
         "useCollapsedIf": "error",
-        "useTemplate": {
-          "level": "warn",
-          "fix": "safe"
-        }
+        "useTemplate": "warn"
       },
       "suspicious": {
         "noConsole": {
@@ -78,6 +75,9 @@
     }
   },
   "javascript": {
+    "parser": {
+      "unsafeParameterDecoratorsEnabled": true
+    },
     "formatter": {
       "jsxQuoteStyle": "single",
       "quoteProperties": "asNeeded",

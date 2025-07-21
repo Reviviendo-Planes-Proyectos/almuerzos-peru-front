@@ -20,9 +20,7 @@
             "outputPath": "dist/almuerzos-peru-front",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
@@ -31,19 +29,16 @@
                 "input": "public"
               }
             ],
-            "styles": [
-              "@angular/material/prebuilt-themes/azure-blue.css",
-              "src/styles.scss"
-            ],
-            "scripts": [],
-            "server": "src/main.server.ts",
-            "prerender": true,
-            "ssr": {
-              "entry": "server.ts"
-            }
+            "styles": ["src/styles.scss"],
+            "scripts": []
           },
           "configurations": {
             "production": {
+              "server": "src/main.server.ts",
+              "prerender": false,
+              "ssr": {
+                "entry": "server.ts"
+              },
               "budgets": [
                 {
                   "type": "initial",
@@ -52,11 +47,12 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "5kb",
+                  "maximumWarning": "4kB",
                   "maximumError": "8kB"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "serviceWorker": "ngsw-config.json"
             },
             "development": {
               "optimization": false,
@@ -84,6 +80,7 @@
         "test": {
           "builder": "@angular-builders/jest:run",
           "options": {
+            "tsConfig": "tsconfig.spec.json",
             "configPath": "./jest.config.js"
           }
         }
@@ -91,7 +88,6 @@
     }
   },
   "cli": {
-    "analytics": "61af28d2-9eb9-4024-b69a-3e613cca6ab9",
-    "schematicCollections": []
+    "analytics": "37f942c5-2850-46c6-864a-3d769404ae82"
   }
 }

@@ -1,6 +1,6 @@
-import { type ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter, Router } from '@angular/router';
-import { routes } from '../../../../app.routes'; // Asegúrate de tener tus rutas aquí
+import { routes } from '../../../../app.routes';
 import { HeaderComponent } from './header.component';
 
 describe('HeaderComponent', () => {
@@ -34,5 +34,38 @@ describe('HeaderComponent', () => {
     const navigateSpy = jest.spyOn(router, 'navigate');
     component.navigateToLogin();
     expect(navigateSpy).toHaveBeenCalledWith(['auth/login']);
+  });
+
+  it('should scroll to section when element exists', () => {
+    const mockElement = {
+      getBoundingClientRect: jest.fn().mockReturnValue({ top: 100 })
+    } as unknown as HTMLElement;
+
+    const getElementByIdSpy = jest.spyOn(document, 'getElementById').mockReturnValue(mockElement);
+
+    Object.defineProperty(window, 'pageYOffset', { value: 50, writable: true });
+    const scrollToSpy = jest.spyOn(window, 'scrollTo').mockImplementation();
+
+    component.scrollToSection('test-section');
+
+    expect(getElementByIdSpy).toHaveBeenCalledWith('test-section');
+    expect(mockElement.getBoundingClientRect).toHaveBeenCalled();
+    expect(scrollToSpy).toHaveBeenCalledWith({ top: 70, behavior: 'smooth' });
+
+    getElementByIdSpy.mockRestore();
+    scrollToSpy.mockRestore();
+  });
+
+  it('should do nothing when element does not exist', () => {
+    const getElementByIdSpy = jest.spyOn(document, 'getElementById').mockReturnValue(null);
+    const scrollToSpy = jest.spyOn(window, 'scrollTo').mockImplementation();
+
+    component.scrollToSection('non-existent-section');
+
+    expect(getElementByIdSpy).toHaveBeenCalledWith('non-existent-section');
+    expect(scrollToSpy).not.toHaveBeenCalled();
+
+    getElementByIdSpy.mockRestore();
+    scrollToSpy.mockRestore();
   });
 });
