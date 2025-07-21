@@ -3,163 +3,22 @@ import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { PwaService } from '../../services/pwa.service';
 
 @Component({
   selector: 'app-pwa-prompt',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatIconModule, MatSnackBarModule],
-  template: `
-    <div class="pwa-prompt" *ngIf="showInstallPrompt">
-      <div class="prompt-content">
-        <mat-icon class="app-icon">restaurant</mat-icon>
-        <div class="prompt-text">
-          <h3>¡Instala Almuerzos Perú!</h3>
-          <p>Accede rápidamente a los mejores menús del día</p>
-        </div>
-        <div class="prompt-actions">
-          <button mat-button (click)="dismissPrompt()">
-            Ahora no
-          </button>
-          <button mat-raised-button color="primary" (click)="installApp()">
-            <mat-icon>download</mat-icon>
-            Instalar
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Botón flotante para mostrar instalación -->
-    <button 
-      mat-fab 
-      color="primary" 
-      class="install-fab"
-      *ngIf="canInstall && !showInstallPrompt"
-      (click)="showPrompt()"
-      matTooltip="Instalar aplicación">
-      <mat-icon>download</mat-icon>
-    </button>
-
-    <!-- Notificación de actualización disponible -->
-    <div class="update-banner" *ngIf="updateAvailable">
-      <div class="update-content">
-        <mat-icon>system_update</mat-icon>
-        <span>Nueva versión disponible</span>
-        <button mat-button color="accent" (click)="updateApp()">
-          Actualizar
-        </button>
-        <button mat-icon-button (click)="dismissUpdate()">
-          <mat-icon>close</mat-icon>
-        </button>
-      </div>
-    </div>
-  `,
-  styles: [
-    `
-    .pwa-prompt {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: var(--mat-sys-surface-container);
-      border-top: 1px solid var(--mat-sys-outline-variant);
-      padding: 16px;
-      z-index: 1000;
-      box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .prompt-content {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    .app-icon {
-      font-size: 32px;
-      width: 32px;
-      height: 32px;
-      color: var(--mat-sys-primary);
-    }
-
-    .prompt-text {
-      flex: 1;
-    }
-
-    .prompt-text h3 {
-      margin: 0 0 4px 0;
-      font-size: 16px;
-      font-weight: 500;
-      color: var(--mat-sys-on-surface);
-    }
-
-    .prompt-text p {
-      margin: 0;
-      font-size: 14px;
-      color: var(--mat-sys-on-surface-variant);
-    }
-
-    .prompt-actions {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-
-    .install-fab {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      z-index: 999;
-    }
-
-    .update-banner {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      background: var(--mat-sys-primary-container);
-      color: var(--mat-sys-on-primary-container);
-      z-index: 1001;
-    }
-
-    .update-content {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 16px;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    .update-content span {
-      flex: 1;
-      font-weight: 500;
-    }
-
-    @media (max-width: 768px) {
-      .prompt-content {
-        flex-direction: column;
-        text-align: center;
-        gap: 12px;
-      }
-
-      .prompt-actions {
-        width: 100%;
-        justify-content: center;
-      }
-
-      .install-fab {
-        bottom: 80px; /* Evitar conflicto con navegación móvil */
-      }
-    }
-  `
-  ]
+  imports: [CommonModule, MatButtonModule, MatIconModule, MatSnackBarModule, MatTooltipModule],
+  templateUrl: './pwa-prompt.component.html',
+  styleUrl: './pwa-prompt.component.scss'
 })
 export class PwaPromptComponent implements OnInit {
   showInstallPrompt = false;
   canInstall = false;
   updateAvailable = false;
+  isMobile = false;
+  showFabAfter30Seconds = false;
   private readonly isBrowser: boolean;
 
   constructor(
@@ -176,24 +35,74 @@ export class PwaPromptComponent implements OnInit {
       return;
     }
 
+    // Detectar si es dispositivo móvil
+    this.detectMobileDevice();
+
     // Suscribirse a los observables del servicio PWA
     this.pwaService.updateAvailable$.subscribe((available) => {
       this.updateAvailable = available;
     });
 
-    // Verificar si se puede instalar la app
-    this.checkInstallability();
+    // Iniciar temporizador para mostrar el modal automáticamente después de 30 segundos
+    this.scheduleInstallPrompt();
 
-    // Mostrar prompt de instalación después de un tiempo
-    setTimeout(() => {
-      if (this.pwaService.canInstallApp()) {
-        this.showInstallPrompt = true;
-      }
-    }, 30000); // Mostrar después de 30 segundos
+    // Mostrar FAB después de 30 segundos (solo en móvil)
+    this.scheduleFabDisplay();
   }
 
-  private checkInstallability(): void {
-    this.canInstall = this.pwaService.canInstallApp();
+  private detectMobileDevice(): void {
+    if (!this.isBrowser || typeof window === 'undefined') {
+      return;
+    }
+
+    const userAgent = window.navigator.userAgent.toLowerCase();
+    const mobileKeywords = ['android', 'webos', 'iphone', 'ipad', 'ipod', 'blackberry', 'windows phone', 'mobile'];
+
+    this.isMobile = mobileKeywords.some((keyword) => userAgent.includes(keyword)) || window.innerWidth <= 768;
+  }
+
+  private scheduleFabDisplay(): void {
+    // Solo mostrar FAB en dispositivos móviles después de 30 segundos
+    if (!this.isMobile) {
+      return;
+    }
+
+    setTimeout(() => {
+      this.showFabAfter30Seconds = true;
+    }, 30000); // 30 segundos
+  }
+
+  private scheduleInstallPrompt(): void {
+    // Verificar si el usuario ya rechazó el prompt recientemente
+    if (this.wasPromptRecentlyDismissed()) {
+      return;
+    }
+
+    // Mostrar el modal después de 30 segundos de navegación
+    setTimeout(() => {
+      // Solo mostrar si no fue rechazado en el meantime
+      if (!this.wasPromptRecentlyDismissed()) {
+        this.showInstallPrompt = true;
+      }
+    }, 30000); // 30 segundos después de cargar la página
+  }
+
+  private wasPromptRecentlyDismissed(): boolean {
+    if (!this.isBrowser || typeof localStorage === 'undefined') {
+      return false;
+    }
+
+    const dismissedTime = localStorage.getItem('pwa-prompt-dismissed');
+    if (!dismissedTime) {
+      return false;
+    }
+
+    const now = Date.now();
+    const timeDiff = now - parseInt(dismissedTime, 10);
+    const hoursSinceDismissed = timeDiff / (1000 * 60 * 60);
+
+    // No mostrar el prompt si fue rechazado en las últimas 24 horas
+    return hoursSinceDismissed < 24;
   }
 
   showPrompt(): void {
@@ -202,10 +111,15 @@ export class PwaPromptComponent implements OnInit {
 
   dismissPrompt(): void {
     this.showInstallPrompt = false;
-    // Guardar preferencia del usuario para no molestar por un tiempo (solo en el navegador)
+    // Guardar preferencia del usuario para no molestar por un tiempo
     if (this.isBrowser && typeof localStorage !== 'undefined') {
       localStorage.setItem('pwa-prompt-dismissed', Date.now().toString());
     }
+  }
+
+  // Método público para mostrar el prompt manualmente
+  showPromptManually(): void {
+    this.showInstallPrompt = true;
   }
 
   async installApp(): Promise<void> {
