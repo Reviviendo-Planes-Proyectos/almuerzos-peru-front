@@ -1,5 +1,5 @@
 ﻿{
-  "$schema": "https://biomejs.dev/schemas/2.0.6/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.1.2/schema.json",
   "vcs": {
     "enabled": false,
     "clientKind": "git",
@@ -28,7 +28,7 @@
       "recommended": true,
       "style": {
         "noUselessElse": "error",
-        "useImportType": "error",
+        "useImportType": "off",
         "useShorthandFunctionType": "error",
         "useAsConstAssertion": "error",
         "noNamespace": "error",
@@ -78,6 +78,9 @@
     }
   },
   "javascript": {
+    "parser": {
+      "unsafeParameterDecoratorsEnabled": true
+    },
     "formatter": {
       "jsxQuoteStyle": "single",
       "quoteProperties": "asNeeded",

@@ -37,6 +37,7 @@
     "@angular/platform-browser-dynamic": "^18.2.13",
     "@angular/platform-server": "^18.2.13",
     "@angular/router": "^18.2.13",
+    "@angular/service-worker": "^18.2.13",
     "@angular/ssr": "^18.2.20",
     "express": "^4.21.2",
     "rxjs": "~7.8.1",

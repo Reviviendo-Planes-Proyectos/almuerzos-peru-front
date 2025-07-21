@@ -15,6 +15,6 @@ describe('app.config', () => {
   });
 
   it('should have the correct number of providers', () => {
-    expect(appConfig.providers).toHaveLength(3);
+    expect(appConfig.providers).toHaveLength(4);
   });
 });

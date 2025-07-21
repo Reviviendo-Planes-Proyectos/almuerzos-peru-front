@@ -1,5 +1,6 @@
-import type { DebugElement } from '@angular/core';
-import { type ComponentFixture, TestBed } from '@angular/core/testing';
+import { Location } from '@angular/common';
+import { DebugElement } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
@@ -10,15 +11,22 @@ describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
   let debugElement: DebugElement;
+  let locationSpy: Location;
 
   beforeEach(async () => {
+    const spy = {
+      back: jest.fn()
+    };
+
     await TestBed.configureTestingModule({
-      imports: [LoginComponent, ButtonComponent, MaterialModule, NoopAnimationsModule]
+      imports: [LoginComponent, ButtonComponent, MaterialModule, NoopAnimationsModule],
+      providers: [{ provide: Location, useValue: spy }]
     }).compileComponents();
 
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
     debugElement = fixture.debugElement;
+    locationSpy = TestBed.inject(Location);
     fixture.detectChanges();
   });
 
@@ -91,5 +99,10 @@ describe('LoginComponent', () => {
     expect(mainContainer.nativeElement.className).toContain('sm:py-6');
     expect(mainContainer.nativeElement.className).toContain('lg:px-8');
     expect(mainContainer.nativeElement.className).toMatch(/lg:py-(8|10)/);
+  });
+
+  it('should call location.back() when goBack is called', () => {
+    component.goBack();
+    expect(locationSpy.back).toHaveBeenCalled();
   });
 });

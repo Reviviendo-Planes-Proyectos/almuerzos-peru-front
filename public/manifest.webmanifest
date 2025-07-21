@@ -1,5 +1,5 @@
 {
-  "name": "Almuerzos Perú",
+  "name": "Almuerzos Perú - Menús del Día",
   "short_name": "Almuerzos Perú",
   "description": "Consulta menús del día en restaurantes locales con Almuerzos Perú. Comida casera, rápida y cerca de ti.",
   "theme_color": "#fdc94c",
@@ -7,16 +7,116 @@
   "display": "standalone",
   "scope": "/",
   "start_url": "/",
+  "orientation": "portrait-primary",
+  "categories": [
+    "food",
+    "restaurants",
+    "lifestyle"
+  ],
+  "lang": "es-PE",
+  "dir": "ltr",
   "icons": [
     {
       "src": "favicon.ico",
       "sizes": "48x48",
-      "type": "image/x-icon"
+      "type": "image/x-icon",
+      "purpose": "any"
     },
     {
       "src": "https://almuerzos-peru-public.s3.us-east-1.amazonaws.com/favicon_almuerza_peru.svg",
       "sizes": "any",
-      "type": "image/svg+xml"
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://almuerzos-peru-public.s3.us-east-1.amazonaws.com/icons/icon-72x72.png?w=72&h=72&fit=fill&auto=format",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "https://almuerzos-peru-public.s3.us-east-1.amazonaws.com/icons/icon-96x96.png?w=96&h=96&fit=fill&auto=format",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "https://almuerzos-peru-public.s3.us-east-1.amazonaws.com/icons/icon-128x128.png?w=128&h=128&fit=fill&auto=format",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "https://almuerzos-peru-public.s3.us-east-1.amazonaws.com/icons/icon-144x144.png?w=144&h=144&fit=fill&auto=format",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "https://almuerzos-peru-public.s3.us-east-1.amazonaws.com/icons/icon-152x152.png?w=152&h=152&fit=fill&auto=format",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "https://almuerzos-peru-public.s3.us-east-1.amazonaws.com/icons/icon-192x192.png?w=192&h=192&fit=fill&auto=format",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "https://almuerzos-peru-public.s3.us-east-1.amazonaws.com/icons/icon-384x384.png?w=384&h=384&fit=fill&auto=format",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "https://almuerzos-peru-public.s3.us-east-1.amazonaws.com/icons/icon-512x512.png?w=512&h=512&fit=fill&auto=format",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "https://almuerzos-peru-public.s3.us-east-1.amazonaws.com/screenshots/mobile-screenshot-1.png?w=320&h=640&fit=fill&auto=format",
+      "sizes": "320x640",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Vista principal de menús del día"
+    },
+    {
+      "src": "https://almuerzos-peru-public.s3.us-east-1.amazonaws.com/screenshots/desktop-screenshot-1.png?w=1280&h=720&fit=fill&auto=format",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Vista de escritorio de Almuerzos Perú"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Buscar Menús",
+      "short_name": "Buscar",
+      "description": "Buscar menús del día cerca de ti",
+      "url": "/buscar",
+      "icons": [
+        {
+          "src": "https://almuerzos-peru-public.s3.us-east-1.amazonaws.com/icons/search-icon.png?w=96&h=96&fit=fill&auto=format",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Mis Favoritos",
+      "short_name": "Favoritos",
+      "description": "Ver mis restaurantes favoritos",
+      "url": "/favoritos",
+      "icons": [
+        {
+          "src": "https://almuerzos-peru-public.s3.us-east-1.amazonaws.com/icons/favorite-icon.png?w=96&h=96&fit=fill&auto=format",
+          "sizes": "96x96"
+        }
+      ]
     }
   ]
 }
