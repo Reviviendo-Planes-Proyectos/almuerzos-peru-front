@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { PwaPromptComponent } from '../../shared/components/pwa-prompt/pwa-prompt.component';
 import { MaterialModule } from '../../shared/material.module';
 import { BenefitsSectionComponent } from './components/benefits-section/benefits-section.component';
 import { FinalCtaSectionComponent } from './components/final-cta-section/final-cta-section.component';
@@ -24,7 +23,6 @@ import { TestimonialsSectionComponent } from './components/testimonials-section/
     TestimonialsSectionComponent,
     PricingSectionComponent,
     FinalCtaSectionComponent,
-    PwaPromptComponent,
     MaterialModule
   ]
 })
