@@ -118,7 +118,7 @@ El proyecto incluye configuración preestablecida para:
 
 📍 **Desarrollo**: La aplicación estará disponible en [http://localhost:4200](http://localhost:4200)
 
-📍 **SSR Producción**: Servidor con Server-Side Rendering en [http://localhost:4000](http://localhost:4000) (solo en build de producción)
+📍 **SSR Producción**: Servidor con Server-Side Rendering en [http://localhost:4000](http://localhost:4000) (después de ejecutar `npm run build:serve:ssr`)
 
 ---
 
@@ -131,8 +131,8 @@ El proyecto incluye configuración preestablecida para:
 | `npm run ng`              | Ejecuta comandos Angular CLI directamente                       |
 | `npm start`               | Inicia la aplicación Angular en modo desarrollo (`ng serve`)    |
 | `npm run build`           | Compila la aplicación para producción (`ng build`)              |
-| `npm run build:ssr`       | Compila la aplicación con Server-Side Rendering para producción |
-| `npm run serve:ssr`       | Ejecuta el servidor SSR compilado                               |
+| `npm run build:ssr`       | Compila la aplicación con SSR habilitado para producción        |
+| `npm run serve:ssr`       | Ejecuta el servidor SSR compilado en puerto 4000                |
 | `npm run build:serve:ssr` | Compila y ejecuta la aplicación con SSR en un solo comando      |
 | `npm run watch`           | Compila en modo observador para desarrollo (`ng build --watch`) |
 
