@@ -120,6 +120,8 @@ El proyecto **Almuerza Perú** utiliza las características más modernas de Ang
 - **Express Server**: Servidor Node.js para SSR completo
 - **Hydration**: Cliente-servidor sincronizado sin errores
 - **PWA Ready**: Progressive Web App con manifest configurado
+- **Desarrollo**: SSR deshabilitado para mejor experiencia de desarrollo
+- **Producción**: SSR completo habilitado para SEO y performance
 
 ### 🧪 Testing Moderno
 
@@ -129,12 +131,12 @@ El proyecto **Almuerza Perú** utiliza las características más modernas de Ang
 
 ### 📊 Resultados de Performance
 
-- **Bundle inicial**: 218.49 kB optimizado
+- **Bundle inicial**: 232.69 kB optimizado
 - **Zone.js**: 90.20 kB incluido correctamente
 - **Build exitoso**: Tanto desarrollo como producción
 - **Servidores disponibles**:
   - Desarrollo: `http://localhost:4200`
-  - SSR Producción: `http://localhost:4000`
+  - SSR Producción: `http://localhost:4000` (solo en build de producción)
 
 ## Conclusión
 

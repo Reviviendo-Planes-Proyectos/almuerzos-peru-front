@@ -128,7 +128,7 @@ Sigue estos pasos para clonar y levantar el proyecto localmente:
 ### 🚀 Servidores Disponibles
 
 - **Desarrollo**: `http://localhost:4200` - Servidor de desarrollo con hot reload
-- **SSR Producción**: `http://localhost:4000` - Servidor con Server-Side Rendering
+- **SSR Producción**: `http://localhost:4000` - Servidor con Server-Side Rendering (solo en build de producción)
 
 ### 🧪 Testing
 
@@ -138,9 +138,9 @@ Sigue estos pasos para clonar y levantar el proyecto localmente:
 
 ### 📊 Build & Performance
 
-- **Bundle inicial**: 218.49 kB optimizado
+- **Bundle inicial**: 232.69 kB optimizado
 - **Zone.js**: 90.20 kB incluido correctamente
-- **SSR Build**: 553.14 kB inicial optimizado
+- **SSR**: Disponible en producción con `npm run build:ssr`
 - **Lazy Loading**: Implementado en todos los módulos
 
 ### 🔧 Características Técnicas
