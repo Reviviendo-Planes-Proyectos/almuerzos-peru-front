@@ -349,14 +349,36 @@ describe('PwaService', () => {
   it('debe procesar otros tipos de eventos de versión', (done) => {
     let updateReceived = false;
     service.updateAvailable$.subscribe((value) => {
-      if (value === false && !updateReceived) {
+      if (value === true) {
         updateReceived = true;
+      }
+      if (!updateReceived) {
         expect(value).toBe(false);
         done();
       }
     });
 
     versionUpdatesSubject.next({ type: 'VERSION_DETECTED' } as VersionEvent);
+  });
+
+  it('debe retornar el estado correcto de isInstalled', () => {
+    expect(service.isInstalled()).toBe(false);
+
+    const isAppInstalledSubject = (service as unknown as { isAppInstalled: BehaviorSubject<boolean> }).isAppInstalled;
+    isAppInstalledSubject.next(true);
+
+    expect(service.isInstalled()).toBe(true);
+  });
+
+  it('debe retornar false en hasInstallPrompt cuando no hay prompt event', () => {
+    expect(service.hasInstallPrompt()).toBe(false);
+  });
+
+  it('debe retornar true en hasInstallPrompt cuando hay prompt event', () => {
+    const promptEvent = {} as BeforeInstallPromptEvent;
+    (service as unknown as { promptEvent: BeforeInstallPromptEvent | null }).promptEvent = promptEvent;
+
+    expect(service.hasInstallPrompt()).toBe(true);
   });
 
   it('debe retornar false en canInstallApp si la app ya está instalada', () => {
