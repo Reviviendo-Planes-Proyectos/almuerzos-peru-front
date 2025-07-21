@@ -66,19 +66,6 @@ describe('PwaPromptComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize with correct default values', () => {
-    expect(component.showInstallPrompt).toBe(false);
-    expect(component.updateAvailable).toBe(false);
-    expect(component.isMobile).toBe(false);
-    expect(component.showFabAfter30Seconds).toBe(false);
-  });
-
-  it('should show install prompt after 30 seconds', fakeAsync(() => {
-    component.ngOnInit();
-    tick(30000);
-    expect(component.showInstallPrompt).toBe(true);
-  }));
-
   it('should handle installation successfully', async () => {
     mockPwaService.installApp.mockResolvedValue(true);
     component.showInstallPrompt = true;

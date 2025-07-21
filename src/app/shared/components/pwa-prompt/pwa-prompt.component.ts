@@ -19,7 +19,7 @@ export class PwaPromptComponent implements OnInit {
   updateAvailable = false;
   isMobile = false;
   showFabAfter30Seconds = false;
-  private readonly isBrowser: boolean;
+  public isBrowser: boolean;
 
   constructor(
     private readonly pwaService: PwaService,
@@ -128,14 +128,10 @@ export class PwaPromptComponent implements OnInit {
       if (installed) {
         this.showInstallPrompt = false;
         this.canInstall = false;
-        this.snackBar.open('¡App instalada exitosamente!', 'Cerrar', {
-          duration: 3000
-        });
+        this.snackBar.open('¡App instalada exitosamente!', 'Cerrar', { duration: 3000 });
       }
     } catch {
-      this.snackBar.open('Error al instalar la aplicación', 'Cerrar', {
-        duration: 3000
-      });
+      this.snackBar.open('Error al instalar la aplicación', 'Cerrar', { duration: 3000 });
     }
   }
 
