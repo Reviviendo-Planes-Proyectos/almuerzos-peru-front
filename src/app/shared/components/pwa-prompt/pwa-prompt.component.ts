@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
@@ -160,13 +160,22 @@ export class PwaPromptComponent implements OnInit {
   showInstallPrompt = false;
   canInstall = false;
   updateAvailable = false;
+  private readonly isBrowser: boolean;
 
   constructor(
     private readonly pwaService: PwaService,
-    private readonly snackBar: MatSnackBar
-  ) {}
+    private readonly snackBar: MatSnackBar,
+    @Inject(PLATFORM_ID) private readonly platformId: object
+  ) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+  }
 
   ngOnInit(): void {
+    // Solo ejecutar lógica PWA en el navegador
+    if (!this.isBrowser) {
+      return;
+    }
+
     // Suscribirse a los observables del servicio PWA
     this.pwaService.updateAvailable$.subscribe((available) => {
       this.updateAvailable = available;
@@ -193,8 +202,10 @@ export class PwaPromptComponent implements OnInit {
 
   dismissPrompt(): void {
     this.showInstallPrompt = false;
-    // Guardar preferencia del usuario para no molestar por un tiempo
-    localStorage.setItem('pwa-prompt-dismissed', Date.now().toString());
+    // Guardar preferencia del usuario para no molestar por un tiempo (solo en el navegador)
+    if (this.isBrowser && typeof localStorage !== 'undefined') {
+      localStorage.setItem('pwa-prompt-dismissed', Date.now().toString());
+    }
   }
 
   async installApp(): Promise<void> {
