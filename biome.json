@@ -7,7 +7,7 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "experimentalScannerIgnores": ["**/.next", "**/node_modules", "**/npm-lock.yaml", "**/package.json"]
+    "experimentalScannerIgnores": ["**/.next", "**/node_modules", "**/npm-lock.yaml"]
   },
   "formatter": {
     "enabled": true,
@@ -19,7 +19,7 @@
     "attributePosition": "auto",
     "bracketSpacing": true,
     "bracketSameLine": true,
-    "includes": ["./src/**", "next.config.ts", "package.json"]
+    "includes": ["./src/**", "*.json", "*.ts", "*.js"]
   },
   "linter": {
     "enabled": true,
@@ -36,10 +36,7 @@
         "useConsistentCurlyBraces": "error",
         "noNestedTernary": "error",
         "useCollapsedIf": "error",
-        "useTemplate": {
-          "level": "warn",
-          "fix": "safe"
-        }
+        "useTemplate": "warn"
       },
       "suspicious": {
         "noConsole": {
