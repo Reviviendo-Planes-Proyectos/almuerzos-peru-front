@@ -87,3 +87,30 @@ body {
     transform: translateY(-20px);
   }
 }
+
+@layer base {
+  ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+    background: var(--color-gray-100);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #e6b43a;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #fb8500;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-gray-200);
+  }
+
+  html {
+    scrollbar-width: auto;
+    scrollbar-color: #e6b43a var(--color-gray-200);
+  }
+}

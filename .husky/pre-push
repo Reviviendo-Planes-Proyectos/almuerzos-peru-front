@@ -1,0 +1,9 @@
+branch_name=$(git symbolic-ref --short HEAD)
+
+if [[ ! "$branch_name" =~ ^(feature)\/[a-z0-9._-]+$ ]]; then
+  echo "❌ Nombre de rama inválido: $branch_name"
+  echo "➡️  Usa el formato: tipo/nombre-ejemplo (ej: feature/login-page)"
+  exit 1
+fi
+
+echo "✅ Nombre de rama válido: $branch_name"
