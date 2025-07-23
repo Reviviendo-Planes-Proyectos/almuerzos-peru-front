@@ -1,14 +1,15 @@
 # 🧱 Arquitectura del Proyecto
 
-La arquitectura del proyecto **Almuerza Perú** combina dos enfoques robustos: **Clean Architecture** para la lógica de negocio y **Component-Based Architecture** para la interfaz de usuario. Además, implementa **modularización con lazy loading** para mejorar el rendimiento.
+La arquitectura de **Almuerza Perú** combina **Clean Architecture** para la lógica de negocio, **Component-Based Architecture** para la UI y una fuerte modularización con **Lazy Loading** y SSR. Todo está alineado con las mejores prácticas de Angular 18 y el desarrollo moderno.
 
----
+&nbsp;
 
 ## 📚 Tabla de Contenido
 
 - [🔹 Clean Architecture](#-clean-architecture)
 - [🔹 Component-Based Architecture (Angular)](#-component-based-architecture-angular)
 - [🔹 Modularización + Lazy Loading](#-modularización--lazy-loading)
+- [🏗️ Implementación Angular 18 y SSR](#-implementación-en-angular-18)
 
 &nbsp;
 
@@ -18,22 +19,21 @@ La arquitectura del proyecto **Almuerza Perú** combina dos enfoques robustos: *
   <img src="./assets/clean-architecture-diagram.webp" alt="Clean Architecture" style="max-width: 100%; width: 600px;" />
 </p>
 
-Este patrón separa la aplicación en capas con responsabilidades bien definidas:
+**Clean Architecture** separa la aplicación en capas independientes:
 
-- **Entidades (Modelo)**: Reglas de negocio puras y estructuras de datos.
-- **Casos de Uso**: Lógica de aplicación que coordina entidades y reglas.
-- **Interfaces**: Adaptadores entre la lógica y sistemas externos (UI, APIs, BD).
-- **Infraestructura**: Detalles concretos como frameworks, librerías y drivers.
+- **Entidades (Modelo)**: Reglas de negocio y estructuras de datos puras.
+- **Casos de Uso**: Lógica de aplicación que orquesta entidades y reglas.
+- **Interfaces**: Adaptadores entre lógica y sistemas externos (UI, APIs, BD).
+- **Infraestructura**: Frameworks, librerías y detalles técnicos.
 
 ➡️ **Las capas internas nunca dependen de las externas.**
 
-### ✅ Beneficios
+**Ventajas:**
 
 - Bajo acoplamiento, alta cohesión.
 - Independencia de frameworks.
 - Fácil de testear, mantener y escalar.
-- Permite cambiar UI o DB sin afectar lógica central.
-- Ideal para proyectos que deben crecer a largo plazo.
+- Permite cambiar UI o DB sin afectar la lógica central.
 
 &nbsp;
 
@@ -43,25 +43,25 @@ Este patrón separa la aplicación en capas con responsabilidades bien definidas
   <img src="./assets/component-based-architecture.png" alt="Arquitectura Componentes Angular" style="max-width: 100%; width: 600px;" />
 </p>
 
-La UI se construye con componentes reutilizables, encapsulados en módulos:
+La UI se construye con componentes standalone reutilizables, agrupados en módulos funcionales:
 
 - Cada **componente** gestiona su HTML, lógica y estilos.
-- Los **módulos** agrupan componentes relacionados por dominio.
+- Los **módulos** agrupan componentes por dominio de negocio.
 - Favorece la escalabilidad y reutilización del código.
 
-**Ejemplo de organización:**
+**Ejemplo:**
 
 - `LoginFormComponent` → `AuthModule`
 - `RestaurantCardComponent` → `RestaurantsModule`
 - `DailyMenuListComponent` → `MenusModule`
 
-### ✅ Beneficios
+**Ventajas:**
 
 - Alta reutilización de código.
 - Separación de responsabilidades visuales.
 - Facilita pruebas unitarias de UI.
-- Compatible con principios de diseño atómico (Atomic Design).
-- Aumenta mantenibilidad y flexibilidad para nuevos features.
+- Compatible con Atomic Design.
+- Mantenibilidad y flexibilidad para nuevos features.
 
 &nbsp;
 
@@ -71,7 +71,7 @@ La UI se construye con componentes reutilizables, encapsulados en módulos:
   <img src="./assets/lazy-loading-architecture.png" alt="Lazy Loading" style="max-width: 100%; width: 600px;" />
 </p>
 
-Cada módulo funcional se carga **dinámicamente** solo cuando se necesita, usando rutas como esta:
+Cada módulo funcional se carga **dinámicamente** solo cuando se necesita, usando rutas como:
 
 ```ts
 const routes: Routes = [
@@ -86,9 +86,7 @@ const routes: Routes = [
 ];
 ```
 
-Esto optimiza el rendimiento inicial de la aplicación, especialmente en móviles.
-
-### ✅ Beneficios
+**Ventajas:**
 
 - Mejora el tiempo de carga inicial.
 - Evita cargar código innecesario.
@@ -98,45 +96,46 @@ Esto optimiza el rendimiento inicial de la aplicación, especialmente en móvile
 
 &nbsp;
 
-## 🏗️ Implementación en Angular 18
+## 🏗️ Implementación en Angular 18 y SSR
 
-El proyecto **Almuerza Perú** utiliza las características más modernas de Angular 18:
+El proyecto utiliza las características más modernas de Angular 18:
 
 ### ⚡ Standalone Components
 
-- **Configuración moderna**: Todos los componentes son standalone, eliminando la necesidad de módulos tradicionales
-- **ApplicationConfig**: Uso de configuración basada en providers en lugar de módulos
-- **Tree Shaking mejorado**: Mejor optimización de bundles por eliminación de código innecesario
+- Todos los componentes son standalone, sin módulos tradicionales.
+- Uso de `ApplicationConfig` y providers modernos.
+- Tree Shaking mejorado y bundles optimizados.
 
 ### 🚀 Routing Moderno
 
-- **loadComponent**: Para componentes individuales standalone
-- **loadChildren**: Para módulos de features con lazy loading
-- **Optimización automática**: Mejor performance con carga diferida
+- `loadComponent` para componentes individuales.
+- `loadChildren` para módulos funcionales con lazy loading.
+- Optimización automática de rutas y carga diferida.
 
 ### 🔧 Server-Side Rendering (SSR)
 
-- **Angular Universal**: Configurado con `@angular/ssr` 18.2.20
-- **Express Server**: Servidor Node.js para SSR completo
-- **Hydration**: Cliente-servidor sincronizado sin errores
-- **PWA Ready**: Progressive Web App con manifest configurado
-- **Desarrollo**: SSR deshabilitado para mejor experiencia de desarrollo
-- **Producción**: SSR completo habilitado para SEO y performance
+- Angular Universal con `@angular/ssr` 18.2.20.
+- Servidor Express para SSR completo.
+- Hydration: sincronización cliente-servidor sin errores.
+- PWA lista para producción.
+- SSR deshabilitado en desarrollo para mejor DX, habilitado en producción para SEO y performance.
 
 ### 🧪 Testing Moderno
 
-- **Jest**: Framework de testing 29.7.0 con configuración Angular
-- **Playwright**: Testing E2E 1.54.1 para pruebas end-to-end
-- **19 test suites, 84 tests**: Todos pasando correctamente
+- Jest 29.7.0 para unit tests con preset Angular.
+- Playwright 1.54.1 para pruebas E2E.
+- 21 test suites, 146 tests, cobertura 99.64%.
 
-### 📊 Resultados de Performance
+### 📊 Performance
 
-- **Bundle inicial**: 232.69 kB optimizado
-- **Zone.js**: 90.20 kB incluido correctamente
-- **Build exitoso**: Tanto desarrollo como producción
-- **Servidores disponibles**:
+- Bundle inicial: 232.69 kB optimizado.
+- Zone.js: 90.20 kB incluido correctamente.
+- Build exitoso en desarrollo y producción.
+- Servidores disponibles:
   - Desarrollo: `http://localhost:4200`
-  - SSR Producción: `http://localhost:4000` (solo en build de producción)
+  - SSR Producción: `http://localhost:4000`
+
+&nbsp;
 
 ## Conclusión
 
@@ -145,10 +144,12 @@ Gracias a esta arquitectura, la aplicación es:
 - 🧩 Modular
 - 🚀 Rápida
 - 🔧 Fácil de mantener
-- 📦 Escalable a nuevas funcionalidades
-- ✅ Sólida para equipos grandes o colaboraciones a largo plazo
-- ⚡ **Angular 18 nativo**: Usando las últimas características del framework
+- 📦 Escalable
+- ✅ Sólida para equipos grandes
+- ⚡ Angular 18 nativo y moderno
 
-## &nbsp;
+&nbsp;
 
-© Almuerza Perú – 2025
+---
+
+© 2025 Almuerzos Perú
