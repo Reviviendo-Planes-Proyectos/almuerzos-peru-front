@@ -4,16 +4,21 @@
 ![TypeScript](https://img.shields.io/badge/typescript-5.5.4-blue?logo=typescript)
 ![Jest](https://img.shields.io/badge/jest-29.7.0-green?logo=jest)
 ![Playwright](https://img.shields.io/badge/playwright-1.54.1-green?logo=playwright)
+![Biome](https://img.shields.io/badge/biome-2.0.6-yellow?logo=biome)
+![Prettier](https://img.shields.io/badge/prettier-3.6.2-ff69b4?logo=prettier)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Build](https://img.shields.io/badge/build-passing-brightgreen)
 
-**Almuerza Perú** es una **Progressive Web App (PWA)** diseñada para revolucionar la forma en que los restaurantes locales muestran sus menús diarios, brindando visibilidad en línea a pequeños restaurantes y mejorando la experiencia de los comensales al permitirles encontrar rápidamente opciones de menú cerca de su ubicación.
+**Almuerza Perú** es una **Progressive Web App (PWA)** moderna y responsiva, diseñada para digitalizar y visibilizar los menús diarios de restaurantes locales, permitiendo a los comensales encontrar opciones cercanas de manera rápida y atractiva. El proyecto está construido con Angular 18, SSR, PWA, Tailwind CSS, testing integral y las mejores prácticas de calidad de código.
+
+&nbsp;
 
 ## 📚 Tabla de Contenidos
 
 - [📱 Tipo de Aplicación](./docs/pwa-application.md)
 - [🧱 Arquitectura del Proyecto](./docs/architecture.md)
 - [🛠️ Tecnologías Utilizadas](./docs/technologies-used.md)
+- [📁 Estructura del Proyecto](./docs/project-structure.md)
 - [💻 Requisitos del Sistema](#requisitos-del-sistema)
 - [🚀 Instalación y Ejecución](#instalacion-y-ejecucion)
 - [🔧 Comandos Útiles](#comandos-utiles)
@@ -21,7 +26,7 @@
 - [✅ Estado del Proyecto](#estado-del-proyecto)
 - [📚 Documentación Adicional](#documentacion-adicional)
 
----
+&nbsp;
 
 ## 💻 Requisitos del Sistema
 
@@ -42,6 +47,8 @@ Antes de instalar y ejecutar el proyecto, asegúrate de tener instalado en tu co
 | **Angular CLI**        | ^18.2.13       | Herramientas de línea de comandos para Angular |
 | **Visual Studio Code** | Última versión | Editor de código recomendado con extensiones   |
 | **Chrome DevTools**    | Última versión | Para debugging y desarrollo PWA                |
+| **Biome**              | ^2.0.6         | Linter y formateador de código                 |
+| **Prettier**           | ^3.6.2         | Formateador adicional para HTML y SCSS         |
 
 ### 🔍 Verificar Instalación
 
@@ -50,7 +57,7 @@ Ejecuta estos comandos para verificar que tienes las versiones correctas:
 ```bash
 # Verificar Node.js
 node --version
-# Resultado esperado: v18.10.0 o superior
+# Resultado esperado: v18.18.0 o superior
 
 # Verificar npm
 npm --version
@@ -77,7 +84,7 @@ Si no tienes Node.js instalado:
    sudo apt-get install -y nodejs
    ```
 
----
+&nbsp;
 
 ## 🚀 Instalación y Ejecución
 
@@ -108,9 +115,12 @@ El proyecto incluye configuración preestablecida para:
 
 - **Tailwind CSS**: Framework CSS utilitario con tema personalizado
 - **Jest**: Testing framework con configuración Angular optimizada
+- **Playwright**: Testing end-to-end moderno
 - **Biome**: Linter y formateador de código
 - **Prettier**: Formateador adicional para HTML y SCSS
 - **Husky**: Git hooks para calidad de código
+- **lint-staged**: Linting automático en archivos staged
+- **Commitlint**: Validación de mensajes de commit
 - **PWA**: Service worker y manifest configurados
 - **SSR**: Server-Side Rendering con Express
 
@@ -119,8 +129,7 @@ El proyecto incluye configuración preestablecida para:
 📍 **Desarrollo**: La aplicación estará disponible en [http://localhost:4200](http://localhost:4200)
 📍 **SSR Producción**: Servidor con Server-Side Rendering en [http://localhost:4000](http://localhost:4000) (después de ejecutar `npm run build:serve:ssr`)
 
-
----
+&nbsp;
 
 ## 🔧 Comandos Útiles
 
@@ -158,9 +167,9 @@ El proyecto incluye configuración preestablecida para:
 | `npm run format`          | Aplica Biome y Prettier para formatear archivos              |
 | `npm run format:biome`    | Formatea archivos con Biome                                  |
 | `npm run format:prettier` | Formatea archivos HTML y SCSS con Prettier                   |
-| `npm run prepare`         | Inicializa Husky para configurar los Git Hooks               |
+| `npm run prepare`         | Inicializa Husky y configura los Git Hooks                   |
 
----
+&nbsp;
 
 ## 📦 Dependencias
 
@@ -179,6 +188,7 @@ El proyecto incluye configuración preestablecida para:
 | `@angular/ssr`            | ^18.2.20 | Server-Side Rendering                   |
 | `rxjs`                    | ~7.8.1   | Programación reactiva con observables   |
 | `express`                 | ^4.21.2  | Servidor web para SSR                   |
+| `tailwindcss`             | ^3.4.17  | Framework CSS utilitario                |
 | `tailwindcss-animate`     | ^1.0.7   | Animaciones para Tailwind CSS           |
 | `tslib`                   | ^2.6.3   | Librería de utilidades de TypeScript    |
 | `zone.js`                 | ~0.14.10 | Detección de cambios para Angular       |
@@ -209,7 +219,7 @@ El proyecto incluye configuración preestablecida para:
 | `postcss`                         | ^8.4.38  | Herramienta de transformación CSS  |
 | `ts-jest`                         | ^29.1.1  | Transformador TypeScript para Jest |
 
----
+&nbsp;
 
 ## ✅ Estado del Proyecto
 
@@ -234,33 +244,36 @@ El proyecto incluye configuración preestablecida para:
 - 🔄 **SSR Completo**: Server-Side Rendering con Express
 - 🧪 **Testing Completo**: Jest + Playwright para testing integral
 - 🎯 **TypeScript**: Tipado fuerte con versión 5.5.4
+- 🧹 **Biome + Prettier**: Linting y formateo automático
+- 🔒 **Husky + lint-staged + Commitlint**: Calidad y seguridad en los commits
 
 ### 📱 Funcionalidades PWA
 
 - **Instalación Automática**: Prompt de instalación aparece automáticamente después de 3 segundos
-- **Diseño Premium**: Gradiente 3D animado con efectos glassmorphism y animaciones bouncy
-- **Instalación Inteligente**: Respeta las preferencias del usuario (no molesta por 24 horas si se rechaza)
-- **Botón Flotante**: FAB con animación de flotación y efectos hover espectaculares
+- **Diseño Premium**: Gradiente 3D animado, glassmorphism y animaciones bouncy
+- **Instalación Inteligente**: Respeta preferencias del usuario (no molesta por 24h si se rechaza)
+- **Botón Flotante**: FAB animado y con efectos hover
 - **Service Worker**: Cacheo offline y actualizaciones automáticas
 - **Manifest Configurado**: Iconos, tema y configuración de instalación completa
 - **Compatibilidad SSR**: Funciona correctamente con Server-Side Rendering
-- **Responsive Premium**: Se adapta perfectamente a móviles con animaciones fluidas
-- **Efectos Visuales**: Shimmer effects, pulse animations y gradientes fluidos
+- **Responsive Premium**: Adaptación total a móviles con animaciones fluidas
+- **Efectos Visuales**: Shimmer, pulse, gradientes fluidos y animaciones premium
 
-## &nbsp;
+&nbsp;
 
 ## 📚 Documentación Adicional
 
 ### 📖 Guías de Arquitectura y Desarrollo
 
-- [📐 Arquitectura del Proyecto](docs/architecture.md) - Estructura y patrones de diseño (Clean Architecture + Component-Based)
-- [⚙️ Tecnologías Utilizadas](docs/technologies-used.md) - Stack tecnológico detallado y justificación
-- [📁 Estructura del Proyecto](docs/project-structure.md) - Organización de archivos y carpetas
+- [📐 Arquitectura del Proyecto](docs/architecture.md) — Estructura y patrones de diseño (Clean Architecture + Component-Based)
+- [⚙️ Tecnologías Utilizadas](docs/technologies-used.md) — Stack tecnológico detallado y justificación
+- [📁 Estructura del Proyecto](docs/project-structure.md) — Organización de archivos y carpetas
+- [🧹 Calidad de Código y Automatización](docs/code-quality.md) — Uso de Husky, Commitlint, lint-staged, Biome y Prettier
 
 ### 📱 Configuración PWA
 
-- [📱 Configuración PWA](docs/pwa-application.md) - Progressive Web App setup y características
-- [🔄 PWA Prompt Automático](docs/pwa-auto-prompt.md) - Configuración y personalización del prompt de instalación
+- [📱 Configuración PWA](docs/pwa-application.md) — Progressive Web App setup y características
+- [🔄 PWA Prompt Automático](docs/pwa-auto-prompt.md) — Configuración y personalización del prompt de instalación
 
 ### 🚀 Características Principales
 
@@ -271,6 +284,8 @@ El proyecto incluye configuración preestablecida para:
 - **Code Quality**: Biome + Prettier + Husky para calidad de código
 - **Tailwind CSS**: Framework CSS utilitario con configuración personalizada
 
+&nbsp;
+
 ---
 
-© 2025 Almuerza Perú
+© 2025 Almuerzos Perú

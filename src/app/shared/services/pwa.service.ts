@@ -2,6 +2,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, isDevMode, PLATFORM_ID } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 import { BehaviorSubject } from 'rxjs';
+import { LoggerService } from './logger.service';
 
 interface BeforeInstallPromptEvent extends Event {
   prompt(): Promise<void>;
@@ -27,7 +28,8 @@ export class PwaService {
 
   constructor(
     @Inject(PLATFORM_ID) platformId: object,
-    private readonly swUpdate: SwUpdate
+    private readonly swUpdate: SwUpdate,
+    public readonly logger: LoggerService
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
     this.initPwa();
@@ -90,7 +92,7 @@ export class PwaService {
       this.promptEvent = null;
       return result.outcome === 'accepted';
     } catch {
-      console.warn('Instalación PWA fallida');
+      this.logger.warn('PWA installation failed');
       return false;
     }
   }
@@ -101,7 +103,7 @@ export class PwaService {
         await this.swUpdate.activateUpdate();
         window.location.reload();
       } catch {
-        console.warn('Error al actualizar la app');
+        this.logger.warn('App update failed');
       }
     }
   }
