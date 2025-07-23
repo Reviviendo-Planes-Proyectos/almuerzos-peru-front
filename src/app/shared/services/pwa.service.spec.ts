@@ -2,6 +2,7 @@ import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { SwUpdate, VersionEvent } from '@angular/service-worker';
 import { BehaviorSubject, Subject } from 'rxjs';
+import { LoggerService } from './logger.service';
 import { PwaService } from './pwa.service';
 
 jest.mock('@angular/core', () => ({
@@ -20,6 +21,11 @@ describe('PwaService', () => {
   let versionUpdatesSubject: Subject<VersionEvent>;
 
   beforeEach(() => {
+    const loggerMock = {
+      warn: jest.fn(),
+      log: jest.fn()
+    };
+
     jest.clearAllMocks();
 
     Object.defineProperty(window, 'matchMedia', {
@@ -73,7 +79,8 @@ describe('PwaService', () => {
       providers: [
         PwaService,
         { provide: PLATFORM_ID, useValue: 'browser' },
-        { provide: SwUpdate, useValue: swUpdateMock }
+        { provide: SwUpdate, useValue: swUpdateMock },
+        { provide: LoggerService, useValue: loggerMock }
       ]
     });
 
@@ -155,32 +162,33 @@ describe('PwaService', () => {
   });
 
   it('debe manejar errores en updateApp', async () => {
-    const consoleSpy = jest.spyOn(console, 'warn').mockImplementation();
+    const loggerSpy = jest.spyOn(service.logger, 'warn');
     (swUpdateMock.activateUpdate as jest.Mock).mockRejectedValue(new Error('Update failed'));
 
     const updateAvailable = (service as unknown as { updateAvailable: BehaviorSubject<boolean> }).updateAvailable;
     updateAvailable.next(true);
 
     await service.updateApp();
-    expect(consoleSpy).toHaveBeenCalledWith('Error al actualizar la app');
-
-    consoleSpy.mockRestore();
+    expect(loggerSpy).toHaveBeenCalledWith('App update failed');
+    loggerSpy.mockRestore();
   });
 
   it('debe manejar errores en installApp', async () => {
-    const consoleSpy = jest.spyOn(console, 'warn').mockImplementation();
+    const loggerSpy = jest.spyOn(service.logger, 'warn');
     const promptMock = jest.fn().mockRejectedValue(new Error('Install failed'));
 
-    (service as unknown as { promptEvent: BeforeInstallPromptEvent }).promptEvent = {
-      prompt: promptMock,
-      userChoice: Promise.resolve({ outcome: 'accepted' as const })
-    } as unknown as BeforeInstallPromptEvent;
+    Object.defineProperty(service, 'promptEvent', {
+      value: {
+        prompt: promptMock,
+        userChoice: Promise.resolve({ outcome: 'accepted' as const })
+      },
+      writable: true
+    });
 
     const installed = await service.installApp();
     expect(installed).toBe(false);
-    expect(consoleSpy).toHaveBeenCalledWith('Instalación PWA fallida');
-
-    consoleSpy.mockRestore();
+    expect(loggerSpy).toHaveBeenCalledWith('PWA installation failed');
+    loggerSpy.mockRestore();
   });
 
   it('debe detectar app standalone usando matchMedia', () => {
