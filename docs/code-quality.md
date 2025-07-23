@@ -59,10 +59,30 @@ module.exports = {
 
 **Principales reglas personalizadas:**
 
-- El encabezado (header) y el cuerpo (body) no pueden exceder 200 caracteres.
+
+### Tipos de commit permitidos (`type-enum`)
+
+| Tipo      | Descripción                                              |
+|-----------|---------------------------------------------------------|
+| feat      | Nueva funcionalidad                                     |
+| fix       | Corrección de errores                                   |
+| docs      | Solo documentación                                      |
+| style     | Cambios de estilo (formato, espacios, etc.)             |
+| refactor  | Refactorización sin cambios de funcionalidad            |
+| perf      | Mejoras de rendimiento                                  |
+| test      | Agregar o corregir pruebas                              |
+| build     | Cambios en el sistema de build o dependencias           |
+| ci        | Configuración de integración continua                   |
+| chore     | Tareas menores sin impacto en el código o tests         |
+| revert    | Revertir un commit anterior                             |
+
+**Principales reglas personalizadas:**
+
+- El encabezado (header) no puede exceder **58 caracteres** (tipo: descripción, máx 50 para la descripción).
+- El cuerpo (body) no puede exceder 200 caracteres por línea.
 - El subject (descripción corta) debe estar en inglés, en infinitivo, capitalizado y sin punto final.
 - El subject acepta varios estilos de capitalización: sentence, start, pascal, upper o lower case.
-- El tipo (type) debe estar en minúsculas y no puede estar vacío.
+- El tipo (type) debe estar en minúsculas, no puede estar vacío y debe ser uno de los permitidos.
 - El subject no puede estar vacío.
 
 **Ejemplos de mensajes válidos:**
@@ -76,6 +96,7 @@ module.exports = {
 - `feat(auth): agregar login social` _(en español, rechazado)_
 - `fix(menu): fixing display bug.` _(gerundio y punto final, rechazado)_
 - `Feat(auth): Add social login` _(type en mayúscula, rechazado)_
+- `feat: This is a very long subject that exceeds the fifty character limit for the description` _(header demasiado largo)_
 
 Si el mensaje no cumple con estas reglas, el commit será rechazado y se mostrará un error explicativo.
 
