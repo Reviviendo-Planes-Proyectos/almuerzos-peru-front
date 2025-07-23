@@ -3,7 +3,7 @@ module.exports = {
   rules: {
     'body-leading-blank': [2, 'always'],
     'body-max-line-length': [2, 'always', 200],
-    'header-max-length': [2, 'always', 58], // tipo: descripción (máx 50 caracteres de descripción)
+    'header-max-length': [2, 'always', 200], // tipo: descripción (máx 200 caracteres de descripción)
     'subject-case': [
       2,
       'always',
