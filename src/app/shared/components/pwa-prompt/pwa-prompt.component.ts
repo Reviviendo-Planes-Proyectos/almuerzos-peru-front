@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { PwaService } from '../../services/pwa.service';
+import { PwaService } from '../../services/pwa/pwa.service';
 
 @Component({
   selector: 'app-pwa-prompt',
