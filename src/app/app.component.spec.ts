@@ -1,60 +1,81 @@
 import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { SwPush, SwUpdate } from '@angular/service-worker';
-import { EMPTY } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { AppComponent } from './app.component';
+import { ApiService } from './shared/services/api/api.service';
+import { LoggerService } from './shared/services/logger/logger.service';
 
-// Mock de SwUpdate
 const mockSwUpdate = {
   isEnabled: false,
-  available: EMPTY,
-  activated: EMPTY,
-  versionUpdates: EMPTY,
-  unrecoverable: EMPTY,
   checkForUpdate: () => Promise.resolve(),
   activateUpdate: () => Promise.resolve()
 };
 
-// Mock de SwPush
 const mockSwPush = {
   isEnabled: false,
-  messages: EMPTY,
-  notificationClicks: EMPTY,
-  subscription: EMPTY,
   requestSubscription: () => Promise.resolve(),
   unsubscribe: () => Promise.resolve()
 };
 
-// Mock de MatSnackBar
-const mockMatSnackBar = {
-  open: jest.fn(),
-  dismiss: jest.fn(),
-  ngOnDestroy: jest.fn()
-};
-
 describe('AppComponent', () => {
+  let mockApiService: jest.Mocked<ApiService>;
+  let mockLogger: Partial<LoggerService>;
+
   beforeEach(async () => {
+    mockApiService = {
+      getHealth: jest.fn()
+    } as unknown as jest.Mocked<ApiService>;
+
+    mockLogger = {
+      log: jest.fn(),
+      info: jest.fn(),
+      warn: jest.fn(),
+      error: jest.fn(),
+      debug: jest.fn()
+    };
+
     await TestBed.configureTestingModule({
       imports: [AppComponent],
       providers: [
+        { provide: ApiService, useValue: mockApiService },
+        { provide: LoggerService, useValue: mockLogger as LoggerService },
         { provide: SwUpdate, useValue: mockSwUpdate },
         { provide: SwPush, useValue: mockSwPush },
-        { provide: MatSnackBar, useValue: mockMatSnackBar },
         { provide: PLATFORM_ID, useValue: 'browser' }
       ]
     }).compileComponents();
+
+    jest.clearAllMocks();
   });
 
-  it('should create the app', () => {
+  it('debe crear el componente', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
   });
 
-  it(`should have the 'almuerzos-peru-front' title`, () => {
+  it('debe asignar respuesta del API y registrar info', () => {
+    const mockResponse = { status: 'ok' };
+    mockApiService.getHealth.mockReturnValue(of(mockResponse));
+
     const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('almuerzos-peru-front');
+    expect(app.apiStatus).toEqual(mockResponse);
+    expect(mockLogger.info).toHaveBeenCalledWith('API status fetched successfully:', mockResponse);
+  });
+
+  it('debe manejar error del API y registrar error', () => {
+    const mockError = { status: 0, message: 'Error en API' };
+    mockApiService.getHealth.mockReturnValue(throwError(() => mockError));
+
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+
+    const app = fixture.componentInstance;
+    expect(app.apiStatus).toEqual(mockError);
+    expect(mockLogger.error).toHaveBeenCalledWith('Error fetching API status:', mockError);
   });
 });

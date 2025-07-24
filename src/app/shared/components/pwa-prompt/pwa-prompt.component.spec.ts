@@ -3,7 +3,7 @@ import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testin
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { BehaviorSubject, of } from 'rxjs';
-import { PwaService } from '../../services/pwa.service';
+import { PwaService } from '../../services/pwa/pwa.service';
 import { PwaPromptComponent } from './pwa-prompt.component';
 
 describe('PwaPromptComponent', () => {
