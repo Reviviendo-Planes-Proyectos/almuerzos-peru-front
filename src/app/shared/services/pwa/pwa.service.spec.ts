@@ -2,7 +2,7 @@ import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { SwUpdate, VersionEvent } from '@angular/service-worker';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { LoggerService } from './logger.service';
+import { LoggerService } from '../logger/logger.service';
 import { PwaService } from './pwa.service';
 
 jest.mock('@angular/core', () => ({

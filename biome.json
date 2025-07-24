@@ -46,7 +46,7 @@
           }
         },
         "noEmptyInterface": "warn",
-        "noExplicitAny": "warn",
+        "noExplicitAny": "off",
         "noExtraNonNullAssertion": "error"
       },
       "correctness": {

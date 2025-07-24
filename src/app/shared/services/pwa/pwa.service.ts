@@ -2,7 +2,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, isDevMode, PLATFORM_ID } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 import { BehaviorSubject } from 'rxjs';
-import { LoggerService } from './logger.service';
+import { LoggerService } from '../logger/logger.service';
 
 interface BeforeInstallPromptEvent extends Event {
   prompt(): Promise<void>;
