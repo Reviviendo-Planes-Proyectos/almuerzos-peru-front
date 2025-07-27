@@ -56,7 +56,11 @@ body {
 }
 
 * {
-  border-color: hsl(var(--border));
+  user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
 .font-quicksand {
