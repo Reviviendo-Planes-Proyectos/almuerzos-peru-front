@@ -18,26 +18,9 @@ Se utiliza un flujo de trabajo basado en **GitFlow** para organizar el desarroll
 
 &nbsp;
 
-## Pull Requests
+## Pull Request
 
-Este repositorio utiliza **plantillas personalizadas** para Pull Requests (PRs). Por favor, selecciona la plantilla correspondiente según el tipo de cambio que estás realizando.
-
-### ✨ Plantillas disponibles
-
-- 🐛 Bugfix
-- ✨ Feature
-- 🚑 Hotfix
-
-### 🧩 ¿Cómo usarlas?
-
-1. Al abrir un nuevo Pull Request, selecciona el archivo markdown adecuado según el cambio (`bugfix`, `feature`, `hotfix`).
-2. Copia su contenido.
-3. Pega el contenido en el campo de descripción del PR.
-4. Completa los campos antes de enviar el PR.
-
-> 🔒 Esto asegura consistencia, claridad y facilidad para la revisión del equipo.
-
-**Recomendación:** No más de 50 commits por cada pull request.
+Este proyecto utiliza un template único para **todos los pull requests**, con el objetivo de estandarizar la colaboración, facilitar la revisión y mantener calidad técnica. [Template PR](./../.github/pull_request_template.md)
 
 &nbsp;
 
