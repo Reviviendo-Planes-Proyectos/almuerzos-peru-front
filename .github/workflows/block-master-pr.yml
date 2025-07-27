@@ -1,0 +1,28 @@
+name: 🔒 Block PRs to master
+
+on:
+  pull_request:
+    types: [opened, edited, reopened]
+
+jobs:
+  block-master:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cancel PR to master
+        if: github.base_ref == 'master'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.pulls.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number,
+              state: 'closed'
+            });
+
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              body: '🚫 Este PR fue cerrado automáticamente porque apunta a `master`. Por favor, dirige tu PR a la rama `develop` siguiendo el flujo de trabajo establecido.'
+            });

@@ -12,7 +12,8 @@ Marca lo que aplicó en este PR:
 
 - [ ] Cambios probados localmente
 - [ ] Se mantuvo la funcionalidad existente
-- [ ] Tests agregados o modificados (si aplica)
-- [ ] Documentación actualizada (si aplica)
+- [ ] Tests agregados o modificados _(si aplica)_
+- [ ] Documentación actualizada _(si aplica)_
 - [ ] Pasa `lint`, `format` y `test`
 - [ ] Rama actualizada con `develop`
+- [ ] Revisores asignados
