@@ -19,6 +19,7 @@
 - [🧱 Arquitectura del Proyecto](./docs/architecture.md)
 - [🛠️ Tecnologías Utilizadas](./docs/technologies-used.md)
 - [📁 Estructura del Proyecto](./docs/project-structure.md)
+- [🚦 GitFlow, Branches, Pull Request y Changelog](./docs/gitflow-changelog.md)
 - [💻 Requisitos del Sistema](#requisitos-del-sistema)
 - [🚀 Instalación y Ejecución](#instalacion-y-ejecucion)
 - [🔧 Comandos Útiles](#comandos-utiles)
