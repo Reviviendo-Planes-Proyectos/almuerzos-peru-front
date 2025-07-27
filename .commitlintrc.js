@@ -16,19 +16,7 @@ module.exports = {
     'type-enum': [
       2,
       'always',
-      [
-        'feat',      // nueva funcionalidad
-        'fix',       // corrección de errores
-        'docs',      // solo documentación
-        'style',     // cambios de estilo (formato, espacios)
-        'refactor',  // refactorización de código sin cambios de funcionalidad
-        'perf',      // mejoras de rendimiento
-        'test',      // agregar o corregir pruebas
-        'build',     // cambios en el sistema de build o dependencias
-        'ci',        // configuración de integración continua
-        'chore',     // tareas menores sin impacto en el código o tests
-        'revert'     // revertir un commit anterior
-      ]
+      ['feat', 'fix', 'docs', 'style', 'refactor', 'perf', 'test', 'build', 'ci', 'chore', 'revert']
     ]
   }
 };
