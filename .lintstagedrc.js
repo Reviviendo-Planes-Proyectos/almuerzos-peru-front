@@ -1,5 +1,6 @@
 module.exports = {
   '**/*.ts': ['biome format --write', 'biome lint'],
+
   '**/*.{js,jsx,tsx}': (files) =>
     files
       .filter(
@@ -11,17 +12,19 @@ module.exports = {
           !f.includes('jest.config')
       )
       .map((f) => `biome lint ${f}`),
+
   '**/*.json': (files) =>
     files
       .filter(
         (f) =>
           !f.includes('package-lock.json') &&
           !f.includes('tsconfig') &&
-          f.includes('package.json') || 
-          f.includes('angular.json') ||
-          f.includes('biome.json')
+          (f.includes('package.json') ||
+            f.includes('angular.json') ||
+            f.includes('biome.json'))
       )
       .map((f) => `biome format --write ${f}`),
+
   '**/*.md': ['prettier --write'],
   '**/*.{html,scss}': (files) => files.map((f) => `prettier --write ${f}`),
 };
