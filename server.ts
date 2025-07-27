@@ -17,9 +17,6 @@ export function app(): express.Express {
   server.set('view engine', 'html');
   server.set('views', browserDistFolder);
 
-  // Example Express Rest API endpoints
-  // server.get('/api/**', (req, res) => { });
-
   // Serve PWA files with correct headers
   server.get('/ngsw-worker.js', express.static(browserDistFolder, {
     maxAge: 0, // No cache para el service worker
