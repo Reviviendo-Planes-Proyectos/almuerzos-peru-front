@@ -63,6 +63,7 @@ body {
   -ms-user-select: none;
 }
 
+// Estilos de fuentes
 .font-quicksand {
   font-family: var(--font-primary) !important;
 }
@@ -71,27 +72,7 @@ body {
   font-family: var(--font-secondary) !important;
 }
 
-.gradient-text {
-  background: linear-gradient(135deg, #fdc94c 0%, #f59e0b 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.floating-animation {
-  animation: float 6s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%,
-  100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
-}
-
+// Estilos de scrollbar personalizado
 @layer base {
   ::-webkit-scrollbar {
     width: 12px;
