@@ -1,26 +1,12 @@
-# 📦 Pull Request
-
-Selecciona el tipo de cambio e informa con claridad los detalles.
-
-- [ ] ✨ Feature – Nueva funcionalidad
-- [ ] 🐛 Bugfix – Corrección de error
-- [ ] 🚑 Hotfix – Solución crítica urgente
-- [ ] 🧼 Refactor – Mejora sin cambiar comportamiento
-- [ ] 📝 Docs – Cambios de documentación
-- [ ] 🎨 Style – Formato, estilos, sin cambios de lógica
-- [ ] ✅ Test – Agregado o ajuste de pruebas
-- [ ] 🔧 Config – Cambios de build, herramientas, etc.
-
-&nbsp;
+# Descripción general
 
 ## 🧠 Descripción
 
-_¿Qué se hizo? ¿Qué problema resuelve o qué funcionalidad aporta?_
-Agrega capturas, GIFs o pasos si ayuda a entender.
+**Resumen:** _Describe el objetivo del PR, el problema que resuelve o la funcionalidad que implementa._
 
-&nbsp;
+Incluye capturas, videos o pasos de prueba que ayuden a revisar el cambio.
 
-## 📋 Checklist
+## 🚦 Checklist de calidad
 
 Marca lo que aplicó en este PR:
 
@@ -30,9 +16,3 @@ Marca lo que aplicó en este PR:
 - [ ] Documentación actualizada (si aplica)
 - [ ] Pasa `lint`, `format` y `test`
 - [ ] Rama actualizada con `develop`
-
-&nbsp;
-
-## 🔍 Notas adicionales
-
-_Comentarios importantes, decisiones técnicas, advertencias o cualquier información relevante para el equipo de revisión._
