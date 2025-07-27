@@ -2,7 +2,7 @@ import { ApplicationConfig, isDevMode, provideZoneChangeDetection } from '@angul
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
 import { provideServiceWorker } from '@angular/service-worker';
-import { routes } from './app.routes';
+import { routes } from '../routes/app.routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [
