@@ -84,14 +84,21 @@ Herramientas para mantener el código limpio, consistente y profesional:
 - **Hydration**: Cliente-servidor sincronizado
 - **Build optimizado**: 553.14 kB inicial
 
-### 📱 Progressive Web App
+### � Templates de Pull Request
+
+El proyecto incluye templates para Pull Request y bugfix, ubicados en `.github/PULL_REQUEST_TEMPLATE/`. Estos aseguran que cada contribución cumpla con los estándares de calidad, pruebas y documentación:
+
+- **General Pull Request**: Checklist de calidad, pruebas, formato, idioma y documentación.
+- **Bugfix**: Checklist específico para corrección de errores, validación y test.
+
+> Los templates se aplican automáticamente al crear un PR en GitHub y ayudan a mantener la calidad y trazabilidad del proyecto.
+
+### �📱 Progressive Web App
 
 - **Service Worker**: Funcionalidad offline
 - **Manifest**: Configurado para instalación
 - **Material Theme**: Indigo-Pink precompilado
 - **Performance**: Optimizado para dispositivos móviles
-
-&nbsp;
 
 ---
 
