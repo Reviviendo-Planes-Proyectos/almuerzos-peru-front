@@ -1,0 +1,34 @@
+name: 🔒 Bloquear PRs a master desde ramas no autorizadas
+
+on:
+  pull_request:
+    types: [opened, edited, reopened]
+
+jobs:
+  validate-pr:
+    if: github.base_ref == 'master' && github.head_ref != 'develop'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      issues: write
+
+    steps:
+      - name: ❌ Cerrar PR no permitido a master
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prNumber = context.payload.pull_request.number;
+
+            await github.rest.pulls.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: prNumber,
+              state: 'closed'
+            });
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+              body: '🚫 Este PR fue cerrado automáticamente porque intenta hacer merge a `master` desde una rama distinta a `develop`. Por favor, realiza el PR desde `develop` siguiendo el flujo de trabajo del equipo.'
+            });

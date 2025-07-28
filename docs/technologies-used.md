@@ -91,8 +91,6 @@ Herramientas para mantener el código limpio, consistente y profesional:
 - **Material Theme**: Indigo-Pink precompilado
 - **Performance**: Optimizado para dispositivos móviles
 
-&nbsp;
-
 ---
 
 © 2025 Almuerzos Perú
