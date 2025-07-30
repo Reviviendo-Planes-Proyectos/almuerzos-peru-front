@@ -3,7 +3,7 @@
 El proyecto **Almuerza Perú** integra tecnologías modernas para frontend, calidad, pruebas y automatización. Todo el stack está alineado con Angular 18, SSR, PWA y las mejores prácticas de desarrollo.
 
 <p align="center">
-  <img src="https://angular.io/assets/images/logos/angular/angular.svg" alt="Angular Logo" width="80" />
+  <img src="https://angular.io/assets/images/logos/angular/angular.svg" alt="Logo Angular" width="80" />
 </p>
 
 &nbsp;
