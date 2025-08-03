@@ -1,5 +1,18 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+branch_name=$(git symbolic-ref --short HEAD)
+
+if ! echo "$branch_name" | grep -Eq '^(feature|fix|hotfix|release|chore|test)/[a-z0-9._-]+$'; then
+  echo "❌ Nombre de rama inválido: $branch_name"
+  echo "➡️  Usa el formato: tipo/nombre-ejemplo (ej: feature/login-page)"
+  exit 1
+fi
+
+echo "✅ Nombre de rama válido: $branch_name"
+
 npm run format
-npx lint-staged
+npm run precommit
 npm run lint:fix
 npm run test:ci
 npm run test:e2e
