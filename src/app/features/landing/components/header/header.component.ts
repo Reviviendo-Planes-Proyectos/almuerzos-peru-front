@@ -7,13 +7,22 @@ import { MaterialModule } from '../../../../shared/material.module';
   selector: 'app-header',
   standalone: true,
   imports: [MaterialModule, RouterModule, ButtonComponent],
-  templateUrl: './header.component.html'
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
   constructor(public router: Router) {}
 
+  get isLegalPage(): boolean {
+    return this.router.url.includes('/legal/');
+  }
+
   navigateToLogin() {
     this.router.navigate(['auth/login']);
+  }
+
+  navigateToHome() {
+    this.router.navigate(['/']);
   }
 
   scrollToSection(sectionId: string) {

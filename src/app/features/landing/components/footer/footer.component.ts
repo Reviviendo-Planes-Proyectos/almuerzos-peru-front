@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { MaterialModule } from '../../../../shared/material.module';
 
 @Component({
@@ -8,4 +9,14 @@ import { MaterialModule } from '../../../../shared/material.module';
   standalone: true,
   imports: [MaterialModule]
 })
-export class FooterComponent {}
+export class FooterComponent {
+  constructor(private router: Router) {}
+
+  navigateToTerminos(): void {
+    this.router.navigate(['/legal/terminos-condiciones']);
+  }
+
+  navigateToPoliticaPrivacidad(): void {
+    this.router.navigate(['/legal/politica-privacidad']);
+  }
+}

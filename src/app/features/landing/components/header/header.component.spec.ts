@@ -68,4 +68,14 @@ describe('HeaderComponent', () => {
     getElementByIdSpy.mockRestore();
     scrollToSpy.mockRestore();
   });
+
+  it('should return true for isLegalPage when on legal route', () => {
+    Object.defineProperty(router, 'url', { value: '/legal/terminos-condiciones' });
+    expect(component.isLegalPage).toBe(true);
+  });
+
+  it('should return false for isLegalPage when not on legal route', () => {
+    Object.defineProperty(router, 'url', { value: '/home' });
+    expect(component.isLegalPage).toBe(false);
+  });
 });
