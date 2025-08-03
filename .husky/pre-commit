@@ -1,6 +1,3 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
 branch_name=$(git symbolic-ref --short HEAD)
 
 if ! echo "$branch_name" | grep -Eq '^(feature|fix|hotfix|release|chore|test)/[a-z0-9._-]+$'; then
