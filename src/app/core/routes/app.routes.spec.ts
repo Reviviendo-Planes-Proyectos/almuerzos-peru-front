@@ -4,12 +4,12 @@ describe('app.routes', () => {
   it('should define redirect route correctly', () => {
     const redirectRoute = routes.find((route) => route.path === '');
     expect(redirectRoute).toBeTruthy();
-    expect(redirectRoute?.redirectTo).toBe('home');
+    expect(redirectRoute?.redirectTo).toBe('home-restaurant');
     expect(redirectRoute?.pathMatch).toBe('full');
   });
 
   it('should define home route with loadComponent correctly', async () => {
-    const homeRoute = routes.find((route) => route.path === 'home');
+    const homeRoute = routes.find((route) => route.path === 'home-restaurant');
     expect(homeRoute).toBeTruthy();
     expect(homeRoute?.loadComponent).toBeDefined();
 

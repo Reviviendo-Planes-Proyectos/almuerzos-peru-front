@@ -75,7 +75,7 @@ describe('HeaderComponent', () => {
   });
 
   it('should return false for isLegalPage when not on legal route', () => {
-    Object.defineProperty(router, 'url', { value: '/home' });
+    Object.defineProperty(router, 'url', { value: '/home-restaurant' });
     expect(component.isLegalPage).toBe(false);
   });
 });

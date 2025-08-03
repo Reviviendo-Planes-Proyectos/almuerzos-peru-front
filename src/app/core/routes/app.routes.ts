@@ -3,11 +3,11 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'home-restaurant',
     pathMatch: 'full'
   },
   {
-    path: 'home',
+    path: 'home-restaurant',
     loadComponent: () => import('../../features/landing/landing.component').then((m) => m.LandingComponent)
   },
   {
