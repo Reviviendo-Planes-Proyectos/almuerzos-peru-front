@@ -5,7 +5,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
 import { SwPush, SwUpdate } from '@angular/service-worker';
 import { EMPTY, of } from 'rxjs';
-import { MaterialModule } from '../../shared/material.module';
+import { MaterialModule } from '../../../shared/material.module';
 import { LandingComponent } from './landing.component';
 
 // Mock de SwUpdate

@@ -1,6 +1,6 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ButtonComponent } from '../../../../shared/components/button/button.component';
-import { MaterialModule } from '../../../../shared/material.module';
+import { ButtonComponent } from '../../../../../shared/components/button/button.component';
+import { MaterialModule } from '../../../../../shared/material.module';
 
 @Component({
   selector: 'app-hero-section',

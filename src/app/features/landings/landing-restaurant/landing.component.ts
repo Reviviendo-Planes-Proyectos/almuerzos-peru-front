@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MaterialModule } from '../../shared/material.module';
+import { MaterialModule } from '../../../shared/material.module';
 import { BenefitsSectionComponent } from './components/benefits-section/benefits-section.component';
 import { FinalCtaSectionComponent } from './components/final-cta-section/final-cta-section.component';
 import { FooterComponent } from './components/footer/footer.component';

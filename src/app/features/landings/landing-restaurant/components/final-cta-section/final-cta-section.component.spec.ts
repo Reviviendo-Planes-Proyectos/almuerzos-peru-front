@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { ButtonComponent } from '../../../../shared/components/button/button.component';
-import { MaterialModule } from '../../../../shared/material.module';
+import { ButtonComponent } from '../../../../../shared/components/button/button.component';
+import { MaterialModule } from '../../../../../shared/material.module';
 import { FinalCtaSectionComponent } from './final-cta-section.component';
 
 describe('FinalCtaSectionComponent', () => {

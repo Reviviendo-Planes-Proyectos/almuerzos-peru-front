@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { ButtonComponent } from '../../../../shared/components/button/button.component';
-import { MaterialModule } from '../../../../shared/material.module';
+import { ButtonComponent } from '../../../../../shared/components/button/button.component';
+import { MaterialModule } from '../../../../../shared/material.module';
 
 @Component({
   selector: 'app-header',

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { MaterialModule } from '../../../../shared/material.module';
-import { HeaderComponent } from '../../../landing/components/header/header.component';
+import { HeaderComponent } from '../../../landings/landing-restaurant/components/header/header.component';
 
 @Component({
   selector: 'app-terminos-condiciones',

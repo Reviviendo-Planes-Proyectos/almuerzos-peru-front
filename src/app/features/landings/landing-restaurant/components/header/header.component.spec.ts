@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter, Router } from '@angular/router';
-import { routes } from '../../../../core/routes/app.routes';
+import { routes } from '../../../../../core/routes/app.routes';
 import { HeaderComponent } from './header.component';
 
 describe('HeaderComponent', () => {
@@ -75,7 +75,7 @@ describe('HeaderComponent', () => {
   });
 
   it('should return false for isLegalPage when not on legal route', () => {
-    Object.defineProperty(router, 'url', { value: '/home-restaurant' });
+    Object.defineProperty(router, 'url', { value: '/home' });
     expect(component.isLegalPage).toBe(false);
   });
 });

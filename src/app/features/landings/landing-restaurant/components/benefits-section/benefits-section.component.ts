@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MaterialModule } from '../../../../shared/material.module';
+import { MaterialModule } from '../../../../../shared/material.module';
 
 enum Audience {
   RESTAURANT = 'Para Restaurantes',

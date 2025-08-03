@@ -8,7 +8,8 @@ export const routes: Routes = [
   },
   {
     path: 'home-restaurant',
-    loadComponent: () => import('../../features/landing/landing.component').then((m) => m.LandingComponent)
+    loadComponent: () =>
+      import('../../features/landings/landing-restaurant/landing.component').then((m) => m.LandingComponent)
   },
   {
     path: 'auth',
