@@ -15,7 +15,7 @@
     "test:ci": "jest --runInBand --coverage --watchAll=false --silent --passWithNoTests",
     "lint": "biome check ./src",
     "lint:fix": "biome check --fix ./src",
-    "lint-staged": "lint-staged",
+    "precommit": "lint-staged",
     "format": "npm run format:biome && npm run format:prettier",
     "format:biome": "biome format --write ./src",
     "format:prettier": "prettier --write \"src/**/*.{html,scss}\"",

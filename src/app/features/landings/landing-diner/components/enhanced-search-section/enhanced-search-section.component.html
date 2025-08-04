@@ -1,0 +1,200 @@
+<!-- Enhanced Search Section -->
+<section id="search-section" class="search-section relative py-12 md:py-20 overflow-hidden">
+  <!-- Background decoration -->
+  <div class="bg-decoration bg-decoration-1 absolute rounded-full blur-3xl opacity-70"></div>
+  <div class="bg-decoration bg-decoration-2 absolute rounded-full blur-3xl opacity-70"></div>
+
+  <div class="container relative z-10 max-w-6xl mx-auto px-4 md:px-8">
+    <div class="section-header text-center mb-8 md:mb-12">
+      <h2 class="section-title text-3xl md:text-4xl lg:text-6xl font-black text-gray-800 mb-4 leading-tight">
+        ¿Dónde estás
+        <span class="title-highlight bg-gradient-to-r from-orange-600 to-yellow-500 bg-clip-text text-transparent">
+          almorzando hoy?
+        </span>
+      </h2>
+      <p
+        class="section-description text-base md:text-xl lg:text-2xl text-gray-500 max-w-4xl mx-auto font-medium leading-relaxed"
+      >
+        Descubre los mejores menús cerca de ti en tiempo real
+      </p>
+    </div>
+
+    <div
+      class="content-grid grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start lg:items-center max-w-7xl mx-auto"
+    >
+      <!-- Enhanced Search Card with Guide Interface -->
+      <mat-card
+        class="search-card shadow-xl border-0 rounded-3xl md:rounded-2xl bg-white/98 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
+      >
+        <mat-card-content class="search-card-content p-6 md:p-8 lg:p-10">
+          <!-- Step-by-step guide interface -->
+          <div class="guide-header flex items-center gap-4 mb-6 md:mb-4">
+            <div
+              class="guide-icon w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-orange-600 to-yellow-500 rounded-xl flex items-center justify-center shadow-lg flex-shrink-0"
+            >
+              <mat-icon class="icon text-white text-2xl md:text-3xl">location_on</mat-icon>
+            </div>
+            <div class="guide-info flex-1 min-w-0">
+              <h3 class="guide-title font-black text-xl md:text-2xl text-gray-800 m-0">Encuentra tu almuerzo</h3>
+              <p class="guide-subtitle text-gray-500 font-medium m-0 text-sm md:text-base">Restaurantes cerca de ti</p>
+            </div>
+          </div>
+
+          <!-- Guide Steps -->
+          <div class="input-container relative mb-4 md:mb-6">
+            <mat-icon class="input-icon absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 z-10 text-xl">
+              search
+            </mat-icon>
+            <mat-form-field appearance="outline" class="location-input w-full">
+              <mat-label>¿En qué distrito trabajas?</mat-label>
+              <input
+                matInput
+                [(ngModel)]="searchLocation"
+                (keyup.enter)="onLocationSearch()"
+                (input)="onInputChange($event)"
+                placeholder="Ej: San Isidro, Miraflores, Surco, La Molina..."
+                autocomplete="off"
+              />
+              <mat-icon matSuffix>place</mat-icon>
+              <mat-hint>Ingresa tu distrito para encontrar restaurantes cercanos</mat-hint>
+            </mat-form-field>
+
+            <!-- Sugerencias rápidas -->
+            <div class="quick-suggestions mt-4 animate-fade-in-up" *ngIf="showSuggestions">
+              <div class="suggestion-title text-xs md:text-sm font-semibold text-gray-500 mb-2">
+                Distritos populares:
+              </div>
+              <div class="suggestions-list flex flex-wrap gap-2">
+                <button
+                  *ngFor="let district of popularDistricts"
+                  mat-button
+                  class="suggestion-chip min-w-0 h-8 md:h-10 px-3 md:px-4 rounded-2xl text-xs md:text-sm font-medium border border-gray-200 bg-white text-gray-700 transition-all duration-200 hover:border-yellow-500 hover:bg-yellow-50 hover:text-amber-800 hover:-translate-y-0.5"
+                  (click)="selectDistrict(district)"
+                >
+                  <mat-icon class="text-sm md:text-base mr-1">place</mat-icon>
+                  {{ district }}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="action-buttons grid grid-cols-2 md:grid-cols-2 gap-2 md:gap-3 mb-4 md:mb-6">
+            <button
+              mat-stroked-button
+              disabled
+              class="action-btn location-btn rounded-xl md:rounded-2xl bg-gray-50 font-semibold text-xs md:text-sm py-3 px-4 md:px-6 border-2 border-gray-200 backdrop-blur-sm transition-all duration-300 shadow-sm md:shadow-md flex items-center justify-center gap-2 text-gray-400 cursor-not-allowed"
+            >
+              <mat-icon class="btn-icon text-base md:text-xl">my_location</mat-icon>
+              Mi ubicación
+            </button>
+            <button
+              mat-stroked-button
+              disabled
+              class="action-btn nearby-btn rounded-xl md:rounded-2xl bg-gray-50 font-semibold text-xs md:text-sm py-3 px-4 md:px-6 border-2 border-gray-200 backdrop-blur-sm transition-all duration-300 shadow-sm md:shadow-md flex items-center justify-center gap-2 text-gray-400 cursor-not-allowed"
+            >
+              <mat-icon class="btn-icon text-base md:text-xl">schedule</mat-icon>
+              Cerca de mí
+            </button>
+          </div>
+
+          <button
+            mat-raised-button
+            class="search-button w-full bg-gradient-to-r from-yellow-500 via-orange-500 to-orange-600 text-white py-4 md:py-6 px-8 text-base md:text-lg font-bold rounded-2xl border-0 cursor-pointer mt-4 md:mt-6 relative overflow-hidden transition-all duration-300 shadow-lg md:shadow-xl hover:-translate-y-1 flex items-center justify-center gap-2"
+            (click)="searchRestaurants()"
+          >
+            Buscar restaurantes
+            <mat-icon class="btn-icon text-lg md:text-xl transition-transform duration-300">arrow_forward</mat-icon>
+          </button>
+
+          <!-- Enhanced stats -->
+          <div class="stats-section grid grid-cols-3 gap-2 md:gap-4 mt-6 md:mt-8 pt-4 md:pt-6 border-t border-gray-200">
+            <div *ngFor="let stat of stats" class="stat-item text-center">
+              <div class="stat-value text-xl md:text-3xl font-black leading-none">{{ stat.value }}</div>
+              <div class="stat-label text-xs md:text-sm text-gray-500 font-medium mt-1">{{ stat.label }}</div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Visual Content -->
+      <div class="visual-content flex flex-col gap-4 md:gap-6">
+        <div class="main-image relative">
+          <img
+            src="/img/landing/lima-office-lunch.png"
+            alt="Trabajadores almorzando en Lima"
+            class="main-img w-full rounded-2xl shadow-lg md:shadow-xl"
+          />
+          <div
+            class="live-indicator absolute -bottom-2 -right-2 md:-bottom-4 md:-right-4 bg-white rounded-lg md:rounded-xl p-2 md:p-4 shadow-sm md:shadow-lg flex items-center gap-2"
+          >
+            <div class="live-dot w-3 h-3 md:w-4 md:h-4 bg-emerald-500 rounded-full animate-pulse"></div>
+            <span class="live-text text-xs md:text-sm font-bold text-gray-800">En vivo</span>
+          </div>
+
+          <!-- Enhanced floating notification -->
+          <div
+            class="floating-notification absolute top-2 left-2 md:top-4 md:left-4 bg-white/95 backdrop-blur-sm rounded-lg md:rounded-xl p-3 md:p-4 shadow-lg border border-yellow-200 max-w-[calc(100%-1rem)] md:max-w-[calc(100%-2rem)]"
+          >
+            <div class="notification-content flex items-center gap-2 md:gap-3">
+              <img
+                src="/img/landing/restaurant-logo.png"
+                alt="Restaurant"
+                class="restaurant-logo w-8 h-8 md:w-10 md:h-10 rounded-full flex-shrink-0"
+              />
+              <div class="notification-text">
+                <div class="notification-title text-xs md:text-sm font-bold text-gray-800 leading-tight">
+                  Nuevo menú disponible
+                </div>
+                <div class="notification-subtitle text-xs md:text-sm text-gray-500">Restaurante El Dorado</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="food-gallery grid grid-cols-2 gap-3 md:gap-4">
+          <div class="food-item relative">
+            <img
+              src="/img/landing/peruvian-ceviche.png"
+              alt="Ceviche peruano"
+              class="food-img w-full h-24 md:h-32 object-cover rounded-xl shadow-sm md:shadow-lg transition-transform duration-300 hover:scale-105"
+            />
+            <div
+              class="price-badge absolute top-2 right-2 bg-orange-600 text-white text-xs md:text-sm py-1 px-2 md:px-3 rounded-full font-bold shadow-sm md:shadow-md"
+            >
+              S/ 18
+            </div>
+          </div>
+          <div class="food-item relative">
+            <img
+              src="/img/landing/lomo-saltado.png"
+              alt="Lomo saltado"
+              class="food-img w-full h-24 md:h-32 object-cover rounded-xl shadow-sm md:shadow-lg transition-transform duration-300 hover:scale-105"
+            />
+            <div
+              class="price-badge absolute top-2 right-2 bg-orange-600 text-white text-xs md:text-sm py-1 px-2 md:px-3 rounded-full font-bold shadow-sm md:shadow-md"
+            >
+              S/ 22
+            </div>
+          </div>
+        </div>
+
+        <!-- Enhanced animated section -->
+        <div class="delivery-section relative">
+          <img
+            src="/img/landing/animated-lima-delivery.png"
+            alt="Delivery en Lima"
+            class="delivery-img w-full h-32 md:h-40 object-cover rounded-xl shadow-sm md:shadow-lg"
+          />
+          <div
+            class="delivery-overlay absolute inset-0 bg-gradient-to-br from-orange-600/30 to-yellow-500/30 rounded-xl"
+          ></div>
+          <div
+            class="delivery-badge absolute bottom-2 left-2 md:bottom-4 md:left-4 bg-white/95 backdrop-blur-sm rounded-lg md:rounded-xl p-2 md:p-3 shadow-sm md:shadow-lg"
+          >
+            <div class="delivery-text text-xs md:text-sm font-bold text-gray-800">🏍️ Delivery disponible</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
