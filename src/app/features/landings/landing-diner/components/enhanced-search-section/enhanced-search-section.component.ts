@@ -32,7 +32,8 @@ export class EnhancedSearchSectionComponent {
 
   onLocationSearch() {
     if (this.searchLocation.trim()) {
-      // Implementar lógica de búsqueda
+      // Aquí se implementaría la navegación o llamada a API
+      // Por ejemplo: this.router.navigate(['/restaurants'], { queryParams: { district: this.searchLocation } });
     }
   }
 
@@ -47,26 +48,13 @@ export class EnhancedSearchSectionComponent {
     this.onLocationSearch();
   }
 
-  useCurrentLocation() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (_position) => {
-          // Implementar lógica con coordenadas
-        },
-        (_error) => {
-          // Handle error
-        }
-      );
-    }
-  }
-
-  searchNearby() {
-    // Implementar búsqueda de restaurantes cercanos
-  }
-
   searchRestaurants() {
     if (this.searchLocation.trim()) {
       // Implementar búsqueda general de restaurantes
+      // Por ejemplo: this.router.navigate(['/search'], { queryParams: { location: this.searchLocation } });
+    } else {
+      // Mostrar sugerencias si no hay distrito seleccionado
+      this.showSuggestions = true;
     }
   }
 }

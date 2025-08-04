@@ -79,43 +79,17 @@ describe('EnhancedSearchSectionComponent', () => {
     expect(() => component.onLocationSearch()).not.toThrow();
   });
 
-  it('should handle useCurrentLocation when geolocation is available', () => {
-    const mockGeolocation = {
-      getCurrentPosition: jest.fn()
-    };
-
-    Object.defineProperty(navigator, 'geolocation', {
-      value: mockGeolocation,
-      configurable: true
-    });
-
-    component.useCurrentLocation();
-
-    expect(mockGeolocation.getCurrentPosition).toHaveBeenCalled();
-  });
-
-  it('should handle useCurrentLocation when geolocation is not available', () => {
-    Object.defineProperty(navigator, 'geolocation', {
-      value: undefined,
-      configurable: true
-    });
-
-    expect(() => component.useCurrentLocation()).not.toThrow();
-  });
-
-  it('should handle searchNearby', () => {
-    expect(() => component.searchNearby()).not.toThrow();
-  });
-
-  it('should handle searchRestaurants', () => {
+  it('should handle searchRestaurants with valid location', () => {
     component.searchLocation = 'San Isidro';
 
     expect(() => component.searchRestaurants()).not.toThrow();
   });
 
-  it('should not search when searchLocation is empty', () => {
+  it('should show suggestions when searchRestaurants is called with empty location', () => {
     component.searchLocation = '';
 
-    expect(() => component.searchRestaurants()).not.toThrow();
+    component.searchRestaurants();
+
+    expect(component.showSuggestions).toBe(true);
   });
 });
