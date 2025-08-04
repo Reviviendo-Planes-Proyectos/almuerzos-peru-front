@@ -1,6 +1,7 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { of } from 'rxjs';
 import { PoliticaPrivacidadComponent } from './politica-privacidad.component';
 
 describe('PoliticaPrivacidadComponent', () => {
@@ -14,9 +15,18 @@ describe('PoliticaPrivacidadComponent', () => {
       url: '/legal/politica-privacidad'
     };
 
+    const activatedRouteSpy = {
+      params: of({}),
+      queryParams: of({}),
+      snapshot: { params: {}, queryParams: {} }
+    };
+
     await TestBed.configureTestingModule({
       imports: [PoliticaPrivacidadComponent],
-      providers: [{ provide: Router, useValue: routerSpy }],
+      providers: [
+        { provide: Router, useValue: routerSpy },
+        { provide: ActivatedRoute, useValue: activatedRouteSpy }
+      ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 

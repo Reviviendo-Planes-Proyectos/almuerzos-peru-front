@@ -27,7 +27,7 @@ describe('HeaderComponent', () => {
   it('should render the header content', () => {
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('header')).toBeTruthy();
-    expect(compiled.querySelector('.gradient-text')?.textContent).toContain('ALMUERZOSPERÚ');
+    expect(compiled.textContent).toContain('ALMUERZOSPERÚ');
   });
 
   it('should navigate to login when navigateToLogin is called', async () => {
@@ -77,5 +77,52 @@ describe('HeaderComponent', () => {
   it('should return false for isLegalPage when not on legal route', () => {
     Object.defineProperty(router, 'url', { value: '/home' });
     expect(component.isLegalPage).toBe(false);
+  });
+
+  it('should return true for isDinerLanding when on diner route', () => {
+    Object.defineProperty(router, 'url', { value: '/home-diner' });
+    expect(component.isDinerLanding).toBe(true);
+  });
+
+  it('should return false for isDinerLanding when not on diner route', () => {
+    Object.defineProperty(router, 'url', { value: '/home-restaurant' });
+    expect(component.isDinerLanding).toBe(false);
+  });
+
+  it('should return true for isRestaurantLanding when on restaurant route', () => {
+    Object.defineProperty(router, 'url', { value: '/home-restaurant' });
+    expect(component.isRestaurantLanding).toBe(true);
+  });
+
+  it('should return false for isRestaurantLanding when not on restaurant route', () => {
+    Object.defineProperty(router, 'url', { value: '/home-diner' });
+    expect(component.isRestaurantLanding).toBe(false);
+  });
+
+  it('should navigate to diner home when currently on diner landing', async () => {
+    Object.defineProperty(router, 'url', { value: '/home-diner' });
+    const navigateSpy = jest.spyOn(router, 'navigate');
+
+    component.navigateToHome();
+
+    expect(navigateSpy).toHaveBeenCalledWith(['/home-diner']);
+  });
+
+  it('should navigate to restaurant home when currently on restaurant landing', async () => {
+    Object.defineProperty(router, 'url', { value: '/home-restaurant' });
+    const navigateSpy = jest.spyOn(router, 'navigate');
+
+    component.navigateToHome();
+
+    expect(navigateSpy).toHaveBeenCalledWith(['/home-restaurant']);
+  });
+
+  it('should navigate to restaurant home by default when on other routes', async () => {
+    Object.defineProperty(router, 'url', { value: '/legal/terms' });
+    const navigateSpy = jest.spyOn(router, 'navigate');
+
+    component.navigateToHome();
+
+    expect(navigateSpy).toHaveBeenCalledWith(['/home-restaurant']);
   });
 });

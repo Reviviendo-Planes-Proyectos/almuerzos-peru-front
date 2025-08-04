@@ -1,4 +1,12 @@
-<header class="fixed top-0 w-full bg-white/95 backdrop-blur-sm border-b border-gray-100 z-50">
+<header
+  class="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+  [ngClass]="{
+    'bg-white/10 backdrop-blur-md border-b border-white/20': isDinerLanding && !isScrolled,
+    'bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-200':
+      (isDinerLanding && isScrolled) || isRestaurantLanding || isLegalPage,
+    'bg-white/95 backdrop-blur-sm border-b border-gray-100': isRestaurantLanding || isLegalPage
+  }"
+>
   <div class="container mx-auto px-4 py-4 flex justify-between items-center">
     <!-- Logo -->
     <div
@@ -7,49 +15,101 @@
       (keydown.enter)="navigateToHome()"
     >
       <div
-        class="w-10 h-10 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-lg flex items-center justify-center"
+        class="w-10 h-10 rounded-lg flex items-center justify-center"
+        [ngClass]="{
+          'bg-gradient-to-r from-orange-500 to-yellow-500': isDinerLanding,
+          'bg-gradient-to-br from-yellow-400 to-orange-500': isRestaurantLanding || isLegalPage
+        }"
       >
         <mat-icon class="text-white">restaurant_menu</mat-icon>
       </div>
-      <span class="text-2xl font-bold gradient-text hidden sm:inline">ALMUERZOSPERÚ</span>
+      <span
+        class="text-2xl font-bold hidden sm:inline transition-colors duration-300"
+        [ngClass]="{
+          'text-white drop-shadow-lg': isDinerLanding && !isScrolled,
+          'gradient-text': (isDinerLanding && isScrolled) || isRestaurantLanding || isLegalPage
+        }"
+      >
+        ALMUERZOSPERÚ
+      </span>
     </div>
 
     <!-- Navegación -->
     <nav class="hidden lg:flex space-x-8" *ngIf="!isLegalPage">
-      <a
-        (click)="scrollToSection('beneficios')"
-        class="text-gray-600 hover:text-yellow-500 transition-colors cursor-pointer"
-      >
-        Beneficios
-      </a>
-      <a
-        (click)="scrollToSection('como-funciona')"
-        class="text-gray-600 hover:text-yellow-500 transition-colors cursor-pointer"
-      >
-        Cómo Funciona
-      </a>
-      <a
-        (click)="scrollToSection('precios')"
-        class="text-gray-600 hover:text-yellow-500 transition-colors cursor-pointer"
-      >
-        Precios
-      </a>
-      <a
-        (click)="scrollToSection('testimonios')"
-        class="text-gray-600 hover:text-yellow-500 transition-colors cursor-pointer"
-      >
-        Testimonios
-      </a>
+      <!-- Navegación para Diner Landing -->
+      <ng-container *ngIf="isDinerLanding">
+        <a
+          (click)="scrollToSection('como-funciona')"
+          class="cursor-pointer transition-colors duration-300 hover:opacity-80"
+          [ngClass]="{
+            'text-white/90 hover:text-yellow-400 drop-shadow': !isScrolled,
+            'text-gray-700 hover:text-orange-500': isScrolled
+          }"
+        >
+          Cómo funciona
+        </a>
+        <a
+          (click)="scrollToSection('caracteristicas')"
+          class="cursor-pointer transition-colors duration-300 hover:opacity-80"
+          [ngClass]="{
+            'text-white/90 hover:text-yellow-400 drop-shadow': !isScrolled,
+            'text-gray-700 hover:text-orange-500': isScrolled
+          }"
+        >
+          Características
+        </a>
+        <a
+          (click)="scrollToSection('testimonios')"
+          class="cursor-pointer transition-colors duration-300 hover:opacity-80"
+          [ngClass]="{
+            'text-white/90 hover:text-yellow-400 drop-shadow': !isScrolled,
+            'text-gray-700 hover:text-orange-500': isScrolled
+          }"
+        >
+          Testimonios
+        </a>
+      </ng-container>
+
+      <!-- Navegación para Restaurant Landing -->
+      <ng-container *ngIf="isRestaurantLanding">
+        <a
+          (click)="scrollToSection('beneficios')"
+          class="text-gray-600 hover:text-yellow-500 transition-colors cursor-pointer"
+        >
+          Beneficios
+        </a>
+        <a
+          (click)="scrollToSection('como-funciona')"
+          class="text-gray-600 hover:text-yellow-500 transition-colors cursor-pointer"
+        >
+          Cómo Funciona
+        </a>
+        <a
+          (click)="scrollToSection('precios')"
+          class="text-gray-600 hover:text-yellow-500 transition-colors cursor-pointer"
+        >
+          Precios
+        </a>
+        <a
+          (click)="scrollToSection('testimonios')"
+          class="text-gray-600 hover:text-yellow-500 transition-colors cursor-pointer"
+        >
+          Testimonios
+        </a>
+      </ng-container>
     </nav>
 
-    <app-button
-      [label]="'Iniciar Sesión'"
-      [isActive]="true"
-      [isOutline]="false"
-      class="w-auto px-0"
-      iconName="login"
-      (click)="navigateToLogin()"
-      (keydown.enter)="navigateToLogin()"
-    ></app-button>
+    <!-- Botón de Iniciar Sesión para ambos landings -->
+    <ng-container *ngIf="isDinerLanding || isRestaurantLanding || isLegalPage">
+      <app-button
+        [label]="'Iniciar Sesión'"
+        [isActive]="true"
+        [isOutline]="false"
+        class="w-auto px-0"
+        iconName="login"
+        (click)="navigateToLogin()"
+        (keydown.enter)="navigateToLogin()"
+      ></app-button>
+    </ng-container>
   </div>
 </header>

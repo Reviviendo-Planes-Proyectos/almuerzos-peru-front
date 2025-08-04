@@ -1,0 +1,27 @@
+<!-- How it works Section -->
+<section id="como-funciona" class="how-it-works-section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">¿Cómo funciona?</h2>
+      <p class="section-description">En solo 3 pasos encuentras tu almuerzo perfecto</p>
+    </div>
+
+    <div class="steps-grid">
+      <div
+        *ngFor="let step of steps; let i = index; let last = last"
+        class="step-item"
+        [style.animation-delay]="i * 300 + 'ms'"
+      >
+        <div class="step-image-container">
+          <img [src]="step.image" [alt]="step.title" class="step-image" />
+          <div class="step-overlay"></div>
+          <div class="step-number">{{ step.step }}</div>
+        </div>
+        <h3 class="step-title">{{ step.title }}</h3>
+        <p class="step-description">{{ step.description }}</p>
+
+        <mat-icon *ngIf="!last" class="step-arrow">arrow_forward</mat-icon>
+      </div>
+    </div>
+  </div>
+</section>

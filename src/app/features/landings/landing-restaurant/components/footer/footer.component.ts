@@ -12,11 +12,28 @@ import { MaterialModule } from '../../../../../shared/material.module';
 export class FooterComponent {
   constructor(private router: Router) {}
 
+  private getCurrentLandingType(): string {
+    const currentUrl = this.router.url;
+    if (currentUrl.includes('/home-diner')) {
+      return 'diner';
+    }
+    if (currentUrl.includes('/home-restaurant')) {
+      return 'restaurant';
+    }
+    return 'restaurant';
+  }
+
   navigateToTerminos(): void {
-    this.router.navigate(['/legal/terminos-condiciones']);
+    const fromLanding = this.getCurrentLandingType();
+    this.router.navigate(['/legal/terminos-condiciones'], {
+      queryParams: { from: fromLanding }
+    });
   }
 
   navigateToPoliticaPrivacidad(): void {
-    this.router.navigate(['/legal/politica-privacidad']);
+    const fromLanding = this.getCurrentLandingType();
+    this.router.navigate(['/legal/politica-privacidad'], {
+      queryParams: { from: fromLanding }
+    });
   }
 }

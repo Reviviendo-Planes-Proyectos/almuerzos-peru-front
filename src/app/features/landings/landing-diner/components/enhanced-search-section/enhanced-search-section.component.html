@@ -1,0 +1,134 @@
+<!-- Enhanced Search Section -->
+<section id="search-section" class="search-section">
+  <!-- Background decoration -->
+  <div class="bg-decoration bg-decoration-1"></div>
+  <div class="bg-decoration bg-decoration-2"></div>
+
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">
+        ¿Dónde estás
+        <span class="title-highlight">almorzando hoy?</span>
+      </h2>
+      <p class="section-description">Descubre los mejores menús cerca de ti en tiempo real</p>
+    </div>
+
+    <div class="content-grid">
+      <!-- Enhanced Search Card with Guide Interface -->
+      <mat-card class="search-card">
+        <mat-card-content class="search-card-content">
+          <!-- Step-by-step guide interface -->
+          <div class="guide-header">
+            <div class="guide-icon">
+              <mat-icon class="icon">location_on</mat-icon>
+            </div>
+            <div class="guide-info">
+              <h3 class="guide-title">Encuentra tu almuerzo</h3>
+              <p class="guide-subtitle">Restaurantes cerca de ti</p>
+            </div>
+          </div>
+
+          <!-- Guide Steps -->
+          <div class="input-container">
+            <mat-icon class="input-icon">search</mat-icon>
+            <mat-form-field appearance="outline" class="location-input">
+              <mat-label>¿En qué distrito trabajas?</mat-label>
+              <input
+                matInput
+                [(ngModel)]="searchLocation"
+                (keyup.enter)="onLocationSearch()"
+                (input)="onInputChange($event)"
+                placeholder="Ej: San Isidro, Miraflores, Surco, La Molina..."
+                autocomplete="off"
+              />
+              <mat-icon matSuffix>place</mat-icon>
+              <mat-hint>Ingresa tu distrito para encontrar restaurantes cercanos</mat-hint>
+            </mat-form-field>
+
+            <!-- Sugerencias rápidas -->
+            <div class="quick-suggestions" *ngIf="showSuggestions">
+              <div class="suggestion-title">Distritos populares:</div>
+              <div class="suggestions-list">
+                <button
+                  *ngFor="let district of popularDistricts"
+                  mat-button
+                  class="suggestion-chip"
+                  (click)="selectDistrict(district)"
+                >
+                  <mat-icon>place</mat-icon>
+                  {{ district }}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="action-buttons">
+            <button mat-stroked-button class="action-btn location-btn" (click)="useCurrentLocation()">
+              <mat-icon class="btn-icon">my_location</mat-icon>
+              Mi ubicación
+            </button>
+            <button mat-stroked-button class="action-btn nearby-btn" (click)="searchNearby()">
+              <mat-icon class="btn-icon">schedule</mat-icon>
+              Cerca de mí
+            </button>
+          </div>
+
+          <button mat-raised-button class="search-button" (click)="searchRestaurants()">
+            Buscar restaurantes
+            <mat-icon class="btn-icon">arrow_forward</mat-icon>
+          </button>
+
+          <!-- Enhanced stats -->
+          <div class="stats-section">
+            <div *ngFor="let stat of stats" class="stat-item">
+              <div class="stat-value">{{ stat.value }}</div>
+              <div class="stat-label">{{ stat.label }}</div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Visual Content -->
+      <div class="visual-content">
+        <div class="main-image">
+          <img src="/img/landing/lima-office-lunch.png" alt="Trabajadores almorzando en Lima" class="main-img" />
+          <div class="live-indicator">
+            <div class="live-dot"></div>
+            <span class="live-text">En vivo</span>
+          </div>
+
+          <!-- Enhanced floating notification -->
+          <div class="floating-notification">
+            <div class="notification-content">
+              <img src="/img/landing/restaurant-logo.png" alt="Restaurant" class="restaurant-logo" />
+              <div class="notification-text">
+                <div class="notification-title">Nuevo menú disponible</div>
+                <div class="notification-subtitle">Restaurante El Dorado</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="food-gallery">
+          <div class="food-item">
+            <img src="/img/landing/peruvian-ceviche.png" alt="Ceviche peruano" class="food-img" />
+            <div class="price-badge">S/ 18</div>
+          </div>
+          <div class="food-item">
+            <img src="/img/landing/lomo-saltado.png" alt="Lomo saltado" class="food-img" />
+            <div class="price-badge">S/ 22</div>
+          </div>
+        </div>
+
+        <!-- Enhanced animated section -->
+        <div class="delivery-section">
+          <img src="/img/landing/animated-lima-delivery.png" alt="Delivery en Lima" class="delivery-img" />
+          <div class="delivery-overlay"></div>
+          <div class="delivery-badge">
+            <div class="delivery-text">🏍️ Delivery disponible</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

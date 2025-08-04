@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { Component, HostListener } from '@angular/core';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ButtonComponent } from '../../../../../shared/components/button/button.component';
 import { MaterialModule } from '../../../../../shared/material.module';
 
@@ -11,10 +11,28 @@ import { MaterialModule } from '../../../../../shared/material.module';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-  constructor(public router: Router) {}
+  isScrolled = false;
+
+  constructor(
+    public router: Router,
+    private route: ActivatedRoute
+  ) {}
+
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    this.isScrolled = window.scrollY > 50;
+  }
 
   get isLegalPage(): boolean {
     return this.router.url.includes('/legal/');
+  }
+
+  get isDinerLanding(): boolean {
+    return this.router.url.includes('/home-diner');
+  }
+
+  get isRestaurantLanding(): boolean {
+    return this.router.url.includes('/home-restaurant');
   }
 
   navigateToLogin() {
@@ -22,7 +40,20 @@ export class HeaderComponent {
   }
 
   navigateToHome() {
-    this.router.navigate(['/']);
+    if (this.isDinerLanding) {
+      this.router.navigate(['/home-diner']);
+    } else if (this.isRestaurantLanding) {
+      this.router.navigate(['/home-restaurant']);
+    } else if (this.isLegalPage) {
+      const { from: fromParam } = this.route.snapshot.queryParams;
+      if (fromParam === 'diner') {
+        this.router.navigate(['/home-diner']);
+      } else {
+        this.router.navigate(['/home-restaurant']);
+      }
+    } else {
+      this.router.navigate(['/home-restaurant']);
+    }
   }
 
   scrollToSection(sectionId: string) {

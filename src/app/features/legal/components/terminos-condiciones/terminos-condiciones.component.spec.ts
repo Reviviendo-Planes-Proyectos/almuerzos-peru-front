@@ -1,6 +1,7 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { of } from 'rxjs';
 import { TerminosCondicionesComponent } from './terminos-condiciones.component';
 
 describe('TerminosCondicionesComponent', () => {
@@ -14,9 +15,18 @@ describe('TerminosCondicionesComponent', () => {
       url: '/legal/terminos-condiciones'
     };
 
+    const activatedRouteSpy = {
+      params: of({}),
+      queryParams: of({}),
+      snapshot: { params: {}, queryParams: {} }
+    };
+
     await TestBed.configureTestingModule({
       imports: [TerminosCondicionesComponent],
-      providers: [{ provide: Router, useValue: routerSpy }],
+      providers: [
+        { provide: Router, useValue: routerSpy },
+        { provide: ActivatedRoute, useValue: activatedRouteSpy }
+      ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 

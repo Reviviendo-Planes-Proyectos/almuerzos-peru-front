@@ -1,0 +1,29 @@
+<!-- Features Section -->
+<section id="caracteristicas" class="features-section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">¿Por qué elegir AlmuerzosPeru?</h2>
+      <p class="section-description">Hemos diseñado la plataforma pensando en tu comodidad y tiempo</p>
+    </div>
+
+    <div class="features-grid">
+      <mat-card
+        *ngFor="let feature of features; let i = index"
+        class="feature-card"
+        [style.animation-delay]="i * 200 + 'ms'"
+      >
+        <div class="feature-image">
+          <img [src]="feature.image" [alt]="feature.title" class="feature-img" />
+          <div class="image-overlay"></div>
+        </div>
+        <mat-card-content class="feature-content">
+          <div class="feature-icon-container">
+            <mat-icon class="feature-icon">{{ feature.icon }}</mat-icon>
+          </div>
+          <h3 class="feature-title">{{ feature.title }}</h3>
+          <p class="feature-description">{{ feature.description }}</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</section>

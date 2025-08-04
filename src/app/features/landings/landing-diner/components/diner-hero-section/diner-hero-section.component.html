@@ -1,0 +1,134 @@
+<!-- Hero Section - Full Screen with Background -->
+<section class="hero-section">
+  <!-- Background Image with Parallax Effect -->
+  <div class="hero-background" [style.transform]="'translateY(' + scrollY * 0.5 + 'px)'">
+    <div class="hero-image"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-gradient"></div>
+  </div>
+
+  <!-- Floating Elements -->
+  <div class="floating-elements">
+    <!-- Floating notification cards -->
+    <div class="floating-card top-20 left-10">
+      <div class="notification-card">
+        <div class="card-icon bg-gradient-to-r from-orange-500 to-yellow-500">
+          <mat-icon class="text-white">people</mat-icon>
+        </div>
+        <div>
+          <div class="card-value">+2,847</div>
+          <div class="card-label">Almorzando ahora</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="floating-card top-32 right-16">
+      <div class="notification-card">
+        <div class="card-icon bg-gradient-to-r from-yellow-500 to-orange-500">
+          <mat-icon class="text-white">schedule</mat-icon>
+        </div>
+        <div>
+          <div class="card-value">12:30 PM</div>
+          <div class="card-label">Hora pico</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="floating-card bottom-32 left-20">
+      <div class="notification-card">
+        <div class="card-icon bg-gradient-to-r from-orange-500 to-yellow-500">
+          <mat-icon class="text-white">star</mat-icon>
+        </div>
+        <div>
+          <div class="card-value">4.8★</div>
+          <div class="card-label">Calificación</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Floating Food Images -->
+    <div class="food-image top-16 right-32">
+      <div class="food-circle">
+        <img src="/img/landing/delicious-ceviche.png" alt="Ceviche" class="food-img" />
+      </div>
+    </div>
+
+    <div class="food-image top-40 left-32">
+      <div class="food-circle small">
+        <img src="/img/landing/lomo-saltado.png" alt="Lomo Saltado" class="food-img" />
+      </div>
+    </div>
+
+    <div class="food-image bottom-40 right-20">
+      <div class="food-circle medium">
+        <img src="/img/landing/aji-de-gallina.png" alt="Ají de Gallina" class="food-img" />
+      </div>
+    </div>
+
+    <div class="food-image top-60 left-16">
+      <div class="food-circle tiny">
+        <img src="/img/landing/anticuchos-skewers.png" alt="Anticuchos" class="food-img" />
+      </div>
+    </div>
+
+    <div class="food-image bottom-60 right-40">
+      <div class="food-circle small">
+        <img src="/img/landing/peruvian-ceviche.png" alt="Ceviche Mixto" class="food-img" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="hero-content mt-40">
+    <div class="container mx-auto px-4 text-center">
+      <div class="content-wrapper" [@fadeInUp]="isVisible ? 'visible' : ''">
+        <h1 class="hero-title">
+          Encuentra tu menú diario,
+          <br />
+          <span class="hero-title-highlight">¡sin perder tiempo!</span>
+        </h1>
+
+        <p class="hero-description">
+          Descubre los mejores restaurantes y menús diarios cerca de ti.
+          <br />
+          <span class="hero-description-highlight">¡Perfecto para estudiantes y trabajadores en Lima!</span>
+        </p>
+
+        <!-- Animated Stats -->
+        <div class="stats-grid">
+          <div *ngFor="let stat of stats; let i = index" class="stat-card" [style.animation-delay]="i * 200 + 'ms'">
+            <mat-icon [class]="'stat-icon ' + stat.color">{{ stat.icon }}</mat-icon>
+            <div class="stat-value">{{ stat.value }}</div>
+            <div class="stat-label">{{ stat.label }}</div>
+          </div>
+        </div>
+
+        <div class="hero-actions">
+          <button mat-raised-button class="primary-button" (click)="scrollToSection('search-section')">
+            <mat-icon class="mr-3">search</mat-icon>
+            Buscar restaurantes
+          </button>
+          <button mat-stroked-button class="secondary-button" (click)="scrollToSection('como-funciona')">
+            <mat-icon class="mr-3">play_arrow</mat-icon>
+            Ver cómo funciona
+          </button>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator" (click)="scrollToSection('search-section')">
+          <div class="scroll-button">
+            <mat-icon class="animate-bounce">keyboard_arrow_down</mat-icon>
+          </div>
+          <p class="scroll-text">DESCUBRE MÁS ABAJO</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Animated Background Elements -->
+  <div class="background-particles">
+    <div class="particle particle-1"></div>
+    <div class="particle particle-2"></div>
+    <div class="particle particle-3"></div>
+  </div>
+</section>
