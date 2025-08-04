@@ -9,7 +9,7 @@ export const routes: Routes = [
   {
     path: 'home-restaurant',
     loadComponent: () =>
-      import('../../features/landings/landing-restaurant/landing.component').then((m) => m.LandingComponent)
+      import('../../features/landings/landing-restaurant/landing-restaurant.component').then((m) => m.LandingComponent)
   },
   {
     path: 'home-diner',

@@ -10,9 +10,8 @@ import { PricingSectionComponent } from './components/pricing-section/pricing-se
 import { TestimonialsSectionComponent } from './components/testimonials-section/testimonials-section.component';
 
 @Component({
-  selector: 'app-landing',
-  templateUrl: './landing.component.html',
-  styleUrls: ['./landing.component.scss'],
+  selector: 'app-landing-restaurant',
+  templateUrl: './landing-restaurant.component.html',
   standalone: true,
   imports: [
     HeaderComponent,
