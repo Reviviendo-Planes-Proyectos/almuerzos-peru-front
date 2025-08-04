@@ -12,8 +12,12 @@ import { MaterialModule } from '../../../../shared/material.module';
 export class HeaderComponent {
   constructor(public router: Router) {}
 
-  navigateToLogin() {
+  /*   navigateToLogin() {
     this.router.navigate(['auth/login']);
+  } */
+
+  navigateToLogin() {
+    this.router.navigate(['auth/profile-selection']);
   }
 
   scrollToSection(sectionId: string) {
