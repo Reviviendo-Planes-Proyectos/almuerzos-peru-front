@@ -1,134 +1,200 @@
 <!-- Hero Section - Full Screen with Background -->
-<section class="hero-section">
+<section class="hero-section relative min-h-screen md:min-h-screen flex items-center justify-center overflow-hidden">
   <!-- Background Image with Parallax Effect -->
-  <div class="hero-background" [style.transform]="'translateY(' + scrollY * 0.5 + 'px)'">
-    <div class="hero-image"></div>
-    <div class="hero-overlay"></div>
-    <div class="hero-gradient"></div>
+  <div class="hero-background absolute inset-0 z-0" [style.transform]="'translateY(' + scrollY * 0.5 + 'px)'">
+    <div class="hero-image w-full h-120vh bg-cover bg-center bg-no-repeat brightness-110 md:h-screen"></div>
+    <div class="hero-overlay absolute inset-0"></div>
+    <div class="hero-gradient absolute inset-0 bg-black bg-opacity-30"></div>
   </div>
 
   <!-- Floating Elements -->
-  <div class="floating-elements">
+  <div class="floating-elements absolute inset-0 z-10 hidden md:block">
     <!-- Floating notification cards -->
-    <div class="floating-card top-20 left-10">
-      <div class="notification-card">
-        <div class="card-icon bg-gradient-to-r from-orange-500 to-yellow-500">
-          <mat-icon class="text-white">people</mat-icon>
+    <div class="floating-card top-20 left-10 absolute">
+      <div
+        class="notification-card bg-white bg-opacity-90 backdrop-blur-2xl rounded-xl md:rounded-2xl p-3 md:p-4 shadow-2xl md:shadow-3xl border border-white border-opacity-30 flex items-center gap-2 md:gap-3"
+      >
+        <div
+          class="card-icon w-10 h-10 md:w-12 md:h-12 bg-gradient-to-r from-orange-500 to-yellow-500 rounded-lg md:rounded-xl flex items-center justify-center"
+        >
+          <mat-icon class="text-white text-xl md:text-2xl">people</mat-icon>
         </div>
         <div>
-          <div class="card-value">+2,847</div>
-          <div class="card-label">Almorzando ahora</div>
+          <div class="card-value text-gray-800 font-bold text-base md:text-lg">+2,847</div>
+          <div class="card-label text-gray-500 text-xs md:text-sm">Almorzando ahora</div>
         </div>
       </div>
     </div>
 
-    <div class="floating-card top-32 right-16">
-      <div class="notification-card">
-        <div class="card-icon bg-gradient-to-r from-yellow-500 to-orange-500">
-          <mat-icon class="text-white">schedule</mat-icon>
+    <div class="floating-card top-32 right-16 absolute">
+      <div
+        class="notification-card bg-white bg-opacity-90 backdrop-blur-2xl rounded-xl md:rounded-2xl p-3 md:p-4 shadow-2xl md:shadow-3xl border border-white border-opacity-30 flex items-center gap-2 md:gap-3"
+      >
+        <div
+          class="card-icon w-10 h-10 md:w-12 md:h-12 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-lg md:rounded-xl flex items-center justify-center"
+        >
+          <mat-icon class="text-white text-xl md:text-2xl">schedule</mat-icon>
         </div>
         <div>
-          <div class="card-value">12:30 PM</div>
-          <div class="card-label">Hora pico</div>
+          <div class="card-value text-gray-800 font-bold text-base md:text-lg">12:30 PM</div>
+          <div class="card-label text-gray-500 text-xs md:text-sm">Hora pico</div>
         </div>
       </div>
     </div>
 
-    <div class="floating-card bottom-32 left-20">
-      <div class="notification-card">
-        <div class="card-icon bg-gradient-to-r from-orange-500 to-yellow-500">
-          <mat-icon class="text-white">star</mat-icon>
+    <div class="floating-card bottom-32 left-20 absolute">
+      <div
+        class="notification-card bg-white bg-opacity-90 backdrop-blur-2xl rounded-xl md:rounded-2xl p-3 md:p-4 shadow-2xl md:shadow-3xl border border-white border-opacity-30 flex items-center gap-2 md:gap-3"
+      >
+        <div
+          class="card-icon w-10 h-10 md:w-12 md:h-12 bg-gradient-to-r from-orange-500 to-yellow-500 rounded-lg md:rounded-xl flex items-center justify-center"
+        >
+          <mat-icon class="text-white text-xl md:text-2xl">star</mat-icon>
         </div>
         <div>
-          <div class="card-value">4.8★</div>
-          <div class="card-label">Calificación</div>
+          <div class="card-value text-gray-800 font-bold text-base md:text-lg">4.8★</div>
+          <div class="card-label text-gray-500 text-xs md:text-sm">Calificación</div>
         </div>
       </div>
     </div>
 
     <!-- Floating Food Images -->
-    <div class="food-image top-16 right-32">
-      <div class="food-circle">
-        <img src="/img/landing/delicious-ceviche.png" alt="Ceviche" class="food-img" />
+    <div class="food-image top-16 right-32 absolute">
+      <div
+        class="food-circle w-20 h-20 rounded-full overflow-hidden shadow-3xl border-4 border-white border-opacity-80"
+      >
+        <img src="/img/landing/delicious-ceviche.png" alt="Ceviche" class="food-img w-full h-full object-cover" />
       </div>
     </div>
 
-    <div class="food-image top-40 left-32">
-      <div class="food-circle small">
-        <img src="/img/landing/lomo-saltado.png" alt="Lomo Saltado" class="food-img" />
+    <div class="food-image top-40 left-32 absolute">
+      <div
+        class="food-circle small w-16 h-16 rounded-full overflow-hidden shadow-3xl border-4 border-white border-opacity-80"
+      >
+        <img src="/img/landing/lomo-saltado.png" alt="Lomo Saltado" class="food-img w-full h-full object-cover" />
       </div>
     </div>
 
-    <div class="food-image bottom-40 right-20">
-      <div class="food-circle medium">
-        <img src="/img/landing/aji-de-gallina.png" alt="Ají de Gallina" class="food-img" />
+    <div class="food-image bottom-40 right-20 absolute">
+      <div
+        class="food-circle medium w-18 h-18 rounded-full overflow-hidden shadow-3xl border-4 border-white border-opacity-80"
+      >
+        <img src="/img/landing/aji-de-gallina.png" alt="Ají de Gallina" class="food-img w-full h-full object-cover" />
       </div>
     </div>
 
-    <div class="food-image top-60 left-16">
-      <div class="food-circle tiny">
-        <img src="/img/landing/anticuchos-skewers.png" alt="Anticuchos" class="food-img" />
+    <div class="food-image top-60 left-16 absolute">
+      <div
+        class="food-circle tiny w-14 h-14 rounded-full overflow-hidden shadow-3xl border-4 border-white border-opacity-80"
+      >
+        <img src="/img/landing/anticuchos-skewers.png" alt="Anticuchos" class="food-img w-full h-full object-cover" />
       </div>
     </div>
 
-    <div class="food-image bottom-60 right-40">
-      <div class="food-circle small">
-        <img src="/img/landing/peruvian-ceviche.png" alt="Ceviche Mixto" class="food-img" />
+    <div class="food-image bottom-60 right-40 absolute">
+      <div
+        class="food-circle small w-16 h-16 rounded-full overflow-hidden shadow-3xl border-4 border-white border-opacity-80"
+      >
+        <img src="/img/landing/peruvian-ceviche.png" alt="Ceviche Mixto" class="food-img w-full h-full object-cover" />
       </div>
     </div>
   </div>
 
   <!-- Main Content -->
-  <div class="hero-content mt-40">
-    <div class="container mx-auto px-4 text-center">
-      <div class="content-wrapper" [@fadeInUp]="isVisible ? 'visible' : ''">
-        <h1 class="hero-title">
+  <div class="hero-content relative z-20 mt-40">
+    <div class="container max-w-6xl mx-auto px-4 md:px-8 text-center">
+      <div class="content-wrapper transition-all duration-1000 ease-out" [@fadeInUp]="isVisible ? 'visible' : ''">
+        <h1
+          class="hero-title text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black text-white mb-4 md:mb-6 leading-tight"
+        >
           Encuentra tu menú diario,
           <br />
-          <span class="hero-title-highlight">¡sin perder tiempo!</span>
+          <span class="hero-title-highlight bg-gradient-to-r from-yellow-300 to-white bg-clip-text text-transparent">
+            ¡sin perder tiempo!
+          </span>
         </h1>
 
-        <p class="hero-description">
+        <p
+          class="hero-description text-base sm:text-lg md:text-xl lg:text-2xl text-white text-opacity-90 mb-6 md:mb-8 max-w-4xl mx-auto leading-relaxed font-medium"
+        >
           Descubre los mejores restaurantes y menús diarios cerca de ti.
           <br />
-          <span class="hero-description-highlight">¡Perfecto para estudiantes y trabajadores en Lima!</span>
+          <span class="hero-description-highlight text-yellow-300 font-bold">
+            ¡Perfecto para estudiantes y trabajadores en Lima!
+          </span>
         </p>
 
         <!-- Animated Stats -->
-        <div class="stats-grid">
-          <div *ngFor="let stat of stats; let i = index" class="stat-card" [style.animation-delay]="i * 200 + 'ms'">
-            <mat-icon [class]="'stat-icon ' + stat.color">{{ stat.icon }}</mat-icon>
-            <div class="stat-value">{{ stat.value }}</div>
-            <div class="stat-label">{{ stat.label }}</div>
+        <div
+          class="stats-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 max-w-5xl mx-auto mb-8 md:mb-12"
+        >
+          <div
+            *ngFor="let stat of stats; let i = index"
+            class="stat-card bg-white bg-opacity-10 backdrop-blur-2xl rounded-xl md:rounded-2xl p-4 md:p-6 border border-white border-opacity-20 shadow-3xl transition-all duration-500 ease-out hover:scale-105 hover:bg-white hover:bg-opacity-20"
+            [style.animation-delay]="i * 200 + 'ms'"
+          >
+            <mat-icon
+              [class]="'stat-icon w-8 h-8 md:w-10 md:h-10 mb-2 md:mb-3 mx-auto text-2xl md:text-3xl ' + stat.color"
+            >
+              {{ stat.icon }}
+            </mat-icon>
+            <div class="stat-value text-2xl md:text-4xl font-black text-white mb-1">{{ stat.value }}</div>
+            <div class="stat-label text-white text-opacity-80 font-medium uppercase tracking-wide text-xs md:text-sm">
+              {{ stat.label }}
+            </div>
           </div>
         </div>
 
-        <div class="hero-actions">
-          <button mat-raised-button class="primary-button" (click)="scrollToSection('search-section')">
+        <div class="hero-actions flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center mb-8 sm:mb-12 md:mb-16">
+          <button
+            mat-raised-button
+            class="primary-button py-3.5 md:py-4 px-8 md:px-10 text-base md:text-xl font-bold shadow-2xl md:shadow-3xl transform scale-100 transition-all duration-300 bg-gradient-to-r from-orange-600 to-yellow-500 text-white border-0 rounded-lg hover:scale-105 hover:from-orange-700 hover:to-yellow-600"
+            (click)="scrollToSection('search-section')"
+          >
             <mat-icon class="mr-3">search</mat-icon>
             Buscar restaurantes
           </button>
-          <button mat-stroked-button class="secondary-button" (click)="scrollToSection('como-funciona')">
+          <button
+            mat-stroked-button
+            class="secondary-button py-3.5 md:py-4 px-8 md:px-10 text-base md:text-xl font-bold backdrop-blur-2xl transition-all duration-300 border-2 border-white border-opacity-50 text-white bg-white bg-opacity-10 rounded-lg hover:bg-white hover:bg-opacity-20"
+            (click)="scrollToSection('como-funciona')"
+          >
             <mat-icon class="mr-3">play_arrow</mat-icon>
             Ver cómo funciona
           </button>
         </div>
 
         <!-- Scroll Indicator -->
-        <div class="scroll-indicator" (click)="scrollToSection('search-section')">
-          <div class="scroll-button">
-            <mat-icon class="animate-bounce">keyboard_arrow_down</mat-icon>
+        <div
+          class="scroll-indicator cursor-pointer text-center animate-bounce"
+          (click)="scrollToSection('search-section')"
+        >
+          <div
+            class="scroll-button bg-white bg-opacity-20 backdrop-blur-2xl rounded-full p-3 md:p-4 inline-block shadow-2xl md:shadow-3xl border border-white border-opacity-30 transition-all duration-300 hover:bg-white hover:bg-opacity-30"
+          >
+            <mat-icon class="animate-bounce text-white">keyboard_arrow_down</mat-icon>
           </div>
-          <p class="scroll-text">DESCUBRE MÁS ABAJO</p>
+          <p class="scroll-text text-white text-opacity-80 text-base md:text-lg mt-3 md:mt-4 font-bold">
+            DESCUBRE MÁS ABAJO
+          </p>
         </div>
       </div>
     </div>
   </div>
 
   <!-- Animated Background Elements -->
-  <div class="background-particles">
-    <div class="particle particle-1"></div>
-    <div class="particle particle-2"></div>
-    <div class="particle particle-3"></div>
+  <div class="background-particles absolute inset-0 z-5">
+    <div
+      class="particle particle-1 absolute w-2 h-2 top-1/4 left-1/4 bg-yellow-400 rounded-full animate-ping"
+      style="animation-delay: 1s"
+    ></div>
+    <div
+      class="particle particle-2 absolute w-3 h-3 top-1/3 right-1/3 bg-white rounded-full animate-ping"
+      style="animation-delay: 2s"
+    ></div>
+    <div
+      class="particle particle-3 absolute w-2 h-2 bottom-1/4 left-1/3 bg-orange-500 rounded-full animate-ping"
+      style="animation-delay: 3s"
+    ></div>
   </div>
 </section>
