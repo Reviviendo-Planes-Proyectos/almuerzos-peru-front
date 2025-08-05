@@ -27,44 +27,63 @@
 
       <!-- Bienvenida -->
       <h2 class="text-2xl font-bold text-center text-gray-800 mt-2 mb-2">¡Bienvenido!</h2>
-      <p class="text-center text-gray-600 mb-6">Elige cómo deseas crear tu cuenta para comenzar</p>
+      <p class="text-center text-gray-600 mb-6">¿Cómo deseas registrarte?</p>
 
       <!-- Botón Google -->
       <button
         (click)="loginWithGoogle()"
-        class="w-full flex items-center justify-center gap-2 border border-red-500 text-red-600 font-semibold py-2 px-4 rounded-lg hover:bg-red-100 transition mb-3"
+        [disabled]="isGoogleLoading || isFacebookLoading || isEmailLoading"
+        class="w-full flex items-center justify-center gap-2 border border-yellow-500 font-semibold py-2 px-4 rounded-lg hover:bg-red-100 transition mb-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent"
       >
-        <img src="img/google.png" alt="Google" class="w-5 h-5" />
-        Continuar con Google
+        <!-- Spinner de carga -->
+        <div *ngIf="isGoogleLoading" class="animate-spin rounded-full h-5 w-5 border-b-2 border-red-500"></div>
+        <!-- Icono normal -->
+        <img *ngIf="!isGoogleLoading" src="img/google.png" alt="Google" class="w-5 h-5" />
+
+        <span *ngIf="!isGoogleLoading">Continuar con Google</span>
+        <span *ngIf="isGoogleLoading">Conectando...</span>
       </button>
 
       <!-- Botón Facebook -->
       <button
         (click)="loginWithFacebook()"
-        class="w-full flex items-center justify-center gap-2 border border-blue-600 text-blue-600 font-semibold py-2 px-4 rounded-lg hover:bg-blue-100 transition mb-3"
+        [disabled]="isGoogleLoading || isFacebookLoading || isEmailLoading"
+        class="w-full flex items-center justify-center gap-2 border border-yellow-500 font-semibold py-2 px-4 rounded-lg hover:bg-blue-100 transition mb-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent"
       >
-        <img src="img/facebook.png" alt="Facebook" class="w-5 h-5" />
-        Continuar con Facebook
+        <!-- Spinner de carga -->
+        <div *ngIf="isFacebookLoading" class="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600"></div>
+        <!-- Icono normal -->
+        <img *ngIf="!isFacebookLoading" src="img/facebook.png" alt="Facebook" class="w-5 h-5" />
+
+        <span *ngIf="!isFacebookLoading">Continuar con Facebook</span>
+        <span *ngIf="isFacebookLoading">Conectando...</span>
       </button>
 
       <!-- Línea divisora -->
       <div class="flex items-center w-full my-4">
         <hr class="flex-grow border-t border-gray-300" />
-        <span class="mx-4 text-gray-500 font-medium">OR</span>
+        <span class="mx-4 text-gray-500 font-medium">O</span>
         <hr class="flex-grow border-t border-gray-300" />
       </div>
 
       <!-- Botón Email -->
       <button
         (click)="crearConEmail()"
-        class="w-full flex items-center justify-center gap-2 border border-gray-700 text-gray-800 font-semibold py-2 px-4 rounded-lg hover:bg-gray-100 transition mb-3"
+        [disabled]="isGoogleLoading || isFacebookLoading || isEmailLoading"
+        class="w-full flex items-center justify-center gap-2 border border-yellow-500 font-semibold py-2 px-4 rounded-lg hover:bg-gray-100 transition mb-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent"
       >
+        <!-- Icono siempre visible (sin spinner) -->
         <mat-icon>mail</mat-icon>
-        Crear cuenta con email
+
+        <!-- Texto siempre igual (sin cambio de estado) -->
+        <span>Crear cuenta con email</span>
       </button>
 
       <!-- Registrarme luego -->
-      <a href="#" (click)="goBack()" class="mt-4 text-purple-700 hover:underline font-medium">REGISTRARME LUEGO</a>
+      <!-- Opción extra -->
+      <div class="mt-6">
+        <a href="#" (click)="goBack()" class="text-gray-700 hover:underline font-medium">Registrarme luego</a>
+      </div>
     </div>
   </div>
 </div>
