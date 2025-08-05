@@ -78,6 +78,10 @@ export class PwaPromptComponent implements OnInit {
       return;
     }
 
+    if (!this.isMobile) {
+      return;
+    }
+
     // Mostrar el modal después de 30 segundos de navegación
     setTimeout(() => {
       // Solo mostrar si no fue rechazado en el meantime
