@@ -36,7 +36,7 @@ export class HeaderComponent {
   }
 
   navigateToLogin() {
-    this.router.navigate(['auth/login']);
+    this.router.navigate(['auth/profile-selection']);
   }
 
   navigateToHome() {

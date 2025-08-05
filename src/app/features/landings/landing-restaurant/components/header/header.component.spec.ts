@@ -31,12 +31,12 @@ describe('HeaderComponent', () => {
     expect(compiled.textContent).toContain('ALMUERZOSPERÚ');
   });
 
-  /*   it('should navigate to login when navigateToLogin is called', async () => {
+  it('should navigate to profile-selection when navigateToLogin is called', async () => {
     const navigateSpy = jest.spyOn(router, 'navigate');
     component.navigateToLogin();
-    expect(navigateSpy).toHaveBeenCalledWith(['auth/login']);
+    expect(navigateSpy).toHaveBeenCalledWith(['auth/profile-selection']);
   });
- */
+
   it('should scroll to section when element exists', () => {
     const mockElement = {
       getBoundingClientRect: jest.fn().mockReturnValue({ top: 100 })

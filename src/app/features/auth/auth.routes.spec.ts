@@ -28,7 +28,7 @@ describe('AUTH_ROUTES', () => {
     expect(loadedComponent).toBeTruthy();
   });
 
-   it('should define profile-selection route correctly', async () => {
+  it('should define profile-selection route correctly', async () => {
     const profileSelectionRoute = AUTH_ROUTES.find((route) => route.path === 'profile-selection');
     expect(profileSelectionRoute).toBeTruthy();
     expect(profileSelectionRoute?.loadComponent).toBeDefined();
@@ -36,5 +36,4 @@ describe('AUTH_ROUTES', () => {
     const loadedComponent = await profileSelectionRoute?.loadComponent?.();
     expect(loadedComponent).toBeTruthy();
   });
-
 });
