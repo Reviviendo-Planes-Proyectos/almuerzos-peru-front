@@ -1,0 +1,24 @@
+.features-section {
+  background: rgba(255, 255, 255, 0.5); // Tailwind bg-white/50 equivalente pero mantenemos para compatibilidad
+}
+
+.feature-card {
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Responsive adicional para mobile muy pequeño
+@media (max-width: 480px) {
+  .feature-card {
+    .feature-icon-container {
+      margin-top: -1.5rem !important;
+      margin-bottom: 0.75rem !important;
+    }
+  }
+}
