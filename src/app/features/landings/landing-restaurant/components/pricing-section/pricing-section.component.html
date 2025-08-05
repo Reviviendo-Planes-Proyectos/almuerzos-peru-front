@@ -10,12 +10,13 @@
       </p>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 max-w-5xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 max-w-6xl mx-auto">
       <div
         *ngFor="let plan of plans"
-        class="relative rounded-xl md:rounded-2xl p-4 sm:p-6 md:p-8 border-2 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 flex flex-col h-full min-h-[500px] sm:min-h-[550px]"
+        class="relative rounded-xl md:rounded-2xl p-4 sm:p-6 md:p-8 border-2 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 flex flex-col h-full min-h-[420px] md:min-h-[420px] lg:min-h-[380px] lg:w-full"
         [ngClass]="[plan.bgClass, plan.borderClass]"
       >
+        >
         <!-- Badge "Más Popular" -->
         <div *ngIf="plan.popular" class="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10">
           <span
@@ -80,6 +81,200 @@
             </span>
           </div>
         </div>
+      </div>
+    </div>
+
+    <!-- Cuadro Comparativo -->
+    <div class="mt-16 md:mt-20 max-w-6xl mx-auto">
+      <div class="bg-gray-50 rounded-2xl p-6 md:p-8 shadow-lg">
+        <div class="text-center mb-8">
+          <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Comparación de Planes</h3>
+          <p class="text-gray-600">Las características más importantes de un vistazo</p>
+        </div>
+
+        <!-- Versión móvil con tarjetas -->
+        <div class="block md:hidden space-y-6">
+          <!-- Plan Gratuito -->
+          <div class="bg-white rounded-xl p-6 shadow-sm border">
+            <h4 class="font-bold text-lg mb-4 text-center text-gray-900">Gratuito</h4>
+            <div class="space-y-3">
+              <div
+                *ngFor="let feature of comparisonFeatures"
+                class="flex justify-between items-center py-2 border-b border-gray-100 last:border-b-0"
+              >
+                <span class="text-sm text-gray-700 font-medium">{{ feature.name }}</span>
+                <div class="flex-shrink-0">
+                  <ng-container *ngIf="feature.free === true">
+                    <span class="inline-flex items-center justify-center w-6 h-6 bg-green-100 rounded-full">
+                      <span class="material-icons text-green-600 text-sm">check</span>
+                    </span>
+                  </ng-container>
+                  <ng-container *ngIf="feature.free === false">
+                    <span class="inline-flex items-center justify-center w-6 h-6 bg-red-100 rounded-full">
+                      <span class="material-icons text-red-600 text-sm">close</span>
+                    </span>
+                  </ng-container>
+                  <ng-container *ngIf="feature.free !== true && feature.free !== false">
+                    <span class="text-gray-700 font-medium text-sm">{{ feature.free }}</span>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Plan Premium -->
+          <div class="bg-gradient-to-r from-yellow-50 to-orange-50 rounded-xl p-6 shadow-sm border-2 border-orange-100">
+            <div class="text-center mb-4">
+              <span
+                class="inline-block bg-gradient-to-r from-yellow-300 to-orange-400 text-white px-3 py-1 rounded-full text-xs font-semibold mb-2"
+              >
+                Popular
+              </span>
+              <h4 class="font-bold text-lg text-orange-600">Premium</h4>
+            </div>
+            <div class="space-y-3">
+              <div
+                *ngFor="let feature of comparisonFeatures"
+                class="flex justify-between items-center py-2 border-b border-orange-100 last:border-b-0"
+              >
+                <span class="text-sm text-gray-700 font-medium">{{ feature.name }}</span>
+                <div class="flex-shrink-0">
+                  <ng-container *ngIf="feature.premium === true">
+                    <span class="inline-flex items-center justify-center w-6 h-6 bg-green-100 rounded-full">
+                      <span class="material-icons text-green-600 text-sm">check</span>
+                    </span>
+                  </ng-container>
+                  <ng-container *ngIf="feature.premium === false">
+                    <span class="inline-flex items-center justify-center w-6 h-6 bg-red-100 rounded-full">
+                      <span class="material-icons text-red-600 text-sm">close</span>
+                    </span>
+                  </ng-container>
+                  <ng-container *ngIf="feature.premium !== true && feature.premium !== false">
+                    <span class="text-orange-600 font-semibold text-sm">{{ feature.premium }}</span>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Plan Empresarial -->
+          <div class="bg-white rounded-xl p-6 shadow-sm border">
+            <h4 class="font-bold text-lg mb-4 text-center text-gray-900">Empresarial</h4>
+            <div class="space-y-3">
+              <div
+                *ngFor="let feature of comparisonFeatures"
+                class="flex justify-between items-center py-2 border-b border-gray-100 last:border-b-0"
+              >
+                <span class="text-sm text-gray-700 font-medium">{{ feature.name }}</span>
+                <div class="flex-shrink-0">
+                  <ng-container *ngIf="feature.enterprise === true">
+                    <span class="inline-flex items-center justify-center w-6 h-6 bg-green-100 rounded-full">
+                      <span class="material-icons text-green-600 text-sm">check</span>
+                    </span>
+                  </ng-container>
+                  <ng-container *ngIf="feature.enterprise === false">
+                    <span class="inline-flex items-center justify-center w-6 h-6 bg-red-100 rounded-full">
+                      <span class="material-icons text-red-600 text-sm">close</span>
+                    </span>
+                  </ng-container>
+                  <ng-container *ngIf="feature.enterprise !== true && feature.enterprise !== false">
+                    <span class="text-blue-700 font-medium text-sm">{{ feature.enterprise }}</span>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Versión escritorio (tabla actual) -->
+        <div class="hidden md:block overflow-x-auto">
+          <table class="w-full bg-white rounded-xl shadow-sm">
+            <!-- Header -->
+            <thead>
+              <tr class="border-b border-gray-200">
+                <th class="text-left py-4 px-4 md:px-6 font-semibold text-gray-900 bg-gray-50 rounded-tl-xl">
+                  Características
+                </th>
+                <th class="text-center py-4 px-4 md:px-6 font-semibold text-gray-900 bg-gray-50">Gratuito</th>
+                <th class="text-center py-4 px-4 md:px-6 font-semibold text-gray-900 bg-yellow-50 relative">
+                  <span class="inline-flex items-center gap-2">
+                    <span class="text-orange-500">Premium</span>
+                    <span class="text-xs bg-orange-500 px-2 py-1 rounded-full text-white">Popular</span>
+                  </span>
+                </th>
+                <th class="text-center py-4 px-4 md:px-6 font-semibold text-gray-900 bg-gray-50 rounded-tr-xl">
+                  Empresarial
+                </th>
+              </tr>
+            </thead>
+
+            <!-- Body -->
+            <tbody>
+              <tr
+                *ngFor="let feature of comparisonFeatures; let i = index"
+                [class]="i % 2 === 0 ? 'bg-white' : 'bg-gray-50'"
+              >
+                <td class="py-4 px-4 md:px-6 font-medium text-gray-900 border-b border-gray-100">
+                  {{ feature.name }}
+                </td>
+
+                <!-- Plan Gratuito -->
+                <td class="py-4 px-4 md:px-6 text-center border-b border-gray-100">
+                  <ng-container *ngIf="feature.free === true">
+                    <span class="inline-flex items-center justify-center w-6 h-6 bg-green-100 rounded-full">
+                      <span class="material-icons text-green-600 text-sm">check</span>
+                    </span>
+                  </ng-container>
+                  <ng-container *ngIf="feature.free === false">
+                    <span class="inline-flex items-center justify-center w-6 h-6 bg-red-100 rounded-full">
+                      <span class="material-icons text-red-600 text-sm">close</span>
+                    </span>
+                  </ng-container>
+                  <ng-container *ngIf="feature.free !== true && feature.free !== false">
+                    <span class="text-gray-700 font-medium">{{ feature.free }}</span>
+                  </ng-container>
+                </td>
+
+                <!-- Plan Premium -->
+                <td class="py-4 px-4 md:px-6 text-center border-b border-gray-100 bg-yellow-50">
+                  <ng-container *ngIf="feature.premium === true">
+                    <span class="inline-flex items-center justify-center w-6 h-6 bg-green-100 rounded-full">
+                      <span class="material-icons text-green-600 text-sm">check</span>
+                    </span>
+                  </ng-container>
+                  <ng-container *ngIf="feature.premium === false">
+                    <span class="inline-flex items-center justify-center w-6 h-6 bg-red-100 rounded-full">
+                      <span class="material-icons text-red-600 text-sm">close</span>
+                    </span>
+                  </ng-container>
+                  <ng-container *ngIf="feature.premium !== true && feature.premium !== false">
+                    <span class="text-orange-500 font-semibold">{{ feature.premium }}</span>
+                  </ng-container>
+                </td>
+
+                <!-- Plan Empresarial -->
+                <td class="py-4 px-4 md:px-6 text-center border-b border-gray-100">
+                  <ng-container *ngIf="feature.enterprise === true">
+                    <span class="inline-flex items-center justify-center w-6 h-6 bg-green-100 rounded-full">
+                      <span class="material-icons text-green-600 text-sm">check</span>
+                    </span>
+                  </ng-container>
+                  <ng-container *ngIf="feature.enterprise === false">
+                    <span class="inline-flex items-center justify-center w-6 h-6 bg-red-100 rounded-full">
+                      <span class="material-icons text-red-600 text-sm">close</span>
+                    </span>
+                  </ng-container>
+                  <ng-container *ngIf="feature.enterprise !== true && feature.enterprise !== false">
+                    <span class="text-gray-700 font-medium">{{ feature.enterprise }}</span>
+                  </ng-container>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Nota al pie -->
+        <!-- ELIMINADO: Botón Ver todas las características (10 más) -->
       </div>
     </div>
   </div>

@@ -3,7 +3,8 @@ import { MaterialModule } from '../../../../../shared/material.module';
 
 enum PlanType {
   FREE = 'free',
-  PREMIUM = 'premium'
+  PREMIUM = 'premium',
+  ENTERPRISE = 'enterprise'
 }
 
 interface PlanFeature {
@@ -23,6 +24,13 @@ interface Plan {
   borderClass: string;
 }
 
+interface ComparisonFeature {
+  name: string;
+  free: string | boolean;
+  premium: string | boolean;
+  enterprise: string | boolean;
+}
+
 @Component({
   selector: 'app-pricing-section',
   templateUrl: './pricing-section.component.html',
@@ -38,11 +46,11 @@ export class PricingSectionComponent {
       price: 'S/ 0',
       period: 'Para siempre',
       features: [
-        { label: 'Menú digital básico' },
+        { label: 'Menú digital básico con hasta 5 cartas' },
         { label: 'Hasta 20 platos' },
         { label: 'Compartir por WhatsApp' },
         { label: 'Actualizaciones en tiempo real' },
-        { label: 'Soporte por email' }
+        { label: 'Soporte por email. Hasta 5 promociones diarias' }
       ],
       buttonLabel: 'Comenzar Gratis',
       buttonClass: 'bg-gray-900 hover:bg-gray-800 text-white',
@@ -56,18 +64,69 @@ export class PricingSectionComponent {
       period: 'por mes',
       popular: true,
       features: [
-        { label: 'Todo del plan gratuito' },
+        { label: 'Menú digital personalizado' },
         { label: 'Platos ilimitados' },
-        { label: 'Pagos en línea integrados' },
-        { label: 'Informes de desempeño' },
+        { label: 'Cartas ilimitadas' },
+        { label: 'Reporte de informes' },
         { label: 'Soporte premium 24/7' },
-        { label: 'Personalización avanzada' }
+        { label: 'Promociones ilimitadas' }
       ],
       buttonLabel: 'Comenzar Premium',
       buttonClass:
         'bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white',
       bgClass: 'bg-yellow-100/25',
       borderClass: 'border-orange-300'
+    },
+
+    {
+      type: PlanType.ENTERPRISE,
+      title: 'Plan Empresarial',
+      price: 'S/ 25',
+      period: 'por mes',
+      features: [
+        { label: 'Todo del plan premium' },
+        { label: 'Función multi-restaurante' },
+        { label: 'Integración con POS' },
+        { label: 'Capacitación personalizada' },
+        { label: 'Soporte para cadenas' }
+      ],
+      buttonLabel: 'Contactar Ventas',
+      buttonClass: 'bg-gray-900 hover:bg-gray-800 text-white',
+      bgClass: 'bg-white',
+      borderClass: 'border-gray-200'
+    }
+  ];
+
+  comparisonFeatures: ComparisonFeature[] = [
+    {
+      name: 'Menú digital básico',
+      free: true,
+      premium: true,
+      enterprise: true
+    },
+    {
+      name: 'Número de platos',
+      free: '20',
+      premium: 'Ilimitados',
+      enterprise: 'Ilimitados'
+    },
+    {
+      name: 'Pagos en línea integrados',
+      free: false,
+      premium: true,
+      enterprise: true
+    },
+    {
+      name: 'Soporte',
+      free: 'Email',
+      premium: '24/7 Premium',
+      enterprise: 'Dedicado'
+    },
+    {
+      name: 'Analytics y reportes',
+      free: false,
+      premium: true,
+      enterprise: 'Avanzados'
     }
   ];
 }

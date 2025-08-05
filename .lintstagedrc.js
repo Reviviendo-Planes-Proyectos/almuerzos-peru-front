@@ -11,7 +11,7 @@ module.exports = {
           !f.includes('vite.config') &&
           !f.includes('jest.config')
       )
-      .map((f) => `biome lint ${f}`),
+      .map((f) => `biome lint "${f}"`),
 
   '**/*.json': (files) =>
     files
@@ -23,8 +23,8 @@ module.exports = {
             f.includes('angular.json') ||
             f.includes('biome.json'))
       )
-      .map((f) => `biome format --write ${f}`),
+      .map((f) => `biome format --write "${f}"`),
 
-  '**/*.md': ['prettier --write'],
-  '**/*.{html,scss}': (files) => files.map((f) => `prettier --write ${f}`),
+  '**/*.md': (files) => files.map((f) => `prettier --write "${f}"`),
+  '**/*.{html,scss}': (files) => files.map((f) => `prettier --write "${f}"`),
 };

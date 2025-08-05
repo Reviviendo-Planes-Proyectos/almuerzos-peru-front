@@ -28,7 +28,7 @@ export class BenefitsSectionComponent {
     {
       audience: Audience.RESTAURANT,
       title: 'Actualización en Tiempo Real',
-      subtitle: 'Actualiza tu menú en tiempo real con solo unos clics. Sin esperas, sin complicaciones.',
+      subtitle: 'Si algo se acabó, retíralo fácilmente. ',
       icon: 'schedule',
       iconColor: 'text-blue-600',
       bgColor: 'bg-blue-100'
@@ -36,14 +36,14 @@ export class BenefitsSectionComponent {
     {
       audience: Audience.RESTAURANT,
       title: 'Comparte por WhatsApp',
-      subtitle: 'Comparte tu menú directamente con los clientes a través de WhatsApp de forma instantánea.',
+      subtitle: 'Envía tu carta por WhatsApp y compártesela a tus contactos.',
       icon: 'share',
       iconColor: 'text-green-600',
       bgColor: 'bg-green-100'
     },
     {
       audience: Audience.RESTAURANT,
-      title: 'Publicidad Automática',
+      title: 'Publicidad Gratis',
       subtitle: 'Sube tu menú y listo. Tu restaurante será visible para más clientes sin esfuerzos.',
       icon: 'campaign',
       iconColor: 'text-red-600',
@@ -60,15 +60,16 @@ export class BenefitsSectionComponent {
     {
       audience: Audience.CUSTOMER,
       title: 'Filtro por Ubicación GPS',
-      subtitle: 'Encuentra opciones cercanas con el filtro de ubicación GPS. Descubre nuevos sabores cerca de ti.',
+      subtitle: 'Encuentra opciones cercanas con el filtro de ubicación GPS. Descubre nuevos sabores.',
       icon: 'place',
       iconColor: 'text-purple-600',
       bgColor: 'bg-purple-100'
     },
     {
       audience: Audience.CUSTOMER,
-      title: 'Fotos y Precios Detallados',
-      subtitle: 'Consulta fotos, precios y más desde tu teléfono. Decide con confianza.',
+      title: 'Promociones exclusivas',
+      subtitle:
+        'Cambiar descricpión: "Accede a menús con descuentos,y promocionas solo para usuarios activos.  ¡Usa la app, gana más y almuerza mejor!"',
       icon: 'image',
       iconColor: 'text-yellow-600',
       bgColor: 'bg-yellow-100'

@@ -8,3 +8,81 @@ section {
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+
+// Se añadio para limitar la altura de los cards y evitar que el texto se desborde
+// Se usa -webkit-line-clamp para limitar el número de líneas visibles
+mat-card {
+  display: flex;
+  align-items: flex-start; // Cambio de center a flex-start
+  min-height: 100px; // Altura mínima en lugar de fija
+
+  // Desktop y tablet
+  @media (min-width: 768px) {
+    height: 120px; // Altura fija solo en pantallas grandes
+    align-items: center;
+  }
+
+  // Mobile
+  @media (max-width: 767px) {
+    min-height: auto; // Altura automática en móvil
+    padding: 12px !important; // Menos padding en móvil
+  }
+
+  // Contenido del texto
+  div:last-child {
+    flex: 1;
+
+    h4 {
+      // Título responsive
+      @media (max-width: 767px) {
+        font-size: 1rem !important; // Texto más pequeño en móvil
+        line-height: 1.3;
+      }
+    }
+
+    p {
+      // Descripción responsive
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      // Desktop: máximo 3 líneas
+      @media (min-width: 768px) {
+        -webkit-line-clamp: 3;
+      }
+
+      // Mobile: máximo 4 líneas para más espacio
+      @media (max-width: 767px) {
+        -webkit-line-clamp: 4;
+        font-size: 0.875rem !important; // Texto más pequeño
+        line-height: 1.4;
+      }
+    }
+  }
+
+  // Icono responsive
+  div:first-child {
+    @media (max-width: 767px) {
+      width: 2rem !important; // Icono más pequeño en móvil
+      height: 2rem !important;
+      margin-right: 0.75rem;
+
+      mat-icon {
+        font-size: 1.25rem !important;
+      }
+    }
+  }
+}
+
+// Asegurar que todas las tarjetas tengan la misma altura en desktop
+@media (min-width: 768px) {
+  .space-y-8 {
+    display: flex;
+    flex-direction: column;
+
+    mat-card {
+      flex: 1;
+    }
+  }
+}
