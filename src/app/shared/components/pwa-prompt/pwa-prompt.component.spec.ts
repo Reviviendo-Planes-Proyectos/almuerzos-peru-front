@@ -248,6 +248,16 @@ describe('PwaPromptComponent', () => {
       writable: true
     });
 
+    // Simular dispositivo móvil
+    Object.defineProperty(window.navigator, 'userAgent', {
+      writable: true,
+      value: 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/605.1.15'
+    });
+    Object.defineProperty(window, 'innerWidth', {
+      writable: true,
+      value: 375
+    });
+
     component.ngOnInit();
     tick(30000);
 
