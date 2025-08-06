@@ -27,7 +27,8 @@ describe('HeaderComponent', () => {
   it('should render the header content', () => {
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('header')).toBeTruthy();
-    expect(compiled.textContent).toContain('ALMUERZOSPERÚ');
+    expect(compiled.textContent).toContain('ALMUERZOS');
+    expect(compiled.textContent).toContain('PERÚ');
   });
 
   it('should navigate to login when navigateToLogin is called', async () => {

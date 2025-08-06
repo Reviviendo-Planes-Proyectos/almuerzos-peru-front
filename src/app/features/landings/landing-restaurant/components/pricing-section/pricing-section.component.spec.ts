@@ -27,33 +27,49 @@ describe('PricingSectionComponent', () => {
 
   it('should render two pricing cards', () => {
     const compiled = fixture.nativeElement as HTMLElement;
-    const plans = compiled.querySelectorAll('.rounded-xl');
-    expect(plans.length).toBe(2);
+    // Cambiar línea 30-31:
+    const plans = compiled.querySelectorAll('.grid.grid-cols-1 > div.rounded-xl');
+    expect(plans.length).toBe(3); // Ahora son 3 planes (Gratuito, Premium, Empresarial)
+
+    // Cambiar línea 36-37:
+    const featureLists = compiled.querySelectorAll('.grid.grid-cols-1 > div.rounded-xl ul');
+    expect(featureLists.length).toBe(3); // Cambiar de 2 a 3
+
+    // Actualizar las verificaciones (líneas 53-58):
+    const freePlanFeatures = featureLists[0].querySelectorAll('li');
+    const premiumPlanFeatures = featureLists[1].querySelectorAll('li');
+    const enterprisePlanFeatures = featureLists[2].querySelectorAll('li');
+
+    expect(freePlanFeatures.length).toBeGreaterThan(0);
+    expect(premiumPlanFeatures.length).toBeGreaterThan(0);
+    expect(enterprisePlanFeatures.length).toBeGreaterThan(0);
+
+    const buttons = compiled.querySelectorAll('.grid.grid-cols-1 > div.rounded-xl button');
+    expect(buttons.length).toBe(3); // 3 botones
+
+    // Actualizar líneas 56-57 para verificar los 3 botones:
+    expect(buttons[0].textContent).toContain('Comenzar Gratis');
+    expect(buttons[1].textContent).toContain('Comenzar Premium');
+    expect(buttons[2].textContent).toContain('Contactar Ventas'); // Botón del plan empresarial
   });
 
   it('should render correct features per plan', () => {
     const compiled = fixture.nativeElement as HTMLElement;
     const featureLists = compiled.querySelectorAll('ul');
-    expect(featureLists.length).toBe(2);
+    expect(featureLists.length).toBe(3);
 
     const freePlanFeatures = featureLists[0].querySelectorAll('li');
     const premiumPlanFeatures = featureLists[1].querySelectorAll('li');
+    const enterprisePlanFeatures = featureLists[2].querySelectorAll('li');
 
     expect(freePlanFeatures.length).toBe(5);
     expect(premiumPlanFeatures.length).toBe(6);
+    expect(enterprisePlanFeatures.length).toBeGreaterThan(0); // Plan empresarial tiene características
   });
 
   it('should mark the premium plan as popular', () => {
     const compiled = fixture.nativeElement as HTMLElement;
     const popularBadge = compiled.querySelector('span.bg-gradient-to-r');
     expect(popularBadge?.textContent).toContain('Más Popular');
-  });
-
-  it('should render correct button labels', () => {
-    const compiled = fixture.nativeElement as HTMLElement;
-    const buttons = compiled.querySelectorAll('button');
-    expect(buttons.length).toBe(2);
-    expect(buttons[0].textContent).toContain('Comenzar Gratis');
-    expect(buttons[1].textContent).toContain('Comenzar Premium');
   });
 });

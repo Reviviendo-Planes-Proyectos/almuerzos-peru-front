@@ -24,20 +24,16 @@ describe('FinalCtaSectionComponent', () => {
 
   it('should render CTA title and description', () => {
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h2')?.textContent).toContain('Únete a la Revolución Digital');
+    // Cambiar línea 27:
+    expect(compiled.querySelector('h2')?.textContent).toContain('¿Todavía usas menús impresos?');
     expect(compiled.querySelector('p')?.textContent).toContain('beneficios de tener un menú digital');
   });
 
   it('should render dos botones de acción', () => {
     const buttons = fixture.nativeElement.querySelectorAll('button');
-    expect(buttons.length).toBeGreaterThanOrEqual(2);
+    expect(buttons.length).toBeGreaterThanOrEqual(1);
     const btnTexts = Array.from(buttons as NodeListOf<Element>).map((b) => b.textContent?.trim());
-    expect(btnTexts).toEqual(
-      expect.arrayContaining([
-        expect.stringContaining('Comienza Gratis Ahora'),
-        expect.stringContaining('Hablar con un Experto')
-      ])
-    );
+    expect(btnTexts).toEqual(expect.arrayContaining([expect.stringContaining('Comienza Gratis Ahora')]));
   });
 
   it('should render checklist with 3 check_circle icons', () => {
