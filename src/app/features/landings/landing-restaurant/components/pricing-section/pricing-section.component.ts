@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { MaterialModule } from '../../../../../shared/material.module';
 
 enum PlanType {
@@ -157,11 +157,19 @@ export class PricingSectionComponent implements AfterViewInit {
   }
 
   private updatePrices() {
-    this.plans = this.plans.map((plan) => ({
-      ...plan,
-      price: this.isAnnual ? this.annualPrices[plan.type] : this.monthlyPrices[plan.type],
-      period: plan.type === PlanType.FREE ? 'Para siempre' : this.isAnnual ? 'por año' : 'por mes'
-    }));
+    this.plans = this.plans.map((plan) => {
+      let period = 'por mes';
+      if (plan.type === PlanType.FREE) {
+        period = 'Para siempre';
+      } else if (this.isAnnual) {
+        period = 'por año';
+      }
+      return {
+        ...plan,
+        price: this.isAnnual ? this.annualPrices[plan.type] : this.monthlyPrices[plan.type],
+        period
+      };
+    });
   }
 
   // Control de filas visibles en la tabla de comparación
