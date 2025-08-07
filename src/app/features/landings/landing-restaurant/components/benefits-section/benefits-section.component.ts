@@ -69,7 +69,7 @@ export class BenefitsSectionComponent {
       audience: Audience.CUSTOMER,
       title: 'Promociones exclusivas',
       subtitle:
-        'Cambiar descricpión: "Accede a menús con descuentos,y promocionas solo para usuarios activos.  ¡Usa la app, gana más y almuerza mejor!"',
+        'Accede a menús con descuentos,y promocionas solo para usuarios activos.  ¡Usa la app, gana más y almuerza mejor!',
       icon: 'image',
       iconColor: 'text-yellow-600',
       bgColor: 'bg-yellow-100'

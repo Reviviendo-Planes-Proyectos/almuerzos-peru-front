@@ -1,3 +1,77 @@
+// Switch anual personalizado
+.switch-anual {
+  background-color: #e5e7eb; // gris por defecto
+}
+.switch-anual-active {
+  background-color: #ff9800 !important; // naranja fuerte
+}
+.switch-anual-inactive {
+  background-color: #e5e7eb !important; // gris
+}
+// Círculo de fondo solo para los íconos de los cuadros destacados bajo la tabla
+.icon-benefit-bg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #f8fafc;
+  box-shadow: 0 4px 16px 0 #0001;
+  margin-bottom: 0.75rem;
+  transition: box-shadow 0.2s;
+}
+.icon-benefit-bg .material-icons {
+  font-size: 2.25rem !important;
+  filter: drop-shadow(0 1px 2px #0001);
+}
+.icon-benefit-green {
+  background: #e6f9ed;
+}
+.icon-benefit-green .material-icons {
+  color: #22c55e !important;
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 600,
+    'GRAD' 0,
+    'opsz' 48;
+}
+.icon-benefit-blue {
+  background: #e6f0fa;
+}
+.icon-benefit-blue .material-icons {
+  color: #3b82f6 !important;
+}
+.icon-benefit-purple {
+  background: #f3e8ff;
+}
+.icon-benefit-purple .material-icons {
+  color: #a78bfa !important;
+}
+// Flat style for check/close icons in comparison table (no circle)
+.flat-icon {
+  background: none !important;
+  border-radius: 0 !important;
+  font-size: 1.5rem !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+// Pastel background for Premium column in comparison table
+.premium-col {
+  background: #fff7ed !important; /* pastel orange, matches Figma */
+}
+
+// Remove green circle from check/close icons in Premium column
+.premium-col .no-bg-check {
+  background: none !important;
+  border-radius: 0 !important;
+  font-size: 1.5rem !important;
+  color: #22c55e !important; /* green for check */
+}
+.premium-col .no-bg-check.text-red-600 {
+  color: #ef4444 !important; /* red for close */
+}
 #precios {
   .bg-gradient-to-br {
     background: linear-gradient(to bottom right, #fef3c7, #fcd34d);
@@ -13,4 +87,45 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+// Estilos para scroll horizontal en móvil
+.overflow-x-auto {
+  // Ocultar barra de scroll en móvil para una apariencia más limpia
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+
+  &::-webkit-scrollbar {
+    display: none; /* WebKit */
+  }
+
+  // Scroll suave
+  scroll-behavior: smooth;
+
+  // Snap para mejor UX en móvil
+  scroll-snap-type: x mandatory;
+
+  .flex > div {
+    scroll-snap-align: start;
+  }
+}
+
+// Indicador visual de scroll (opcional)
+.overflow-x-auto::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 20px;
+  height: 4px;
+  background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.1));
+  pointer-events: none;
+}
+
+// Asegurar que las tarjetas mantengan su ancho en móvil
+@media (max-width: 768px) {
+  .w-80 {
+    min-width: 350px;
+    max-width: 350px;
+  }
 }

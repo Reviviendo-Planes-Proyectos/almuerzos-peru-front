@@ -25,17 +25,17 @@ describe('PricingSectionComponent', () => {
     expect(compiled.querySelector('p')?.textContent).toContain('Elige el plan perfecto');
   });
 
-  it('should render two pricing cards', () => {
+  it('should render three pricing cards', () => {
     const compiled = fixture.nativeElement as HTMLElement;
-    // Cambiar línea 30-31:
-    const plans = compiled.querySelectorAll('.grid.grid-cols-1 > div.rounded-xl');
+    // Buscar las tarjetas de precios con la estructura actual
+    const plans = compiled.querySelectorAll('div[data-plan]');
     expect(plans.length).toBe(3); // Ahora son 3 planes (Gratuito, Premium, Empresarial)
 
-    // Cambiar línea 36-37:
-    const featureLists = compiled.querySelectorAll('.grid.grid-cols-1 > div.rounded-xl ul');
-    expect(featureLists.length).toBe(3); // Cambiar de 2 a 3
+    // Buscar las listas de características dentro de las tarjetas
+    const featureLists = compiled.querySelectorAll('div[data-plan] ul');
+    expect(featureLists.length).toBe(3); // 3 listas de características
 
-    // Actualizar las verificaciones (líneas 53-58):
+    // Verificar que cada lista tiene características
     const freePlanFeatures = featureLists[0].querySelectorAll('li');
     const premiumPlanFeatures = featureLists[1].querySelectorAll('li');
     const enterprisePlanFeatures = featureLists[2].querySelectorAll('li');
@@ -44,10 +44,11 @@ describe('PricingSectionComponent', () => {
     expect(premiumPlanFeatures.length).toBeGreaterThan(0);
     expect(enterprisePlanFeatures.length).toBeGreaterThan(0);
 
-    const buttons = compiled.querySelectorAll('.grid.grid-cols-1 > div.rounded-xl button');
+    // Verificar los botones de acción
+    const buttons = compiled.querySelectorAll('div[data-plan] button');
     expect(buttons.length).toBe(3); // 3 botones
 
-    // Actualizar líneas 56-57 para verificar los 3 botones:
+    // Verificar el texto de los botones
     expect(buttons[0].textContent).toContain('Comenzar Gratis');
     expect(buttons[1].textContent).toContain('Comenzar Premium');
     expect(buttons[2].textContent).toContain('Contactar Ventas'); // Botón del plan empresarial
