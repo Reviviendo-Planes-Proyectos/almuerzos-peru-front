@@ -37,7 +37,8 @@ export class RegisterComponent {
       // Ejemplo con Firebase:
       // this.authService.loginWithGoogle();
 
-      // Simular fin del proceso (remover esto cuando tengas la implementación real)
+      // Navegar al componente customer-basic-info después del login exitoso
+      this.router.navigate(['/auth/customer-basic-info']);
       this.isGoogleLoading = false;
     }, 2000); // 2 segundos de simulación
   }

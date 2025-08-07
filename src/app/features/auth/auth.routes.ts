@@ -18,5 +18,10 @@ export const AUTH_ROUTES: Routes = [
     path: 'profile-selection',
     loadComponent: () =>
       import('./pages/profile-selection/profile-selection.component').then((m) => m.ProfileSelectionComponent)
+  },
+  {
+    path: 'customer-basic-info',
+    loadComponent: () =>
+      import('./pages/customer-basic-info/customer-basic-info.component').then((m) => m.CustomerBasicInfoComponent)
   }
 ];

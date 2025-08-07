@@ -1,0 +1,51 @@
+<form [formGroup]="customerForm" class="flex flex-col gap-6 max-w-lg mx-auto p-6 bg-gray-50 min-h-screen">
+  <!-- Paso del formulario -->
+  <app-step-indicator [step]="1" [total]="4"></app-step-indicator>
+
+  <!-- Título de sección -->
+  <app-section-title
+    icon="description"
+    title="Información Básica"
+    subtitle="Empecemos con los datos principales de tu restaurante"
+  ></app-section-title>
+
+  <!-- Tarjeta de formulario -->
+  <div class="bg-white p-6 rounded-xl shadow-sm flex flex-col gap-5">
+    <app-input-field
+      label="Nombre del Restaurante"
+      icon="restaurant"
+      placeholder="Ej: Restaurante El Sabor Criollo"
+      formControlName="name"
+    ></app-input-field>
+
+    <app-input-field
+      label="Correo Electrónico *"
+      icon="email"
+      type="email"
+      placeholder="contacto@mirestaurante.com"
+      formControlName="email"
+    ></app-input-field>
+
+    <app-input-field label="DNI" icon="badge" placeholder="12345678" formControlName="dni"></app-input-field>
+
+    <app-input-field
+      label="Dirección"
+      icon="location_on"
+      placeholder="Av. Ejemplo 123, Miraflores - Lima"
+      formControlName="address"
+    ></app-input-field>
+
+    <app-input-field
+      label="RUC de la empresa (opcional)"
+      icon="business"
+      placeholder="20123456789"
+      formControlName="ruc"
+    ></app-input-field>
+  </div>
+
+  <!-- Botón de acción -->
+  <div class="mt-4">
+    <app-button [label]="'Continuar'" [isActive]="true" [isOutline]="false" (click)="onSubmit()"></app-button>
+  </div>
+  <!--     <app-button [label]="'Empezar'" [isActive]="true" [isOutline]="false"></app-button> -->
+</form>
