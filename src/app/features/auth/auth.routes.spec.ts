@@ -27,4 +27,13 @@ describe('AUTH_ROUTES', () => {
     const loadedComponent = await forgotPasswordRoute?.loadComponent?.();
     expect(loadedComponent).toBeTruthy();
   });
+
+  it('should define profile-selection route correctly', async () => {
+    const profileSelectionRoute = AUTH_ROUTES.find((route) => route.path === 'profile-selection');
+    expect(profileSelectionRoute).toBeTruthy();
+    expect(profileSelectionRoute?.loadComponent).toBeDefined();
+
+    const loadedComponent = await profileSelectionRoute?.loadComponent?.();
+    expect(loadedComponent).toBeTruthy();
+  });
 });

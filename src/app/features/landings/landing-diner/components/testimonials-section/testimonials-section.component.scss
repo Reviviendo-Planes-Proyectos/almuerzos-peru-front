@@ -1,0 +1,56 @@
+.testimonials-section {
+  background: linear-gradient(135deg, rgba(255, 184, 0, 0.1) 0%, rgba(255, 107, 0, 0.1) 100%);
+}
+
+.testimonial-card {
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Ajustes específicos para mobile muy pequeño
+@media (max-width: 480px) {
+  .testimonials-section {
+    padding: 2rem 0 !important;
+  }
+
+  .testimonials-grid {
+    gap: 1rem !important;
+  }
+
+  .testimonial-content {
+    padding: 1rem !important;
+  }
+
+  .testimonial-header {
+    gap: 0.5rem !important;
+  }
+
+  .testimonial-avatar {
+    width: 2rem !important;
+    height: 2rem !important;
+  }
+
+  .testimonial-name {
+    font-size: 0.875rem !important;
+  }
+
+  .testimonial-role {
+    font-size: 0.6875rem !important;
+  }
+
+  .testimonial-text {
+    font-size: 0.8125rem !important;
+  }
+
+  .star-icon {
+    width: 0.75rem !important;
+    height: 0.75rem !important;
+    font-size: 0.75rem !important;
+  }
+}
