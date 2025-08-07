@@ -23,5 +23,10 @@ export const AUTH_ROUTES: Routes = [
     path: 'customer-basic-info',
     loadComponent: () =>
       import('./pages/customer-basic-info/customer-basic-info.component').then((m) => m.CustomerBasicInfoComponent)
+  },
+  {
+    path: 'email-verification',
+    loadComponent: () =>
+      import('./pages/email-verification/email-verification.component').then((m) => m.EmailVerificationComponent)
   }
 ];

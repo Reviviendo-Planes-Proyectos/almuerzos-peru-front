@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
 import { InputFieldComponent } from '../../../../shared/components/input-field/input-field.component';
 import { SectionTitleComponent } from '../../../../shared/components/section-title/section-title.component';
@@ -18,6 +19,7 @@ export class CustomerBasicInfoComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private router: Router,
     public readonly logger: LoggerService
   ) {}
 
@@ -33,9 +35,9 @@ export class CustomerBasicInfoComponent implements OnInit {
 
   onSubmit(): void {
     if (this.customerForm.valid) {
-      //console.log('Formulario enviado:', this.customerForm.value);
       this.logger.info('Formulario enviado:', this.customerForm.value);
-      // Aquí puedes pasar al siguiente paso o enviar datos
+      // Guardar datos y navegar al siguiente paso
+      this.router.navigate(['/auth/email-verification']);
     } else {
       this.customerForm.markAllAsTouched(); // muestra errores
     }

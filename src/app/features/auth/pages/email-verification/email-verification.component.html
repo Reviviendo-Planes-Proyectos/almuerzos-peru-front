@@ -1,0 +1,55 @@
+<div class="flex flex-col gap-6 max-w-lg mx-auto p-6 bg-gray-50 min-h-screen">
+  <!-- Paso del formulario -->
+  <app-step-indicator [step]="2" [total]="5"></app-step-indicator>
+
+  <!-- Título de sección -->
+  <app-section-title
+    icon="email"
+    title="Verificar Correo"
+    subtitle="Confirma tu correo electrónico para continuar"
+  ></app-section-title>
+
+  <!-- Tarjeta de verificación -->
+  <div class="bg-white p-6 rounded-xl shadow-sm flex flex-col items-center gap-6">
+    <!-- Icono de correo -->
+    <div class="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center">
+      <i class="material-icons text-blue-600 text-2xl">email</i>
+    </div>
+
+    <!-- Mensaje -->
+    <div class="text-center">
+      <p class="text-gray-600 mb-2 verification-message">Enviaremos un código de verificación a:</p>
+      <p class="font-semibold text-gray-900">{{ userEmail }}</p>
+    </div>
+
+    <!-- Botón principal -->
+    <div class="w-full">
+      <app-button
+        [label]="'Enviar Código de Verificación'"
+        [isActive]="true"
+        [isOutline]="false"
+        iconName="send"
+        (click)="sendVerificationCode()"
+      ></app-button>
+    </div>
+  </div>
+
+  <!-- Opciones adicionales -->
+  <div class="flex flex-col gap-4 text-center">
+    <!-- Hacer más tarde -->
+    <p class="text-gray-500 text-sm">¿Prefieres verificar tu correo más tarde?</p>
+
+    <button
+      class="flex items-center justify-center gap-2 text-gray-600 hover:text-gray-800 transition-colors btn-do-later"
+      (click)="doLater()"
+    >
+      <i class="material-icons text-sm">schedule</i>
+      <span class="text-sm font-medium">Hacer Más Tarde</span>
+    </button>
+
+    <!-- Botón atrás -->
+    <button class="text-gray-500 text-sm hover:text-gray-700 transition-colors mt-4 btn-go-back" (click)="goBack()">
+      Atrás
+    </button>
+  </div>
+</div>
