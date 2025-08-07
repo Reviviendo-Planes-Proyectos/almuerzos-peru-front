@@ -6,7 +6,6 @@ import { HeaderComponent } from './header.component';
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
-  // biome-ignore lint/correctness/noUnusedVariables: <explanation>
   let router: Router;
 
   beforeEach(async () => {
