@@ -19,7 +19,7 @@ export class InputFieldComponent implements OnInit, ControlValueAccessor {
   control!: FormControl;
   value: any = '';
   disabled = false;
-  inputId = `input-${Math.random().toString(36).substr(2, 9)}`;
+  inputId = `input-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
   isFocused = false;
 
   private onChange = (_value: any) => {};
