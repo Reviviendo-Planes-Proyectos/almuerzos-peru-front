@@ -24,7 +24,8 @@ describe('HeroSectionComponent', () => {
   it('should render the hero section content', () => {
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('section')).toBeTruthy();
-    expect(compiled.querySelector('.gradient-text')?.textContent).toContain('Restaurante');
+    // Cambiar línea 27:
+    expect(compiled.querySelector('.gradient-text')?.textContent).toContain('Sube tu carta.');
   });
 
   it('should alert feature when handleFeatureClick is called', () => {

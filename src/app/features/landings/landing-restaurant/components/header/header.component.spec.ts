@@ -6,7 +6,7 @@ import { HeaderComponent } from './header.component';
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
-  // biome-ignore lint/correctness/noUnusedVariables: <explanation>
+  // biome-ignore lint/correctness/noUnusedVariables: allow unused for test setup
   let router: Router;
 
   beforeEach(async () => {
@@ -28,7 +28,8 @@ describe('HeaderComponent', () => {
   it('should render the header content', () => {
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('header')).toBeTruthy();
-    expect(compiled.textContent).toContain('ALMUERZOSPERÚ');
+    expect(compiled.textContent).toContain('ALMUERZOS');
+    expect(compiled.textContent).toContain('PERÚ');
   });
 
   it('should navigate to profile-selection when navigateToLogin is called', async () => {
