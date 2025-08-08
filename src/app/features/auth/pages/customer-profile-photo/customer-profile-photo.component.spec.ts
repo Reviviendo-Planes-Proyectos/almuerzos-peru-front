@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Router } from '@angular/router';
 import { By } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 import { CustomerProfilePhotoComponent } from './customer-profile-photo.component';
 
 describe('CustomerProfilePhotoComponent', () => {
