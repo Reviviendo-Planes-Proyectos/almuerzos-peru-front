@@ -28,5 +28,17 @@ export const AUTH_ROUTES: Routes = [
     path: 'email-verification',
     loadComponent: () =>
       import('./pages/email-verification/email-verification.component').then((m) => m.EmailVerificationComponent)
+  },
+  {
+    path: 'email-verification/:email',
+    loadComponent: () =>
+      import('./pages/email-verification/email-verification.component').then((m) => m.EmailVerificationComponent)
+  },
+  {
+    path: 'customer-profile-photo',
+    loadComponent: () =>
+      import('./pages/customer-profile-photo/customer-profile-photo.component').then(
+        (m) => m.CustomerProfilePhotoComponent
+      )
   }
 ];

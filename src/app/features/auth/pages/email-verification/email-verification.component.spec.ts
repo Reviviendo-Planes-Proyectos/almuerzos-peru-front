@@ -3,7 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { of } from 'rxjs';
 
 import { EmailVerificationComponent } from './email-verification.component';
 
@@ -18,15 +19,28 @@ describe('EmailVerificationComponent', () => {
       navigate: jest.fn()
     };
 
+    const activatedRouteSpy = {
+      params: of({}),
+      snapshot: {
+        queryParams: {}
+      }
+    };
+
     await TestBed.configureTestingModule({
       imports: [EmailVerificationComponent, NoopAnimationsModule, ReactiveFormsModule],
-      providers: [{ provide: Router, useValue: routerSpy }]
+      providers: [
+        { provide: Router, useValue: routerSpy },
+        { provide: ActivatedRoute, useValue: activatedRouteSpy }
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(EmailVerificationComponent);
     component = fixture.componentInstance;
     router = TestBed.inject(Router);
     debugElement = fixture.debugElement;
+
+    // Inicializar propiedades antes de detectChanges
+    component.userEmail = 's***@gmail.com';
     fixture.detectChanges();
   });
 
@@ -39,6 +53,7 @@ describe('EmailVerificationComponent', () => {
     expect(component.canResendCode).toBe(false);
     expect(component.countdownTimer).toBeLessThanOrEqual(60);
     expect(component.codeSent).toBe(false);
+    expect(component.currentStep).toBe(2);
   });
 
   // TESTS PARA LA VISTA INICIAL (ENVIAR CÓDIGO)
@@ -68,18 +83,22 @@ describe('EmailVerificationComponent', () => {
     it('should call doLater when "Hacer Más Tarde" button is clicked', () => {
       const spy = jest.spyOn(component, 'doLater');
 
-      const laterButton = debugElement.query(By.css('.btn-do-later'));
-      laterButton.triggerEventHandler('click', null);
+      const buttons = debugElement.queryAll(By.css('app-button'));
+      const laterButton = buttons.find((btn) => btn.componentInstance.label === 'Hacer Más Tarde');
+      expect(laterButton).toBeTruthy();
 
+      laterButton?.triggerEventHandler('click', null);
       expect(spy).toHaveBeenCalled();
     });
 
     it('should call goBack when "Atrás" button is clicked', () => {
       const spy = jest.spyOn(component, 'goBack');
 
-      const backButton = debugElement.query(By.css('.btn-go-back'));
-      backButton.triggerEventHandler('click', null);
+      const buttons = debugElement.queryAll(By.css('app-button'));
+      const backButton = buttons.find((btn) => btn.componentInstance.label === 'Atrás');
+      expect(backButton).toBeTruthy();
 
+      backButton?.triggerEventHandler('click', null);
       expect(spy).toHaveBeenCalled();
     });
 
@@ -89,21 +108,21 @@ describe('EmailVerificationComponent', () => {
     });
 
     it('should display email icon', () => {
-      const emailIcon = debugElement.query(By.css('.material-icons'));
-      expect(emailIcon.nativeElement.textContent.trim()).toBe('mail_outline');
+      const sectionTitle = debugElement.query(By.css('app-section-title'));
+      expect(sectionTitle.componentInstance.icon).toBe('mail_outline');
     });
 
     it('should display schedule icon in "Hacer Más Tarde" button', () => {
-      const laterButton = debugElement.query(By.css('.btn-do-later'));
-      const scheduleIcon = laterButton.query(By.css('.material-icons'));
-
-      expect(scheduleIcon.nativeElement.textContent.trim()).toBe('schedule');
+      const buttons = debugElement.queryAll(By.css('app-button'));
+      const laterButton = buttons.find((btn) => btn.componentInstance.label === 'Hacer Más Tarde');
+      expect(laterButton).toBeTruthy();
+      expect(laterButton?.componentInstance.iconName).toBe('schedule');
     });
 
     it('should have correct step indicator properties', () => {
       const stepIndicator = debugElement.query(By.css('app-step-indicator'));
       expect(stepIndicator.componentInstance.step).toBe(2);
-      expect(stepIndicator.componentInstance.total).toBe(5);
+      expect(stepIndicator.componentInstance.total).toBe(4);
     });
 
     it('should have correct section title properties for initial view', () => {
@@ -115,7 +134,7 @@ describe('EmailVerificationComponent', () => {
 
     it('should display verification button with correct properties', () => {
       const button = debugElement.query(By.css('app-button'));
-      expect(button.componentInstance.label).toBe('Enviar Código');
+      expect(button.componentInstance.label).toBe('Enviar Código de Verificación');
       expect(button.componentInstance.isActive).toBe(true);
       expect(button.componentInstance.isOutline).toBe(false);
       expect(button.componentInstance.iconName).toBe('send');
@@ -140,8 +159,8 @@ describe('EmailVerificationComponent', () => {
     it('should display verification view with correct section title', () => {
       const sectionTitle = debugElement.query(By.css('app-section-title'));
       expect(sectionTitle.componentInstance.icon).toBe('security');
-      expect(sectionTitle.componentInstance.title).toBe('Código de Verificación');
-      expect(sectionTitle.componentInstance.subtitle).toBe('Revisa tu bandeja de entrada y confirma el código');
+      expect(sectionTitle.componentInstance.title).toBe('Verificar Correo');
+      expect(sectionTitle.componentInstance.subtitle).toBe('Confirma tu correo electrónico para continuar');
     });
 
     it('should display input field in verification view', () => {
@@ -154,7 +173,7 @@ describe('EmailVerificationComponent', () => {
 
     it('should display verify button in verification view', () => {
       const buttons = debugElement.queryAll(By.css('app-button'));
-      const verifyButton = buttons.find((btn) => btn.componentInstance.label === 'Verificar');
+      const verifyButton = buttons.find((btn) => btn.componentInstance.label === 'Verificar Código');
 
       expect(verifyButton).toBeTruthy();
       expect(verifyButton?.componentInstance.iconName).toBe('check');
@@ -164,7 +183,7 @@ describe('EmailVerificationComponent', () => {
       const spy = jest.spyOn(component, 'verifyCode');
 
       const buttons = debugElement.queryAll(By.css('app-button'));
-      const verifyButton = buttons.find((btn) => btn.componentInstance.label === 'Verificar');
+      const verifyButton = buttons.find((btn) => btn.componentInstance.label === 'Verificar Código');
       verifyButton?.triggerEventHandler('click', null);
 
       expect(spy).toHaveBeenCalled();

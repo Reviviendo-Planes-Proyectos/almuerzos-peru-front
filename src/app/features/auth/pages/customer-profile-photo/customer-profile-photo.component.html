@@ -1,0 +1,51 @@
+<div class="flex flex-col gap-6 max-w-lg mx-auto p-6 min-h-screen">
+  <!-- Paso del formulario -->
+  <app-step-indicator [step]="4" [total]="4"></app-step-indicator>
+
+  <!-- Título de sección -->
+  <app-section-title
+    icon="photo_camera"
+    iconBgColor="bg-purple-500"
+    title="Foto de Perfil"
+    subtitle="Ya casi termina tu registro"
+  ></app-section-title>
+
+  <!-- Área de carga de imagen -->
+  <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center gap-6">
+    <!-- Vista previa de imagen (si existe) -->
+    <div *ngIf="selectedImage" class="w-full max-w-sm">
+      <img [src]="selectedImage" alt="Preview" class="w-full h-40 object-cover rounded-lg border border-gray-200" />
+    </div>
+
+    <!-- Componente de subida de archivos -->
+    <app-file-upload
+      [hasSelectedImage]="selectedImage !== null"
+      (fileSelected)="onFileSelected($event)"
+      (fileError)="onFileError($event)"
+    ></app-file-upload>
+
+    <!-- Botón seleccionar archivo -->
+    <app-button
+      [label]="'Seleccionar archivo'"
+      [isActive]="true"
+      [isOutline]="true"
+      iconName="upload"
+      (click)="triggerFileInput()"
+    ></app-button>
+  </div>
+
+  <!-- Botones de acción -->
+  <div class="flex flex-col gap-4 mt-auto">
+    <!-- Botón finalizar registro -->
+    <app-button
+      [label]="'Finalizar Registro'"
+      [isActive]="true"
+      [isOutline]="false"
+      iconName="check_circle"
+      (click)="finishRegistration()"
+    ></app-button>
+
+    <!-- Botón atrás -->
+    <app-button [label]="'Atrás'" [isOutline]="true" (click)="goBack()"></app-button>
+  </div>
+</div>

@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
 import { InputFieldComponent } from '../../../../shared/components/input-field/input-field.component';
 import { SectionTitleComponent } from '../../../../shared/components/section-title/section-title.component';
@@ -21,21 +22,88 @@ import { StepIndicatorComponent } from '../../../../shared/components/step-indic
   templateUrl: './email-verification.component.html',
   styleUrl: './email-verification.component.scss'
 })
-export class EmailVerificationComponent implements OnInit {
-  userEmail = 's***@gmail.com'; // Este valor vendría del paso anterior
+export class EmailVerificationComponent implements OnInit, OnDestroy {
+  userEmail!: string; // Valor por defecto
   canResendCode = false;
   countdownTimer = 60;
   codeSent = false; // Nueva propiedad para controlar la vista
   verificationForm!: FormGroup;
+  private paramsSubscription!: Subscription;
+  private intervalId?: number;
+  currentStep = 2;
 
   constructor(
     private router: Router,
-    private fb: FormBuilder
+    private route: ActivatedRoute,
+    private fb: FormBuilder,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    this.startCountdown();
+    // Inicializar formulario primero
     this.initializeForm();
+
+    // Suscribirse a los parámetros de ruta Y query parameters para máxima compatibilidad
+    this.paramsSubscription = this.route.params.subscribe((params: Params) => {
+      const emailKey = 'email';
+      let email = params[emailKey] as string;
+
+      // Si no hay email en params, buscar en queryParams
+      if (!email) {
+        email = this.route.snapshot.queryParams[emailKey] as string;
+      }
+
+      if (email) {
+        // Decodificar el email si viene de la URL
+        const decodedEmail = decodeURIComponent(email);
+        this.userEmail = this.maskEmail(decodedEmail);
+
+        // Forzar la detección de cambios y reset del estado
+        this.cdr.detectChanges();
+        this.resetComponentState();
+      } else {
+        this.userEmail = 's***@gmail.com'; // Fallback
+        this.startCountdown();
+      }
+    });
+  }
+
+  private resetComponentState(): void {
+    // Reiniciar el estado del componente
+    this.codeSent = false;
+    this.canResendCode = false;
+    this.countdownTimer = 60;
+
+    // Reinicializar el formulario
+    if (this.verificationForm) {
+      this.verificationForm.reset();
+    }
+
+    // Reiniciar el countdown
+    this.startCountdown();
+  }
+
+  ngOnDestroy(): void {
+    // Limpiar suscripciones y timers
+    if (this.paramsSubscription) {
+      this.paramsSubscription.unsubscribe();
+    }
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
+  }
+
+  /**
+   * Enmascara el email para mostrar solo parte del mismo
+   * Ejemplo: test@gmail.com -> t***@gmail.com
+   */
+  private maskEmail(email: string): string {
+    const [localPart, domain] = email.split('@');
+    if (localPart.length <= 1) {
+      return email; // Si es muy corto, no enmascarar
+    }
+    const maskedLocal = `${localPart[0]}***${localPart.length > 2 ? localPart.slice(-1) : ''}`;
+    return `${maskedLocal}@${domain}`;
   }
 
   private initializeForm(): void {
@@ -47,6 +115,7 @@ export class EmailVerificationComponent implements OnInit {
   sendVerificationCode(): void {
     // Aquí iría la lógica para enviar el código
     // Por ejemplo: this.authService.sendVerificationCode(this.userEmail)
+    this.currentStep = 3;
     this.codeSent = true; // Cambiar a la vista de ingreso de código
   }
 
@@ -54,9 +123,14 @@ export class EmailVerificationComponent implements OnInit {
     if (this.verificationForm.valid) {
       // Aquí iría la lógica para verificar el código
       // const code = this.verificationForm.get('verificationCode')?.value;
-      // Por ejemplo: this.authService.verifyCode(code)
-      // Navegar al siguiente paso después de verificación exitosa
-      // this.router.navigate(['/next-step']);
+
+      // Simulamos una verificación exitosa por ahora
+      // En el futuro: this.authService.verifyCode(code).subscribe(...)
+
+      // Navegar al siguiente paso: subir foto de perfil
+      // Cambiar al paso 3
+
+      this.router.navigate(['/auth/customer-profile-photo']);
     } else {
       this.verificationForm.markAllAsTouched();
     }
@@ -64,8 +138,6 @@ export class EmailVerificationComponent implements OnInit {
 
   resendCode(): void {
     if (this.canResendCode) {
-      this.canResendCode = false;
-      this.countdownTimer = 60;
       this.startCountdown();
       // Lógica para reenviar código
       // Por ejemplo: this.authService.resendVerificationCode()
@@ -74,8 +146,6 @@ export class EmailVerificationComponent implements OnInit {
 
   resendCodeFromVerificationView(): void {
     // Reenviar código desde la vista de verificación
-    this.canResendCode = false;
-    this.countdownTimer = 60;
     this.startCountdown();
     // Lógica para reenviar código
     // Por ejemplo: this.authService.resendVerificationCode()
@@ -91,12 +161,24 @@ export class EmailVerificationComponent implements OnInit {
   }
 
   private startCountdown(): void {
-    const interval = setInterval(() => {
+    // Limpiar cualquier timer anterior
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
+
+    // Reiniciar el estado del countdown
+    this.canResendCode = false;
+    this.countdownTimer = 60;
+
+    this.intervalId = setInterval(() => {
       this.countdownTimer--;
       if (this.countdownTimer <= 0) {
         this.canResendCode = true;
-        clearInterval(interval);
+        if (this.intervalId) {
+          clearInterval(this.intervalId);
+          this.intervalId = undefined;
+        }
       }
-    }, 1000);
+    }, 1000) as unknown as number;
   }
 }

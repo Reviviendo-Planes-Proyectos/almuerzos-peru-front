@@ -1,0 +1,74 @@
+<div class="flex flex-col gap-2">
+  <!-- Label -->
+  <!--   <label *ngIf="label" class="text-sm font-medium text-gray-700">
+    {{ label }}
+  </label> -->
+
+  <!-- Select Container -->
+  <div class="relative">
+    <!-- Select Input -->
+    <div
+      class="flex items-center gap-3 p-4 border border-gray-300 rounded-lg cursor-pointer transition-all duration-200 bg-white"
+      [class.border-blue-500]="isOpen"
+      [class.border-gray-300]="!isOpen"
+      [class.opacity-50]="disabled"
+      [class.cursor-not-allowed]="disabled"
+      (click)="toggleDropdown()"
+      (blur)="onBlur()"
+    >
+      <!-- Icon -->
+      <i *ngIf="icon" class="material-icons text-gray-400 text-xl">{{ icon }}</i>
+
+      <!-- Selected Value / Placeholder -->
+      <span class="flex-1 text-left" [class.text-gray-500]="!value" [class.text-gray-900]="value">
+        {{ getSelectedLabel() }}
+      </span>
+
+      <!-- Clear Button -->
+      <button
+        *ngIf="value && !disabled"
+        type="button"
+        class="text-gray-400 hover:text-gray-600 transition-colors"
+        (click)="clearSelection(); $event.stopPropagation()"
+      >
+        <i class="material-icons text-lg">close</i>
+      </button>
+
+      <!-- Arrow Icon -->
+      <i class="material-icons text-gray-400 transition-transform duration-200" [class.rotate-180]="isOpen">
+        keyboard_arrow_down
+      </i>
+    </div>
+
+    <!-- Dropdown Options -->
+    <div
+      *ngIf="isOpen && !disabled"
+      class="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto"
+    >
+      <!-- No options message -->
+      <div *ngIf="options.length === 0" class="p-4 text-gray-500 text-center">No hay opciones disponibles</div>
+
+      <!-- Options -->
+      <div
+        *ngFor="let option of options"
+        class="flex items-center gap-3 p-3 hover:bg-gray-50 cursor-pointer transition-colors"
+        [class.bg-blue-50]="option.value === value"
+        [class.text-blue-600]="option.value === value"
+        [class.opacity-50]="option.disabled"
+        [class.cursor-not-allowed]="option.disabled"
+        (click)="selectOption(option)"
+      >
+        <!-- Check icon for selected -->
+        <i *ngIf="option.value === value" class="material-icons text-blue-600 text-lg">check</i>
+        <span class="flex-1">{{ option.label }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="showError" class="text-sm text-red-500 mt-1">
+    <ng-container *ngIf="control.errors?.['required']">Este campo es obligatorio.</ng-container>
+  </div>
+</div>
+
+<!-- Overlay para cerrar dropdown -->
+<div *ngIf="isOpen" class="fixed inset-0 z-40" (click)="isOpen = false"></div>

@@ -1,6 +1,6 @@
 <div class="flex flex-col gap-6 max-w-lg mx-auto p-6 min-h-screen">
   <!-- Paso del formulario -->
-  <app-step-indicator [step]="2" [total]="5"></app-step-indicator>
+  <app-step-indicator [step]="currentStep" [total]="4"></app-step-indicator>
 
   <!-- Vista inicial: Enviar código -->
   <div *ngIf="!codeSent" class="flex flex-col gap-8">
@@ -22,7 +22,7 @@
       <!-- Botón principal -->
       <div class="w-full">
         <app-button
-          [label]="'Enviar Código'"
+          [label]="'Enviar Código de Verificación'"
           [isActive]="true"
           [isOutline]="false"
           iconName="send"
@@ -37,20 +37,16 @@
       <!-- Hacer más tarde -->
       <div class="bg-gray-50 p-4 rounded-lg">
         <p class="text-gray-500 text-sm mb-3">¿Prefieres verificar tu correo más tarde?</p>
-
-        <button
-          class="flex items-center justify-center gap-2 text-gray-600 hover:text-gray-800 transition-colors btn-do-later mx-auto"
+        <app-button
+          [label]="'Hacer Más Tarde'"
+          [iconName]="'schedule'"
+          [isActive]="true"
+          [isOutline]="true"
           (click)="doLater()"
-        >
-          <i class="material-icons text-sm">schedule</i>
-          <span class="text-sm font-medium">Hacer Más Tarde</span>
-        </button>
+        ></app-button>
+        <br />
+        <app-button [label]="'Atrás'" [isActive]="true" [isOutline]="true" (click)="goBack()"></app-button>
       </div>
-
-      <!-- Botón atrás -->
-      <button class="text-gray-500 text-sm hover:text-gray-700 transition-colors btn-go-back" (click)="goBack()">
-        Atrás
-      </button>
     </div>
   </div>
 
@@ -59,8 +55,8 @@
     <!-- Título de sección -->
     <app-section-title
       icon="security"
-      title="Código de Verificación"
-      subtitle="Revisa tu bandeja de entrada y confirma el código"
+      title="Verificar Correo"
+      subtitle="Confirma tu correo electrónico para continuar"
     ></app-section-title>
 
     <!-- Tarjeta de verificación -->
@@ -83,7 +79,7 @@
 
         <!-- Botón verificar -->
         <app-button
-          [label]="'Verificar'"
+          [label]="'Verificar Código'"
           [isActive]="true"
           [isOutline]="false"
           iconName="check"
@@ -113,18 +109,16 @@
       <!-- Hacer más tarde -->
       <div class="bg-gray-50 p-4 rounded-lg">
         <p class="text-gray-500 text-sm mb-3">¿Prefieres verificar tu correo más tarde?</p>
-
-        <button
-          class="flex items-center justify-center gap-2 text-gray-600 hover:text-gray-800 transition-colors mx-auto"
+        <app-button
+          [label]="'Hacer Más Tarde'"
+          [iconName]="'schedule'"
+          [isActive]="true"
+          [isOutline]="true"
           (click)="doLater()"
-        >
-          <i class="material-icons text-sm">schedule</i>
-          <span class="text-sm font-medium">Hacer Más Tarde</span>
-        </button>
+        ></app-button>
+        <br />
+        <app-button [label]="'Atrás'" [isActive]="true" [isOutline]="true" (click)="goBack()"></app-button>
       </div>
-
-      <!-- Botón atrás -->
-      <button class="text-gray-500 text-sm hover:text-gray-700 transition-colors" (click)="goBack()">Atrás</button>
     </div>
   </div>
 </div>

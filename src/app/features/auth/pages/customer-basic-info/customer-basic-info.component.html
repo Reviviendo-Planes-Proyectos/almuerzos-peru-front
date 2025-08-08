@@ -6,41 +6,43 @@
   <app-section-title
     icon="description"
     title="Información Básica"
-    subtitle="Empecemos con los datos principales de tu restaurante"
+    subtitle="Empecemos con los datos principales"
   ></app-section-title>
 
   <!-- Tarjeta de formulario -->
   <div class="p-0 rounded-xl shadow-sm flex flex-col gap-5">
     <app-input-field
-      label="Nombre del Restaurante"
+      label="Nombre de Usuario*"
       icon="restaurant"
       placeholder="Ej: Restaurante El Sabor Criollo"
       formControlName="name"
     ></app-input-field>
 
     <app-input-field
-      label="Correo Electrónico *"
+      label="Correo Electrónico*"
       icon="email"
       type="email"
       placeholder="contacto@mirestaurante.com"
       formControlName="email"
     ></app-input-field>
 
-    <app-input-field label="DNI" icon="badge" placeholder="12345678" formControlName="dni"></app-input-field>
+    <app-input-field label="DNI*" icon="badge" placeholder="12345678" formControlName="dni"></app-input-field>
 
-    <app-input-field
-      label="Dirección"
+    <app-select-field
+      label="Provincia*"
       icon="location_on"
-      placeholder="Av. Ejemplo 123, Miraflores - Lima"
-      formControlName="address"
-    ></app-input-field>
+      placeholder="Selecciona tu provincia"
+      [options]="provinciaOptions"
+      formControlName="provincia"
+    ></app-select-field>
 
-    <app-input-field
-      label="RUC de la empresa (opcional)"
-      icon="business"
-      placeholder="20123456789"
-      formControlName="ruc"
-    ></app-input-field>
+    <app-select-field
+      label="Distrito*"
+      icon="place"
+      placeholder="Selecciona tu distrito"
+      [options]="distritoOptions"
+      formControlName="distrito"
+    ></app-select-field>
   </div>
 
   <!-- Botón de acción -->
