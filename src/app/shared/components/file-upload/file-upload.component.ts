@@ -15,6 +15,7 @@ export class FileUploadComponent {
   @Input() maxFileSize = 5 * 1024 * 1024; // 5MB por defecto
   @Input() allowedFormats = ['image/jpeg', 'image/jpg', 'image/png'];
   @Input() hasSelectedImage = false;
+  @Input() defaultBackgroundImage: string | null = null;
 
   @Output() fileSelected = new EventEmitter<File>();
   @Output() fileError = new EventEmitter<string>();

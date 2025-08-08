@@ -1,0 +1,47 @@
+<!-- Toast Container -->
+<div *ngIf="isVisible" class="toast-container">
+  <div class="toast-content">
+    <!-- Botón cerrar -->
+    <button
+      (click)="onClose()"
+      class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors"
+      aria-label="Cerrar"
+    >
+      <i class="material-icons text-lg">close</i>
+    </button>
+
+    <!-- Contenido principal -->
+    <div class="flex items-start gap-3 pr-8">
+      <!-- Ícono de advertencia triangular -->
+      <div class="flex-shrink-0 mt-0.5">
+        <i class="material-icons text-orange-500 text-xl">warning</i>
+      </div>
+
+      <!-- Contenido de texto y botones -->
+      <div class="flex-1">
+        <!-- Título -->
+        <h3 class="text-gray-900 font-medium text-sm mb-1">{{ title }}</h3>
+
+        <!-- Mensaje -->
+        <p class="text-gray-700 text-sm mb-3 leading-snug">{{ message }}</p>
+
+        <!-- Botones de acción -->
+        <div class="flex gap-3">
+          <button
+            (click)="onPrimaryAction()"
+            class="bg-orange-500 hover:bg-orange-600 text-white font-medium py-1.5 px-4 rounded text-sm transition-colors"
+          >
+            {{ primaryButtonText }}
+          </button>
+
+          <button
+            (click)="onSecondaryAction()"
+            class="text-orange-600 hover:text-orange-700 font-medium py-1.5 px-4 rounded text-sm transition-colors"
+          >
+            {{ secondaryButtonText }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

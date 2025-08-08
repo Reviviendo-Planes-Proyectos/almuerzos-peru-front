@@ -13,19 +13,32 @@
   <!-- Área de carga de imagen -->
   <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center gap-6">
     <!-- Vista previa de imagen (si existe) -->
-    <div *ngIf="selectedImage" class="w-full max-w-sm">
-      <img [src]="selectedImage" alt="Preview" class="w-full h-40 object-cover rounded-lg border border-gray-200" />
+    <div *ngIf="selectedImage" class="w-full max-w-sm flex justify-center relative">
+      <div class="relative">
+        <img [src]="selectedImage" alt="Preview" class="w-80 h-80 object-cover rounded-lg border border-gray-200" />
+
+        <!-- Botón X para eliminar imagen -->
+        <button
+          (click)="removeSelectedImage()"
+          class="absolute -top-2 -right-2 w-8 h-8 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center shadow-lg transition-colors duration-200 z-10"
+          aria-label="Eliminar imagen"
+        >
+          <i class="material-icons text-sm">close</i>
+        </button>
+      </div>
     </div>
 
     <!-- Componente de subida de archivos -->
     <app-file-upload
       [hasSelectedImage]="selectedImage !== null"
+      [defaultBackgroundImage]="'/img/person.png'"
       (fileSelected)="onFileSelected($event)"
       (fileError)="onFileError($event)"
     ></app-file-upload>
 
-    <!-- Botón seleccionar archivo -->
+    <!-- Botón seleccionar archivo - Solo aparece cuando hay imagen seleccionada -->
     <app-button
+      *ngIf="selectedImage"
       [label]="'Seleccionar archivo'"
       [isActive]="true"
       [isOutline]="true"
@@ -46,6 +59,18 @@
     ></app-button>
 
     <!-- Botón atrás -->
-    <app-button [label]="'Atrás'" [isOutline]="true" (click)="goBack()"></app-button>
+    <app-button [label]="'Atrás'" [outlineGray]="true" (click)="goBack()"></app-button>
   </div>
+
+  <!-- Modal de advertencia -->
+  <app-warning-modal
+    [isVisible]="showWarningModal"
+    title="Correo sin verificar"
+    message="Tu correo aún no está verificado. Verifícalo para recibir notificaciones importantes."
+    primaryButtonText="Verificar ahora"
+    secondaryButtonText="Recordar después"
+    (primaryAction)="onVerifyEmail()"
+    (secondaryAction)="onRemindLater()"
+    (closeModal)="onCloseWarningModal()"
+  ></app-warning-modal>
 </div>
