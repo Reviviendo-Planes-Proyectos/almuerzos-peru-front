@@ -127,4 +127,38 @@ describe('FooterComponent', () => {
       });
     });
   });
+
+  describe('isDinerLanding getter', () => {
+    it('should return true when current landing type is diner', () => {
+      mockRouter.url = '/home-diner';
+      expect(component.isDinerLanding).toBe(true);
+    });
+
+    it('should return false when current landing type is restaurant', () => {
+      mockRouter.url = '/home-restaurant';
+      expect(component.isDinerLanding).toBe(false);
+    });
+
+    it('should return false when current landing type is unknown', () => {
+      mockRouter.url = '/unknown-page';
+      expect(component.isDinerLanding).toBe(false);
+    });
+  });
+
+  describe('isRestaurantLanding getter', () => {
+    it('should return true when current landing type is restaurant', () => {
+      mockRouter.url = '/home-restaurant';
+      expect(component.isRestaurantLanding).toBe(true);
+    });
+
+    it('should return false when current landing type is diner', () => {
+      mockRouter.url = '/home-diner';
+      expect(component.isRestaurantLanding).toBe(false);
+    });
+
+    it('should return true when current landing type is unknown (defaults to restaurant)', () => {
+      mockRouter.url = '/unknown-page';
+      expect(component.isRestaurantLanding).toBe(true);
+    });
+  });
 });
