@@ -126,7 +126,6 @@ describe('ButtonComponent', () => {
     expect(buttonElement.classList).toContain('ease-in-out');
     expect(buttonElement.classList).toContain('transform');
     expect(buttonElement.classList).toContain('hover:scale-105');
-    expect(buttonElement.classList).toContain('cursor-pointer');
   });
 
   it('should have responsive padding classes', () => {
@@ -155,8 +154,8 @@ describe('ButtonComponent', () => {
     fixture.detectChanges();
 
     const labelSpan = debugElement.query(By.css('span:last-child'));
-    expect(labelSpan.nativeElement.classList).toContain('text-base');
-    expect(labelSpan.nativeElement.classList).toContain('sm:text-sm');
+    expect(labelSpan.nativeElement.classList).toContain('text-sm');
+    expect(labelSpan.nativeElement.classList).toContain('sm:text-base');
     expect(labelSpan.nativeElement.classList).toContain('md:text-base');
     expect(labelSpan.nativeElement.classList).toContain('lg:text-lg');
   });

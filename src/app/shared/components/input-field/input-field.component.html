@@ -1,47 +1,62 @@
 <div class="flex flex-col gap-1 w-full">
-  <!-- Label -->
-  <label class="text-sm font-medium text-gray-700">{{ label }}</label>
-
-  <!-- Input + icono -->
+  <!-- Input + icono + label flotante -->
   <div class="relative">
     <!-- Ícono izquierdo -->
-    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
-      <i class="material-icons">{{ icon }}</i>
+    <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-400 z-10">
+      <i class="material-icons-outlined text-lg">{{ icon }}</i>
     </span>
 
     <!-- Input -->
     <input
       [type]="type"
-      [placeholder]="placeholder"
       [required]="required"
       [value]="value"
       [disabled]="disabled"
-      class="pl-10 pr-12 py-3 w-full border-2 rounded-lg focus:outline-none transition-all"
+      [id]="inputId"
+      class="pl-12 pr-12 py-3 w-full border-2 rounded-lg focus:outline-none transition-all peer custom-input placeholder-transparent selection:bg-orange-200 selection:text-gray-700 font-normal"
       [ngClass]="{
-        'border-gray-200 focus:border-orange-500': !control?.touched,
-        'border-green-500': control?.valid && control?.touched,
-        'border-red-500': control?.invalid && control?.touched
+        'border-gray-200 focus:border-orange-500': !control.touched,
+        'border-green-500': control.valid && control.touched,
+        'border-red-500': control.invalid && control.touched
       }"
+      (focus)="onFocus()"
       (blur)="onBlur()"
       (input)="onInput($event)"
+      placeholder=""
     />
 
+    <!-- Label flotante -->
+    <label
+      [for]="inputId"
+      class="absolute left-12 transition-all duration-200 pointer-events-none transform origin-left"
+      [ngClass]="{
+        'top-3 text-gray-500 text-base scale-100': !hasValue && !isFocused,
+        'top-1 text-xs scale-90': hasValue || isFocused,
+        'text-orange-500':
+          (isFocused && !control.invalid) || (!control.touched && hasValue) || (control.touched && !control.invalid),
+        'text-green-500': control.valid && control.touched,
+        'text-red-500': control.invalid && control.touched
+      }"
+    >
+      {{ label }}
+    </label>
+
     <!-- Ícono de validación derecho -->
-    <span class="absolute inset-y-0 right-0 flex items-center pr-3" *ngIf="control?.touched">
+    <span class="absolute inset-y-0 right-0 flex items-center pr-3" *ngIf="control.touched">
       <div
-        class="w-6 h-6 rounded-full flex items-center justify-center"
+        class="w-5 h-5 rounded-full flex items-center justify-center"
         [ngClass]="{
-          'bg-green-500': control?.valid,
-          'bg-red-500': control?.invalid
+          'bg-green-500': control.valid,
+          'bg-red-500': control.invalid
         }"
       >
         <i
-          class="material-icons text-white text-sm"
+          class="material-icons-outlined text-white text-xs"
           [ngClass]="{
-            'text-white': control?.valid || control?.invalid
+            'text-white': control.valid || control.invalid
           }"
         >
-          {{ control?.valid ? 'check' : 'close' }}
+          {{ control.valid ? 'check' : 'close' }}
         </i>
       </div>
     </span>
@@ -49,9 +64,9 @@
 
   <!-- Mensaje de error -->
   <div *ngIf="showError" class="text-sm text-red-500 mt-1">
-    <ng-container *ngIf="control?.errors?.['required']">Este campo es obligatorio.</ng-container>
-    <ng-container *ngIf="control?.errors?.['email']">Ingresa un correo válido.</ng-container>
-    <ng-container *ngIf="control?.errors?.['minlength']">
+    <ng-container *ngIf="control.errors?.['required']">Este campo es obligatorio.</ng-container>
+    <ng-container *ngIf="control.errors?.['email']">Ingresa un correo válido.</ng-container>
+    <ng-container *ngIf="control.errors?.['minlength']">
       Mínimo {{ control.errors?.['minlength'].requiredLength }} caracteres.
     </ng-container>
   </div>

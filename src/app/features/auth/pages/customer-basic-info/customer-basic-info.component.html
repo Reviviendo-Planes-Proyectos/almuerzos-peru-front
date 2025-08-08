@@ -1,4 +1,4 @@
-<form [formGroup]="customerForm" class="flex flex-col gap-6 max-w-lg mx-auto p-6 bg-gray-50 min-h-screen">
+<form [formGroup]="customerForm" class="flex flex-col gap-6 max-w-lg mx-auto p-6 min-h-screen">
   <!-- Paso del formulario -->
   <app-step-indicator [step]="1" [total]="4"></app-step-indicator>
 
@@ -10,7 +10,7 @@
   ></app-section-title>
 
   <!-- Tarjeta de formulario -->
-  <div class="bg-white p-6 rounded-xl shadow-sm flex flex-col gap-5">
+  <div class="p-0 rounded-xl shadow-sm flex flex-col gap-5">
     <app-input-field
       label="Nombre del Restaurante"
       icon="restaurant"
@@ -47,5 +47,4 @@
   <div class="mt-4">
     <app-button [label]="'Continuar'" [isActive]="true" [isOutline]="false" (click)="onSubmit()"></app-button>
   </div>
-  <!--     <app-button [label]="'Empezar'" [isActive]="true" [isOutline]="false"></app-button> -->
 </form>

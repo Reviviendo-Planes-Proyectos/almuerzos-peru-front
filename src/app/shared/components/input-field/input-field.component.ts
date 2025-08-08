@@ -19,8 +19,9 @@ export class InputFieldComponent implements OnInit, ControlValueAccessor {
   control!: FormControl;
   value: any = '';
   disabled = false;
+  inputId = `input-${Math.random().toString(36).substr(2, 9)}`;
+  isFocused = false;
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   private onChange = (_value: any) => {};
   private onTouched = () => {};
 
@@ -36,8 +37,6 @@ export class InputFieldComponent implements OnInit, ControlValueAccessor {
     }
   }
 
-  // ControlValueAccessor implementation
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   writeValue(_value: any): void {
     this.value = _value;
   }
@@ -50,7 +49,6 @@ export class InputFieldComponent implements OnInit, ControlValueAccessor {
     this.onTouched = fn;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setDisabledState(_isDisabled: boolean): void {
     this.disabled = _isDisabled;
   }
@@ -61,11 +59,20 @@ export class InputFieldComponent implements OnInit, ControlValueAccessor {
     this.onChange(this.value);
   }
 
+  onFocus(): void {
+    this.isFocused = true;
+  }
+
   onBlur(): void {
+    this.isFocused = false;
     this.onTouched();
   }
 
   get showError(): boolean {
     return this.control?.invalid && (this.control?.dirty || this.control?.touched);
+  }
+
+  get hasValue(): boolean {
+    return this.value && this.value.toString().length > 0;
   }
 }
