@@ -73,6 +73,6 @@ export class InputFieldComponent implements OnInit, ControlValueAccessor {
   }
 
   get hasValue(): boolean {
-    return this.value && this.value.toString().length > 0;
+    return this.value != null && this.value !== '' && this.value.toString().length > 0;
   }
 }

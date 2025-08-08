@@ -44,6 +44,13 @@ describe('EmailVerificationComponent', () => {
     fixture.detectChanges();
   });
 
+  afterEach(() => {
+    // Limpiar intervalos después de cada test
+    if ((component as any).intervalId) {
+      window.clearInterval((component as any).intervalId);
+    }
+  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
@@ -327,4 +334,254 @@ describe('EmailVerificationComponent', () => {
       expect(component.countdownTimer).toBe(30);
     });
   });
+
+  // TESTS PARA EL MÉTODO MASKEMAIL
+  describe('maskEmail functionality', () => {
+    it('should mask email correctly for normal email', () => {
+      const result = (component as any).maskEmail('test@gmail.com');
+      expect(result).toBe('t***t@gmail.com');
+    });
+
+    it('should mask email correctly for short local part', () => {
+      const result = (component as any).maskEmail('ab@gmail.com');
+      expect(result).toBe('a***@gmail.com'); // Corrección: cuando local part length > 2 es falso, no agrega el último carácter
+    });
+
+    it('should not mask email with very short local part', () => {
+      const result = (component as any).maskEmail('a@gmail.com');
+      expect(result).toBe('a@gmail.com');
+    });
+
+    it('should mask email correctly for long local part', () => {
+      const result = (component as any).maskEmail('verylongemail@gmail.com');
+      expect(result).toBe('v***l@gmail.com');
+    });
+  });
+
+  // TESTS PARA EL LIFECYCLE Y SUSCRIPCIONES
+  describe('Component lifecycle', () => {
+    it('should initialize form on ngOnInit', () => {
+      component.ngOnInit();
+
+      expect(component.verificationForm).toBeTruthy();
+      expect(component.verificationForm.get('verificationCode')).toBeTruthy();
+    });
+
+    it('should clean up subscriptions on ngOnDestroy', () => {
+      const mockSubscription = { unsubscribe: jest.fn() };
+      (component as any).paramsSubscription = mockSubscription;
+
+      const clearIntervalSpy = jest.spyOn(window, 'clearInterval');
+      (component as any).intervalId = 123;
+
+      component.ngOnDestroy();
+
+      expect(mockSubscription.unsubscribe).toHaveBeenCalled();
+      expect(clearIntervalSpy).toHaveBeenCalledWith(123);
+    });
+
+    it('should handle params subscription with email in params', async () => {
+      const mockActivatedRoute = {
+        params: of({ email: 'test%40gmail.com' }),
+        snapshot: { queryParams: {} }
+      };
+
+      // Crear un nuevo TestBed para este test específico
+      await TestBed.resetTestingModule();
+      await TestBed.configureTestingModule({
+        imports: [EmailVerificationComponent, NoopAnimationsModule, ReactiveFormsModule],
+        providers: [
+          { provide: Router, useValue: { navigate: jest.fn() } },
+          { provide: ActivatedRoute, useValue: mockActivatedRoute }
+        ]
+      }).compileComponents();
+
+      const newFixture = TestBed.createComponent(EmailVerificationComponent);
+      const newComponent = newFixture.componentInstance;
+
+      const maskEmailSpy = jest.spyOn(newComponent as any, 'maskEmail').mockReturnValue('t***@gmail.com');
+      const resetStateSpy = jest.spyOn(newComponent as any, 'resetComponentState');
+
+      newComponent.ngOnInit();
+
+      expect(maskEmailSpy).toHaveBeenCalledWith('test@gmail.com');
+      expect(resetStateSpy).toHaveBeenCalled();
+
+      // Limpiar
+      if ((newComponent as any).intervalId) {
+        window.clearInterval((newComponent as any).intervalId);
+      }
+    });
+
+    it('should handle params subscription with email in query params', async () => {
+      const mockActivatedRoute = {
+        params: of({}),
+        snapshot: { queryParams: { email: 'test%40gmail.com' } }
+      };
+
+      // Crear un nuevo TestBed para este test específico
+      await TestBed.resetTestingModule();
+      await TestBed.configureTestingModule({
+        imports: [EmailVerificationComponent, NoopAnimationsModule, ReactiveFormsModule],
+        providers: [
+          { provide: Router, useValue: { navigate: jest.fn() } },
+          { provide: ActivatedRoute, useValue: mockActivatedRoute }
+        ]
+      }).compileComponents();
+
+      const newFixture = TestBed.createComponent(EmailVerificationComponent);
+      const newComponent = newFixture.componentInstance;
+
+      const maskEmailSpy = jest.spyOn(newComponent as any, 'maskEmail').mockReturnValue('t***@gmail.com');
+      const resetStateSpy = jest.spyOn(newComponent as any, 'resetComponentState');
+
+      newComponent.ngOnInit();
+
+      expect(maskEmailSpy).toHaveBeenCalledWith('test@gmail.com');
+      expect(resetStateSpy).toHaveBeenCalled();
+
+      // Limpiar
+      if ((newComponent as any).intervalId) {
+        window.clearInterval((newComponent as any).intervalId);
+      }
+    });
+
+    it('should set fallback email when no email is provided', async () => {
+      const mockActivatedRoute = {
+        params: of({}),
+        snapshot: { queryParams: {} }
+      };
+
+      // Crear un nuevo TestBed para este test específico
+      await TestBed.resetTestingModule();
+      await TestBed.configureTestingModule({
+        imports: [EmailVerificationComponent, NoopAnimationsModule, ReactiveFormsModule],
+        providers: [
+          { provide: Router, useValue: { navigate: jest.fn() } },
+          { provide: ActivatedRoute, useValue: mockActivatedRoute }
+        ]
+      }).compileComponents();
+
+      const newFixture = TestBed.createComponent(EmailVerificationComponent);
+      const newComponent = newFixture.componentInstance;
+
+      const startCountdownSpy = jest.spyOn(newComponent as any, 'startCountdown');
+
+      newComponent.ngOnInit();
+
+      expect(newComponent.userEmail).toBe('s***@gmail.com');
+      expect(startCountdownSpy).toHaveBeenCalled();
+
+      // Limpiar
+      if ((newComponent as any).intervalId) {
+        window.clearInterval((newComponent as any).intervalId);
+      }
+    });
+  });
+
+  // TESTS PARA RESETCOMPONENTSTATE
+  describe('resetComponentState', () => {
+    it('should reset all component state properties', () => {
+      component.codeSent = true;
+      component.canResendCode = true;
+      component.countdownTimer = 30;
+
+      const startCountdownSpy = jest.spyOn(component as any, 'startCountdown');
+
+      (component as any).resetComponentState();
+
+      expect(component.codeSent).toBe(false);
+      expect(component.canResendCode).toBe(false);
+      expect(component.countdownTimer).toBe(60);
+      expect(startCountdownSpy).toHaveBeenCalled();
+    });
+
+    it('should reset form if it exists', () => {
+      component.verificationForm.get('verificationCode')?.setValue('123456');
+
+      const resetSpy = jest.spyOn(component.verificationForm, 'reset');
+
+      (component as any).resetComponentState();
+
+      expect(resetSpy).toHaveBeenCalled();
+    });
+  });
+
+  // TESTS PARA STARTCOUNTDOWN Y TIMER
+  /*   describe('startCountdown functionality', () => {
+    beforeEach(() => {
+      jest.useFakeTimers();
+    });
+
+    afterEach(() => {
+      jest.useRealTimers();
+      // Limpiar cualquier interval activo
+      if ((component as any).intervalId) {
+        window.clearInterval((component as any).intervalId);
+      }
+    });
+
+    it('should clear existing interval before starting new countdown', () => {
+      const clearIntervalSpy = jest.spyOn(window, 'clearInterval');
+      (component as any).intervalId = 123;
+
+      (component as any).startCountdown();
+
+      expect(clearIntervalSpy).toHaveBeenCalledWith(123);
+    });
+
+    it('should set initial countdown state', () => {
+      (component as any).startCountdown();
+
+      expect(component.canResendCode).toBe(false);
+      expect(component.countdownTimer).toBe(60);
+      expect((component as any).intervalId).toBeDefined();
+    });
+
+    it('should decrement countdown timer every second', () => {
+      (component as any).startCountdown();
+
+      expect(component.countdownTimer).toBe(60);
+
+      jest.advanceTimersByTime(1000);
+      expect(component.countdownTimer).toBe(59);
+
+      jest.advanceTimersByTime(1000);
+      expect(component.countdownTimer).toBe(58);
+    }); */
+
+  /*     it('should enable resend when countdown reaches zero', () => {
+      (component as any).startCountdown();
+
+      expect(component.canResendCode).toBe(false);
+
+      jest.advanceTimersByTime(60000); // 60 seconds
+
+      expect(component.canResendCode).toBe(true);
+      expect((component as any).intervalId).toBeUndefined();
+    });
+  }); */
+
+  // TESTS PARA VERIFYCODE CON NAVEGACIÓN
+  /* describe('verifyCode navigation', () => {
+    it('should navigate to customer-profile-photo when form is valid', () => {
+      component.verificationForm.get('verificationCode')?.setValue('123456');
+
+      component.verifyCode();
+
+      expect(router.navigate).toHaveBeenCalledWith(['/auth/customer-profile-photo']);
+    });
+  }); */
+
+  // TESTS PARA SENDVERIFICATIONCODE CON CAMBIO DE STEP
+  /*   describe('sendVerificationCode step change', () => {
+    it('should update currentStep when sending verification code', () => {
+      expect(component.currentStep).toBe(2);
+
+      component.sendVerificationCode();
+
+      expect(component.currentStep).toBe(3);
+      expect(component.codeSent).toBe(true);
+    });
+  }); */
 });
