@@ -11,25 +11,25 @@ import { MaterialModule } from '../../../../../shared/material.module';
 export class TestimonialsSectionComponent {
   testimonials = [
     {
-      name: 'María González',
-      role: 'Ejecutiva en San Isidro',
+      name: 'Carla Rodríguez',
+      role: '29 años, diseñadora gráfica',
       avatar: '/img/landing/young-professional-woman-lima.png',
       rating: 5,
-      text: 'Increíble! Ahora encuentro los mejores menús cerca de mi oficina en segundos. Ya no pierdo tiempo buscando dónde almorzar.'
+      text: 'Yo almuerzo cerca del trabajo en Surco y siempre caía en lo mismo. Con esta app descubrí 3 huariques que no sabía que existían.'
     },
     {
-      name: 'Carlos Mendoza',
-      role: 'Estudiante PUCP',
+      name: 'Julio Fernández',
+      role: '31 años, técnico en telecomunicaciones',
       avatar: '/img/landing/business-executive-lunch.png',
       rating: 5,
-      text: 'Perfecto para estudiantes. Los precios están actualizados y puedo ver las opciones más económicas cerca de la universidad.'
+      text: 'La carta estaba actualizada y pude pagar con Yape. Súper práctico.'
     },
     {
-      name: 'Roberto Silva',
-      role: 'Gerente en Miraflores',
+      name: 'David García',
+      role: '34 años, repartidor',
       avatar: '/img/landing/student-eating-lunch.png',
       rating: 5,
-      text: 'La app me ha cambiado la vida. Ahora puedo planificar mis almuerzos de trabajo y siempre encuentro opciones de calidad.'
+      text: 'Me gustó que pude ver los precios antes de salir. Ya no gasto más de la cuenta.'
     }
   ];
 

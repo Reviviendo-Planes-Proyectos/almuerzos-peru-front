@@ -33,7 +33,7 @@
               <p class="testimonial-role text-xs md:text-sm text-gray-500 m-0">{{ testimonial.role }}</p>
             </div>
           </div>
-          <div class="testimonial-rating flex mb-3 gap-0.5">
+          <div class="testimonial-rating flex flex-row items-center gap-1 mb-3 whitespace-nowrap">
             <mat-icon
               *ngFor="let star of getStarArray(testimonial.rating)"
               class="star-icon w-3.5 h-3.5 md:w-4 md:h-4 text-orange-600 text-sm md:text-base"

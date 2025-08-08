@@ -8,6 +8,10 @@
   }
 }
 
+button {
+  animation: blink 1.5s linear infinite;
+}
+
 button:hover {
-  animation: blink 0.7s linear infinite;
+  animation: blink 0.8s linear infinite;
 }

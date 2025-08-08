@@ -38,9 +38,9 @@ describe('TestimonialsSectionComponent', () => {
   it('should have valid testimonial names', () => {
     const names = component.testimonials.map((t) => t.name);
 
-    expect(names).toContain('María González');
-    expect(names).toContain('Carlos Mendoza');
-    expect(names).toContain('Roberto Silva');
+    expect(names).toContain('Carla Rodríguez');
+    expect(names).toContain('Julio Fernández');
+    expect(names).toContain('David García');
   });
 
   it('should have valid ratings for all testimonials', () => {
@@ -74,9 +74,9 @@ describe('TestimonialsSectionComponent', () => {
   it('should have descriptive roles for testimonials', () => {
     const roles = component.testimonials.map((t) => t.role);
 
-    expect(roles).toContain('Ejecutiva en San Isidro');
-    expect(roles).toContain('Estudiante PUCP');
-    expect(roles).toContain('Gerente en Miraflores');
+    expect(roles).toContain('29 años, diseñadora gráfica');
+    expect(roles).toContain('31 años, técnico en telecomunicaciones');
+    expect(roles).toContain('34 años, repartidor');
   });
 
   describe('getStarArray method', () => {
@@ -103,8 +103,8 @@ describe('TestimonialsSectionComponent', () => {
       .join(' ')
       .toLowerCase();
 
-    expect(allText).toContain('san isidro');
-    expect(allText).toContain('pucp');
-    expect(allText).toContain('miraflores');
+    expect(allText).toContain('surco');
+    expect(allText).toContain('técnico');
+    expect(allText).toContain('repartidor');
   });
 });

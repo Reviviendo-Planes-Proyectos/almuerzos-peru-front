@@ -14,7 +14,7 @@ export class EnhancedSearchSectionComponent {
   showSuggestions = false;
 
   stats = [
-    { value: '500+', label: 'Restaurantes' },
+    { value: '5000+', label: 'Restaurantes' },
     { value: '10k+', label: 'Usuarios' },
     { value: '24/7', label: 'Disponible' }
   ];

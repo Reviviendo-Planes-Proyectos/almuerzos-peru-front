@@ -22,7 +22,7 @@
         </div>
       </div>
 
-      <div>
+      <div *ngIf="isRestaurantLanding">
         <h4 class="font-semibold mb-4">Producto</h4>
         <ul class="space-y-2 text-gray-400">
           <li><a href="#" class="hover:text-white transition-colors">Características</a></li>
@@ -37,7 +37,7 @@
         <ul class="space-y-2 text-gray-400">
           <li><a href="#" class="hover:text-white transition-colors">Centro de Ayuda</a></li>
           <li><a href="#" class="hover:text-white transition-colors">Contacto</a></li>
-          <li><a href="#" class="hover:text-white transition-colors">Tutoriales</a></li>
+          <li *ngIf="isRestaurantLanding"><a href="#" class="hover:text-white transition-colors">Tutoriales</a></li>
           <!-- <li><a href="#" class="hover:text-white transition-colors">API</a></li> -->
         </ul>
       </div>

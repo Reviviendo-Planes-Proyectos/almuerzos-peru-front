@@ -20,9 +20,9 @@ export class DinerHeroSectionComponent implements OnInit {
   scrollY = 0;
 
   stats = [
-    { icon: 'star', value: '+500', label: 'restaurantes', color: 'text-orange-500' },
+    { icon: 'star', value: '+5000', label: 'restaurantes', color: 'text-orange-500' },
     { icon: 'people', value: '+10k', label: 'usuarios', color: 'text-blue-600' },
-    { icon: 'location_on', value: 'Todo', label: 'Lima', color: 'text-green-600' }
+    { icon: 'location_on', value: 'Todo Perú', label: 'Lima', color: 'text-green-600' }
   ];
 
   ngOnInit() {

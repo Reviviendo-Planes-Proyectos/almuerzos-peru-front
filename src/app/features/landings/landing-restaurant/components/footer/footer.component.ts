@@ -12,7 +12,7 @@ import { MaterialModule } from '../../../../../shared/material.module';
 export class FooterComponent {
   constructor(private router: Router) {}
 
-  private getCurrentLandingType(): string {
+  getCurrentLandingType(): string {
     const currentUrl = this.router.url;
     if (currentUrl.includes('/home-diner')) {
       return 'diner';
@@ -35,5 +35,13 @@ export class FooterComponent {
     this.router.navigate(['/legal/politica-privacidad'], {
       queryParams: { from: fromLanding }
     });
+  }
+
+  get isDinerLanding(): boolean {
+    return this.getCurrentLandingType() === 'diner';
+  }
+
+  get isRestaurantLanding(): boolean {
+    return this.getCurrentLandingType() === 'restaurant';
   }
 }
