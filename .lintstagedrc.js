@@ -25,6 +25,6 @@ module.exports = {
       )
       .map((f) => `biome format --write ${f}`),
 
-  '**/*.md': ['prettier --write'],
+  '**/*.md': (files) => files.map((f) => `prettier --write ${f}`),
   '**/*.{html,scss}': (files) => files.map((f) => `prettier --write ${f}`),
 };
