@@ -19,7 +19,7 @@ export class InputFieldComponent implements OnInit, ControlValueAccessor {
   control!: FormControl;
   value: any = '';
   disabled = false;
-  inputId = `input-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+  inputId = this.generateUniqueId();
   isFocused = false;
 
   private onChange = (_value: any) => {};
@@ -74,5 +74,12 @@ export class InputFieldComponent implements OnInit, ControlValueAccessor {
 
   get hasValue(): boolean {
     return this.value != null && this.value !== '' && this.value.toString().length > 0;
+  }
+
+  private generateUniqueId(): string {
+    const timestamp = Date.now();
+    const randomBytes = new Uint32Array(1);
+    crypto.getRandomValues(randomBytes);
+    return `input-${timestamp}-${randomBytes[0]}`;
   }
 }
