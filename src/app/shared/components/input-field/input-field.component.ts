@@ -19,22 +19,17 @@ export class InputFieldComponent implements OnInit, ControlValueAccessor {
   control!: FormControl;
   value: any = '';
   disabled = false;
-  inputId = `input-${Date.now()}-${this.generateRandomId()}`;
+  inputId = this.generateUniqueId();
   isFocused = false;
 
   private onChange = (_value: any) => {};
   private onTouched = () => {};
 
-  private generateRandomId(): string {
-    // Genera un ID único usando crypto.getRandomValues si está disponible,
-    // o fallback a un método alternativo
-    if (typeof crypto !== 'undefined' && crypto.getRandomValues) {
-      const array = new Uint32Array(1);
-      crypto.getRandomValues(array);
-      return array[0].toString(36);
-    }
-    // Fallback para entornos donde crypto no está disponible
-    return Math.floor(Math.random() * 1000000).toString(36);
+  private generateUniqueId(): string {
+    const timestamp = Date.now();
+    const randomBytes = new Uint32Array(1);
+    crypto.getRandomValues(randomBytes);
+    return `input-${timestamp}-${randomBytes[0]}`;
   }
 
   constructor(@Optional() @Self() private ngControl: NgControl) {
