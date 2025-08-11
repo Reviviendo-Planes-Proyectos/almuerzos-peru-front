@@ -40,5 +40,12 @@ export const AUTH_ROUTES: Routes = [
       import('./pages/customer-profile-photo/customer-profile-photo.component').then(
         (m) => m.CustomerProfilePhotoComponent
       )
+  },
+  {
+    path: 'restaurant-basic-info',
+    loadComponent: () =>
+      import('./pages/restaurant-basic-info/restaurant-basic-info.component').then(
+        (m) => m.RestaurantBasicInfoComponent
+      )
   }
 ];

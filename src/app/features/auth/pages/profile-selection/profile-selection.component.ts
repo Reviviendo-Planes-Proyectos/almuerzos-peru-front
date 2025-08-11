@@ -17,6 +17,7 @@ export class ProfileSelectionComponent {
   constructor(
     private readonly location: Location,
     public router: Router
+    // private loggerService: LoggerService
   ) {}
 
   goBack(): void {
@@ -31,7 +32,13 @@ export class ProfileSelectionComponent {
 
     // Delay para mostrar la animación antes de navegar
     setTimeout(() => {
-      this.router.navigate(['auth/register']);
+      // this.loggerService.info('Navegando a registro como:', tipo);
+
+      // Opción más robusta: usar tanto state como queryParams
+      this.router.navigate(['auth/register'], {
+        state: { tipo },
+        queryParams: { userType: tipo } // Backup en queryParams
+      });
     }, 800); // 800ms para mostrar la animación
   }
 }
