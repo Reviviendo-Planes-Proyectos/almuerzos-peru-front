@@ -1,12 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CustomerBasicInfoComponent } from './customer-basic-info.component';
-import { LoggerService } from '../../../../shared/services/logger/logger.service';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
 import { InputFieldComponent } from '../../../../shared/components/input-field/input-field.component';
 import { SectionTitleComponent } from '../../../../shared/components/section-title/section-title.component';
 import { StepIndicatorComponent } from '../../../../shared/components/step-indicator/step-indicator.component';
+import { LoggerService } from '../../../../shared/services/logger/logger.service';
+import { CustomerBasicInfoComponent } from './customer-basic-info.component';
 
 describe('CustomerBasicInfoComponent', () => {
   let component: CustomerBasicInfoComponent;
