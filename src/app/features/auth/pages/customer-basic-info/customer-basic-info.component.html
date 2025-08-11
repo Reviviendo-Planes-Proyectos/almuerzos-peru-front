@@ -28,7 +28,7 @@
 
     <app-input-field label="DNI*" icon="badge" placeholder="12345678" formControlName="dni"></app-input-field>
 
-    <app-select-field
+    <!-- <app-select-field
       label="Provincia*"
       icon="location_on"
       placeholder="Selecciona tu provincia"
@@ -42,7 +42,22 @@
       placeholder="Selecciona tu distrito"
       [options]="distritoOptions"
       formControlName="distrito"
-    ></app-select-field>
+    ></app-select-field> -->
+    <app-input-field
+      label="Provincia*"
+      icon="location_on"
+      variant="select"
+      [options]="provinciaOptions"
+      formControlName="provincia"
+    ></app-input-field>
+
+    <app-input-field
+      label="Distrito*"
+      icon="place"
+      variant="select"
+      [options]="distritoOptions"
+      formControlName="distrito"
+    ></app-input-field>
   </div>
 
   <!-- Botón de acción -->

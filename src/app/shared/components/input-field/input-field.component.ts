@@ -16,6 +16,10 @@ export class InputFieldComponent implements OnInit, ControlValueAccessor {
   @Input() icon = 'person';
   @Input() required = false;
 
+  // 👇 Nuevos inputs
+  @Input() variant: 'input' | 'select' = 'input';
+  @Input() options: { label: string; value: any }[] = [];
+
   control!: FormControl;
   value: any = '';
   disabled = false;
@@ -61,7 +65,7 @@ export class InputFieldComponent implements OnInit, ControlValueAccessor {
   }
 
   onInput(event: Event): void {
-    const target = event.target as HTMLInputElement;
+    const target = event.target as HTMLInputElement | HTMLSelectElement;
     this.value = target.value;
     this.onChange(this.value);
   }

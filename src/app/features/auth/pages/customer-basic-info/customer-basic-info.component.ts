@@ -4,21 +4,19 @@ import { Router } from '@angular/router';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
 import { InputFieldComponent } from '../../../../shared/components/input-field/input-field.component';
 import { SectionTitleComponent } from '../../../../shared/components/section-title/section-title.component';
-import { SelectFieldComponent, SelectOption } from '../../../../shared/components/select-field/select-field.component';
 import { StepIndicatorComponent } from '../../../../shared/components/step-indicator/step-indicator.component';
 import { LoggerService } from '../../../../shared/services/logger/logger.service';
+
+export interface SelectOption {
+  value: string;
+  label: string;
+  disabled?: boolean;
+}
 
 @Component({
   selector: 'app-customer-basic-info',
   standalone: true,
-  imports: [
-    StepIndicatorComponent,
-    InputFieldComponent,
-    SelectFieldComponent,
-    ButtonComponent,
-    ReactiveFormsModule,
-    SectionTitleComponent
-  ],
+  imports: [StepIndicatorComponent, InputFieldComponent, ButtonComponent, ReactiveFormsModule, SectionTitleComponent],
   templateUrl: './customer-basic-info.component.html',
   styleUrl: './customer-basic-info.component.scss'
 })

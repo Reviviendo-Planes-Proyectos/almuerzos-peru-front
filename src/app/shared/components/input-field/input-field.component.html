@@ -1,5 +1,4 @@
 <div class="flex flex-col gap-1 w-full">
-  <!-- Input + icono + label flotante -->
   <div class="relative">
     <!-- Ícono izquierdo -->
     <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-400 z-10">
@@ -8,6 +7,7 @@
 
     <!-- Input -->
     <input
+      *ngIf="variant === 'input'"
       [type]="type"
       [required]="required"
       [value]="value"
@@ -24,6 +24,27 @@
       (input)="onInput($event)"
       placeholder=""
     />
+
+    <!-- Select -->
+    <select
+      *ngIf="variant === 'select'"
+      [required]="required"
+      [disabled]="disabled"
+      [id]="inputId"
+      [value]="value"
+      class="pl-12 pr-12 py-3 w-full border-2 rounded-lg focus:outline-none transition-all peer custom-input bg-white font-normal"
+      [ngClass]="{
+        'border-gray-200 focus:border-orange-500': !control.touched,
+        'border-green-500': control.valid && control.touched,
+        'border-red-500': control.invalid && control.touched
+      }"
+      (focus)="onFocus()"
+      (blur)="onBlur()"
+      (change)="onInput($event)"
+    >
+      <option value="" disabled hidden></option>
+      <option *ngFor="let opt of options" [value]="opt.value">{{ opt.label }}</option>
+    </select>
 
     <!-- Label flotante -->
     <label
