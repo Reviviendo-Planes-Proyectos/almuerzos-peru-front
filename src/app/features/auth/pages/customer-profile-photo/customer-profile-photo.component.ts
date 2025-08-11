@@ -3,6 +3,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
 import { FileUploadComponent } from '../../../../shared/components/file-upload/file-upload.component';
+import { HeaderWithStepsComponent } from '../../../../shared/components/header-with-steps/header-with-steps.component';
 import { SectionTitleComponent } from '../../../../shared/components/section-title/section-title.component';
 import { StepIndicatorComponent } from '../../../../shared/components/step-indicator/step-indicator.component';
 import { WarningModalComponent } from '../../../../shared/components/warning-modal/warning-modal.component';
@@ -12,6 +13,7 @@ import { WarningModalComponent } from '../../../../shared/components/warning-mod
   standalone: true,
   imports: [
     CommonModule,
+    HeaderWithStepsComponent,
     StepIndicatorComponent,
     SectionTitleComponent,
     ButtonComponent,
@@ -90,5 +92,9 @@ export class CustomerProfilePhotoComponent {
 
   onCloseWarningModal(): void {
     this.showWarningModal = false;
+  }
+
+  onBackClick(): void {
+    this.goBack();
   }
 }

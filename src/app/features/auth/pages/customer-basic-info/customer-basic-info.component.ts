@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
+import { HeaderWithStepsComponent } from '../../../../shared/components/header-with-steps/header-with-steps.component';
 import { InputFieldComponent } from '../../../../shared/components/input-field/input-field.component';
 import { SectionTitleComponent } from '../../../../shared/components/section-title/section-title.component';
 import { StepIndicatorComponent } from '../../../../shared/components/step-indicator/step-indicator.component';
@@ -16,7 +17,14 @@ export interface SelectOption {
 @Component({
   selector: 'app-customer-basic-info',
   standalone: true,
-  imports: [StepIndicatorComponent, InputFieldComponent, ButtonComponent, ReactiveFormsModule, SectionTitleComponent],
+  imports: [
+    HeaderWithStepsComponent,
+    StepIndicatorComponent,
+    InputFieldComponent,
+    ButtonComponent,
+    ReactiveFormsModule,
+    SectionTitleComponent
+  ],
   templateUrl: './customer-basic-info.component.html',
   styleUrl: './customer-basic-info.component.scss'
 })
@@ -89,5 +97,10 @@ export class CustomerBasicInfoComponent implements OnInit {
     } else {
       this.customerForm.markAllAsTouched(); // muestra errores
     }
+  }
+
+  onBackClick(): void {
+    // Navegar hacia atrás o a la página anterior
+    this.router.navigate(['/auth/login']); // Ajusta la ruta según tu flujo
   }
 }

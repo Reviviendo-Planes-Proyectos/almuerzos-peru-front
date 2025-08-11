@@ -1,123 +1,132 @@
-<div class="flex flex-col gap-6 max-w-lg mx-auto p-6 min-h-screen">
-  <!-- Paso del formulario -->
-  <app-step-indicator [step]="currentStep" [total]="4"></app-step-indicator>
+<div class="min-h-screen">
+  <!-- Header con pasos -->
+  <app-header-with-steps
+    [currentStep]="currentStep"
+    [showBackButton]="true"
+    (backClick)="onBackClick()"
+  ></app-header-with-steps>
 
-  <!-- Vista inicial: Enviar código -->
-  <div *ngIf="!codeSent" class="flex flex-col gap-8">
-    <!-- Título de sección -->
-    <app-section-title
-      icon="mail_outline"
-      title="Verificar Correo"
-      subtitle="Confirma tu correo electrónico para continuar"
-    ></app-section-title>
+  <div class="flex flex-col gap-6 max-w-lg mx-auto p-6">
+    <!-- Paso del formulario -->
+    <app-step-indicator [step]="currentStep" [total]="4"></app-step-indicator>
 
-    <!-- Tarjeta de verificación -->
-    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center gap-6">
-      <!-- Mensaje -->
-      <div class="text-center">
-        <p class="text-gray-600 mb-2 verification-message">Enviaremos un código de verificación a:</p>
-        <p class="font-semibold text-gray-900 text-lg">{{ userEmail }}</p>
+    <!-- Vista inicial: Enviar código -->
+    <div *ngIf="!codeSent" class="flex flex-col gap-8">
+      <!-- Título de sección -->
+      <app-section-title
+        icon="mail_outline"
+        title="Verificar Correo"
+        subtitle="Confirma tu correo electrónico para continuar"
+      ></app-section-title>
+
+      <!-- Tarjeta de verificación -->
+      <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center gap-6">
+        <!-- Mensaje -->
+        <div class="text-center">
+          <p class="text-gray-600 mb-2 verification-message">Enviaremos un código de verificación a:</p>
+          <p class="font-semibold text-gray-900 text-lg">{{ userEmail }}</p>
+        </div>
+
+        <!-- Botón principal -->
+        <div class="w-full">
+          <app-button
+            [label]="'Enviar Código de Verificación'"
+            [isActive]="true"
+            [isOutline]="false"
+            iconName="send"
+            (click)="sendVerificationCode()"
+            onkeypress="if(event.key === 'Enter'){ sendVerificationCode(); }"
+          ></app-button>
+        </div>
       </div>
 
-      <!-- Botón principal -->
-      <div class="w-full">
-        <app-button
-          [label]="'Enviar Código de Verificación'"
-          [isActive]="true"
-          [isOutline]="false"
-          iconName="send"
-          (click)="sendVerificationCode()"
-          onkeypress="if(event.key === 'Enter'){ sendVerificationCode(); }"
-        ></app-button>
-      </div>
-    </div>
-
-    <!-- Opciones adicionales -->
-    <div class="flex flex-col gap-4 text-center mt-6">
-      <!-- Hacer más tarde -->
-      <div class="bg-gray-50 p-4 rounded-lg">
-        <p class="text-gray-500 text-sm mb-3">¿Prefieres verificar tu correo más tarde?</p>
-        <app-button
-          [label]="'Hacer Más Tarde'"
-          [iconName]="'schedule'"
-          [isActive]="true"
-          [outlineGray]="true"
-          (click)="doLater()"
-        ></app-button>
-        <br />
-        <app-button [label]="'Atrás'" [isActive]="true" [outlineGray]="true" (click)="goBack()"></app-button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Vista de verificación: Ingresar código -->
-  <div *ngIf="codeSent" class="flex flex-col gap-8">
-    <!-- Título de sección -->
-    <app-section-title
-      icon="security"
-      title="Verificar Correo"
-      subtitle="Confirma tu correo electrónico para continuar"
-    ></app-section-title>
-
-    <!-- Tarjeta de verificación -->
-    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center gap-6">
-      <!-- Mensaje -->
-      <div class="text-center">
-        <p class="text-gray-900 font-medium mb-1">Código enviado a tu correo</p>
-        <p class="text-gray-600 text-sm mb-4">Revisa tu bandeja de entrada y confirma el código</p>
-      </div>
-
-      <!-- Formulario de código -->
-      <form [formGroup]="verificationForm" class="w-full flex flex-col gap-4">
-        <!-- Campo de código -->
-        <app-input-field
-          label="Código de Verificación"
-          icon="pin"
-          placeholder="Ingresa el código de 6 dígitos"
-          formControlName="verificationCode"
-        ></app-input-field>
-
-        <!-- Botón verificar -->
-        <app-button
-          [label]="'Verificar Código'"
-          [isActive]="true"
-          [isOutline]="false"
-          iconName="check"
-          (click)="verifyCode()"
-          onkeypress="if(event.key === 'Enter'){ verifyCode(); }"
-        ></app-button>
-      </form>
-
-      <!-- ¿No recibiste el código? -->
-      <div class="text-center bg-blue-50 p-4 rounded-lg w-full">
-        <p class="text-gray-600 text-sm mb-2">¿No recibiste el código?</p>
-        <button
-          class="text-blue-600 text-sm font-medium hover:text-blue-800 transition-colors"
-          [disabled]="!canResendCode"
-          (click)="resendCodeFromVerificationView()"
-        >
-          <span *ngIf="canResendCode">Reenviar código</span>
-          <span *ngIf="!canResendCode">
-            Reenviar en 0:{{ countdownTimer < 10 ? '0' + countdownTimer : countdownTimer }}
-          </span>
-        </button>
+      <!-- Opciones adicionales -->
+      <div class="flex flex-col gap-4 text-center mt-6">
+        <!-- Hacer más tarde -->
+        <div class="bg-gray-50 p-4 rounded-lg">
+          <p class="text-gray-500 text-sm mb-3">¿Prefieres verificar tu correo más tarde?</p>
+          <app-button
+            [label]="'Hacer Más Tarde'"
+            [iconName]="'schedule'"
+            [isActive]="true"
+            [outlineGray]="true"
+            (click)="doLater()"
+          ></app-button>
+          <br />
+          <app-button [label]="'Atrás'" [isActive]="true" [outlineGray]="true" (click)="goBack()"></app-button>
+        </div>
       </div>
     </div>
 
-    <!-- Opciones adicionales -->
-    <div class="flex flex-col gap-4 text-center mt-6">
-      <!-- Hacer más tarde -->
-      <div class="bg-gray-50 p-4 rounded-lg">
-        <p class="text-gray-500 text-sm mb-3">¿Prefieres verificar tu correo más tarde?</p>
-        <app-button
-          [label]="'Hacer Más Tarde'"
-          [iconName]="'schedule'"
-          [isActive]="true"
-          [outlineGray]="true"
-          (click)="doLater()"
-        ></app-button>
-        <br />
-        <app-button [label]="'Atrás'" [isActive]="true" [outlineGray]="true" (click)="goBack()"></app-button>
+    <!-- Vista de verificación: Ingresar código -->
+    <div *ngIf="codeSent" class="flex flex-col gap-8">
+      <!-- Título de sección -->
+      <app-section-title
+        icon="security"
+        title="Verificar Correo"
+        subtitle="Confirma tu correo electrónico para continuar"
+      ></app-section-title>
+
+      <!-- Tarjeta de verificación -->
+      <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center gap-6">
+        <!-- Mensaje -->
+        <div class="text-center">
+          <p class="text-gray-900 font-medium mb-1">Código enviado a tu correo</p>
+          <p class="text-gray-600 text-sm mb-4">Revisa tu bandeja de entrada y confirma el código</p>
+        </div>
+
+        <!-- Formulario de código -->
+        <form [formGroup]="verificationForm" class="w-full flex flex-col gap-4">
+          <!-- Campo de código -->
+          <app-input-field
+            label="Código de Verificación"
+            icon="pin"
+            placeholder="Ingresa el código de 6 dígitos"
+            formControlName="verificationCode"
+          ></app-input-field>
+
+          <!-- Botón verificar -->
+          <app-button
+            [label]="'Verificar Código'"
+            [isActive]="true"
+            [isOutline]="false"
+            iconName="check"
+            (click)="verifyCode()"
+            onkeypress="if(event.key === 'Enter'){ verifyCode(); }"
+          ></app-button>
+        </form>
+
+        <!-- ¿No recibiste el código? -->
+        <div class="text-center bg-blue-50 p-4 rounded-lg w-full">
+          <p class="text-gray-600 text-sm mb-2">¿No recibiste el código?</p>
+          <button
+            class="text-blue-600 text-sm font-medium hover:text-blue-800 transition-colors"
+            [disabled]="!canResendCode"
+            (click)="resendCodeFromVerificationView()"
+          >
+            <span *ngIf="canResendCode">Reenviar código</span>
+            <span *ngIf="!canResendCode">
+              Reenviar en 0:{{ countdownTimer < 10 ? '0' + countdownTimer : countdownTimer }}
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Opciones adicionales -->
+      <div class="flex flex-col gap-4 text-center mt-6">
+        <!-- Hacer más tarde -->
+        <div class="bg-gray-50 p-4 rounded-lg">
+          <p class="text-gray-500 text-sm mb-3">¿Prefieres verificar tu correo más tarde?</p>
+          <app-button
+            [label]="'Hacer Más Tarde'"
+            [iconName]="'schedule'"
+            [isActive]="true"
+            [outlineGray]="true"
+            (click)="doLater()"
+          ></app-button>
+          <br />
+          <app-button [label]="'Atrás'" [isActive]="true" [outlineGray]="true" (click)="goBack()"></app-button>
+        </div>
       </div>
     </div>
   </div>
