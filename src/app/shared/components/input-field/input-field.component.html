@@ -66,6 +66,10 @@
   <div *ngIf="showError" class="text-sm text-red-500 mt-1">
     <ng-container *ngIf="control.errors?.['required']">Este campo es obligatorio.</ng-container>
     <ng-container *ngIf="control.errors?.['email']">Ingresa un correo válido.</ng-container>
+    <ng-container *ngIf="control.errors?.['pattern']">
+      Solo se permiten números.
+      <br />
+    </ng-container>
     <ng-container *ngIf="control.errors?.['minlength']">
       Mínimo {{ control.errors?.['minlength'].requiredLength }} caracteres.
     </ng-container>

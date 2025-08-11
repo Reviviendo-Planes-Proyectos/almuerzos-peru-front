@@ -70,7 +70,7 @@ export class CustomerBasicInfoComponent implements OnInit {
     this.customerForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      dni: ['', [Validators.required, Validators.minLength(8)]],
+      dni: ['', [Validators.required, Validators.minLength(8), Validators.pattern(/^[0-9]+$/)]],
       provincia: ['', Validators.required], // Cambió de address a provincia
       distrito: ['', Validators.required] // Cambió de ruc a distrito
     });
