@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
+import { HeaderWithStepsComponent } from '../../../../shared/components/header-with-steps/header-with-steps.component';
 import { InputFieldComponent } from '../../../../shared/components/input-field/input-field.component';
 import { SectionTitleComponent } from '../../../../shared/components/section-title/section-title.component';
 import { StepIndicatorComponent } from '../../../../shared/components/step-indicator/step-indicator.component';
@@ -12,6 +13,7 @@ import { StepIndicatorComponent } from '../../../../shared/components/step-indic
   selector: 'app-email-verification',
   standalone: true,
   imports: [
+    HeaderWithStepsComponent,
     StepIndicatorComponent,
     SectionTitleComponent,
     ButtonComponent,
@@ -158,6 +160,10 @@ export class EmailVerificationComponent implements OnInit, OnDestroy {
 
   goBack(): void {
     this.router.navigate(['/auth/customer-basic-info']);
+  }
+
+  onBackClick(): void {
+    this.goBack();
   }
 
   private startCountdown(): void {

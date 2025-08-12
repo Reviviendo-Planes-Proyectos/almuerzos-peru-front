@@ -2,19 +2,25 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
+import { HeaderWithStepsComponent } from '../../../../shared/components/header-with-steps/header-with-steps.component';
 import { InputFieldComponent } from '../../../../shared/components/input-field/input-field.component';
 import { SectionTitleComponent } from '../../../../shared/components/section-title/section-title.component';
-import { SelectFieldComponent, SelectOption } from '../../../../shared/components/select-field/select-field.component';
 import { StepIndicatorComponent } from '../../../../shared/components/step-indicator/step-indicator.component';
 import { LoggerService } from '../../../../shared/services/logger/logger.service';
+
+export interface SelectOption {
+  value: string;
+  label: string;
+  disabled?: boolean;
+}
 
 @Component({
   selector: 'app-customer-basic-info',
   standalone: true,
   imports: [
+    HeaderWithStepsComponent,
     StepIndicatorComponent,
     InputFieldComponent,
-    SelectFieldComponent,
     ButtonComponent,
     ReactiveFormsModule,
     SectionTitleComponent
@@ -70,7 +76,7 @@ export class CustomerBasicInfoComponent implements OnInit {
     this.customerForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      dni: ['', [Validators.required, Validators.minLength(8)]],
+      dni: ['', [Validators.required, Validators.minLength(8), Validators.pattern(/^[0-9]+$/)]],
       provincia: ['', Validators.required], // Cambió de address a provincia
       distrito: ['', Validators.required] // Cambió de ruc a distrito
     });
@@ -91,5 +97,10 @@ export class CustomerBasicInfoComponent implements OnInit {
     } else {
       this.customerForm.markAllAsTouched(); // muestra errores
     }
+  }
+
+  onBackClick(): void {
+    // Navegar hacia atrás o a la página anterior
+    this.router.navigate(['/auth/login']); // Ajusta la ruta según tu flujo
   }
 }

@@ -1,0 +1,27 @@
+<div class="flex items-center justify-between p-4 bg-white shadow-sm">
+  <!-- Botón de retroceso -->
+  <button
+    *ngIf="showBackButton"
+    (click)="onBackClick()"
+    class="flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors duration-200"
+    aria-label="Volver atrás"
+  >
+    <i class="material-icons text-gray-600">arrow_back</i>
+  </button>
+
+  <!-- Espaciador cuando no hay botón de retroceso -->
+  <div *ngIf="!showBackButton" class="w-10 h-10"></div>
+
+  <!-- Logo/Marca central -->
+  <div class="flex-1 flex justify-center">
+    <h1 class="text-lg font-semibold text-gray-800">
+      Almuerzos
+      <span class="text-orange-500">Perú</span>
+    </h1>
+  </div>
+
+  <!-- Indicador de paso -->
+  <div class="flex items-center justify-center w-10 h-10 bg-orange-500 text-white rounded-full font-semibold text-sm">
+    {{ currentStep }}
+  </div>
+</div>
