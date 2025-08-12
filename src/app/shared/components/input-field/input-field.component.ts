@@ -15,6 +15,7 @@ export class InputFieldComponent implements OnInit, ControlValueAccessor {
   @Input() type = 'text';
   @Input() icon = 'person';
   @Input() required = false;
+  @Input() controlName!: string;
 
   // 👇 Nuevos inputs
   @Input() variant: 'input' | 'select' = 'input';

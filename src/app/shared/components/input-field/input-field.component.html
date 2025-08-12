@@ -100,11 +100,11 @@
     <ng-container *ngIf="control.errors?.['required']">Este campo es obligatorio.</ng-container>
     <ng-container *ngIf="control.errors?.['email']">Ingresa un correo válido.</ng-container>
     <ng-container *ngIf="control.errors?.['pattern']">
-      Solo se permiten números.
-      <br />
+      Debe contener exactamente
+      {{ controlName === 'ownerDni' ? 8 : controlName === 'ruc' ? 11 : 9 }} números.
     </ng-container>
-    <ng-container *ngIf="control.errors?.['minlength']">
+    <!-- <ng-container *ngIf="control.errors?.['minlength']">
       Mínimo {{ control.errors?.['minlength'].requiredLength }} caracteres.
-    </ng-container>
+    </ng-container> -->
   </div>
 </div>

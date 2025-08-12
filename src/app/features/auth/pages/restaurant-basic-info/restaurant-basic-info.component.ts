@@ -81,7 +81,7 @@ export class RestaurantBasicInfoComponent implements OnInit {
     this.restaurantForm = this.fb.group({
       restaurantName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      ownerDni: ['', [Validators.required, Validators.minLength(8), Validators.pattern(/^[0-9]+$/)]],
+      ownerDni: ['', [Validators.required, Validators.pattern(/^[0-9]{8}$/)]],
       phoneNumber: ['', [Validators.required, Validators.pattern(/^[0-9]{9}$/)]],
       address: ['', Validators.required],
       departamento: ['', Validators.required],
