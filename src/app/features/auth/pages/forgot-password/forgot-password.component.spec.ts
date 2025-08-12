@@ -47,8 +47,7 @@ describe('ForgotPasswordComponent', () => {
     expect(mockRouter.navigate).toHaveBeenCalledWith(['auth/login']);
   });
 
-  it('should show initial form state by default', () => {
-    expect(component.isEmailSent).toBe(false);
+  it('should show form by default', () => {
     const formElement = fixture.debugElement.query(By.css('form'));
     expect(formElement).toBeTruthy();
   });
@@ -90,11 +89,14 @@ describe('ForgotPasswordComponent', () => {
     expect(component.isLoading).toBe(true);
   });
 
-  it('should allow resending email', () => {
-    component.isEmailSent = true;
-    component.resendEmail();
+  it('should navigate to email confirmation after successful submission', (done) => {
+    component.forgotPasswordForm.patchValue({ email: 'test@example.com' });
+    component.onSubmit();
 
-    expect(component.isEmailSent).toBe(false);
+    setTimeout(() => {
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['auth/email-sent-confirmation']);
+      done();
+    }, 2100);
   });
 
   it('should call translation service for text content', () => {

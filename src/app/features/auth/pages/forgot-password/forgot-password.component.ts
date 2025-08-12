@@ -17,7 +17,6 @@ export class ForgotPasswordComponent {
   private i18n = inject(I18nService);
   forgotPasswordForm: FormGroup;
   isLoading = false;
-  isEmailSent = false;
 
   constructor(
     private router: Router,
@@ -42,14 +41,9 @@ export class ForgotPasswordComponent {
 
       setTimeout(() => {
         this.isLoading = false;
-        this.isEmailSent = true;
+        this.router.navigate(['auth/email-sent-confirmation']);
       }, 2000);
     }
-  }
-
-  resendEmail(): void {
-    this.isEmailSent = false;
-    this.onSubmit();
   }
 
   get email() {
