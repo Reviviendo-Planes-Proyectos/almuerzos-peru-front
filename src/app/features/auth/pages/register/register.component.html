@@ -2,34 +2,21 @@
 <div class="relative min-h-screen">
   <img
     src="img/background_almuerza_peru.png"
-    alt="Fondo"
+    [attr.alt]="t('common.background')"
     class="absolute inset-0 w-full h-full object-cover opacity-100"
   />
 
-  <!-- Botón volver -->
-  <button
-    mat-icon-button
-    (click)="goBack()"
-    class="absolute top-4 left-4 z-50 bg-white bg-opacity-70 hover:bg-opacity-100 rounded-full shadow-md transition duration-300"
-    aria-label="Volver"
-  >
-    <mat-icon class="text-gray-800">arrow_back</mat-icon>
-  </button>
+  <app-back-button position="top-left" routerLink="/auth/profile-selection"></app-back-button>
 
-  <!-- Contenido centrado -->
   <div class="relative z-10 flex items-end sm:items-center justify-center min-h-[95vh]">
     <div class="bg-white bg-opacity-90 rounded-xl shadow-lg p-6 w-full max-w-md flex flex-col items-center">
-      <!-- Logo y título -->
       <h1 class="text-center text-3xl font-bold text-gray-800 uppercase mb-2">
-        <span class="text-black mr-2">ALMUERZOS</span>
-        <span class="text-brand-yellow">PERÚ</span>
+        {{ t('app.name') }}
       </h1>
 
-      <!-- Bienvenida -->
-      <h2 class="text-2xl font-bold text-center text-gray-800 mt-2 mb-2">¡Bienvenido!</h2>
-      <p class="text-center text-gray-600 mb-6">¿Cómo deseas registrarte?</p>
+      <h2 class="text-2xl font-bold text-center text-gray-800 mt-2 mb-2">{{ t('messages.welcome') }}</h2>
+      <p class="text-center text-gray-600 mb-6">{{ t('auth.register.title') }}</p>
 
-      <!-- Botón Google -->
       <button
         (click)="loginWithGoogle()"
         [disabled]="isGoogleLoading || isFacebookLoading || isEmailLoading"
@@ -44,7 +31,6 @@
         <span *ngIf="isGoogleLoading">Conectando...</span>
       </button>
 
-      <!-- Botón Facebook -->
       <button
         (click)="loginWithFacebook()"
         [disabled]="isGoogleLoading || isFacebookLoading || isEmailLoading"
@@ -59,14 +45,12 @@
         <span *ngIf="isFacebookLoading">Conectando...</span>
       </button>
 
-      <!-- Línea divisora -->
       <div class="flex items-center w-full my-4">
         <hr class="flex-grow border-t border-gray-300" />
-        <span class="mx-4 text-gray-500 font-medium">O</span>
+        <span class="mx-4 text-gray-500 font-medium">{{ t('common.or') }}</span>
         <hr class="flex-grow border-t border-gray-300" />
       </div>
 
-      <!-- Botón Email -->
       <button
         (click)="crearConEmail()"
         [disabled]="isGoogleLoading || isFacebookLoading || isEmailLoading"
@@ -74,16 +58,16 @@
       >
         <!-- Icono siempre visible (sin spinner) -->
         <mat-icon>mail</mat-icon>
-
-        <!-- Texto siempre igual (sin cambio de estado) -->
-        <span>Crear cuenta con email</span>
+        {{ t('auth.register.withEmail') }}
       </button>
 
-      <!-- Registrarme luego -->
-      <!-- Opción extra -->
-      <div class="mt-6">
-        <a href="#" (click)="goBack()" class="text-gray-700 hover:underline font-medium">Registrarme luego</a>
-      </div>
+      <button
+        type="button"
+        (click)="router.navigate(['auth/login'])"
+        class="mt-4 text-purple-700 hover:underline font-medium bg-transparent border-none cursor-pointer"
+      >
+        {{ t('auth.register.later') }}
+      </button>
     </div>
   </div>
 </div>

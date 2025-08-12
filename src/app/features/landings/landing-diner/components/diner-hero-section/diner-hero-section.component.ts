@@ -1,5 +1,6 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, HostListener, OnInit } from '@angular/core';
+import { BaseTranslatableComponent } from '../../../../../shared/i18n';
 import { MaterialModule } from '../../../../../shared/material.module';
 
 @Component({
@@ -15,15 +16,9 @@ import { MaterialModule } from '../../../../../shared/material.module';
     ])
   ]
 })
-export class DinerHeroSectionComponent implements OnInit {
+export class DinerHeroSectionComponent extends BaseTranslatableComponent implements OnInit {
   isVisible = false;
   scrollY = 0;
-
-  stats = [
-    { icon: 'star', value: '+500', label: 'restaurantes', color: 'text-orange-500' },
-    { icon: 'people', value: '+10k', label: 'usuarios', color: 'text-blue-600' },
-    { icon: 'location_on', value: 'Todo', label: 'Lima', color: 'text-green-600' }
-  ];
 
   ngOnInit() {
     setTimeout(() => {

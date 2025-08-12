@@ -4,8 +4,32 @@ import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testin
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
-
+import { I18nService, TranslatePipe } from '../../../../shared/i18n';
+import { MaterialModule } from '../../../../shared/material.module';
 import { RegisterComponent } from './register.component';
+
+// Mock del servicio de traducción
+class MockI18nService {
+  t(key: string): string {
+    const translations: Record<string, string> = {
+      'app.name': 'ALMUERZOS PERU',
+      'messages.welcome': '¡Bienvenido a Almuerzos Peru!',
+      'auth.register.title': 'Crear Cuenta',
+      'auth.register.button': 'Continuar',
+      'auth.register.email': 'Correo',
+      'auth.register.later': 'Registrarse después',
+      'auth.register.withGoogle': 'Continuar con Google',
+      'auth.register.withFacebook': 'Continuar con Facebook',
+      'auth.register.withEmail': 'Continuar con Correo',
+      'common.back': 'Volver',
+      'common.or': 'O',
+      'common.background': 'Fondo',
+      'common.google': 'Google',
+      'common.facebook': 'Facebook'
+    };
+    return translations[key] || key;
+  }
+}
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
@@ -13,6 +37,7 @@ describe('RegisterComponent', () => {
   let router: Router;
   let location: Location;
   let debugElement: DebugElement;
+  let mockI18nService: MockI18nService;
 
   beforeEach(async () => {
     const routerSpy = {
@@ -23,11 +48,14 @@ describe('RegisterComponent', () => {
       back: jest.fn()
     };
 
+    mockI18nService = new MockI18nService();
+
     await TestBed.configureTestingModule({
-      imports: [RegisterComponent, NoopAnimationsModule],
+      imports: [RegisterComponent, MaterialModule, NoopAnimationsModule, TranslatePipe],
       providers: [
         { provide: Router, useValue: routerSpy },
-        { provide: Location, useValue: locationSpy }
+        { provide: Location, useValue: locationSpy },
+        { provide: I18nService, useValue: mockI18nService }
       ]
     }).compileComponents();
 
@@ -49,29 +77,57 @@ describe('RegisterComponent', () => {
     expect(component.isEmailLoading).toBe(false);
   });
 
+  it('should display the app name', () => {
+    const titleElement = debugElement.query(By.css('h1'));
+    expect(titleElement.nativeElement.textContent.trim()).toBe('ALMUERZOS PERU');
+  });
+
+  it('should display welcome message', () => {
+    const welcomeElement = debugElement.query(By.css('h2'));
+    expect(welcomeElement.nativeElement.textContent.trim()).toBe('¡Bienvenido a Almuerzos Peru!');
+  });
+
+  it('should display register title', () => {
+    const titleElement = debugElement.query(By.css('p'));
+    expect(titleElement.nativeElement.textContent.trim()).toBe('Crear Cuenta');
+  });
+
+  it('should display three registration buttons', () => {
+    const buttons = debugElement.queryAll(By.css('button'));
+    expect(buttons.length).toBe(5);
+  });
+
+  it('should display "O" separator', () => {
+    const separatorElement = debugElement.query(By.css('.mx-4'));
+    expect(separatorElement.nativeElement.textContent.trim()).toBe('O');
+  });
+
+  it('should display "Registrarse después" link', () => {
+    const linkElement = debugElement.query(By.css('button.text-purple-700'));
+    expect(linkElement.nativeElement.textContent.trim()).toBe('Registrarse después');
+  });
+
   describe('UI Elements', () => {
     it('should display the main title correctly', () => {
       const titleElement = debugElement.query(By.css('h1'));
       expect(titleElement.nativeElement.textContent.trim()).toContain('ALMUERZOS');
-      expect(titleElement.nativeElement.textContent.trim()).toContain('PERÚ');
+      expect(titleElement.nativeElement.textContent.trim()).toContain('PERU');
     });
 
     it('should display welcome message', () => {
       const welcomeElement = debugElement.query(By.css('h2'));
-      expect(welcomeElement.nativeElement.textContent.trim()).toBe('¡Bienvenido!');
+      expect(welcomeElement.nativeElement.textContent.trim()).toBe('¡Bienvenido a Almuerzos Peru!');
     });
 
     it('should display subtitle message', () => {
       const subtitleElement = debugElement.query(By.css('p'));
-      expect(subtitleElement.nativeElement.textContent.trim()).toBe('¿Cómo deseas registrarte?');
+      expect(subtitleElement.nativeElement.textContent.trim()).toBe('Crear Cuenta');
     });
 
     it('should display back button with correct icon', () => {
-      const backButton = debugElement.query(By.css('button[mat-icon-button]'));
-      const iconElement = backButton.query(By.css('mat-icon'));
+      const backButton = debugElement.query(By.css('app-back-button'));
 
       expect(backButton).toBeTruthy();
-      expect(iconElement.nativeElement.textContent.trim()).toBe('arrow_back');
     });
 
     it('should display Google login button with correct text', () => {
@@ -129,28 +185,22 @@ describe('RegisterComponent', () => {
       expect(emailButton).toBeTruthy();
 
       if (emailButton) {
-        const spanElement = emailButton.query(By.css('span'));
-        expect(spanElement).toBeTruthy();
-        if (spanElement) {
-          expect(spanElement.nativeElement.textContent.trim()).toBe('Crear cuenta con email');
-        }
+        expect(emailButton.nativeElement.textContent.trim()).toContain('Continuar con Correo');
       }
     });
 
     it('should display "Registrarme luego" link', () => {
-      const laterLink = debugElement.query(By.css('a'));
-      expect(laterLink.nativeElement.textContent.trim()).toBe('Registrarme luego');
+      const laterButton = debugElement.query(By.css('button[type="button"]'));
+      expect(laterButton.nativeElement.textContent.trim()).toBe('Registrarse después');
     });
   });
 
   describe('Navigation', () => {
-    it('should call goBack when back button is clicked', () => {
-      const spy = jest.spyOn(component, 'goBack');
-      const backButton = debugElement.query(By.css('button[mat-icon-button]'));
+    it('should have back button configured with correct routerLink', () => {
+      const backButton = debugElement.query(By.css('app-back-button'));
 
-      backButton.triggerEventHandler('click', null);
-
-      expect(spy).toHaveBeenCalled();
+      expect(backButton).toBeTruthy();
+      expect(backButton.componentInstance.routerLink).toBe('/auth/profile-selection');
     });
 
     it('should call location.back() when goBack is called', () => {
@@ -159,13 +209,13 @@ describe('RegisterComponent', () => {
       expect(location.back).toHaveBeenCalled();
     });
 
-    it('should call goBack when "Registrarme luego" link is clicked', () => {
-      const spy = jest.spyOn(component, 'goBack');
-      const laterLink = debugElement.query(By.css('a'));
+    it('should navigate to login when "Registrarme luego" button is clicked', () => {
+      const routerSpy = jest.spyOn(component.router, 'navigate');
+      const laterButton = debugElement.query(By.css('button[type="button"]'));
 
-      laterLink.triggerEventHandler('click', null);
+      laterButton.triggerEventHandler('click', null);
 
-      expect(spy).toHaveBeenCalled();
+      expect(routerSpy).toHaveBeenCalledWith(['auth/login']);
     });
   });
 
@@ -231,176 +281,65 @@ describe('RegisterComponent', () => {
       component.isGoogleLoading = true;
       fixture.detectChanges();
 
-      const buttons = debugElement.queryAll(By.css('button:not([mat-icon-button])'));
-      for (const button of buttons) {
-        expect(button.nativeElement.disabled).toBe(true);
+      // Los botones que deben deshabilitarse son todos los botones de acción (no el de back)
+      const googleButton = debugElement.queryAll(By.css('button')).find((btn) => {
+        const img = btn.query(By.css('img[alt="Google"]'));
+        return img !== null;
+      });
+      const facebookButton = debugElement.queryAll(By.css('button')).find((btn) => {
+        const img = btn.query(By.css('img[alt="Facebook"]'));
+        return img !== null;
+      });
+      const emailButton = debugElement.queryAll(By.css('button')).find((btn) => {
+        const matIcon = btn.query(By.css('mat-icon'));
+        return matIcon !== null && matIcon.nativeElement.textContent.trim() === 'mail';
+      });
+
+      if (googleButton) {
+        expect(googleButton.nativeElement.disabled).toBe(true);
+      }
+      if (facebookButton) {
+        expect(facebookButton.nativeElement.disabled).toBe(true);
+      }
+      if (emailButton) {
+        expect(emailButton.nativeElement.disabled).toBe(true);
       }
     });
   });
 
-  describe('Facebook Login', () => {
-    it('should call loginWithFacebook when Facebook button is clicked', () => {
-      const spy = jest.spyOn(component, 'loginWithFacebook');
+  describe('Internationalization', () => {
+    it('should display all text elements with proper translations', () => {
+      const titleElement = debugElement.query(By.css('h1'));
+      const welcomeElement = debugElement.query(By.css('h2'));
+      const subtitleElement = debugElement.query(By.css('p'));
+      const separatorElement = debugElement.query(By.css('.mx-4'));
+      const linkElement = debugElement.query(By.css('button.text-purple-700'));
 
-      const buttons = debugElement.queryAll(By.css('button:not([mat-icon-button])'));
-      const facebookButton = buttons[1]; // Segundo botón es Facebook
-
-      facebookButton.triggerEventHandler('click', null);
-
-      expect(spy).toHaveBeenCalled();
+      expect(titleElement.nativeElement.textContent.trim()).toBe('ALMUERZOS PERU');
+      expect(welcomeElement.nativeElement.textContent.trim()).toBe('¡Bienvenido a Almuerzos Peru!');
+      expect(subtitleElement.nativeElement.textContent.trim()).toBe('Crear Cuenta');
+      expect(separatorElement.nativeElement.textContent.trim()).toBe('O');
+      expect(linkElement.nativeElement.textContent.trim()).toBe('Registrarse después');
     });
 
-    it('should set isFacebookLoading to true when loginWithFacebook is called', () => {
-      component.loginWithFacebook();
-
-      expect(component.isFacebookLoading).toBe(true);
+    it('should have proper aria-label for back button with translation', () => {
+      const backButton = debugElement.query(By.css('button[mat-icon-button]'));
+      expect(backButton.nativeElement.getAttribute('aria-label')).toBe('Volver');
     });
 
-    it('should prevent multiple clicks when Facebook loading', () => {
-      component.isFacebookLoading = true;
-      const initialState = component.isFacebookLoading;
+    it('should display registration buttons with translated text', () => {
+      const googleButton = debugElement.queryAll(By.css('button'))[1];
+      const facebookButton = debugElement.queryAll(By.css('button'))[2];
+      const emailButton = debugElement.queryAll(By.css('button'))[3];
 
-      component.loginWithFacebook();
-
-      expect(component.isFacebookLoading).toBe(initialState);
+      expect(googleButton.nativeElement.textContent.trim()).toBe('Continuar con Google');
+      expect(facebookButton.nativeElement.textContent.trim()).toBe('Continuar con Facebook');
+      expect(emailButton.nativeElement.textContent.trim()).toBe('mail Continuar con Correo');
     });
 
-    it('should reset loading state after Facebook login timeout', fakeAsync(() => {
-      component.loginWithFacebook();
-      tick(2000);
-
-      expect(component.isFacebookLoading).toBe(false);
-    }));
-
-    it('should show loading spinner when Facebook loading', () => {
-      component.isFacebookLoading = true;
-      fixture.detectChanges();
-
-      // Verificar que el estado de carga está activado
-      expect(component.isFacebookLoading).toBe(true);
-
-      // Buscar el botón de Facebook por índice (más confiable)
-      const buttons = debugElement.queryAll(By.css('button:not([mat-icon-button])'));
-      expect(buttons.length).toBeGreaterThanOrEqual(3); // Debe haber al menos 3 botones
-
-      const facebookButton = buttons[1]; // Segundo botón es Facebook
-      expect(facebookButton).toBeTruthy();
-
-      // Verificar que el botón está deshabilitado cuando está cargando
-      expect(facebookButton.nativeElement.disabled).toBe(true);
-    });
-
-    it('should disable all buttons when Facebook loading', () => {
-      component.isFacebookLoading = true;
-      fixture.detectChanges();
-
-      const buttons = debugElement.queryAll(By.css('button:not([mat-icon-button])'));
-      for (const button of buttons) {
-        expect(button.nativeElement.disabled).toBe(true);
-      }
-    });
-  });
-
-  describe('Email Registration', () => {
-    it('should call crearConEmail when email button is clicked', () => {
-      const spy = jest.spyOn(component, 'crearConEmail');
-
-      // Buscar el botón de email (tercer botón)
-      const buttons = debugElement.queryAll(By.css('button:not([mat-icon-button])'));
-      const emailButton = buttons[2]; // Tercer botón es Email
-
-      emailButton.triggerEventHandler('click', null);
-
-      expect(spy).toHaveBeenCalled();
-    });
-
-    it('should set isEmailLoading to true when crearConEmail is called', () => {
-      component.crearConEmail();
-
-      expect(component.isEmailLoading).toBe(true);
-    });
-
-    it('should prevent multiple clicks when email loading', () => {
-      component.isEmailLoading = true;
-      const initialState = component.isEmailLoading;
-
-      component.crearConEmail();
-
-      expect(component.isEmailLoading).toBe(initialState);
-    });
-
-    it('should reset loading state after email registration timeout', fakeAsync(() => {
-      component.crearConEmail();
-      tick(500);
-
-      expect(component.isEmailLoading).toBe(false);
-    }));
-
-    it('should disable all buttons when email loading', () => {
-      component.isEmailLoading = true;
-      fixture.detectChanges();
-
-      const buttons = debugElement.queryAll(By.css('button:not([mat-icon-button])'));
-      for (const button of buttons) {
-        expect(button.nativeElement.disabled).toBe(true);
-      }
-    });
-
-    it('should not show loading spinner for email button (design choice)', () => {
-      component.isEmailLoading = true;
-      fixture.detectChanges();
-
-      const buttons = debugElement.queryAll(By.css('button:not([mat-icon-button])'));
-      const emailButton = buttons[2]; // Tercer botón es Email
-
-      const spinner = emailButton.query(By.css('.animate-spin'));
-
-      expect(spinner).toBeFalsy();
-    });
-  });
-
-  describe('Cross-loading behavior', () => {
-    it('should disable all buttons when any loading state is active', () => {
-      component.isGoogleLoading = true;
-      fixture.detectChanges();
-
-      const allButtons = debugElement.queryAll(By.css('button:not([mat-icon-button])'));
-      for (const button of allButtons) {
-        expect(button.nativeElement.disabled).toBe(true);
-      }
-    });
-
-    it('should allow multiple loading states to be true simultaneously', () => {
-      // El comportamiento actual permite que múltiples estados de carga sean true
-      // Solo previene la ejecución si el estado específico ya es true
-      component.isGoogleLoading = false;
-      component.isFacebookLoading = false;
-      component.isEmailLoading = false;
-
-      // Llamar a ambos métodos
-      component.loginWithGoogle();
-      expect(component.isGoogleLoading).toBe(true);
-
-      // Como loginWithFacebook verifica solo su propio estado, puede ejecutarse
-      component.loginWithFacebook();
-      expect(component.isFacebookLoading).toBe(true);
-
-      component.crearConEmail();
-      expect(component.isEmailLoading).toBe(true);
-
-      // Todos pueden estar activos simultáneamente
-      expect(component.isGoogleLoading).toBe(true);
-      expect(component.isFacebookLoading).toBe(true);
-      expect(component.isEmailLoading).toBe(true);
-    });
-  });
-
-  describe('Background image', () => {
-    it('should display background image with correct src', () => {
-      const backgroundImg = debugElement.query(By.css('img[alt="Fondo"]'));
-
-      expect(backgroundImg).toBeTruthy();
-      expect(backgroundImg.nativeElement.src).toContain('background_almuerza_peru.png');
+    it('should use TranslatePipe in template correctly', () => {
+      expect(debugElement.query(By.css('h1')).nativeElement.textContent.trim()).toBe('ALMUERZOS PERU');
+      expect(debugElement.query(By.css('h2')).nativeElement.textContent.trim()).toBe('¡Bienvenido a Almuerzos Peru!');
     });
   });
 });

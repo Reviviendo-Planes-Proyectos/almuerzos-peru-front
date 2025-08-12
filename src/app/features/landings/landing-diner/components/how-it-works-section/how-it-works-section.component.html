@@ -5,10 +5,10 @@
       <h2
         class="section-title text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-gray-800 mb-4 leading-tight"
       >
-        ¿Cómo funciona?
+        {{ t('landing.howItWorks.title') }}
       </h2>
       <p class="section-description text-base md:text-lg lg:text-xl text-gray-500 font-medium leading-relaxed">
-        En solo 3 pasos encuentras tu almuerzo perfecto
+        {{ t('landing.howItWorks.subtitle') }}
       </p>
     </div>
 
@@ -33,8 +33,10 @@
             {{ step.step }}
           </div>
         </div>
-        <h3 class="step-title font-bold text-gray-800 mb-2 text-base md:text-lg">{{ step.title }}</h3>
-        <p class="step-description text-gray-500 m-0 text-sm md:text-base leading-relaxed">{{ step.description }}</p>
+        <h3 class="step-title font-bold text-gray-800 mb-2 text-base md:text-lg">{{ t(step.title) }}</h3>
+        <p class="step-description text-gray-500 m-0 text-sm md:text-base leading-relaxed">
+          {{ t(step.description) }}
+        </p>
       </div>
     </div>
   </div>

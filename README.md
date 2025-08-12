@@ -19,6 +19,7 @@
 - [🧱 Arquitectura del Proyecto](./docs/architecture.md)
 - [🛠️ Tecnologías Utilizadas](./docs/technologies-used.md)
 - [📁 Estructura del Proyecto](./docs/project-structure.md)
+- [🌐 Sistema de Traducción (i18n)](./docs/i18n-guide.md)
 - [🚦 GitFlow, Branches, Pull Request y Changelog](./docs/gitflow-changelog.md)
 - [💻 Requisitos del Sistema](#requisitos-del-sistema)
 - [🚀 Instalación y Ejecución](#instalacion-y-ejecucion)
@@ -247,6 +248,14 @@ El proyecto incluye configuración preestablecida para:
 - 🎯 **TypeScript**: Tipado fuerte con versión 5.5.4
 - 🧹 **Biome + Prettier**: Linting y formateo automático
 - 🔒 **Husky + lint-staged + Commitlint**: Calidad y seguridad en los commits
+
+### 🌐 Internacionalización (i18n)
+
+- **Idiomas Soportados**: Español (ES) y Inglés (EN)
+- **Cambio Dinámico**: Selector de idioma en tiempo real
+- **Archivos JSON**: Traducciones externas en `/messages/`
+- **Pipe Reactivo**: Sistema de traducciones con reactividad automática
+- **Signal-based**: Basado en Angular Signals para mejor rendimiento
 
 ### 📱 Funcionalidades PWA
 

@@ -1,5 +1,6 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ButtonComponent } from '../../../../../shared/components/button/button.component';
+import { BaseTranslatableComponent } from '../../../../../shared/i18n';
 import { MaterialModule } from '../../../../../shared/material.module';
 
 @Component({
@@ -10,7 +11,7 @@ import { MaterialModule } from '../../../../../shared/material.module';
   imports: [MaterialModule, ButtonComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class HeroSectionComponent {
+export class HeroSectionComponent extends BaseTranslatableComponent {
   handleFeatureClick(feature: string) {
     window.alert(`Feature clicked: ${feature}`);
   }

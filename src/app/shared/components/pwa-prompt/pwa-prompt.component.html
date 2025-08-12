@@ -1,75 +1,93 @@
-<div class="pwa-overlay" *ngIf="showInstallPrompt" (click)="dismissPrompt()"></div>
+<!-- Overlay -->
+<div
+  *ngIf="showInstallPrompt"
+  (click)="dismissPrompt()"
+  (keydown)="dismissPrompt()"
+  class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[9998] animate-fadeIn"
+></div>
 
-<!-- Banner para actualizaciones disponibles -->
-<div class="update-banner" *ngIf="updateAvailable">
-  <div class="update-content">
-    <mat-icon>system_update</mat-icon>
-    <span>Nueva versión disponible</span>
-    <button mat-button (click)="updateApp()">Actualizar</button>
+<!-- Update Banner -->
+<div
+  *ngIf="updateAvailable"
+  class="fixed bottom-0 left-0 right-0 bg-gradient-to-r from-orange-400 to-orange-600 text-white z-[1000] animate-slideUp"
+>
+  <div class="flex items-center p-3 gap-3">
+    <mat-icon class="text-white">system_update</mat-icon>
+    <span class="flex-1">Nueva versión disponible</span>
+    <button mat-button (click)="updateApp()" class="text-white">Actualizar</button>
     <button mat-icon-button (click)="dismissUpdate()">
-      <mat-icon>close</mat-icon>
+      <mat-icon class="text-white">close</mat-icon>
     </button>
   </div>
 </div>
 
-<!-- Prompt de instalación automático -->
-<div class="pwa-prompt" *ngIf="showInstallPrompt">
-  <div class="prompt-header">
-    <div class="header-gradient"></div>
-    <div class="app-logo">
-      <mat-icon class="app-icon">restaurant_menu</mat-icon>
-      <div class="logo-rings">
-        <div class="ring ring-1"></div>
-        <div class="ring ring-2"></div>
-        <div class="ring ring-3"></div>
-      </div>
-    </div>
-    <button class="close-btn" (click)="dismissPrompt()">
-      <mat-icon>close</mat-icon>
+<!-- PWA Install Prompt -->
+<div
+  *ngIf="showInstallPrompt"
+  class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[10000] w-96 max-w-[90vw] bg-white/95 backdrop-blur-xl border border-white/40 rounded-3xl shadow-2xl animate-modalAppear overflow-hidden"
+>
+  <!-- Header -->
+  <div
+    class="relative h-24 flex items-center justify-center bg-gradient-to-br from-orange-500 to-red-600 overflow-hidden"
+  >
+    <div class="pwa-gradient"></div>
+    <mat-icon class="text-white text-4xl z-10 drop-shadow-lg !w-8 !h-8">restaurant_menu</mat-icon>
+    <button
+      (click)="dismissPrompt()"
+      class="absolute top-3 right-3 w-9 h-9 bg-black/20 hover:bg-black/30 border-0 rounded-full cursor-pointer transition-all duration-200 flex items-center justify-center backdrop-blur-sm"
+    >
+      <mat-icon class="text-white text-lg">close</mat-icon>
     </button>
   </div>
 
-  <div class="prompt-content">
-    <div class="content-main">
-      <h2 class="app-title">¡Instala Almuerzos Perú!</h2>
-      <p class="app-subtitle">La mejor experiencia gastronómica peruana</p>
+  <!-- Content -->
+  <div class="p-6 text-center">
+    <h2 class="text-2xl font-bold text-orange-500 mb-2">¡Instala Almuerzos Perú!</h2>
+    <p class="text-gray-600 text-sm mb-5">La mejor experiencia gastronómica peruana</p>
 
-      <div class="features-list">
-        <div class="feature-item">
-          <mat-icon>notifications_active</mat-icon>
-          <span>Notificaciones de ofertas</span>
-        </div>
-        <div class="feature-item">
-          <mat-icon>offline_bolt</mat-icon>
-          <span>Funciona sin internet</span>
-        </div>
-        <div class="feature-item">
-          <mat-icon>speed</mat-icon>
-          <span>Acceso ultra rápido</span>
-        </div>
+    <!-- Features -->
+    <div class="flex flex-col gap-2 mb-6 text-left">
+      <div class="flex items-center gap-3 p-2 bg-white/80 rounded-lg text-sm text-gray-700">
+        <mat-icon class="text-orange-500 text-lg">notifications_active</mat-icon>
+        <span>Notificaciones de ofertas</span>
       </div>
+      <div class="flex items-center gap-3 p-2 bg-white/80 rounded-lg text-sm text-gray-700">
+        <mat-icon class="text-orange-500 text-lg">offline_bolt</mat-icon>
+        <span>Funciona sin internet</span>
+      </div>
+      <div class="flex items-center gap-3 p-2 bg-white/80 rounded-lg text-sm text-gray-700">
+        <mat-icon class="text-orange-500 text-lg">speed</mat-icon>
+        <span>Acceso ultra rápido</span>
+      </div>
+    </div>
 
-      <div class="action-buttons">
-        <button class="install-btn" (click)="installApp()" mat-raised-button>
-          <mat-icon>get_app</mat-icon>
-          <span>Instalar App</span>
-          <div class="btn-shine"></div>
-        </button>
-        <button class="later-btn" (click)="dismissPrompt()" mat-button>Más tarde</button>
-      </div>
+    <!-- Actions -->
+    <div class="flex flex-col gap-3">
+      <button
+        (click)="installApp()"
+        class="w-full py-3 px-6 bg-gradient-to-r from-orange-500 to-red-600 text-white font-semibold rounded-xl hover:opacity-90 transition-opacity duration-200 flex items-center justify-center gap-2"
+      >
+        <mat-icon class="text-lg">get_app</mat-icon>
+        <span>Instalar App</span>
+      </button>
+      <button
+        (click)="dismissPrompt()"
+        class="py-2 px-4 text-gray-500 text-sm hover:text-gray-700 transition-colors duration-200"
+      >
+        Más tarde
+      </button>
     </div>
   </div>
 </div>
 
-<!-- FAB principal para instalación PWA -->
+<!-- Install FAB -->
 <button
   mat-fab
-  class="install-fab"
-  color="primary"
   *ngIf="!showInstallPrompt && isMobile && showFabAfter30Seconds"
   (click)="showPrompt()"
   matTooltip="Instalar Almuerzos Perú"
   matTooltipPosition="left"
+  class="!fixed !bottom-4 !right-4 !z-[1000] !bg-gradient-to-r !from-orange-500 !to-red-600 hover:!scale-105 !transition-transform !duration-200 !shadow-lg"
 >
-  <mat-icon>restaurant_menu</mat-icon>
+  <mat-icon class="text-white">restaurant_menu</mat-icon>
 </button>

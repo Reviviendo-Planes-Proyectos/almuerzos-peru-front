@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { BaseTranslatableComponent } from '../../../../../shared/i18n';
 import { MaterialModule } from '../../../../../shared/material.module';
 
 @Component({
@@ -8,7 +9,7 @@ import { MaterialModule } from '../../../../../shared/material.module';
   styleUrls: ['./final-cta-section.component.scss'],
   imports: [MaterialModule]
 })
-export class FinalCtaSectionComponent {
+export class FinalCtaSectionComponent extends BaseTranslatableComponent {
   onStartFree() {}
   onContactExpert() {}
 }

@@ -2,17 +2,18 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
-import { PoliticaPrivacidadComponent } from './politica-privacidad.component';
+import { I18nService } from '../../../../shared/i18n';
+import { PrivacyPolicyComponent } from './privacy-policy.component';
 
-describe('PoliticaPrivacidadComponent', () => {
-  let component: PoliticaPrivacidadComponent;
-  let fixture: ComponentFixture<PoliticaPrivacidadComponent>;
+describe('PrivacyPolicyComponent', () => {
+  let component: PrivacyPolicyComponent;
+  let fixture: ComponentFixture<PrivacyPolicyComponent>;
   let mockRouter: any;
 
   beforeEach(async () => {
     const routerSpy = {
       navigate: jest.fn(),
-      url: '/legal/politica-privacidad'
+      url: '/legal/privacy-policy'
     };
 
     const activatedRouteSpy = {
@@ -21,16 +22,27 @@ describe('PoliticaPrivacidadComponent', () => {
       snapshot: { params: {}, queryParams: {} }
     };
 
+    const i18nServiceSpy = {
+      t: jest.fn((key: string) => {
+        const translations: { [key: string]: string } = {
+          'landing.footer.legal.privacy.title': 'Política de Privacidad',
+          'landing.footer.legal.lastUpdated': 'Última actualización:'
+        };
+        return translations[key] || key;
+      })
+    };
+
     await TestBed.configureTestingModule({
-      imports: [PoliticaPrivacidadComponent],
+      imports: [PrivacyPolicyComponent],
       providers: [
         { provide: Router, useValue: routerSpy },
-        { provide: ActivatedRoute, useValue: activatedRouteSpy }
+        { provide: ActivatedRoute, useValue: activatedRouteSpy },
+        { provide: I18nService, useValue: i18nServiceSpy }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(PoliticaPrivacidadComponent);
+    fixture = TestBed.createComponent(PrivacyPolicyComponent);
     component = fixture.componentInstance;
     mockRouter = TestBed.inject(Router);
     fixture.detectChanges();
@@ -60,10 +72,5 @@ describe('PoliticaPrivacidadComponent', () => {
     const dateElement = compiled.querySelector('p');
     expect(dateElement?.textContent).toContain('Última actualización:');
     expect(dateElement?.textContent).toContain(component.fechaActualizacion);
-  });
-
-  it('should navigate to home when volverAlInicio method is called', () => {
-    component.volverAlInicio();
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['/']);
   });
 });

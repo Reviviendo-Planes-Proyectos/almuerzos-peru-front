@@ -8,10 +8,10 @@
       <h2
         class="section-title text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-gray-800 mb-4 leading-tight"
       >
-        Lo que dicen nuestros usuarios
+        {{ t('landing.testimonials.title') }}
       </h2>
       <p class="section-description text-base md:text-lg lg:text-xl text-gray-500 font-medium leading-relaxed">
-        Miles de limeños ya encontraron su almuerzo perfecto
+        {{ t('landing.testimonials.subtitle') }}
       </p>
     </div>
 
@@ -29,11 +29,13 @@
               class="testimonial-avatar w-10 h-10 md:w-12 md:h-12 rounded-full object-cover shadow-sm md:shadow-md flex-shrink-0"
             />
             <div class="testimonial-info flex-1 min-w-0">
-              <h4 class="testimonial-name font-bold text-gray-800 m-0 text-base md:text-lg">{{ testimonial.name }}</h4>
-              <p class="testimonial-role text-xs md:text-sm text-gray-500 m-0">{{ testimonial.role }}</p>
+              <h4 class="testimonial-name font-bold text-gray-800 m-0 text-base md:text-lg">
+                {{ t(testimonial.name) }}
+              </h4>
+              <p class="testimonial-role text-xs md:text-sm text-gray-500 m-0">{{ t(testimonial.role) }}</p>
             </div>
           </div>
-          <div class="testimonial-rating flex mb-3 gap-0.5">
+          <div class="testimonial-rating flex flex-row items-center gap-1 mb-3 whitespace-nowrap">
             <mat-icon
               *ngFor="let star of getStarArray(testimonial.rating)"
               class="star-icon w-3.5 h-3.5 md:w-4 md:h-4 text-orange-600 text-sm md:text-base"
@@ -42,7 +44,7 @@
             </mat-icon>
           </div>
           <p class="testimonial-text text-gray-700 leading-relaxed m-0 italic text-sm md:text-base">
-            {{ testimonial.text }}
+            {{ t(testimonial.text) }}
           </p>
         </mat-card-content>
       </mat-card>
