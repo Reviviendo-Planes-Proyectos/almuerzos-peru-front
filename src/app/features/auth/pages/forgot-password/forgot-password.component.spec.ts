@@ -1,4 +1,3 @@
-import { Location } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -9,15 +8,10 @@ import { ForgotPasswordComponent } from './forgot-password.component';
 describe('ForgotPasswordComponent', () => {
   let component: ForgotPasswordComponent;
   let fixture: ComponentFixture<ForgotPasswordComponent>;
-  let mockLocation: any;
   let mockRouter: any;
   let mockI18nService: any;
 
   beforeEach(async () => {
-    mockLocation = {
-      back: jest.fn()
-    };
-
     mockRouter = {
       navigate: jest.fn()
     };
@@ -29,7 +23,6 @@ describe('ForgotPasswordComponent', () => {
     await TestBed.configureTestingModule({
       imports: [ForgotPasswordComponent, NoopAnimationsModule],
       providers: [
-        { provide: Location, useValue: mockLocation },
         { provide: Router, useValue: mockRouter },
         { provide: I18nService, useValue: mockI18nService }
       ]
@@ -47,11 +40,6 @@ describe('ForgotPasswordComponent', () => {
   it('should initialize form with email control', () => {
     expect(component.forgotPasswordForm).toBeDefined();
     expect(component.forgotPasswordForm.get('email')).toBeTruthy();
-  });
-
-  it('should call location.back when goBack is called', () => {
-    component.goBack();
-    expect(mockLocation.back).toHaveBeenCalled();
   });
 
   it('should navigate to login when goToLogin is called', () => {

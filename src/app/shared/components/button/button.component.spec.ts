@@ -140,11 +140,6 @@ describe('ButtonComponent', () => {
     expect(buttonElement.classList).toContain('items-center');
     expect(buttonElement.classList).toContain('justify-center');
     expect(buttonElement.classList).toContain('gap-2');
-    expect(buttonElement.classList).toContain('transition-all');
-    expect(buttonElement.classList).toContain('duration-300');
-    expect(buttonElement.classList).toContain('ease-in-out');
-    expect(buttonElement.classList).toContain('transform');
-    expect(buttonElement.classList).toContain('hover:scale-105');
     expect(buttonElement.classList).toContain('cursor-pointer');
   });
 

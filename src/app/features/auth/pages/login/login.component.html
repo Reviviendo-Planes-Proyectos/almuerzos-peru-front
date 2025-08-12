@@ -6,14 +6,7 @@
     class="absolute inset-0 w-full h-full object-cover opacity-100"
   />
 
-  <button
-    mat-icon-button
-    (click)="goBack()"
-    class="absolute top-4 left-4 z-50 bg-white bg-opacity-70 hover:bg-opacity-100 rounded-full shadow-md transition duration-300"
-    [attr.aria-label]="t('common.back')"
-  >
-    <mat-icon class="text-gray-800">arrow_back</mat-icon>
-  </button>
+  <app-back-button position="top-left" routerLink="/auth/profile-selection"></app-back-button>
 
   <div class="relative z-10 flex items-end sm:items-center justify-center min-h-[95vh]">
     <div class="bg-white bg-opacity-90 rounded-xl shadow-lg p-6 w-full max-w-md flex flex-col items-center">

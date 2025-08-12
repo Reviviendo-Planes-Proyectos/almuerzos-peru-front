@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { LangComponent } from './shared/components/language-selector/language-selector.component';
 import { PwaPromptComponent } from './shared/components/pwa-prompt/pwa-prompt.component';
 import { MaterialModule } from './shared/material.module';
 import { ApiService } from './shared/services/api/api.service';
@@ -9,7 +8,7 @@ import { LoggerService } from './shared/services/logger/logger.service';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, MaterialModule, PwaPromptComponent, LangComponent],
+  imports: [RouterOutlet, MaterialModule, PwaPromptComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })

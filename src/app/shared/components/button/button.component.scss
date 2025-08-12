@@ -1,17 +1,3 @@
-@keyframes blink {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.4;
-  }
-}
-
-button:not(:disabled):hover {
-  animation: blink 0.7s linear infinite;
-}
-
 button:disabled {
   background-color: #d1d5db !important;
   color: #9ca3af !important;
@@ -20,8 +6,6 @@ button:disabled {
   box-shadow: none !important;
 
   &:hover {
-    animation: none !important;
-    transform: none !important;
     background-color: #d1d5db !important;
   }
 

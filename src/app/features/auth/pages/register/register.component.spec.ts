@@ -1,4 +1,3 @@
-import { Location } from '@angular/common';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -35,13 +34,9 @@ describe('RegisterComponent', () => {
   let component: RegisterComponent;
   let fixture: ComponentFixture<RegisterComponent>;
   let debugElement: DebugElement;
-  let mockLocation: jest.Mocked<Location>;
   let mockI18nService: MockI18nService;
 
   beforeEach(async () => {
-    const locationSpy = {
-      back: jest.fn()
-    };
     const routerSpy = {
       navigate: jest.fn()
     };
@@ -51,7 +46,6 @@ describe('RegisterComponent', () => {
     await TestBed.configureTestingModule({
       imports: [RegisterComponent, MaterialModule, NoopAnimationsModule, TranslatePipe],
       providers: [
-        { provide: Location, useValue: locationSpy },
         { provide: Router, useValue: routerSpy },
         { provide: I18nService, useValue: mockI18nService }
       ]
@@ -60,7 +54,6 @@ describe('RegisterComponent', () => {
     fixture = TestBed.createComponent(RegisterComponent);
     component = fixture.componentInstance;
     debugElement = fixture.debugElement;
-    mockLocation = TestBed.inject(Location) as jest.Mocked<Location>;
     fixture.detectChanges();
   });
 
@@ -96,11 +89,6 @@ describe('RegisterComponent', () => {
   it('should display "Registrarse después" link', () => {
     const linkElement = debugElement.query(By.css('button.text-purple-700'));
     expect(linkElement.nativeElement.textContent.trim()).toBe('Registrarse después');
-  });
-
-  it('should call location.back() when goBack is called', () => {
-    component.goBack();
-    expect(mockLocation.back).toHaveBeenCalled();
   });
 
   it('should execute loginWithGoogle method without errors', () => {

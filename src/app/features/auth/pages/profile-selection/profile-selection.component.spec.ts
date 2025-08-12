@@ -1,4 +1,3 @@
-import { Location } from '@angular/common';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -31,14 +30,10 @@ describe('ProfileSelectionComponent', () => {
   let component: ProfileSelectionComponent;
   let fixture: ComponentFixture<ProfileSelectionComponent>;
   let debugElement: DebugElement;
-  let mockLocation: jest.Mocked<Location>;
   let mockRouter: jest.Mocked<Router>;
   let mockI18nService: MockI18nService;
 
   beforeEach(async () => {
-    const locationSpy = {
-      back: jest.fn()
-    };
     const routerSpy = {
       navigate: jest.fn()
     };
@@ -48,7 +43,6 @@ describe('ProfileSelectionComponent', () => {
     await TestBed.configureTestingModule({
       imports: [ProfileSelectionComponent, MaterialModule, NoopAnimationsModule, TranslatePipe],
       providers: [
-        { provide: Location, useValue: locationSpy },
         { provide: Router, useValue: routerSpy },
         { provide: I18nService, useValue: mockI18nService }
       ]
@@ -57,7 +51,6 @@ describe('ProfileSelectionComponent', () => {
     fixture = TestBed.createComponent(ProfileSelectionComponent);
     component = fixture.componentInstance;
     debugElement = fixture.debugElement;
-    mockLocation = TestBed.inject(Location) as jest.Mocked<Location>;
     mockRouter = TestBed.inject(Router) as jest.Mocked<Router>;
     fixture.detectChanges();
   });
@@ -104,11 +97,6 @@ describe('ProfileSelectionComponent', () => {
   it('should have proper aria-label for back button with translation', () => {
     const backButton = debugElement.query(By.css('button[mat-icon-button]'));
     expect(backButton.nativeElement.getAttribute('aria-label')).toBe('Volver');
-  });
-
-  it('should call location.back() when goBack is called', () => {
-    component.goBack();
-    expect(mockLocation.back).toHaveBeenCalled();
   });
 
   it('should navigate to login when goToLogin is called with restaurante', () => {

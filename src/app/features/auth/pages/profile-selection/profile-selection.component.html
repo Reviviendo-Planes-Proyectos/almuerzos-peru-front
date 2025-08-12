@@ -8,14 +8,7 @@
   />
 
   <!-- Botón volver -->
-  <button
-    mat-icon-button
-    (click)="goBack()"
-    class="absolute top-4 left-4 z-50 bg-white bg-opacity-70 hover:bg-opacity-100 rounded-full shadow-md transition duration-300"
-    [attr.aria-label]="t('common.back')"
-  >
-    <mat-icon class="text-gray-800">arrow_back</mat-icon>
-  </button>
+  <app-back-button position="top-left"></app-back-button>
 
   <!-- Contenido centrado -->
   <div class="relative z-10 flex items-end sm:items-center justify-center min-h-[95vh]">
@@ -66,7 +59,7 @@
       <div class="mt-6">
         <button
           type="button"
-          (click)="goBack()"
+          (click)="router.navigate(['auth/login'])"
           class="text-purple-700 hover:underline font-medium bg-transparent border-none cursor-pointer"
         >
           {{ t('auth.profileSelection.registerLater') }}

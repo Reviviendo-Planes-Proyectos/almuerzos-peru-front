@@ -1,4 +1,3 @@
-import { Location } from '@angular/common';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -38,15 +37,10 @@ describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
   let debugElement: DebugElement;
-  let locationSpy: Location;
   let routerSpy: Router;
   let mockI18nService: MockI18nService;
 
   beforeEach(async () => {
-    const locationSpyObj = {
-      back: jest.fn()
-    };
-
     const routerSpyObj = {
       navigate: jest.fn()
     };
@@ -56,7 +50,6 @@ describe('LoginComponent', () => {
     await TestBed.configureTestingModule({
       imports: [LoginComponent, MaterialModule, NoopAnimationsModule, TranslatePipe],
       providers: [
-        { provide: Location, useValue: locationSpyObj },
         { provide: Router, useValue: routerSpyObj },
         { provide: I18nService, useValue: mockI18nService }
       ]
@@ -65,7 +58,6 @@ describe('LoginComponent', () => {
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
     debugElement = fixture.debugElement;
-    locationSpy = TestBed.inject(Location);
     routerSpy = TestBed.inject(Router);
     fixture.detectChanges();
   });
@@ -141,18 +133,6 @@ describe('LoginComponent', () => {
     const backButton = debugElement.query(By.css('button[mat-icon-button]'));
     expect(backButton).toBeTruthy();
     expect(backButton.nativeElement.getAttribute('aria-label')).toBe('Volver');
-  });
-
-  it('should call location.back() when goBack is called', () => {
-    component.goBack();
-    expect(locationSpy.back).toHaveBeenCalled();
-  });
-
-  it('should call goBack when back button is clicked', () => {
-    const goBackSpy = jest.spyOn(component, 'goBack');
-    const backButton = debugElement.query(By.css('button[mat-icon-button]'));
-    backButton.nativeElement.click();
-    expect(goBackSpy).toHaveBeenCalled();
   });
 
   it('should call loginWithGoogle when Google button is clicked', () => {
