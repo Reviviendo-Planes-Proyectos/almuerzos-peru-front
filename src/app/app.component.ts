@@ -15,6 +15,7 @@ import { LoggerService } from './shared/services/logger/logger.service';
 })
 export class AppComponent implements OnInit {
   apiStatus: any;
+  private scrollTimeout: ReturnType<typeof setTimeout> | null = null;
 
   constructor(
     private readonly apiService: ApiService,
@@ -32,5 +33,37 @@ export class AppComponent implements OnInit {
         this.logger.error('Error fetching API status:', this.apiStatus);
       }
     });
+
+    this.initCustomScrollIndicator();
+  }
+
+  private initCustomScrollIndicator(): void {
+    window.addEventListener('scroll', this.handleScroll.bind(this));
+  }
+
+  private handleScroll(): void {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+
+    if (scrollHeight > 0) {
+      const viewportHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      const indicatorHeight = Math.max((viewportHeight / documentHeight) * 100, 3);
+
+      const scrollProgress = (scrollTop / scrollHeight) * (100 - indicatorHeight);
+
+      document.documentElement.style.setProperty('--scroll-progress', `${indicatorHeight}%`);
+      document.documentElement.style.setProperty('--scroll-position', `${scrollProgress}%`);
+    }
+
+    document.body.classList.add('scrolling');
+
+    if (this.scrollTimeout) {
+      clearTimeout(this.scrollTimeout);
+    }
+
+    this.scrollTimeout = setTimeout(() => {
+      document.body.classList.remove('scrolling');
+    }, 1500);
   }
 }
