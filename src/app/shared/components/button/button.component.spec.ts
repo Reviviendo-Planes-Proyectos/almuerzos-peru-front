@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from '../../material.module';
-import { I18nService, TranslatePipe } from '../../translations';
+import { I18nService, TranslatePipe } from '../../i18n';
 import { ButtonComponent } from './button.component';
 
 // Mock del servicio de traducción

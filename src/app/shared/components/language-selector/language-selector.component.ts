@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { I18nService, TranslatePipe } from '../../translations';
+import { I18nService, TranslatePipe } from '../../i18n';
 
 @Component({
   selector: 'app-lang',

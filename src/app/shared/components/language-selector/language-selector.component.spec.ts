@@ -1,6 +1,6 @@
 import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nService, TranslatePipe } from '../../../shared/translations';
+import { I18nService, TranslatePipe } from '../../../shared/i18n';
 import { LangComponent } from './language-selector.component';
 
 class MockI18nService {

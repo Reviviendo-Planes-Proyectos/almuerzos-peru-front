@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { MaterialModule } from '../../../../../shared/material.module';
-import { I18nService } from '../../../../../shared/translations';
+import { I18nService } from '../../../../../shared/i18n';
 
 enum PlanType {
   FREE = 'free',

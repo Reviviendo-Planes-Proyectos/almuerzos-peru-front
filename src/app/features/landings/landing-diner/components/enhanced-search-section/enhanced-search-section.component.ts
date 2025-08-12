@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MaterialModule } from '../../../../../shared/material.module';
-import { TranslatePipe } from '../../../../../shared/translations';
+import { TranslatePipe } from '../../../../../shared/i18n';
 
 @Component({
   selector: 'app-enhanced-search-section',

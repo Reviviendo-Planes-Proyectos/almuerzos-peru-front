@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { MaterialModule } from '../../../../shared/material.module';
-import { I18nService } from '../../../../shared/translations';
+import { I18nService } from '../../../../shared/i18n';
 import { HeaderComponent } from '../../../landings/landing-restaurant/components/header/header.component';
 
 @Component({

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { I18nService } from '../../../../../shared/translations';
+import { I18nService } from '../../../../../shared/i18n';
 import { FinalCtaSectionComponent } from './final-cta-section.component';
 
 class MockI18nService {

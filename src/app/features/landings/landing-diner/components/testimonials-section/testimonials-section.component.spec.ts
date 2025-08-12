@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { I18nService, TranslatePipe } from '../../../../../shared/translations';
+import { I18nService, TranslatePipe } from '../../../../../shared/i18n';
 import { TestimonialsSectionComponent } from './testimonials-section.component';
 
 // Mock del servicio de traducción

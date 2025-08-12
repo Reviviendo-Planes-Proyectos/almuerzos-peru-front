@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nService } from '../../../../../shared/translations';
+import { I18nService } from '../../../../../shared/i18n';
 import { TestimonialsSectionComponent } from './testimonials-section.component';
 
 class MockI18nService {

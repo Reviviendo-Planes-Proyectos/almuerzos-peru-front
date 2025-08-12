@@ -5,7 +5,7 @@ import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
 import { MaterialModule } from '../../../../shared/material.module';
-import { I18nService, TranslatePipe } from '../../../../shared/translations';
+import { I18nService, TranslatePipe } from '../../../../shared/i18n';
 import { ProfileSelectionComponent } from './profile-selection.component';
 
 // Mock del servicio de traducción

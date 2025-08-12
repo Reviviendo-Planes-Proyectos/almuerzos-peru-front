@@ -1,6 +1,6 @@
 import { Component, Input, inject } from '@angular/core';
 import { MaterialModule } from '../../material.module';
-import { I18nService } from '../../translations';
+import { I18nService } from '../../i18n';
 
 @Component({
   selector: 'app-button',

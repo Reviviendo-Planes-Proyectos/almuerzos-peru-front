@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nService } from '../../../../../shared/translations';
+import { I18nService } from '../../../../../shared/i18n';
 import { BenefitsSectionComponent } from './benefits-section.component';
 
 // Mock del servicio de traducción

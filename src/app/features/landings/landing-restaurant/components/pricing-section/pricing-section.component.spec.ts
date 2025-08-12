@@ -1,6 +1,6 @@
 import { ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nService } from '../../../../../shared/translations';
+import { I18nService } from '../../../../../shared/i18n';
 import { PricingSectionComponent } from './pricing-section.component';
 
 // Mock del servicio de traducción

@@ -3,7 +3,7 @@ import { Component, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { MaterialModule } from '../../../../shared/material.module';
 import { LoggerService } from '../../../../shared/services/logger/logger.service';
-import { I18nService } from '../../../../shared/translations';
+import { I18nService } from '../../../../shared/i18n';
 
 @Component({
   selector: 'app-profile-selection',

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MaterialModule } from '../../../../../shared/material.module';
-import { TranslatePipe } from '../../../../../shared/translations';
+import { TranslatePipe } from '../../../../../shared/i18n';
 
 @Component({
   selector: 'app-features-section',
