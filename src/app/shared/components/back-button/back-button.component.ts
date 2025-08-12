@@ -1,7 +1,7 @@
 import { Location } from '@angular/common';
 import { Component, Input, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { I18nService } from '../../i18n';
+import { BaseTranslatableComponent } from '../../i18n';
 import { MaterialModule } from '../../material.module';
 
 @Component({
@@ -11,19 +11,14 @@ import { MaterialModule } from '../../material.module';
   templateUrl: './back-button.component.html',
   styleUrls: ['./back-button.component.scss']
 })
-export class BackButtonComponent {
+export class BackButtonComponent extends BaseTranslatableComponent {
   @Input() position: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' = 'top-left';
   @Input() customClass = '';
   @Input() ariaLabel = '';
   @Input() routerLink: string | string[] = '';
 
-  private i18n = inject(I18nService);
   private location = inject(Location);
   private router = inject(Router);
-
-  protected t = (key: string): string => {
-    return this.i18n.t(key);
-  };
 
   get positionClasses(): string {
     const positions = {

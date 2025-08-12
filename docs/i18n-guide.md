@@ -19,8 +19,16 @@
 ### **En TypeScript**
 
 ```typescript
-import { I18nService } from '../shared/translations';
+import { BaseTranslatableComponent } from '../shared/i18n';
 
+// ✅ Opción 1: Extender clase base (RECOMENDADO)
+export class MyComponent extends BaseTranslatableComponent {
+  showMessage() {
+    alert(this.t('messages.success'));
+  }
+}
+
+// ✅ Opción 2: Inyección manual (solo si no puedes extender)
 export class MyComponent {
   private i18n = inject(I18nService);
 
@@ -71,12 +79,12 @@ export class MyComponent {
 @Component({
   imports: [TranslatePipe], // 👈 Importante
   template: `
-    <h1>{{ 'auth.login.title' | t }}</h1>
-    <input [placeholder]="'auth.login.email' | t" />
-    <button>{{ 'auth.login.button' | t }}</button>
+    <h1>{{ t('auth.login.title') }}</h1>
+    <input [placeholder]="t('auth.login.email')" />
+    <button>{{ t('auth.login.button') }}</button>
   `
 })
-export class LoginComponent {}
+export class LoginComponent extends BaseTranslatableComponent {}
 ```
 
 ### **Con Directiva (más eficiente)**
@@ -89,15 +97,13 @@ export class LoginComponent {}
     <button appTranslate="auth.login.button"></button>
   `
 })
-export class LoginComponent {}
+export class LoginComponent extends BaseTranslatableComponent {}
 ```
 
 ### **Cambiar Idioma**
 
 ```typescript
-export class LanguageComponent {
-  private i18n = inject(I18nService);
-
+export class LanguageComponent extends BaseTranslatableComponent {
   switchToEnglish() {
     this.i18n.setLanguage('en');
   }
@@ -115,16 +121,22 @@ export class LanguageComponent {
 ### **No aparecen las traducciones**
 
 ```typescript
-// ❌ Falta import
+// ❌ Falta import o extensión
 @Component({
-  template: `{{ 'key' | t }}`  // No funciona
+  template: `
+    {{ t('key') }}
+  ` // No funciona
 })
+export class MyComponent {}
 
-// ✅ Con import
+// ✅ Con herencia
 @Component({
-  imports: [TranslatePipe],    // 👈 Necesario
-  template: `{{ 'key' | t }}`  // Funciona
+  imports: [TranslatePipe], // 👈 Necesario
+  template: `
+    {{ t('key') }}
+  ` // Funciona
 })
+export class MyComponent extends BaseTranslatableComponent {}
 ```
 
 ### **Clave no encontrada**
@@ -139,7 +151,7 @@ export class LanguageComponent {
 import { I18nService } from '../core/translations';
 
 // ✅ Bien
-import { I18nService } from '../shared/translations';
+import { BaseTranslatableComponent } from '../shared/i18n';
 ```
 
 &nbsp;
@@ -150,7 +162,7 @@ import { I18nService } from '../shared/translations';
    - `'auth.login.title'` ✅
    - `'loginTitle'` ❌
 
-2. **Imports:** Siempre desde `../shared/translations`
+2. **Componentes:** Extiende `BaseTranslatableComponent` y usa `t()`
 
 3. **Templates:** Importa `TranslatePipe` o `TranslateDirective`
 

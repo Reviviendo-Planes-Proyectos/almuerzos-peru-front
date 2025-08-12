@@ -140,13 +140,13 @@ describe('LangComponent', () => {
 
   describe('Integration Tests', () => {
     it('should work end-to-end', () => {
-      expect(component.i18n.getLang()).toBe('es');
+      expect(mockI18nService.getLang()).toBe('es');
 
       const selectElement = fixture.nativeElement.querySelector('select');
       selectElement.value = 'en';
       selectElement.dispatchEvent(new Event('change'));
 
-      expect(component.i18n.getLang()).toBe('en');
+      expect(mockI18nService.getLang()).toBe('en');
     });
   });
 });

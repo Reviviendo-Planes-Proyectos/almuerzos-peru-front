@@ -1,6 +1,6 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, inject } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ButtonComponent } from '../../../../../shared/components/button/button.component';
-import { I18nService } from '../../../../../shared/i18n';
+import { BaseTranslatableComponent } from '../../../../../shared/i18n';
 import { MaterialModule } from '../../../../../shared/material.module';
 
 @Component({
@@ -11,13 +11,7 @@ import { MaterialModule } from '../../../../../shared/material.module';
   imports: [MaterialModule, ButtonComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class HeroSectionComponent {
-  private i18n = inject(I18nService);
-
-  protected t = (key: string): string => {
-    return this.i18n.t(key);
-  };
-
+export class HeroSectionComponent extends BaseTranslatableComponent {
   handleFeatureClick(feature: string) {
     window.alert(`Feature clicked: ${feature}`);
   }

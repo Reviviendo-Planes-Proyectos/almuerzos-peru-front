@@ -20,33 +20,50 @@
         <h2
           class="cta-title text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white mb-4 leading-tight text-shadow-lg"
         >
-          {{ 'landing.diner.finalCta.title.ready' | t }}
+          {{ t('landing.diner.finalCta.title.ready') }}
           <br />
-          <span class="title-highlight text-yellow-300">{{ 'landing.diner.finalCta.title.idealLunch' | t }}</span>
+          <span class="title-highlight text-yellow-300">{{ t('landing.diner.finalCta.title.idealLunch') }}</span>
         </h2>
 
         <p
           class="cta-description text-base sm:text-lg md:text-xl lg:text-2xl text-white/95 mb-6 md:mb-8 max-w-3xl mx-auto font-medium leading-relaxed text-shadow"
         >
-          {{ 'landing.diner.finalCta.description.joinUsers' | t }}
+          {{ t('landing.restaurant.finalCta.features.free') }}
           <span class="users-highlight font-black text-yellow-300">
-            {{ 'landing.diner.finalCta.description.usersCount' | t }}
+            {{ t('landing.diner.finalCta.description.usersCount') }}
           </span>
-          {{ 'landing.diner.finalCta.description.enjoyExperience' | t }}
+          {{ t('landing.diner.finalCta.description.enjoyExperience') }}
         </p>
 
-        <!-- Social Proof Stats - Como en la imagen -->
-        <div class="social-proof grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8 max-w-4xl mx-auto mb-8">
-          <div
-            *ngFor="let stat of stats"
-            class="proof-item bg-white/20 backdrop-blur-xl rounded-2xl p-6 md:p-8 border border-white/30 text-center"
+        <div class="flex flex-col sm:flex-row gap-0 sm:gap-4 justify-center">
+          <button
+            type="button"
+            (click)="onStartFree()"
+            class="px-6 sm:px-10 py-3 sm:py-4 text-base sm:text-lg font-bold rounded-full bg-yellow-400 text-gray-900 shadow-lg border-2 border-yellow-500 flex items-center justify-center gap-2 sm:gap-3 hover:bg-yellow-500 hover:text-white hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-yellow-200 transition-all duration-200 mb-3 sm:mb-0 sm:mr-4"
           >
-            <div class="proof-value text-4xl md:text-5xl font-black text-white mb-2">{{ stat.value }}</div>
-            <div class="proof-label text-sm md:text-base text-white/90 font-medium">{{ stat.label | t }}</div>
-          </div>
+            <span class="material-icons text-lg sm:text-xl">rocket_launch</span>
+            {{ t('landing.diner.finalCta.button.explore') }}
+          </button>
         </div>
 
-        <!-- Social Proof Stats - Como en la imagen -->
+        <div
+          class="flex flex-row justify-center items-center space-x-2 sm:space-x-8 text-white/80 text-xs sm:text-sm mt-4 px-4"
+        >
+          <div class="flex items-center space-x-1 sm:space-x-2 flex-shrink-0 min-w-0">
+            <mat-icon class="sm:!w-6 sm:!h-6 text-white flex-shrink-0">check_circle</mat-icon>
+            <span class="whitespace-nowrap text-xs sm:text-sm">{{ t('landing.diner.finalCta.features.easy') }}</span>
+          </div>
+          <div class="flex items-center space-x-1 sm:space-x-2 flex-shrink-0 min-w-0">
+            <mat-icon class="sm:!w-6 sm:!h-6 text-white flex-shrink-0">check_circle</mat-icon>
+            <span class="whitespace-nowrap text-xs sm:text-sm">{{ t('landing.diner.finalCta.features.fast') }}</span>
+          </div>
+          <div class="flex items-center space-x-1 sm:space-x-2 flex-shrink-0 min-w-0">
+            <mat-icon class="sm:!w-6 sm:!h-6 text-white flex-shrink-0">check_circle</mat-icon>
+            <span class="whitespace-nowrap text-xs sm:text-sm">
+              {{ t('landing.diner.finalCta.features.delicious') }}
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   </div>

@@ -1,5 +1,5 @@
-import { Component, inject } from '@angular/core';
-import { I18nService } from '../../../../../shared/i18n';
+import { Component } from '@angular/core';
+import { BaseTranslatableComponent } from '../../../../../shared/i18n';
 import { MaterialModule } from '../../../../../shared/material.module';
 
 @Component({
@@ -9,13 +9,7 @@ import { MaterialModule } from '../../../../../shared/material.module';
   styleUrls: ['./testimonials-section.component.scss'],
   imports: [MaterialModule]
 })
-export class TestimonialsSectionComponent {
-  private i18n = inject(I18nService);
-
-  protected t = (key: string): string => {
-    return this.i18n.t(key);
-  };
-
+export class TestimonialsSectionComponent extends BaseTranslatableComponent {
   get testimonials() {
     return [
       {

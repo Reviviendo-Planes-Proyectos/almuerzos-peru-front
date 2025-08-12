@@ -89,7 +89,7 @@ describe('ButtonComponent', () => {
     fixture.detectChanges();
 
     expect(buttonElement.disabled).toBe(true);
-    expect(component.buttonClasses).toBe('bg-gray-300 text-gray-500 opacity-60');
+    expect(component.buttonClasses).toBe('bg-gray-300 text-gray-500 opacity-60 cursor-not-allowed');
   });
 
   it('should display icon when iconName is provided', () => {
@@ -141,6 +141,9 @@ describe('ButtonComponent', () => {
     expect(buttonElement.classList).toContain('justify-center');
     expect(buttonElement.classList).toContain('gap-2');
     expect(buttonElement.classList).toContain('cursor-pointer');
+    expect(buttonElement.classList).toContain('select-none');
+    expect(buttonElement.classList).toContain('relative');
+    expect(buttonElement.classList).toContain('overflow-hidden');
   });
 
   it('should have responsive padding classes', () => {
@@ -173,6 +176,9 @@ describe('ButtonComponent', () => {
     expect(labelSpan.nativeElement.classList).toContain('sm:text-sm');
     expect(labelSpan.nativeElement.classList).toContain('md:text-base');
     expect(labelSpan.nativeElement.classList).toContain('lg:text-lg');
+    expect(labelSpan.nativeElement.classList).toContain('transition-all');
+    expect(labelSpan.nativeElement.classList).toContain('duration-300');
+    expect(labelSpan.nativeElement.classList).toContain('font-semibold');
   });
 
   it('should be enabled when isActive is true', () => {
@@ -210,6 +216,8 @@ describe('ButtonComponent', () => {
     const imageElement = debugElement.query(By.css('img'));
     expect(imageElement.nativeElement.classList).toContain('w-5');
     expect(imageElement.nativeElement.classList).toContain('h-5');
+    expect(imageElement.nativeElement.classList).toContain('transition-all');
+    expect(imageElement.nativeElement.classList).toContain('duration-300');
   });
 
   it('should have correct icon styling', () => {
@@ -219,6 +227,8 @@ describe('ButtonComponent', () => {
     const iconSpan = debugElement.query(By.css('span.material-icons'));
     expect(iconSpan.nativeElement.classList).toContain('text-lg');
     expect(iconSpan.nativeElement.classList).toContain('mr-2');
+    expect(iconSpan.nativeElement.classList).toContain('transition-transform');
+    expect(iconSpan.nativeElement.classList).toContain('duration-300');
   });
 
   it('should handle empty label gracefully', () => {
@@ -233,16 +243,20 @@ describe('ButtonComponent', () => {
     component.isActive = true;
     component.isOutline = false;
     fixture.detectChanges();
-    expect(component.buttonClasses).toBe('bg-yellow-500 text-white hover:bg-yellow-600');
+    expect(component.buttonClasses).toBe(
+      'bg-yellow-500 text-white hover:shadow-lg focus:ring-2 focus:ring-yellow-300 focus:outline-none'
+    );
 
     component.isOutline = true;
     fixture.detectChanges();
-    expect(component.buttonClasses).toBe('border-yellow-500 border-2 text-gray-900 bg-transparent hover:bg-yellow-50');
+    expect(component.buttonClasses).toBe(
+      'border-yellow-500 border-2 text-gray-900 bg-transparent hover:bg-yellow-50 focus:ring-2 focus:ring-yellow-200 focus:outline-none'
+    );
 
     component.isActive = false;
     component.isOutline = false;
     fixture.detectChanges();
-    expect(component.buttonClasses).toBe('bg-gray-300 text-gray-500 opacity-60');
+    expect(component.buttonClasses).toBe('bg-gray-300 text-gray-500 opacity-60 cursor-not-allowed');
   });
 
   describe('Internationalization', () => {
@@ -287,6 +301,41 @@ describe('ButtonComponent', () => {
 
       const labelSpan = debugElement.query(By.css('span:last-child'));
       expect(labelSpan.nativeElement.textContent.trim()).toBe('Fallback Label');
+    });
+  });
+
+  describe('Click Events', () => {
+    it('should emit clicked event when button is active and clicked', () => {
+      let clickedEmitted = false;
+      component.clicked.subscribe(() => {
+        clickedEmitted = true;
+      });
+
+      component.isActive = true;
+      fixture.detectChanges();
+
+      component.onClick();
+
+      expect(clickedEmitted).toBe(true);
+    });
+
+    it('should not emit clicked event when button is inactive', () => {
+      let clickedEmitted = false;
+      component.clicked.subscribe(() => {
+        clickedEmitted = true;
+      });
+
+      component.isActive = false;
+      fixture.detectChanges();
+
+      component.onClick();
+
+      expect(clickedEmitted).toBe(false);
+    });
+
+    it('should have onClick method', () => {
+      expect(component.onClick).toBeDefined();
+      expect(typeof component.onClick).toBe('function');
     });
   });
 });

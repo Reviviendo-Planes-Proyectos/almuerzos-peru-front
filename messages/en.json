@@ -492,8 +492,7 @@
         "notification": {
           "newMenu": "New menu available",
           "restaurant": "El Dorado Restaurant"
-        },
-        "deliveryAvailable": "Delivery available"
+        }
       },
       "finalCta": {
         "title": {
@@ -504,6 +503,14 @@
           "joinUsers": "Join",
           "usersCount": "+10,000 users",
           "enjoyExperience": "who already enjoy the best experience for finding food in Lima"
+        },
+        "button": {
+          "explore": "Explore restaurants"
+        },
+        "features": {
+          "easy": "Easy",
+          "fast": "Fast",
+          "delicious": "Delicious"
         },
         "stats": {
           "restaurants": "Verified restaurants",

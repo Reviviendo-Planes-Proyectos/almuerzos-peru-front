@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
-import { TranslatePipe } from '../../../../../shared/i18n';
+import { BaseTranslatableComponent } from '../../../../../shared/i18n';
 import { MaterialModule } from '../../../../../shared/material.module';
 
 @Component({
   selector: 'app-how-it-works-section',
   standalone: true,
-  imports: [MaterialModule, TranslatePipe],
+  imports: [MaterialModule],
   templateUrl: './how-it-works-section.component.html',
   styleUrls: ['./how-it-works-section.component.scss']
 })
-export class HowItWorksSectionComponent {
+export class HowItWorksSectionComponent extends BaseTranslatableComponent {
   steps = [
     {
       step: '1',

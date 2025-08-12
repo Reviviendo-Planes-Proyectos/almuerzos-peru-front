@@ -1,12 +1,56 @@
+// Transiciones globales para todos los botones
+button {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+
+  // Efecto de ripple/ondas al hacer hover
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transition:
+      width 0.6s ease,
+      height 0.6s ease;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+  }
+
+  &:hover::before {
+    width: 300px;
+    height: 300px;
+  }
+
+  // Asegurar que el contenido esté por encima del efecto
+  > * {
+    position: relative;
+    z-index: 1;
+  }
+}
+
 button:disabled {
   background-color: #d1d5db !important;
   color: #9ca3af !important;
   opacity: 0.6 !important;
   transform: none !important;
   box-shadow: none !important;
+  cursor: not-allowed;
+
+  &::before {
+    display: none;
+  }
 
   &:hover {
     background-color: #d1d5db !important;
+    transform: none !important;
+    box-shadow: none !important;
   }
 
   .material-icons {
@@ -15,21 +59,107 @@ button:disabled {
 }
 
 button:not(:disabled) {
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.1s ease;
+  }
+
   &.bg-yellow-500 {
-    background-color: #eab308;
+    background: linear-gradient(135deg, #eab308 0%, #f59e0b 100%);
     color: white;
+    border: none;
+
+    &::before {
+      background: rgba(255, 255, 255, 0.2);
+    }
 
     &:hover {
-      background-color: #d97706;
+      background: linear-gradient(135deg, #d97706 0%, #dc2626 100%);
+      box-shadow: 0 8px 25px rgba(234, 179, 8, 0.4);
     }
 
     &:active {
-      background-color: #b45309;
+      background: linear-gradient(135deg, #b45309 0%, #991b1b 100%);
     }
   }
 
   &.bg-gray-300 {
-    background-color: #d1d5db;
-    color: #9ca3af;
+    background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
+    color: #6b7280;
+    border: 1px solid #d1d5db;
+
+    &::before {
+      background: rgba(107, 114, 128, 0.1);
+    }
+
+    &:hover {
+      background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+      color: #374151;
+      border-color: #9ca3af;
+      box-shadow: 0 8px 25px rgba(209, 213, 219, 0.4);
+    }
+
+    &:active {
+      background: linear-gradient(135deg, #d1d5db 0%, #9ca3af 100%);
+    }
+  }
+
+  // Estilo para botones outline
+  &.border-yellow-500 {
+    background: transparent;
+    border: 2px solid #eab308;
+    color: #1f2937;
+    position: relative;
+
+    &::before {
+      background: rgba(234, 179, 8, 0.1);
+    }
+
+    &:hover {
+      background: rgba(234, 179, 8, 0.1);
+      border-color: #d97706;
+      color: #b45309;
+      box-shadow: 0 8px 25px rgba(234, 179, 8, 0.2);
+    }
+
+    &:active {
+      background: rgba(234, 179, 8, 0.2);
+      border-color: #b45309;
+    }
+  }
+
+  // Efectos adicionales para botones con iconos
+  .material-icons {
+    transition: transform 0.3s ease;
+  }
+
+  &:hover .material-icons {
+    transform: scale(1.1) rotate(5deg);
+  }
+
+  // Efecto para imágenes
+  img {
+    transition: all 0.3s ease;
+    filter: brightness(1);
+  }
+
+  &:hover img {
+    transform: scale(1.1);
+    filter: brightness(1.1);
+  }
+
+  // Animación del texto
+  span {
+    transition: all 0.3s ease;
+  }
+
+  &:hover span {
+    letter-spacing: 0.5px;
   }
 }

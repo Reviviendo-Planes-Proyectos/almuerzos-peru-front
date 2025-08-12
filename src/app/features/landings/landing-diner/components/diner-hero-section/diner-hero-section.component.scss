@@ -1,31 +1,11 @@
-/* Botón amarillo sólido, sin sombra ni transición, estilo flat */
-.primary-button-yellow-flat {
-  background: linear-gradient(90deg, #facc15 0%, #fbbf24 100%); /* amarillo-400 a amarillo-500 */
-  color: #fff !important;
-  box-shadow: none !important;
-  transition: none !important;
-  border-radius: 0.5rem !important;
-  font-weight: 700;
-  border: 0 !important;
-}
-.primary-button-yellow-flat mat-icon {
-  font-size: 1.3em;
-  margin-right: 0.5em;
-  color: #fff;
-}
-.primary-button-yellow-flat:hover {
-  background: linear-gradient(90deg, #fbbf24 0%, #f59e42 100%);
-  color: #fff !important;
-  box-shadow: none !important;
-}
 // Centrado perfecto de iconos en tarjetas flotantes
 .card-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Asegura que el icono no se desplace verticalmente */
   line-height: 1;
 }
+
 .card-icon mat-icon {
   display: flex;
   align-items: center;
@@ -34,23 +14,7 @@
   height: 1.8rem;
   font-size: 1.8rem;
 }
-/* Forzar fondo amarillo y texto blanco en el botón principal */
-.primary-button-yellow {
-  background-color: #fddf47ab !important; /* Tailwind yellow-300 */
-  color: #fff !important;
-}
 
-/* Hover efecto amarillo más fuerte */
-.primary-button-yellow:hover {
-  background-color: #facc15 !important; /* Tailwind yellow-400 */
-  color: #fff !important;
-}
-/* Fondo naranja translúcido personalizado para los stats */
-.bg-orange-translucent {
-  background: rgba(255, 140, 0, 0.12); /* naranja translúcido, ajusta el alpha si quieres más/menos transparencia */
-  /* Puedes ajustar el color a tu preferencia, por ejemplo: rgba(255, 115, 0, 0.15) para un naranja más fuerte */
-}
-// Estilos esenciales que no se pueden replicar con Tailwind
 .hero-image {
   background-image: url('/img/landing/cozy-restaurant-hero.png');
 
@@ -68,97 +32,42 @@
   );
 }
 
-// Posicionamiento de elementos flotantes - responsive
+// Posicionamiento de elementos flotantes utilizados
 .top-20 {
   top: 3rem;
   @media (min-width: 768px) {
     top: 5rem;
   }
 }
-.left-10 {
-  left: 1.5rem;
-  @media (min-width: 768px) {
-    left: 2.5rem;
-  }
-}
-.top-32 {
-  top: 6rem;
-  @media (min-width: 768px) {
-    top: 8rem;
-  }
-}
-.right-16 {
-  right: 2rem;
-  @media (min-width: 768px) {
-    right: 4rem;
-  }
-}
-.bottom-32 {
-  bottom: 6rem;
-  @media (min-width: 768px) {
-    bottom: 8rem;
-  }
-}
-.left-20 {
-  left: 3rem;
-  @media (min-width: 768px) {
-    left: 5rem;
-  }
-}
-.top-16 {
-  top: 2rem;
-  @media (min-width: 768px) {
-    top: 4rem;
-  }
-}
-.right-32 {
-  right: 6rem;
-  @media (min-width: 768px) {
-    right: 8rem;
-  }
-}
+
 .top-40 {
   top: 8rem;
   @media (min-width: 768px) {
     top: 10rem;
   }
 }
+
 .left-32 {
   left: 6rem;
   @media (min-width: 768px) {
     left: 8rem;
   }
 }
+
 .bottom-40 {
   bottom: 8rem;
   @media (min-width: 768px) {
     bottom: 10rem;
   }
 }
-.right-20 {
-  right: 3rem;
-  @media (min-width: 768px) {
-    right: 5rem;
-  }
-}
-.top-60 {
-  top: 12rem;
-  @media (min-width: 768px) {
-    top: 15rem;
-  }
-}
-.left-16 {
-  left: 2rem;
-  @media (min-width: 768px) {
-    left: 4rem;
-  }
-}
+
 .bottom-60 {
   bottom: 12rem;
   @media (min-width: 768px) {
     bottom: 15rem;
   }
 }
+
 .right-40 {
   right: 8rem;
   @media (min-width: 768px) {
@@ -166,58 +75,21 @@
   }
 }
 
-// Altura customizada que no existe en Tailwind
+.left-80 {
+  left: 20rem;
+  @media (min-width: 768px) {
+    left: 20rem;
+  }
+}
+
+// Altura customizada
 .h-120vh {
   height: 120vh;
 }
 
-// Tamaños específicos para food circles
-.w-18 {
-  width: 4.5rem;
-}
-.h-18 {
-  height: 4.5rem;
-}
-
-// Colores específicos para iconos de stats
-.stat-icon {
-  &.text-orange-500 {
-    color: #f97316;
-  }
-
-  &.text-blue-600 {
-    color: #2563eb;
-  }
-
-  &.text-green-600 {
-    color: #16a34a;
-  }
-}
-
-// Animación fadeInUp de los stats cards
-.stat-card {
-  animation: fadeInUp 0.8s ease-out forwards;
-  opacity: 0;
-  transform: translateY(30px);
-}
-
-@keyframes fadeInUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-// Shadow custom más intensa
+// Shadow custom
 .shadow-3xl {
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-}
-
-// Additional mobile optimizations
-@media (max-width: 480px) {
-  .hero-section {
-    min-height: 70vh;
-  }
 }
 
 .scroll-indicator {

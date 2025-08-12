@@ -1,12 +1,12 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, HostListener, OnInit } from '@angular/core';
-import { TranslatePipe } from '../../../../../shared/i18n';
+import { BaseTranslatableComponent } from '../../../../../shared/i18n';
 import { MaterialModule } from '../../../../../shared/material.module';
 
 @Component({
   selector: 'app-diner-hero-section',
   standalone: true,
-  imports: [MaterialModule, TranslatePipe],
+  imports: [MaterialModule],
   templateUrl: './diner-hero-section.component.html',
   styleUrls: ['./diner-hero-section.component.scss'],
   animations: [
@@ -16,15 +16,9 @@ import { MaterialModule } from '../../../../../shared/material.module';
     ])
   ]
 })
-export class DinerHeroSectionComponent implements OnInit {
+export class DinerHeroSectionComponent extends BaseTranslatableComponent implements OnInit {
   isVisible = false;
   scrollY = 0;
-
-  stats = [
-    { icon: 'star', value: '+500', label: 'landing.hero.stats.restaurants', color: 'text-orange-500' },
-    { icon: 'people', value: '+10k', label: 'landing.hero.stats.users', color: 'text-blue-600' },
-    { icon: 'location_on', value: 'Todo', label: 'landing.hero.stats.lima', color: 'text-green-600' }
-  ];
 
   ngOnInit() {
     setTimeout(() => {

@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, ElementRef, inject, ViewChild } from '@angular/core';
-import { I18nService } from '../../../../../shared/i18n';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { BaseTranslatableComponent } from '../../../../../shared/i18n';
 import { MaterialModule } from '../../../../../shared/material.module';
 
 enum PlanType {
@@ -39,13 +39,8 @@ interface ComparisonFeature {
   standalone: true,
   imports: [MaterialModule]
 })
-export class PricingSectionComponent implements AfterViewInit {
+export class PricingSectionComponent extends BaseTranslatableComponent implements AfterViewInit {
   isAnnual = false;
-  private i18n = inject(I18nService);
-
-  protected t = (key: string): string => {
-    return this.i18n.t(key);
-  };
 
   // Precios base mensuales
   monthlyPrices = {

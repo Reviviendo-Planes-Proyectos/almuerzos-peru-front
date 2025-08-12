@@ -1,5 +1,5 @@
-import { Component, inject } from '@angular/core';
-import { I18nService } from '../../../../../shared/i18n';
+import { Component } from '@angular/core';
+import { BaseTranslatableComponent } from '../../../../../shared/i18n';
 import { MaterialModule } from '../../../../../shared/material.module';
 
 enum Audience {
@@ -22,13 +22,8 @@ interface Benefit {
   templateUrl: './benefits-section.component.html',
   styleUrls: ['./benefits-section.component.scss']
 })
-export class BenefitsSectionComponent {
+export class BenefitsSectionComponent extends BaseTranslatableComponent {
   audience = Audience;
-  private i18n = inject(I18nService);
-
-  protected t = (key: string): string => {
-    return this.i18n.t(key);
-  };
 
   get benefits(): Benefit[] {
     return [
