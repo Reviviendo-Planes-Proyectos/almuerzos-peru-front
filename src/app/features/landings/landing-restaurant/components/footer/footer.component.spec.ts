@@ -74,35 +74,35 @@ describe('FooterComponent', () => {
     });
   });
 
-  describe('navigateToTerminos', () => {
-    it('should navigate to terminos-condiciones with correct query params from restaurant landing', () => {
+  describe('navigateToTerms', () => {
+    it('should navigate to terms-and-conditions with correct query params from restaurant landing', () => {
       mockRouter.url = '/home-restaurant';
 
-      component.navigateToTerminos();
+      component.navigateToTermsAndConditions();
 
-      expect(mockRouter.navigate).toHaveBeenCalledWith(['/legal/terminos-condiciones'], {
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/legal/terms-and-conditions'], {
         queryParams: { from: 'restaurant' }
       });
     });
 
-    it('should navigate to terminos-condiciones with correct query params from diner landing', () => {
+    it('should navigate to terms-and-conditions with correct query params from diner landing', () => {
       mockRouter.url = '/home-diner';
 
-      component.navigateToTerminos();
+      component.navigateToTermsAndConditions();
 
-      expect(mockRouter.navigate).toHaveBeenCalledWith(['/legal/terminos-condiciones'], {
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/legal/terms-and-conditions'], {
         queryParams: { from: 'diner' }
       });
     });
   });
 
-  describe('navigateToPoliticaPrivacidad', () => {
-    it('should navigate to politica-privacidad with correct query params from restaurant landing', () => {
+  describe('navigateToPrivacyPolicy', () => {
+    it('should navigate to privacy-policy with correct query params from restaurant landing', () => {
       mockRouter.url = '/home-restaurant';
 
-      component.navigateToPoliticaPrivacidad();
+      component.navigateToPrivacyPolicy();
 
-      expect(mockRouter.navigate).toHaveBeenCalledWith(['/legal/politica-privacidad'], {
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/legal/privacy-policy'], {
         queryParams: { from: 'restaurant' }
       });
     });
@@ -110,9 +110,9 @@ describe('FooterComponent', () => {
     it('should navigate to politica-privacidad with correct query params from diner landing', () => {
       mockRouter.url = '/home-diner';
 
-      component.navigateToPoliticaPrivacidad();
+      component.navigateToPrivacyPolicy();
 
-      expect(mockRouter.navigate).toHaveBeenCalledWith(['/legal/politica-privacidad'], {
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/legal/privacy-policy'], {
         queryParams: { from: 'diner' }
       });
     });
@@ -120,9 +120,9 @@ describe('FooterComponent', () => {
     it('should navigate to politica-privacidad with default restaurant param for unknown URLs', () => {
       mockRouter.url = '/unknown-page';
 
-      component.navigateToPoliticaPrivacidad();
+      component.navigateToPrivacyPolicy();
 
-      expect(mockRouter.navigate).toHaveBeenCalledWith(['/legal/politica-privacidad'], {
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/legal/privacy-policy'], {
         queryParams: { from: 'restaurant' }
       });
     });

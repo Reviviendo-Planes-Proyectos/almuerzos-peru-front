@@ -1,17 +1,35 @@
-@keyframes blink {
-  0%,
-  100% {
-    opacity: 1;
+button:disabled {
+  background-color: #d1d5db !important;
+  color: #9ca3af !important;
+  opacity: 0.6 !important;
+  transform: none !important;
+  box-shadow: none !important;
+
+  &:hover {
+    background-color: #d1d5db !important;
   }
-  50% {
-    opacity: 0.4;
+
+  .material-icons {
+    color: #9ca3af !important;
   }
 }
 
-button {
-  animation: blink 1.5s linear infinite;
-}
+button:not(:disabled) {
+  &.bg-yellow-500 {
+    background-color: #eab308;
+    color: white;
 
-button:hover {
-  animation: blink 0.8s linear infinite;
+    &:hover {
+      background-color: #d97706;
+    }
+
+    &:active {
+      background-color: #b45309;
+    }
+  }
+
+  &.bg-gray-300 {
+    background-color: #d1d5db;
+    color: #9ca3af;
+  }
 }

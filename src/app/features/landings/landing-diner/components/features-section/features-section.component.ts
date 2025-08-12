@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
+import { TranslatePipe } from '../../../../../shared/i18n';
 import { MaterialModule } from '../../../../../shared/material.module';
 
 @Component({
   selector: 'app-features-section',
   standalone: true,
-  imports: [MaterialModule],
+  imports: [MaterialModule, TranslatePipe],
   templateUrl: './features-section.component.html',
   styleUrls: ['./features-section.component.scss']
 })
@@ -12,26 +13,26 @@ export class FeaturesSectionComponent {
   features = [
     {
       icon: 'search',
-      title: 'Búsqueda inteligente',
-      description: 'Encuentra restaurantes cerca de ti con menús actualizados diariamente',
+      title: 'landing.features.smartSearch.title',
+      description: 'landing.features.smartSearch.description',
       image: '/img/landing/lima-downtown-restaurants.png'
     },
     {
       icon: 'schedule',
-      title: 'Ahorra tiempo',
-      description: 'No más llamadas ni esperas. Ve el menú y precios al instante',
+      title: 'landing.features.saveTime.title',
+      description: 'landing.features.saveTime.description',
       image: '/img/landing/peruvian-menu-board.png'
     },
     {
       icon: 'location_on',
-      title: 'Ubicación precisa',
-      description: 'Restaurantes organizados por distrito y cercanía a tu ubicación',
+      title: 'landing.features.location.title',
+      description: 'landing.features.location.description',
       image: '/img/landing/lima-food-delivery.png'
     },
     {
       icon: 'favorite',
-      title: 'Favoritos',
-      description: 'Guarda tus restaurantes preferidos para acceso rápido',
+      title: 'landing.features.favorites.title',
+      description: 'landing.features.favorites.description',
       image: '/img/landing/restaurant-kitchen-cooking.png'
     }
   ];

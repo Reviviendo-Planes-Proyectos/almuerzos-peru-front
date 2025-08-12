@@ -1,14 +1,36 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { I18nService, TranslatePipe } from '../../../../../shared/i18n';
 import { HowItWorksSectionComponent } from './how-it-works-section.component';
+
+// Mock del servicio de traducción
+class MockI18nService {
+  t(key: string): string {
+    const translations: Record<string, string> = {
+      'landing.howItWorks.title': 'Cómo funciona',
+      'landing.howItWorks.subtitle': 'Encuentra tu almuerzo en 3 simples pasos',
+      'landing.howItWorks.steps.search.title': 'Busca',
+      'landing.howItWorks.steps.explore.title': 'Explora',
+      'landing.howItWorks.steps.enjoy.title': 'Disfruta',
+      'landing.howItWorks.steps.search.description': 'Ingresa tu ubicación y preferencias alimentarias',
+      'landing.howItWorks.steps.explore.description': 'Ve menús y precios de restaurantes cercanos',
+      'landing.howItWorks.steps.enjoy.description': 'Llama directamente o visita el restaurante'
+    };
+    return translations[key] || key;
+  }
+}
 
 describe('HowItWorksSectionComponent', () => {
   let component: HowItWorksSectionComponent;
   let fixture: ComponentFixture<HowItWorksSectionComponent>;
+  let mockI18nService: MockI18nService;
 
   beforeEach(async () => {
+    mockI18nService = new MockI18nService();
+
     await TestBed.configureTestingModule({
-      imports: [HowItWorksSectionComponent, BrowserAnimationsModule]
+      imports: [HowItWorksSectionComponent, BrowserAnimationsModule, TranslatePipe],
+      providers: [{ provide: I18nService, useValue: mockI18nService }]
     }).compileComponents();
 
     fixture = TestBed.createComponent(HowItWorksSectionComponent);
@@ -43,9 +65,9 @@ describe('HowItWorksSectionComponent', () => {
   it('should contain expected step titles', () => {
     const titles = component.steps.map((s) => s.title);
 
-    expect(titles).toContain('Busca tu zona');
-    expect(titles).toContain('Explora menús');
-    expect(titles).toContain('¡Disfruta!');
+    expect(titles).toContain('landing.howItWorks.steps.search.title');
+    expect(titles).toContain('landing.howItWorks.steps.explore.title');
+    expect(titles).toContain('landing.howItWorks.steps.enjoy.title');
   });
 
   it('should have non-empty descriptions for all steps', () => {
@@ -64,8 +86,8 @@ describe('HowItWorksSectionComponent', () => {
   });
 
   it('should have logical step progression', () => {
-    expect(component.steps[0].description).toContain('ubicación');
-    expect(component.steps[1].description).toContain('menús');
-    expect(component.steps[2].description).toContain('restaurante');
+    expect(component.steps[0].description).toContain('landing.howItWorks.steps.search.description');
+    expect(component.steps[1].description).toContain('landing.howItWorks.steps.explore.description');
+    expect(component.steps[2].description).toContain('landing.howItWorks.steps.enjoy.description');
   });
 });

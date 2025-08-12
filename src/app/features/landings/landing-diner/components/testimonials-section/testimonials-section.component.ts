@@ -1,35 +1,36 @@
 import { Component } from '@angular/core';
+import { TranslatePipe } from '../../../../../shared/i18n';
 import { MaterialModule } from '../../../../../shared/material.module';
 
 @Component({
   selector: 'app-testimonials-section',
   standalone: true,
-  imports: [MaterialModule],
+  imports: [MaterialModule, TranslatePipe],
   templateUrl: './testimonials-section.component.html',
   styleUrls: ['./testimonials-section.component.scss']
 })
 export class TestimonialsSectionComponent {
   testimonials = [
     {
-      name: 'Carla Rodríguez',
-      role: '29 años, diseñadora gráfica',
+      name: 'landing.testimonials.users.maria.name',
+      role: 'landing.testimonials.users.maria.role',
       avatar: '/img/landing/young-professional-woman-lima.png',
       rating: 5,
-      text: 'Yo almuerzo cerca del trabajo en Surco y siempre caía en lo mismo. Con esta app descubrí 3 huariques que no sabía que existían.'
+      text: 'landing.testimonials.users.maria.text'
     },
     {
-      name: 'Julio Fernández',
-      role: '31 años, técnico en telecomunicaciones',
+      name: 'landing.testimonials.users.carlos.name',
+      role: 'landing.testimonials.users.carlos.role',
       avatar: '/img/landing/business-executive-lunch.png',
       rating: 5,
-      text: 'La carta estaba actualizada y pude pagar con Yape. Súper práctico.'
+      text: 'landing.testimonials.users.carlos.text'
     },
     {
-      name: 'David García',
-      role: '34 años, repartidor',
+      name: 'landing.testimonials.users.roberto.name',
+      role: 'landing.testimonials.users.roberto.role',
       avatar: '/img/landing/student-eating-lunch.png',
       rating: 5,
-      text: 'Me gustó que pude ver los precios antes de salir. Ya no gasto más de la cuenta.'
+      text: 'landing.testimonials.users.roberto.text'
     }
   ];
 

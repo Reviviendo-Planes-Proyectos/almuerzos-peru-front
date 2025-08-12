@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { I18nService } from '../../../../../shared/i18n';
 import { MaterialModule } from '../../../../../shared/material.module';
 
 @Component({
@@ -10,9 +11,15 @@ import { MaterialModule } from '../../../../../shared/material.module';
   imports: [MaterialModule]
 })
 export class FooterComponent {
+  private i18n = inject(I18nService);
+
   constructor(private router: Router) {}
 
-  getCurrentLandingType(): string {
+  protected t = (key: string): string => {
+    return this.i18n.t(key);
+  };
+
+  private getCurrentLandingType(): string {
     const currentUrl = this.router.url;
     if (currentUrl.includes('/home-diner')) {
       return 'diner';
@@ -23,16 +30,16 @@ export class FooterComponent {
     return 'restaurant';
   }
 
-  navigateToTerminos(): void {
+  navigateToTermsAndConditions(): void {
     const fromLanding = this.getCurrentLandingType();
-    this.router.navigate(['/legal/terminos-condiciones'], {
+    this.router.navigate(['/legal/terms-and-conditions'], {
       queryParams: { from: fromLanding }
     });
   }
 
-  navigateToPoliticaPrivacidad(): void {
+  navigateToPrivacyPolicy(): void {
     const fromLanding = this.getCurrentLandingType();
-    this.router.navigate(['/legal/politica-privacidad'], {
+    this.router.navigate(['/legal/privacy-policy'], {
       queryParams: { from: fromLanding }
     });
   }

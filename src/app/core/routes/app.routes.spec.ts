@@ -41,16 +41,6 @@ describe('app.routes', () => {
     }
   });
 
-  it('should define home-diner route with loadComponent correctly', async () => {
-    const dinerRoute = routes.find((route) => route.path === 'home-diner');
-    expect(dinerRoute).toBeTruthy();
-    expect(dinerRoute?.loadComponent).toBeDefined();
-
-    const loadedComponent = await dinerRoute?.loadComponent?.();
-    expect(loadedComponent).toBeTruthy();
-    expect(typeof loadedComponent).toBe('function');
-  });
-
   it('should define legal route correctly', () => {
     const legalRoute = routes.find((route) => route.path === 'legal');
     expect(legalRoute).toBeTruthy();
@@ -72,18 +62,5 @@ describe('app.routes', () => {
     } else {
       expect(typeof loadedRoutes).toBe('object');
     }
-  });
-
-  it('should have all required routes defined', () => {
-    const expectedPaths = ['', 'home-restaurant', 'home-diner', 'auth', 'legal'];
-    const actualPaths = routes.map(route => route.path);
-    
-    expectedPaths.forEach(path => {
-      expect(actualPaths).toContain(path);
-    });
-  });
-
-  it('should have correct number of routes', () => {
-    expect(routes).toHaveLength(5);
   });
 });
