@@ -47,5 +47,10 @@ export const AUTH_ROUTES: Routes = [
       import('./pages/restaurant-basic-info/restaurant-basic-info.component').then(
         (m) => m.RestaurantBasicInfoComponent
       )
+  },
+  {
+    path: 'phone-verification',
+    loadComponent: () =>
+      import('./pages/phone-verification/phone-verification.component').then((m) => m.PhoneVerificationComponent)
   }
 ];

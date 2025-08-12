@@ -100,14 +100,13 @@ export class RestaurantBasicInfoComponent implements OnInit {
     if (this.restaurantForm.valid) {
       this.logger.info('Formulario de restaurante enviado:', this.restaurantForm.value);
 
-      // Obtener el email del formulario
-      const email = this.restaurantForm.get('email')?.value;
+      // Obtener el teléfono del formulario
+      const phoneNumber = this.restaurantForm.get('phoneNumber')?.value;
 
-      // Codificar el email para usarlo en la URL
-      const encodedEmail = encodeURIComponent(email);
-
-      // Navegar al siguiente paso de verificación de email
-      this.router.navigate(['/auth/email-verification', encodedEmail]);
+      // Navegar al siguiente paso de verificación de teléfono pasando el phone por state
+      this.router.navigate(['/auth/phone-verification'], {
+        state: { phone: phoneNumber }
+      });
     } else {
       this.restaurantForm.markAllAsTouched(); // muestra errores
     }
