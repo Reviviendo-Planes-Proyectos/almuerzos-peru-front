@@ -1,13 +1,12 @@
-import { ComponentFixture, TestBed, fakeAsync, tick, flush } from '@angular/core/testing';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { PhoneVerificationComponent } from './phone-verification.component';
+import { DebugElement } from '@angular/core';
+import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 import { HeaderWithStepsComponent } from '../../../../shared/components/header-with-steps/header-with-steps.component';
 import { StepIndicatorComponent } from '../../../../shared/components/step-indicator/step-indicator.component';
+import { PhoneVerificationComponent } from './phone-verification.component';
 
 describe('PhoneVerificationComponent', () => {
   let component: PhoneVerificationComponent;
