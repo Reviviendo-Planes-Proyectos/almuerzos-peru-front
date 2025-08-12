@@ -15,22 +15,22 @@
       <!-- Título de sección -->
       <app-section-title
         icon="mail_outline"
-        title="Verificar Correo"
-        subtitle="Confirma tu correo electrónico para continuar"
+        [title]="t('auth.emailVerification.title')"
+        [subtitle]="t('auth.emailVerification.subtitle')"
       ></app-section-title>
 
       <!-- Tarjeta de verificación -->
       <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center gap-6">
         <!-- Mensaje -->
         <div class="text-center">
-          <p class="text-gray-600 mb-2 verification-message">Enviaremos un código de verificación a:</p>
+          <p class="text-gray-600 mb-2 verification-message">{{ t('auth.emailVerification.message') }}</p>
           <p class="font-semibold text-gray-900 text-lg">{{ userEmail }}</p>
         </div>
 
         <!-- Botón principal -->
         <div class="w-full">
           <app-button
-            [label]="'Enviar Código de Verificación'"
+            [label]="t('auth.emailVerification.sendButton')"
             [isActive]="true"
             [isOutline]="false"
             iconName="send"
@@ -44,16 +44,23 @@
       <div class="flex flex-col gap-4 text-center mt-6">
         <!-- Hacer más tarde -->
         <div class="bg-gray-50 p-4 rounded-lg">
-          <p class="text-gray-500 text-sm mb-3">¿Prefieres verificar tu correo más tarde?</p>
+          <p class="text-gray-500 text-sm mb-3">{{ t('auth.emailVerification.laterMessage') }}</p>
           <app-button
-            [label]="'Hacer Más Tarde'"
+            [label]="t('auth.emailVerification.laterButton')"
             [iconName]="'schedule'"
             [isActive]="true"
             [outlineGray]="true"
             (click)="doLater()"
+            onkeypress="if(event.key === 'Enter'){ doLater(); }"
           ></app-button>
           <br />
-          <app-button [label]="'Atrás'" [isActive]="true" [outlineGray]="true" (click)="goBack()"></app-button>
+          <app-button
+            [label]="t('auth.emailVerification.backButton')"
+            [isActive]="true"
+            [outlineGray]="true"
+            (click)="goBack()"
+            onkeypress="if(event.key === 'Enter'){ goBack(); }"
+          ></app-button>
         </div>
       </div>
     </div>
@@ -63,31 +70,31 @@
       <!-- Título de sección -->
       <app-section-title
         icon="security"
-        title="Verificar Correo"
-        subtitle="Confirma tu correo electrónico para continuar"
+        [title]="t('auth.emailVerification.verifyTitle')"
+        [subtitle]="t('auth.emailVerification.verifySubtitle')"
       ></app-section-title>
 
       <!-- Tarjeta de verificación -->
       <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center gap-6">
         <!-- Mensaje -->
         <div class="text-center">
-          <p class="text-gray-900 font-medium mb-1">Código enviado a tu correo</p>
-          <p class="text-gray-600 text-sm mb-4">Revisa tu bandeja de entrada y confirma el código</p>
+          <p class="text-gray-900 font-medium mb-1">{{ t('auth.emailVerification.codeSentTitle') }}</p>
+          <p class="text-gray-600 text-sm mb-4">{{ t('auth.emailVerification.codeSentMessage') }}</p>
         </div>
 
         <!-- Formulario de código -->
         <form [formGroup]="verificationForm" class="w-full flex flex-col gap-4">
           <!-- Campo de código -->
           <app-input-field
-            label="Código de Verificación"
+            [label]="t('auth.emailVerification.codeLabel')"
             icon="pin"
-            placeholder="Ingresa el código de 6 dígitos"
+            [placeholder]="t('auth.emailVerification.codePlaceholder')"
             formControlName="verificationCode"
           ></app-input-field>
 
           <!-- Botón verificar -->
           <app-button
-            [label]="'Verificar Código'"
+            [label]="t('auth.emailVerification.verifyButton')"
             [isActive]="true"
             [isOutline]="false"
             iconName="check"
@@ -98,15 +105,16 @@
 
         <!-- ¿No recibiste el código? -->
         <div class="text-center bg-blue-50 p-4 rounded-lg w-full">
-          <p class="text-gray-600 text-sm mb-2">¿No recibiste el código?</p>
+          <p class="text-gray-600 text-sm mb-2">{{ t('auth.emailVerification.noCodeReceived') }}</p>
           <button
             class="text-blue-600 text-sm font-medium hover:text-blue-800 transition-colors"
             [disabled]="!canResendCode"
             (click)="resendCodeFromVerificationView()"
           >
-            <span *ngIf="canResendCode">Reenviar código</span>
+            <span *ngIf="canResendCode">{{ t('auth.emailVerification.resendButton') }}</span>
             <span *ngIf="!canResendCode">
-              Reenviar en 0:{{ countdownTimer < 10 ? '0' + countdownTimer : countdownTimer }}
+              {{ t('auth.emailVerification.resendIn')
+              }}{{ countdownTimer < 10 ? '0' + countdownTimer : countdownTimer }}
             </span>
           </button>
         </div>
@@ -116,16 +124,23 @@
       <div class="flex flex-col gap-4 text-center mt-6">
         <!-- Hacer más tarde -->
         <div class="bg-gray-50 p-4 rounded-lg">
-          <p class="text-gray-500 text-sm mb-3">¿Prefieres verificar tu correo más tarde?</p>
+          <p class="text-gray-500 text-sm mb-3">{{ t('auth.emailVerification.laterMessage') }}</p>
           <app-button
-            [label]="'Hacer Más Tarde'"
+            [label]="t('auth.emailVerification.laterButton')"
             [iconName]="'schedule'"
             [isActive]="true"
             [outlineGray]="true"
             (click)="doLater()"
+            onkeypress="if(event.key === 'Enter'){ doLater(); }"
           ></app-button>
           <br />
-          <app-button [label]="'Atrás'" [isActive]="true" [outlineGray]="true" (click)="goBack()"></app-button>
+          <app-button
+            [label]="t('auth.emailVerification.backButton')"
+            [isActive]="true"
+            [outlineGray]="true"
+            (click)="goBack()"
+            onkeypress="if(event.key === 'Enter'){ goBack(); }"
+          ></app-button>
         </div>
       </div>
     </div>

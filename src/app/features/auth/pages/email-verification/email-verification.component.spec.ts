@@ -5,7 +5,7 @@ import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
-
+import { I18nService } from '../../../../shared/i18n/services/translation.service';
 import { EmailVerificationComponent } from './email-verification.component';
 
 describe('EmailVerificationComponent', () => {
@@ -13,6 +13,7 @@ describe('EmailVerificationComponent', () => {
   let fixture: ComponentFixture<EmailVerificationComponent>;
   let router: Router;
   let debugElement: DebugElement;
+  let mockI18nService: jest.Mocked<I18nService>;
 
   beforeEach(async () => {
     const routerSpy = {
@@ -26,11 +27,38 @@ describe('EmailVerificationComponent', () => {
       }
     };
 
+    mockI18nService = {
+      t: jest.fn().mockImplementation((key: string) => {
+        const translations: { [key: string]: string } = {
+          'auth.emailVerification.title': 'Verificar Correo',
+          'auth.emailVerification.subtitle': 'Confirma tu correo electrónico para continuar',
+          'auth.emailVerification.message': 'Enviaremos un código de verificación a:',
+          'auth.emailVerification.sendButton': 'Enviar Código de Verificación',
+          'auth.emailVerification.laterMessage': '¿Prefieres verificar tu correo más tarde?',
+          'auth.emailVerification.laterButton': 'Hacer Más Tarde',
+          'auth.emailVerification.backButton': 'Atrás',
+          'auth.emailVerification.verifyTitle': 'Verificar Correo',
+          'auth.emailVerification.verifySubtitle': 'Confirma tu correo electrónico para continuar',
+          'auth.emailVerification.codeSentTitle': 'Código enviado a tu correo',
+          'auth.emailVerification.codeSentMessage': 'Revisa tu bandeja de entrada y confirma el código',
+          'auth.emailVerification.codeLabel': 'Código de Verificación',
+          'auth.emailVerification.codePlaceholder': 'Ingresa el código de 6 dígitos',
+          'auth.emailVerification.verifyButton': 'Verificar Código',
+          'auth.emailVerification.resendButton': 'Reenviar código',
+          'auth.emailVerification.tryAgainButton': 'Intentar de Nuevo',
+          'auth.emailVerification.noCodeReceived': '¿No recibiste el código?',
+          'auth.emailVerification.resendIn': 'Reenviar en 0:'
+        };
+        return translations[key] || key;
+      })
+    } as unknown as jest.Mocked<I18nService>;
+
     await TestBed.configureTestingModule({
       imports: [EmailVerificationComponent, NoopAnimationsModule, ReactiveFormsModule],
       providers: [
         { provide: Router, useValue: routerSpy },
-        { provide: ActivatedRoute, useValue: activatedRouteSpy }
+        { provide: ActivatedRoute, useValue: activatedRouteSpy },
+        { provide: I18nService, useValue: mockI18nService }
       ]
     }).compileComponents();
 

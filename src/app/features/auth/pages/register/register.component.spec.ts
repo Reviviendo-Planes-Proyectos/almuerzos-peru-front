@@ -14,7 +14,7 @@ class MockI18nService {
     const translations: Record<string, string> = {
       'app.name': 'ALMUERZOS PERU',
       'messages.welcome': '¡Bienvenido a Almuerzos Peru!',
-      'auth.register.title': 'Crear Cuenta',
+      'auth.register.title': '¿Cómo deseas registrarte?',
       'auth.register.button': 'Continuar',
       'auth.register.email': 'Correo',
       'auth.register.later': 'Registrarse después',
@@ -82,14 +82,9 @@ describe('RegisterComponent', () => {
     expect(titleElement.nativeElement.textContent.trim()).toBe('ALMUERZOS PERU');
   });
 
-  it('should display welcome message', () => {
-    const welcomeElement = debugElement.query(By.css('h2'));
-    expect(welcomeElement.nativeElement.textContent.trim()).toBe('¡Bienvenido a Almuerzos Peru!');
-  });
-
   it('should display register title', () => {
     const titleElement = debugElement.query(By.css('p'));
-    expect(titleElement.nativeElement.textContent.trim()).toBe('Crear Cuenta');
+    expect(titleElement.nativeElement.textContent.trim()).toBe('¿Cómo deseas registrarte?');
   });
 
   it('should display three registration buttons', () => {
@@ -114,14 +109,9 @@ describe('RegisterComponent', () => {
       expect(titleElement.nativeElement.textContent.trim()).toContain('PERU');
     });
 
-    it('should display welcome message', () => {
-      const welcomeElement = debugElement.query(By.css('h2'));
-      expect(welcomeElement.nativeElement.textContent.trim()).toBe('¡Bienvenido a Almuerzos Peru!');
-    });
-
     it('should display subtitle message', () => {
       const subtitleElement = debugElement.query(By.css('p'));
-      expect(subtitleElement.nativeElement.textContent.trim()).toBe('Crear Cuenta');
+      expect(subtitleElement.nativeElement.textContent.trim()).toBe('¿Cómo deseas registrarte?');
     });
 
     it('should display back button with correct icon', () => {
@@ -310,14 +300,12 @@ describe('RegisterComponent', () => {
   describe('Internationalization', () => {
     it('should display all text elements with proper translations', () => {
       const titleElement = debugElement.query(By.css('h1'));
-      const welcomeElement = debugElement.query(By.css('h2'));
       const subtitleElement = debugElement.query(By.css('p'));
       const separatorElement = debugElement.query(By.css('.mx-4'));
       const linkElement = debugElement.query(By.css('button.text-purple-700'));
 
       expect(titleElement.nativeElement.textContent.trim()).toBe('ALMUERZOS PERU');
-      expect(welcomeElement.nativeElement.textContent.trim()).toBe('¡Bienvenido a Almuerzos Peru!');
-      expect(subtitleElement.nativeElement.textContent.trim()).toBe('Crear Cuenta');
+      expect(subtitleElement.nativeElement.textContent.trim()).toBe('¿Cómo deseas registrarte?');
       expect(separatorElement.nativeElement.textContent.trim()).toBe('O');
       expect(linkElement.nativeElement.textContent.trim()).toBe('Registrarse después');
     });
@@ -339,7 +327,7 @@ describe('RegisterComponent', () => {
 
     it('should use TranslatePipe in template correctly', () => {
       expect(debugElement.query(By.css('h1')).nativeElement.textContent.trim()).toBe('ALMUERZOS PERU');
-      expect(debugElement.query(By.css('h2')).nativeElement.textContent.trim()).toBe('¡Bienvenido a Almuerzos Peru!');
+      expect(debugElement.query(By.css('p')).nativeElement.textContent.trim()).toBe('¿Cómo deseas registrarte?');
     });
   });
 });

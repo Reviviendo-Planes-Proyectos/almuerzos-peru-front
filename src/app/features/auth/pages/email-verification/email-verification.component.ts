@@ -8,6 +8,7 @@ import { HeaderWithStepsComponent } from '../../../../shared/components/header-w
 import { InputFieldComponent } from '../../../../shared/components/input-field/input-field.component';
 import { SectionTitleComponent } from '../../../../shared/components/section-title/section-title.component';
 import { StepIndicatorComponent } from '../../../../shared/components/step-indicator/step-indicator.component';
+import { I18nService } from '../../../../shared/i18n/services/translation.service';
 
 @Component({
   selector: 'app-email-verification',
@@ -38,8 +39,13 @@ export class EmailVerificationComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private fb: FormBuilder,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private readonly i18n: I18nService
   ) {}
+
+  protected t = (key: string): string => {
+    return this.i18n.t(key);
+  };
 
   ngOnInit(): void {
     // Inicializar formulario primero

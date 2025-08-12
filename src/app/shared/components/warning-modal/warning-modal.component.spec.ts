@@ -1,14 +1,26 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { I18nService } from '../../i18n/services/translation.service';
 import { WarningModalComponent } from './warning-modal.component';
 
 describe('WarningModalComponent', () => {
   let component: WarningModalComponent;
   let fixture: ComponentFixture<WarningModalComponent>;
+  let mockI18nService: jest.Mocked<I18nService>;
 
   beforeEach(async () => {
+    mockI18nService = {
+      t: jest.fn().mockImplementation((key: string) => {
+        const translations: { [key: string]: string } = {
+          'modal.close': 'Cerrar'
+        };
+        return translations[key] || key;
+      })
+    } as unknown as jest.Mocked<I18nService>;
+
     await TestBed.configureTestingModule({
-      imports: [WarningModalComponent]
+      imports: [WarningModalComponent],
+      providers: [{ provide: I18nService, useValue: mockI18nService }]
     }).compileComponents();
 
     fixture = TestBed.createComponent(WarningModalComponent);

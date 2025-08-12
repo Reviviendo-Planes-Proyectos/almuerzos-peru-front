@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { I18nService } from '../../i18n/services/translation.service';
 
 @Component({
   selector: 'app-warning-modal',
@@ -18,6 +19,12 @@ export class WarningModalComponent {
   @Output() primaryAction = new EventEmitter<void>();
   @Output() secondaryAction = new EventEmitter<void>();
   @Output() closeModal = new EventEmitter<void>();
+
+  constructor(private readonly i18n: I18nService) {}
+
+  protected t = (key: string): string => {
+    return this.i18n.t(key);
+  };
 
   onPrimaryAction(): void {
     this.primaryAction.emit();

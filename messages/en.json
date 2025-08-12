@@ -32,7 +32,8 @@
       "later": "REGISTER LATER",
       "withGoogle": "Continue with Google",
       "withFacebook": "Continue with Facebook",
-      "withEmail": "Continue with Email"
+      "withEmail": "Continue with Email",
+      "connecting": "Connecting..."
     },
     "forgot": {
       "title": "Forgot Password",
@@ -64,6 +65,26 @@
         "alt": "Diner"
       },
       "registerLater": "Register later"
+    },
+    "emailVerification": {
+      "title": "Verify Email",
+      "subtitle": "Confirm your email address to continue",
+      "message": "We'll send a verification code to:",
+      "sendButton": "Send Verification Code",
+      "laterMessage": "Would you prefer to verify your email later?",
+      "laterButton": "Do Later",
+      "backButton": "Back",
+      "verifyTitle": "Verify Email",
+      "verifySubtitle": "Confirm your email address to continue",
+      "codeSentTitle": "Code sent to your email",
+      "codeSentMessage": "Check your inbox and confirm the code",
+      "codeLabel": "Verification Code",
+      "codePlaceholder": "Enter the 6-digit code",
+      "verifyButton": "Verify Code",
+      "resendButton": "Resend code",
+      "tryAgainButton": "Try Again",
+      "noCodeReceived": "Didn't receive the code?",
+      "resendIn": "Resend in 0:"
     }
   },
   "messages": {
@@ -751,5 +772,28 @@
         }
       }
     }
+  },
+  "pwa": {
+    "update": {
+      "available": "New version available",
+      "button": "Update"
+    },
+    "install": {
+      "title": "Install Lunches Peru!",
+      "description": "The best Peruvian gastronomic experience",
+      "features": {
+        "notifications": "Deal notifications",
+        "offline": "Works offline",
+        "speed": "Ultra-fast access"
+      },
+      "buttons": {
+        "install": "Install App",
+        "later": "Later"
+      },
+      "tooltip": "Install Lunches Peru"
+    }
+  },
+  "modal": {
+    "close": "Close"
   }
 }

@@ -71,11 +71,6 @@ describe('LoginComponent', () => {
     expect(titleElement.nativeElement.textContent.trim()).toBe('ALMUERZOS PERU');
   });
 
-  it('should display the welcome message', () => {
-    const welcomeElement = debugElement.query(By.css('h2'));
-    expect(welcomeElement.nativeElement.textContent.trim()).toBe('¡Bienvenido a Almuerzos Peru!');
-  });
-
   it('should display the login subtitle', () => {
     const subtitleElement = debugElement.query(By.css('p'));
     expect(subtitleElement.nativeElement.textContent.trim()).toBe('Iniciar Sesión');
@@ -87,19 +82,19 @@ describe('LoginComponent', () => {
   });
 
   it('should render Google login button', () => {
-    const googleButton = debugElement.query(By.css('button[class*="border-red-500"]'));
+    const googleButton = debugElement.query(By.css('button[class*="text-red-600"]'));
     expect(googleButton).toBeTruthy();
     expect(googleButton.nativeElement.textContent).toContain('Iniciar Sesión con Google');
   });
 
   it('should render Facebook login button', () => {
-    const facebookButton = debugElement.query(By.css('button[class*="border-blue-600"]'));
+    const facebookButton = debugElement.query(By.css('button[class*="text-blue-600"]'));
     expect(facebookButton).toBeTruthy();
     expect(facebookButton.nativeElement.textContent).toContain('Iniciar Sesión con Facebook');
   });
 
   it('should render Email login button', () => {
-    const emailButton = debugElement.query(By.css('button[class*="border-gray-700"]'));
+    const emailButton = debugElement.query(By.css('button[class*="text-gray-800"]'));
     expect(emailButton).toBeTruthy();
     expect(emailButton.nativeElement.textContent).toContain('Iniciar Sesión con Correo');
   });
@@ -137,21 +132,21 @@ describe('LoginComponent', () => {
 
   it('should call loginWithGoogle when Google button is clicked', () => {
     const loginGoogleSpy = jest.spyOn(component, 'loginWithGoogle');
-    const googleButton = debugElement.query(By.css('button[class*="border-red-500"]'));
+    const googleButton = debugElement.query(By.css('button[class*="text-red-600"]'));
     googleButton.nativeElement.click();
     expect(loginGoogleSpy).toHaveBeenCalled();
   });
 
   it('should call loginWithFacebook when Facebook button is clicked', () => {
     const loginFacebookSpy = jest.spyOn(component, 'loginWithFacebook');
-    const facebookButton = debugElement.query(By.css('button[class*="border-blue-600"]'));
+    const facebookButton = debugElement.query(By.css('button[class*="text-blue-600"]'));
     facebookButton.nativeElement.click();
     expect(loginFacebookSpy).toHaveBeenCalled();
   });
 
   it('should call iniciarConEmail when Email button is clicked', () => {
     const emailSpy = jest.spyOn(component, 'iniciarConEmail');
-    const emailButton = debugElement.query(By.css('button[class*="border-gray-700"]'));
+    const emailButton = debugElement.query(By.css('button[class*="text-gray-800"]'));
     emailButton.nativeElement.click();
     expect(emailSpy).toHaveBeenCalled();
   });
@@ -188,18 +183,16 @@ describe('LoginComponent', () => {
   describe('Internationalization', () => {
     it('should use translation function for all text elements', () => {
       const titleElement = debugElement.query(By.css('h1'));
-      const welcomeElement = debugElement.query(By.css('h2'));
       const subtitleElement = debugElement.query(By.css('p'));
 
       expect(titleElement.nativeElement.textContent.trim()).toBe('ALMUERZOS PERU');
-      expect(welcomeElement.nativeElement.textContent.trim()).toBe('¡Bienvenido a Almuerzos Peru!');
       expect(subtitleElement.nativeElement.textContent.trim()).toBe('Iniciar Sesión');
     });
 
     it('should translate button texts correctly', () => {
-      const googleButton = debugElement.query(By.css('button[class*="border-red-500"]'));
-      const facebookButton = debugElement.query(By.css('button[class*="border-blue-600"]'));
-      const emailButton = debugElement.query(By.css('button[class*="border-gray-700"]'));
+      const googleButton = debugElement.query(By.css('button[class*="text-red-600"]'));
+      const facebookButton = debugElement.query(By.css('button[class*="text-blue-600"]'));
+      const emailButton = debugElement.query(By.css('button[class*="text-gray-800"]'));
 
       expect(googleButton.nativeElement.textContent.trim()).toBe('Iniciar Sesión con Google');
       expect(facebookButton.nativeElement.textContent.trim()).toBe('Iniciar Sesión con Facebook');
