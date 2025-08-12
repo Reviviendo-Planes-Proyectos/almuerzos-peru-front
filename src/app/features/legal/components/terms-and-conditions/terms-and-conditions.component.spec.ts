@@ -2,17 +2,18 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
-import { TerminosCondicionesComponent } from './terminos-condiciones.component';
+import { I18nService } from '../../../../shared/i18n';
+import { TermsAndConditionsComponent } from './terms-and-conditions.component';
 
-describe('TerminosCondicionesComponent', () => {
-  let component: TerminosCondicionesComponent;
-  let fixture: ComponentFixture<TerminosCondicionesComponent>;
+describe('TermsAndConditionsComponent', () => {
+  let component: TermsAndConditionsComponent;
+  let fixture: ComponentFixture<TermsAndConditionsComponent>;
   let mockRouter: any;
 
   beforeEach(async () => {
     const routerSpy = {
       navigate: jest.fn(),
-      url: '/legal/terminos-condiciones'
+      url: '/legal/terms-and-conditions'
     };
 
     const activatedRouteSpy = {
@@ -21,16 +22,27 @@ describe('TerminosCondicionesComponent', () => {
       snapshot: { params: {}, queryParams: {} }
     };
 
+    const i18nServiceSpy = {
+      t: jest.fn((key: string) => {
+        const translations: { [key: string]: string } = {
+          'landing.footer.legal.terms.title': 'Términos y Condiciones',
+          'landing.footer.legal.lastUpdated': 'Última actualización:'
+        };
+        return translations[key] || key;
+      })
+    };
+
     await TestBed.configureTestingModule({
-      imports: [TerminosCondicionesComponent],
+      imports: [TermsAndConditionsComponent],
       providers: [
         { provide: Router, useValue: routerSpy },
-        { provide: ActivatedRoute, useValue: activatedRouteSpy }
+        { provide: ActivatedRoute, useValue: activatedRouteSpy },
+        { provide: I18nService, useValue: i18nServiceSpy }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(TerminosCondicionesComponent);
+    fixture = TestBed.createComponent(TermsAndConditionsComponent);
     component = fixture.componentInstance;
     mockRouter = TestBed.inject(Router);
     fixture.detectChanges();
@@ -60,10 +72,5 @@ describe('TerminosCondicionesComponent', () => {
     const dateElement = compiled.querySelector('p');
     expect(dateElement?.textContent).toContain('Última actualización:');
     expect(dateElement?.textContent).toContain(component.fechaActualizacion);
-  });
-
-  it('should navigate to home when volverAlInicio method is called', () => {
-    component.volverAlInicio();
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['/']);
   });
 });

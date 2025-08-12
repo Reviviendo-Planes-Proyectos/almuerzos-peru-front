@@ -21,7 +21,7 @@
         </div>
         <div>
           <div class="card-value text-gray-800 font-bold text-base md:text-lg">+2,847</div>
-          <div class="card-label text-gray-500 text-xs md:text-sm">Almorzando ahora</div>
+          <div class="card-label text-gray-500 text-xs md:text-sm">{{ 'landing.hero.cards.eatingNow' | t }}</div>
         </div>
       </div>
     </div>
@@ -37,7 +37,7 @@
         </div>
         <div>
           <div class="card-value text-gray-800 font-bold text-base md:text-lg">12:30 PM</div>
-          <div class="card-label text-gray-500 text-xs md:text-sm">Hora pico</div>
+          <div class="card-label text-gray-500 text-xs md:text-sm">{{ 'landing.hero.cards.peakTime' | t }}</div>
         </div>
       </div>
     </div>
@@ -53,7 +53,7 @@
         </div>
         <div>
           <div class="card-value text-gray-800 font-bold text-base md:text-lg">4.8★</div>
-          <div class="card-label text-gray-500 text-xs md:text-sm">Calificación</div>
+          <div class="card-label text-gray-500 text-xs md:text-sm">{{ 'landing.hero.cards.rating' | t }}</div>
         </div>
       </div>
     </div>
@@ -107,20 +107,20 @@
         <h1
           class="hero-title text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black text-white mb-4 md:mb-6 leading-tight"
         >
-          Encuentra tu menú diario,
+          {{ 'landing.hero.title.findMenu' | t }}
           <br />
           <span class="hero-title-highlight bg-gradient-to-r from-yellow-300 to-white bg-clip-text text-transparent">
-            ¡sin perder tiempo!
+            {{ 'landing.hero.title.noWasteTime' | t }}
           </span>
         </h1>
 
         <p
           class="hero-description text-base sm:text-lg md:text-xl lg:text-2xl text-white text-opacity-90 mb-6 md:mb-8 max-w-4xl mx-auto leading-relaxed font-medium"
         >
-          Descubre los mejores restaurantes y menús diarios cerca de ti.
+          {{ 'landing.hero.description.discover' | t }}
           <br />
           <span class="hero-description-highlight text-yellow-300 font-bold">
-            ¡Perfecto para estudiantes y trabajadores en Lima!
+            {{ 'landing.hero.description.perfect' | t }}
           </span>
         </p>
 
@@ -140,7 +140,7 @@
             </mat-icon>
             <div class="stat-value text-2xl md:text-4xl font-black text-white mb-1">{{ stat.value }}</div>
             <div class="stat-label text-white text-opacity-80 font-medium uppercase tracking-wide text-xs md:text-sm">
-              {{ stat.label }}
+              {{ stat.label | t }}
             </div>
           </div>
         </div>
@@ -152,7 +152,7 @@
             (click)="scrollToSection('search-section')"
           >
             <mat-icon class="mr-3">search</mat-icon>
-            Buscar restaurantes
+            {{ 'landing.hero.buttons.searchRestaurants' | t }}
           </button>
           <button
             mat-stroked-button
@@ -160,7 +160,7 @@
             (click)="scrollToSection('como-funciona')"
           >
             <mat-icon class="mr-3">play_arrow</mat-icon>
-            Ver cómo funciona
+            {{ 'landing.hero.buttons.howItWorks' | t }}
           </button>
         </div>
 
@@ -175,7 +175,7 @@
             <mat-icon class="animate-bounce text-white">keyboard_arrow_down</mat-icon>
           </div>
           <p class="scroll-text text-white text-opacity-80 text-base md:text-lg mt-3 md:mt-4 font-bold">
-            DESCUBRE MÁS ABAJO
+            {{ 'landing.hero.scrollIndicator' | t }}
           </p>
         </div>
       </div>

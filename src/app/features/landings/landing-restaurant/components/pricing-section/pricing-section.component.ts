@@ -1,4 +1,5 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, inject, ViewChild } from '@angular/core';
+import { I18nService } from '../../../../../shared/i18n';
 import { MaterialModule } from '../../../../../shared/material.module';
 
 enum PlanType {
@@ -40,6 +41,11 @@ interface ComparisonFeature {
 })
 export class PricingSectionComponent implements AfterViewInit {
   isAnnual = false;
+  private i18n = inject(I18nService);
+
+  protected t = (key: string): string => {
+    return this.i18n.t(key);
+  };
 
   // Precios base mensuales
   monthlyPrices = {
@@ -55,65 +61,71 @@ export class PricingSectionComponent implements AfterViewInit {
     [PlanType.ENTERPRISE]: 'S/ 500'
   };
 
-  plans: Plan[] = [
-    {
-      type: PlanType.FREE,
-      title: 'Plan Gratuito',
-      price: 'S/ 0',
-      period: 'Para siempre',
-      features: [
-        { label: 'Menú digital básico con hasta 5 cartas' },
-        { label: 'Hasta 20 platos' },
-        { label: 'Compartir por WhatsApp' },
-        { label: 'Actualizaciones en tiempo real' },
-        { label: 'Soporte por email. Hasta 5 promociones diarias' }
-      ],
-      buttonLabel: 'Comenzar Gratis',
-      buttonClass: 'bg-gray-900 hover:bg-gray-800 text-white',
-      bgClass: 'bg-white',
-      borderClass: 'border-gray-200'
-    },
-    {
-      type: PlanType.PREMIUM,
-      title: 'Plan Premium',
-      price: 'S/ 10',
-      period: 'por mes',
-      popular: true,
-      features: [
-        { label: 'Menú digital personalizado' },
-        { label: 'Platos ilimitados' },
-        { label: 'Cartas ilimitadas' },
-        { label: 'Reporte de informes' },
-        { label: 'Soporte premium 24/7' },
-        { label: 'Promociones ilimitadas' }
-      ],
-      buttonLabel: 'Comenzar Premium',
-      buttonClass:
-        'bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white',
-      bgClass: 'bg-yellow-100/25',
-      borderClass: 'border-orange-300'
-    },
-
-    {
-      type: PlanType.ENTERPRISE,
-      title: 'Plan Empresarial',
-      price: 'S/ 25',
-      period: 'por mes',
-      features: [
-        { label: 'Todo del plan premium' },
-        { label: 'Función multi-restaurante' },
-        { label: 'Personalización marca o sede' },
-        { label: 'Integración con POS' },
-        { label: 'Facturación automática' },
-        { label: 'Capacitación personalizada' },
-        { label: 'Gestión de combos inteligentes' }
-      ],
-      buttonLabel: 'Contactar Ventas',
-      buttonClass: 'bg-gray-900 hover:bg-gray-800 text-white',
-      bgClass: 'bg-white',
-      borderClass: 'border-gray-200'
-    }
-  ];
+  get plans(): Plan[] {
+    const plans = [
+      {
+        type: PlanType.FREE,
+        title: this.t('landing.restaurant.pricing.plans.free.title'),
+        price: 'S/ 0',
+        period: this.t('landing.restaurant.pricing.plans.free.period'),
+        features: [
+          { label: this.t('landing.restaurant.pricing.plans.free.features.menuBasic') },
+          { label: this.t('landing.restaurant.pricing.plans.free.features.dishes') },
+          { label: this.t('landing.restaurant.pricing.plans.free.features.whatsapp') },
+          { label: this.t('landing.restaurant.pricing.plans.free.features.realTime') },
+          { label: this.t('landing.restaurant.pricing.plans.free.features.support') }
+        ],
+        buttonLabel: this.t('landing.restaurant.pricing.plans.free.button'),
+        buttonClass: 'bg-gray-900 hover:bg-gray-800 text-white',
+        bgClass: 'bg-white',
+        borderClass: 'border-gray-200'
+      },
+      {
+        type: PlanType.PREMIUM,
+        title: this.t('landing.restaurant.pricing.plans.premium.title'),
+        price: this.isAnnual ? this.annualPrices[PlanType.PREMIUM] : this.monthlyPrices[PlanType.PREMIUM],
+        period: this.isAnnual
+          ? this.t('landing.restaurant.pricing.periods.annual')
+          : this.t('landing.restaurant.pricing.periods.monthly'),
+        popular: true,
+        features: [
+          { label: this.t('landing.restaurant.pricing.plans.premium.features.menuCustom') },
+          { label: this.t('landing.restaurant.pricing.plans.premium.features.dishesUnlimited') },
+          { label: this.t('landing.restaurant.pricing.plans.premium.features.cardsUnlimited') },
+          { label: this.t('landing.restaurant.pricing.plans.premium.features.reports') },
+          { label: this.t('landing.restaurant.pricing.plans.premium.features.support24') },
+          { label: this.t('landing.restaurant.pricing.plans.premium.features.promotionsUnlimited') }
+        ],
+        buttonLabel: this.t('landing.restaurant.pricing.plans.premium.button'),
+        buttonClass:
+          'bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white',
+        bgClass: 'bg-yellow-100/25',
+        borderClass: 'border-orange-300'
+      },
+      {
+        type: PlanType.ENTERPRISE,
+        title: this.t('landing.restaurant.pricing.plans.enterprise.title'),
+        price: this.isAnnual ? this.annualPrices[PlanType.ENTERPRISE] : this.monthlyPrices[PlanType.ENTERPRISE],
+        period: this.isAnnual
+          ? this.t('landing.restaurant.pricing.periods.annual')
+          : this.t('landing.restaurant.pricing.periods.monthly'),
+        features: [
+          { label: this.t('landing.restaurant.pricing.plans.enterprise.features.allPremium') },
+          { label: this.t('landing.restaurant.pricing.plans.enterprise.features.multiRestaurant') },
+          { label: this.t('landing.restaurant.pricing.plans.enterprise.features.brandCustomization') },
+          { label: this.t('landing.restaurant.pricing.plans.enterprise.features.posIntegration') },
+          { label: this.t('landing.restaurant.pricing.plans.enterprise.features.autoBilling') },
+          { label: this.t('landing.restaurant.pricing.plans.enterprise.features.personalizedTraining') },
+          { label: this.t('landing.restaurant.pricing.plans.enterprise.features.smartCombos') }
+        ],
+        buttonLabel: this.t('landing.restaurant.pricing.plans.enterprise.button'),
+        buttonClass: 'bg-gray-900 hover:bg-gray-800 text-white',
+        bgClass: 'bg-white',
+        borderClass: 'border-gray-200'
+      }
+    ];
+    return plans;
+  }
 
   togglePricing(annual: boolean) {
     this.isAnnual = annual;
@@ -123,8 +135,6 @@ export class PricingSectionComponent implements AfterViewInit {
   @ViewChild('pricingContainer') pricingContainer!: ElementRef;
 
   ngAfterViewInit() {
-    // Scroll automático al plan Premium en móvil después de que la vista se haya inicializado
-    // Aumentamos el timeout para asegurar renderizado completo
     setTimeout(() => {
       this.scrollToPremiumPlan();
     }, 300);
@@ -140,12 +150,9 @@ export class PricingSectionComponent implements AfterViewInit {
         const cardWidth = premiumCard.offsetWidth;
         const cardOffsetLeft = premiumCard.offsetLeft;
 
-        // Obtener el padding del contenedor flex para compensar
         const flexContainer = container.querySelector('.flex') as HTMLElement;
-        const paddingLeft = flexContainer ? parseInt(getComputedStyle(flexContainer).paddingLeft) : 16; // 16px es el px-4 por defecto
+        const paddingLeft = flexContainer ? parseInt(getComputedStyle(flexContainer).paddingLeft) : 16;
 
-        // Calcular la posición para centrar perfectamente la tarjeta Premium
-        // Compensar el padding y centrar exactamente
         const scrollPosition = cardOffsetLeft - (containerWidth - cardWidth) / 2 - paddingLeft;
 
         container.scrollTo({
@@ -157,41 +164,108 @@ export class PricingSectionComponent implements AfterViewInit {
   }
 
   private updatePrices() {
-    this.plans = this.plans.map((plan) => {
-      let period = 'por mes';
-      if (plan.type === PlanType.FREE) {
-        period = 'Para siempre';
-      } else if (this.isAnnual) {
-        period = 'por año';
-      }
-      return {
-        ...plan,
-        price: this.isAnnual ? this.annualPrices[plan.type] : this.monthlyPrices[plan.type],
-        period
-      };
-    });
+    // Los planes se regeneran automáticamente con el getter
+    // Solo necesitamos detectar cambios
   }
 
   // Control de filas visibles en la tabla de comparación
   showAllFeatures = false;
   defaultVisibleRows = 6;
-  comparisonFeatures: ComparisonFeature[] = [
-    { name: 'Menú digital básico', free: true, premium: true, enterprise: true },
-    { name: 'Número de platos', free: '20', premium: 'ilimitados', enterprise: 'ilimitados' },
-    { name: 'Compartir por WhatsApp', free: true, premium: true, enterprise: true },
-    { name: 'Actualizaciones en tiempo real', free: true, premium: true, enterprise: true },
-    { name: 'Soporte por email', free: true, premium: false, enterprise: false },
-    { name: 'Pagos en línea integrados', free: false, premium: true, enterprise: true },
-    { name: 'Informes de desempeño', free: false, premium: true, enterprise: true },
-    { name: 'Soporte premium 24/7', free: false, premium: true, enterprise: true },
-    { name: 'Personalización avanzada', free: false, premium: true, enterprise: true },
-    { name: 'Analytics detallados', free: false, premium: true, enterprise: true },
-    { name: 'Múltiples ubicaciones', free: false, premium: 'Hasta 3', enterprise: 'ilimitadas' },
-    { name: 'Gestión multi-restaurante', free: false, premium: false, enterprise: true },
-    { name: 'API personalizada', free: false, premium: false, enterprise: true },
-    { name: 'Integración con POS', free: false, premium: false, enterprise: true },
-    { name: 'Gerente de cuenta dedicado', free: false, premium: false, enterprise: true }
-  ];
+
+  get comparisonFeatures(): ComparisonFeature[] {
+    return [
+      {
+        name: this.t('landing.restaurant.pricing.comparison.features.digitalMenu'),
+        free: true,
+        premium: true,
+        enterprise: true
+      },
+      {
+        name: this.t('landing.restaurant.pricing.comparison.features.numberOfDishes'),
+        free: '20',
+        premium: this.t('landing.restaurant.pricing.comparison.features.unlimited'),
+        enterprise: this.t('landing.restaurant.pricing.comparison.features.unlimited')
+      },
+      {
+        name: this.t('landing.restaurant.pricing.comparison.features.whatsappShare'),
+        free: true,
+        premium: true,
+        enterprise: true
+      },
+      {
+        name: this.t('landing.restaurant.pricing.comparison.features.realTimeUpdates'),
+        free: true,
+        premium: true,
+        enterprise: true
+      },
+      {
+        name: this.t('landing.restaurant.pricing.comparison.features.emailSupport'),
+        free: true,
+        premium: false,
+        enterprise: false
+      },
+      {
+        name: this.t('landing.restaurant.pricing.comparison.features.onlinePayments'),
+        free: false,
+        premium: true,
+        enterprise: true
+      },
+      {
+        name: this.t('landing.restaurant.pricing.comparison.features.performanceReports'),
+        free: false,
+        premium: true,
+        enterprise: true
+      },
+      {
+        name: this.t('landing.restaurant.pricing.comparison.features.premium24Support'),
+        free: false,
+        premium: true,
+        enterprise: true
+      },
+      {
+        name: this.t('landing.restaurant.pricing.comparison.features.advancedCustomization'),
+        free: false,
+        premium: true,
+        enterprise: true
+      },
+      {
+        name: this.t('landing.restaurant.pricing.comparison.features.detailedAnalytics'),
+        free: false,
+        premium: true,
+        enterprise: true
+      },
+      {
+        name: this.t('landing.restaurant.pricing.comparison.features.multipleLocations'),
+        free: false,
+        premium: this.t('landing.restaurant.pricing.comparison.features.upTo3'),
+        enterprise: this.t('landing.restaurant.pricing.comparison.features.unlimited')
+      },
+      {
+        name: this.t('landing.restaurant.pricing.comparison.features.multiRestaurantManagement'),
+        free: false,
+        premium: false,
+        enterprise: true
+      },
+      {
+        name: this.t('landing.restaurant.pricing.comparison.features.customApi'),
+        free: false,
+        premium: false,
+        enterprise: true
+      },
+      {
+        name: this.t('landing.restaurant.pricing.comparison.features.posIntegration'),
+        free: false,
+        premium: false,
+        enterprise: true
+      },
+      {
+        name: this.t('landing.restaurant.pricing.comparison.features.dedicatedAccountManager'),
+        free: false,
+        premium: false,
+        enterprise: true
+      }
+    ];
+  }
 
   // Devuelve las filas a mostrar según el estado del botón
   get visibleComparisonFeatures(): ComparisonFeature[] {

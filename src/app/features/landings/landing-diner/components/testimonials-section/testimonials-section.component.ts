@@ -1,35 +1,36 @@
 import { Component } from '@angular/core';
+import { TranslatePipe } from '../../../../../shared/i18n';
 import { MaterialModule } from '../../../../../shared/material.module';
 
 @Component({
   selector: 'app-testimonials-section',
   standalone: true,
-  imports: [MaterialModule],
+  imports: [MaterialModule, TranslatePipe],
   templateUrl: './testimonials-section.component.html',
   styleUrls: ['./testimonials-section.component.scss']
 })
 export class TestimonialsSectionComponent {
   testimonials = [
     {
-      name: 'María González',
-      role: 'Ejecutiva en San Isidro',
+      name: 'landing.testimonials.users.maria.name',
+      role: 'landing.testimonials.users.maria.role',
       avatar: '/img/landing/young-professional-woman-lima.png',
       rating: 5,
-      text: 'Increíble! Ahora encuentro los mejores menús cerca de mi oficina en segundos. Ya no pierdo tiempo buscando dónde almorzar.'
+      text: 'landing.testimonials.users.maria.text'
     },
     {
-      name: 'Carlos Mendoza',
-      role: 'Estudiante PUCP',
+      name: 'landing.testimonials.users.carlos.name',
+      role: 'landing.testimonials.users.carlos.role',
       avatar: '/img/landing/business-executive-lunch.png',
       rating: 5,
-      text: 'Perfecto para estudiantes. Los precios están actualizados y puedo ver las opciones más económicas cerca de la universidad.'
+      text: 'landing.testimonials.users.carlos.text'
     },
     {
-      name: 'Roberto Silva',
-      role: 'Gerente en Miraflores',
+      name: 'landing.testimonials.users.roberto.name',
+      role: 'landing.testimonials.users.roberto.role',
       avatar: '/img/landing/student-eating-lunch.png',
       rating: 5,
-      text: 'La app me ha cambiado la vida. Ahora puedo planificar mis almuerzos de trabajo y siempre encuentro opciones de calidad.'
+      text: 'landing.testimonials.users.roberto.text'
     }
   ];
 

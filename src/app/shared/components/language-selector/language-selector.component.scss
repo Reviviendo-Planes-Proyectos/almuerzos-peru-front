@@ -1,0 +1,20 @@
+select {
+  &:hover {
+    transform: translateY(-1px);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    background-color: rgba(31, 41, 55, 0.8) !important;
+    border-color: rgba(75, 85, 99, 0.8) !important;
+    color: #e5e7eb !important;
+
+    &:hover {
+      background-color: rgba(31, 41, 55, 0.9) !important;
+    }
+
+    option {
+      background-color: #1f2937;
+      color: #e5e7eb;
+    }
+  }
+}

@@ -8,10 +8,10 @@
       <h2
         class="section-title text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-gray-800 mb-4 leading-tight"
       >
-        Lo que dicen nuestros usuarios
+        {{ 'landing.testimonials.title' | t }}
       </h2>
       <p class="section-description text-base md:text-lg lg:text-xl text-gray-500 font-medium leading-relaxed">
-        Miles de limeños ya encontraron su almuerzo perfecto
+        {{ 'landing.testimonials.subtitle' | t }}
       </p>
     </div>
 
@@ -29,8 +29,10 @@
               class="testimonial-avatar w-10 h-10 md:w-12 md:h-12 rounded-full object-cover shadow-sm md:shadow-md flex-shrink-0"
             />
             <div class="testimonial-info flex-1 min-w-0">
-              <h4 class="testimonial-name font-bold text-gray-800 m-0 text-base md:text-lg">{{ testimonial.name }}</h4>
-              <p class="testimonial-role text-xs md:text-sm text-gray-500 m-0">{{ testimonial.role }}</p>
+              <h4 class="testimonial-name font-bold text-gray-800 m-0 text-base md:text-lg">
+                {{ testimonial.name | t }}
+              </h4>
+              <p class="testimonial-role text-xs md:text-sm text-gray-500 m-0">{{ testimonial.role | t }}</p>
             </div>
           </div>
           <div class="testimonial-rating flex mb-3 gap-0.5">
@@ -42,7 +44,7 @@
             </mat-icon>
           </div>
           <p class="testimonial-text text-gray-700 leading-relaxed m-0 italic text-sm md:text-base">
-            {{ testimonial.text }}
+            {{ testimonial.text | t }}
           </p>
         </mat-card-content>
       </mat-card>

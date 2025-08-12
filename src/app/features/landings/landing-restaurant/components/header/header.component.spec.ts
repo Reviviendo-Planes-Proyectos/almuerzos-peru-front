@@ -1,18 +1,24 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideRouter, Router } from '@angular/router';
+import { ActivatedRoute, provideRouter, Router } from '@angular/router';
 import { routes } from '../../../../../core/routes/app.routes';
 import { HeaderComponent } from './header.component';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
-  // biome-ignore lint/correctness/noUnusedVariables: allow unused for test setup
   let router: Router;
+  let mockActivatedRoute: any;
 
   beforeEach(async () => {
+    mockActivatedRoute = {
+      snapshot: {
+        queryParams: {}
+      }
+    };
+
     await TestBed.configureTestingModule({
       imports: [HeaderComponent],
-      providers: [provideRouter(routes)]
+      providers: [provideRouter(routes), { provide: ActivatedRoute, useValue: mockActivatedRoute }]
     }).compileComponents();
 
     fixture = TestBed.createComponent(HeaderComponent);
@@ -72,7 +78,7 @@ describe('HeaderComponent', () => {
   });
 
   it('should return true for isLegalPage when on legal route', () => {
-    Object.defineProperty(router, 'url', { value: '/legal/terminos-condiciones' });
+    Object.defineProperty(router, 'url', { value: '/legal/terms-and-conditions' });
     expect(component.isLegalPage).toBe(true);
   });
 
@@ -120,11 +126,46 @@ describe('HeaderComponent', () => {
   });
 
   it('should navigate to restaurant home by default when on other routes', async () => {
-    Object.defineProperty(router, 'url', { value: '/legal/terms' });
+    Object.defineProperty(router, 'url', { value: '/some-other-route' });
     const navigateSpy = jest.spyOn(router, 'navigate');
 
     component.navigateToHome();
 
     expect(navigateSpy).toHaveBeenCalledWith(['/home-restaurant']);
+  });
+
+  it('should navigate to diner home when on legal page with diner query param', async () => {
+    Object.defineProperty(router, 'url', { value: '/legal/terms' });
+    mockActivatedRoute.snapshot.queryParams = { from: 'diner' };
+    const navigateSpy = jest.spyOn(router, 'navigate');
+
+    component.navigateToHome();
+
+    expect(navigateSpy).toHaveBeenCalledWith(['/home-diner']);
+  });
+
+  it('should navigate to restaurant home when on legal page without diner param', async () => {
+    Object.defineProperty(router, 'url', { value: '/legal/terms' });
+    mockActivatedRoute.snapshot.queryParams = { from: 'restaurant' };
+    const navigateSpy = jest.spyOn(router, 'navigate');
+
+    component.navigateToHome();
+
+    expect(navigateSpy).toHaveBeenCalledWith(['/home-restaurant']);
+  });
+
+  it('should handle window scroll event', () => {
+    // Mock window.scrollY
+    Object.defineProperty(window, 'scrollY', { value: 100, writable: true });
+
+    component.onWindowScroll();
+
+    expect(component.isScrolled).toBe(true);
+
+    Object.defineProperty(window, 'scrollY', { value: 30, writable: true });
+
+    component.onWindowScroll();
+
+    expect(component.isScrolled).toBe(false);
   });
 });
