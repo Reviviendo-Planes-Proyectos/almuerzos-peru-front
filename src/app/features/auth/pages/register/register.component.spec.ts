@@ -85,7 +85,7 @@ describe('RegisterComponent', () => {
 
   it('should display three registration buttons', () => {
     const buttons = debugElement.queryAll(By.css('button'));
-    expect(buttons.length).toBe(4);
+    expect(buttons.length).toBe(5);
   });
 
   it('should display "O" separator', () => {
@@ -94,7 +94,7 @@ describe('RegisterComponent', () => {
   });
 
   it('should display "REGISTRARSE DESPUÉS" link', () => {
-    const linkElement = debugElement.query(By.css('a'));
+    const linkElement = debugElement.query(By.css('button.text-purple-700'));
     expect(linkElement.nativeElement.textContent.trim()).toBe('REGISTRARSE DESPUÉS');
   });
 
@@ -121,7 +121,7 @@ describe('RegisterComponent', () => {
       const welcomeElement = debugElement.query(By.css('h2'));
       const subtitleElement = debugElement.query(By.css('p'));
       const separatorElement = debugElement.query(By.css('.mx-4'));
-      const linkElement = debugElement.query(By.css('a'));
+      const linkElement = debugElement.query(By.css('button.text-purple-700'));
 
       expect(titleElement.nativeElement.textContent.trim()).toBe('ALMUERZOS PERU');
       expect(welcomeElement.nativeElement.textContent.trim()).toBe('¡Bienvenido a Almuerzos Peru!');

@@ -48,7 +48,6 @@ export class LoginComponent {
   }
 
   goToRegister(): void {
-    // Navegar a la página de registro
-    this.router.navigate(['/auth/register']);
+    this.router.navigate(['auth/register']);
   }
 }

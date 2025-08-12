@@ -29,8 +29,8 @@ export class ProfileSelectionComponent {
     this.location.back();
   }
 
-  elegirTipoUsuario(tipo: 'restaurante' | 'comensal') {
+  goToLogin(tipo: 'restaurante' | 'comensal'): void {
     this.logger.info('Tipo de usuario seleccionado:', tipo);
-    this.router.navigate(['auth/register']);
+    this.router.navigate(['auth/login']);
   }
 }

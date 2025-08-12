@@ -54,13 +54,21 @@
         {{ t('auth.login.withEmail') }}
       </button>
 
-      <a href="#" (click)="forgotPassword()" class="mt-2 text-purple-700 hover:underline font-medium">
+      <button
+        type="button"
+        (click)="forgotPassword()"
+        class="mt-2 text-purple-700 hover:underline font-medium bg-transparent border-none cursor-pointer"
+      >
         {{ t('auth.forgot.title') }}
-      </a>
+      </button>
 
-      <a href="#" (click)="goToRegister()" class="mt-4 text-purple-700 hover:underline font-medium">
+      <button
+        type="button"
+        (click)="goToRegister()"
+        class="mt-4 text-purple-700 hover:underline font-medium bg-transparent border-none cursor-pointer"
+      >
         {{ t('auth.login.noAccount') }}
-      </a>
+      </button>
     </div>
   </div>
 </div>

@@ -97,7 +97,7 @@ describe('ProfileSelectionComponent', () => {
   });
 
   it('should display register later link with translated text', () => {
-    const linkElement = debugElement.query(By.css('a'));
+    const linkElement = debugElement.query(By.css('.mt-6 button'));
     expect(linkElement.nativeElement.textContent.trim()).toBe('Registrarme luego');
   });
 
@@ -111,22 +111,21 @@ describe('ProfileSelectionComponent', () => {
     expect(mockLocation.back).toHaveBeenCalled();
   });
 
-  it('should navigate to register when elegirTipoUsuario is called with restaurante', () => {
-    component.elegirTipoUsuario('restaurante');
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['auth/register']);
+  it('should navigate to login when goToLogin is called with restaurante', () => {
+    component.goToLogin('restaurante');
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['auth/login']);
   });
 
-  it('should navigate to register when elegirTipoUsuario is called with comensal', () => {
-    component.elegirTipoUsuario('comensal');
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['auth/register']);
+  it('should navigate to login when goToLogin is called with comensal', () => {
+    component.goToLogin('comensal');
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['auth/login']);
   });
 
-  // Tests de internacionalización
   describe('Internationalization', () => {
     it('should display all text elements with proper translations', () => {
       const titleElement = debugElement.query(By.css('h1'));
       const questionElement = debugElement.query(By.css('p'));
-      const linkElement = debugElement.query(By.css('a'));
+      const linkElement = debugElement.query(By.css('.mt-6 button'));
 
       expect(titleElement.nativeElement.textContent.trim()).toBe('ALMUERZOS PERU');
       expect(questionElement.nativeElement.textContent.trim()).toBe('¿Cómo deseas ingresar?');
@@ -134,7 +133,6 @@ describe('ProfileSelectionComponent', () => {
     });
 
     it('should use translation function correctly', () => {
-      // Verificar que los elementos traducidos están presentes
       expect(debugElement.query(By.css('h1')).nativeElement.textContent.trim()).toBe('ALMUERZOS PERU');
       expect(debugElement.query(By.css('p')).nativeElement.textContent.trim()).toBe('¿Cómo deseas ingresar?');
     });

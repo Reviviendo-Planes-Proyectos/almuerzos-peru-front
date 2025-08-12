@@ -54,9 +54,13 @@
         {{ t('auth.register.withEmail') }}
       </button>
 
-      <a href="#" (click)="goBack()" class="mt-4 text-purple-700 hover:underline font-medium">
+      <button
+        type="button"
+        (click)="goBack()"
+        class="mt-4 text-purple-700 hover:underline font-medium bg-transparent border-none cursor-pointer"
+      >
         {{ t('auth.register.later') }}
-      </a>
+      </button>
     </div>
   </div>
 </div>

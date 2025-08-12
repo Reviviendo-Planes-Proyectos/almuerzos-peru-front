@@ -91,7 +91,7 @@ describe('LoginComponent', () => {
 
   it('should render all action buttons', () => {
     const buttons = debugElement.queryAll(By.css('button:not([mat-icon-button])'));
-    expect(buttons.length).toBe(3); // Google, Facebook, Email
+    expect(buttons.length).toBe(5);
   });
 
   it('should render Google login button', () => {
@@ -118,15 +118,17 @@ describe('LoginComponent', () => {
   });
 
   it('should display forgot password link', () => {
-    const links = debugElement.queryAll(By.css('a'));
-    const forgotLink = links.find((link) => link.nativeElement.textContent.includes('Olvidé mi Contraseña'));
-    expect(forgotLink).toBeTruthy();
+    const buttons = debugElement.queryAll(By.css('button'));
+    const forgotButton = buttons.find((button) => button.nativeElement.textContent.includes('Olvidé mi Contraseña'));
+    expect(forgotButton).toBeTruthy();
   });
 
   it('should display register link', () => {
-    const links = debugElement.queryAll(By.css('a'));
-    const registerLink = links.find((link) => link.nativeElement.textContent.includes('¿No tienes cuenta? Regístrate'));
-    expect(registerLink).toBeTruthy();
+    const buttons = debugElement.queryAll(By.css('button'));
+    const registerButton = buttons.find((button) =>
+      button.nativeElement.textContent.includes('¿No tienes cuenta? Regístrate')
+    );
+    expect(registerButton).toBeTruthy();
   });
 
   it('should have background image', () => {
@@ -176,29 +178,31 @@ describe('LoginComponent', () => {
 
   it('should call forgotPassword when forgot password link is clicked', () => {
     const forgotSpy = jest.spyOn(component, 'forgotPassword');
-    const links = debugElement.queryAll(By.css('a'));
-    const forgotLink = links.find((link) => link.nativeElement.textContent.includes('Olvidé mi Contraseña'));
-    expect(forgotLink).toBeTruthy();
-    if (forgotLink) {
-      forgotLink.nativeElement.click();
+    const buttons = debugElement.queryAll(By.css('button'));
+    const forgotButton = buttons.find((button) => button.nativeElement.textContent.includes('Olvidé mi Contraseña'));
+    expect(forgotButton).toBeTruthy();
+    if (forgotButton) {
+      forgotButton.nativeElement.click();
       expect(forgotSpy).toHaveBeenCalled();
     }
   });
 
   it('should call goToRegister when register link is clicked', () => {
     const registerSpy = jest.spyOn(component, 'goToRegister');
-    const links = debugElement.queryAll(By.css('a'));
-    const registerLink = links.find((link) => link.nativeElement.textContent.includes('¿No tienes cuenta? Regístrate'));
-    expect(registerLink).toBeTruthy();
-    if (registerLink) {
-      registerLink.nativeElement.click();
+    const buttons = debugElement.queryAll(By.css('button'));
+    const registerButton = buttons.find((button) =>
+      button.nativeElement.textContent.includes('¿No tienes cuenta? Regístrate')
+    );
+    expect(registerButton).toBeTruthy();
+    if (registerButton) {
+      registerButton.nativeElement.click();
       expect(registerSpy).toHaveBeenCalled();
     }
   });
 
   it('should navigate to register when goToRegister is called', () => {
     component.goToRegister();
-    expect(routerSpy.navigate).toHaveBeenCalledWith(['/auth/register']);
+    expect(routerSpy.navigate).toHaveBeenCalledWith(['auth/register']);
   });
 
   describe('Internationalization', () => {
