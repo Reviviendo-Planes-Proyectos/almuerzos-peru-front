@@ -40,4 +40,27 @@ describe('app.routes', () => {
       expect(typeof loadedRoutes).toBe('object');
     }
   });
+
+  it('should define legal route correctly', () => {
+    const legalRoute = routes.find((route) => route.path === 'legal');
+    expect(legalRoute).toBeTruthy();
+    expect(legalRoute?.loadChildren).toBeDefined();
+  });
+
+  it('should load legal children routes correctly', async () => {
+    const legalRoute = routes.find((route) => route.path === 'legal');
+    expect(legalRoute).toBeTruthy();
+
+    const loadChildrenFn = legalRoute?.loadChildren;
+    expect(loadChildrenFn).toBeDefined();
+
+    const loadedRoutes = await loadChildrenFn?.();
+    expect(loadedRoutes).toBeTruthy();
+
+    if (Array.isArray(loadedRoutes)) {
+      expect(loadedRoutes.length).toBeGreaterThan(0);
+    } else {
+      expect(typeof loadedRoutes).toBe('object');
+    }
+  });
 });

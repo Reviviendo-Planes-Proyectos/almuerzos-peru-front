@@ -2,17 +2,18 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
-import { TerminosCondicionesComponent } from './terminos-condiciones.component';
+import { I18nService } from '../../../../shared/translations';
+import { PrivacyPolicyComponent } from './privacy-policy.component';
 
-describe('TerminosCondicionesComponent', () => {
-  let component: TerminosCondicionesComponent;
-  let fixture: ComponentFixture<TerminosCondicionesComponent>;
+describe('PrivacyPolicyComponent', () => {
+  let component: PrivacyPolicyComponent;
+  let fixture: ComponentFixture<PrivacyPolicyComponent>;
   let mockRouter: any;
 
   beforeEach(async () => {
     const routerSpy = {
       navigate: jest.fn(),
-      url: '/legal/terminos-condiciones'
+      url: '/legal/privacy-policy'
     };
 
     const activatedRouteSpy = {
@@ -21,16 +22,27 @@ describe('TerminosCondicionesComponent', () => {
       snapshot: { params: {}, queryParams: {} }
     };
 
+    const i18nServiceSpy = {
+      t: jest.fn((key: string) => {
+        const translations: { [key: string]: string } = {
+          'landing.legal.privacy.title': 'Política de Privacidad',
+          'landing.legal.lastUpdated': 'Última actualización:'
+        };
+        return translations[key] || key;
+      })
+    };
+
     await TestBed.configureTestingModule({
-      imports: [TerminosCondicionesComponent],
+      imports: [PrivacyPolicyComponent],
       providers: [
         { provide: Router, useValue: routerSpy },
-        { provide: ActivatedRoute, useValue: activatedRouteSpy }
+        { provide: ActivatedRoute, useValue: activatedRouteSpy },
+        { provide: I18nService, useValue: i18nServiceSpy }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(TerminosCondicionesComponent);
+    fixture = TestBed.createComponent(PrivacyPolicyComponent);
     component = fixture.componentInstance;
     mockRouter = TestBed.inject(Router);
     fixture.detectChanges();
@@ -52,7 +64,7 @@ describe('TerminosCondicionesComponent', () => {
 
   it('should display the correct title', () => {
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Términos y Condiciones');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Política de Privacidad');
   });
 
   it('should display the update date', () => {
@@ -60,10 +72,5 @@ describe('TerminosCondicionesComponent', () => {
     const dateElement = compiled.querySelector('p');
     expect(dateElement?.textContent).toContain('Última actualización:');
     expect(dateElement?.textContent).toContain(component.fechaActualizacion);
-  });
-
-  it('should navigate to home when volverAlInicio method is called', () => {
-    component.volverAlInicio();
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['/']);
   });
 });

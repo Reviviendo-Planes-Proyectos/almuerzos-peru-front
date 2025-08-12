@@ -8,19 +8,24 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-export const MATERIAL_MODULES = [
-  CommonModule,
+// Angular Core Modules
+const ANGULAR_MODULES = [CommonModule, ReactiveFormsModule];
+
+// Material Design Modules
+const MATERIAL_MODULES = [
   MatButtonModule,
-  MatTooltipModule,
   MatCardModule,
-  ReactiveFormsModule,
   MatFormFieldModule,
+  MatIconModule,
   MatInputModule,
-  MatIconModule
+  MatTooltipModule
 ];
 
+// Combine all modules into a single array for easy import
+const ALL_MODULES = [...ANGULAR_MODULES, ...MATERIAL_MODULES];
+
 @NgModule({
-  imports: MATERIAL_MODULES,
-  exports: MATERIAL_MODULES
+  imports: ALL_MODULES,
+  exports: ALL_MODULES
 })
 export class MaterialModule {}

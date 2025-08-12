@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MaterialModule } from '../../../../../shared/material.module';
+import { I18nService } from '../../../../../shared/translations';
 
 enum Audience {
-  RESTAURANT = 'Para Restaurantes',
-  CUSTOMER = 'Para Comensales'
+  RESTAURANT = 'restaurant',
+  CUSTOMER = 'customer'
 }
 
 interface Benefit {
@@ -23,56 +24,62 @@ interface Benefit {
 })
 export class BenefitsSectionComponent {
   audience = Audience;
+  private i18n = inject(I18nService);
 
-  benefits: Benefit[] = [
-    {
-      audience: Audience.RESTAURANT,
-      title: 'Actualización en Tiempo Real',
-      subtitle: 'Si algo se acabó, retíralo fácilmente. ',
-      icon: 'schedule',
-      iconColor: 'text-blue-600',
-      bgColor: 'bg-blue-100'
-    },
-    {
-      audience: Audience.RESTAURANT,
-      title: 'Comparte por WhatsApp',
-      subtitle: 'Envía tu carta por WhatsApp y compártesela a tus contactos.',
-      icon: 'share',
-      iconColor: 'text-green-600',
-      bgColor: 'bg-green-100'
-    },
-    {
-      audience: Audience.RESTAURANT,
-      title: 'Publicidad Gratis',
-      subtitle: 'Sube tu menú y listo. Tu restaurante será visible para más clientes sin esfuerzos.',
-      icon: 'campaign',
-      iconColor: 'text-red-600',
-      bgColor: 'bg-red-100'
-    },
-    {
-      audience: Audience.CUSTOMER,
-      title: 'Todo en un Solo Lugar',
-      subtitle: 'Encuentra el menú diario de tu restaurante favorito en un solo lugar, fácil y rápido.',
-      icon: 'menu_book',
-      iconColor: 'text-orange-600',
-      bgColor: 'bg-orange-100'
-    },
-    {
-      audience: Audience.CUSTOMER,
-      title: 'Filtro por Ubicación GPS',
-      subtitle: 'Encuentra opciones cercanas con el filtro de ubicación GPS. Descubre nuevos sabores.',
-      icon: 'place',
-      iconColor: 'text-purple-600',
-      bgColor: 'bg-purple-100'
-    },
-    {
-      audience: Audience.CUSTOMER,
-      title: 'Promociones exclusivas',
-      subtitle:
-        'Accede a menús con descuentos,y promocionas solo para usuarios activos.  ¡Usa la app, gana más y almuerza mejor!',
-      icon: 'image',
-      iconColor: 'text-yellow-600',
-      bgColor: 'bg-yellow-100'
-    }
-  ];
+  protected t = (key: string): string => {
+    return this.i18n.t(key);
+  };
+
+  get benefits(): Benefit[] {
+    return [
+      {
+        audience: Audience.RESTAURANT,
+        title: this.t('landing.restaurant.benefits.realTimeUpdate.title'),
+        subtitle: this.t('landing.restaurant.benefits.realTimeUpdate.subtitle'),
+        icon: 'schedule',
+        iconColor: 'text-blue-600',
+        bgColor: 'bg-blue-100'
+      },
+      {
+        audience: Audience.RESTAURANT,
+        title: this.t('landing.restaurant.benefits.whatsappShare.title'),
+        subtitle: this.t('landing.restaurant.benefits.whatsappShare.subtitle'),
+        icon: 'share',
+        iconColor: 'text-green-600',
+        bgColor: 'bg-green-100'
+      },
+      {
+        audience: Audience.RESTAURANT,
+        title: this.t('landing.restaurant.benefits.freeAdvertising.title'),
+        subtitle: this.t('landing.restaurant.benefits.freeAdvertising.subtitle'),
+        icon: 'campaign',
+        iconColor: 'text-red-600',
+        bgColor: 'bg-red-100'
+      },
+      {
+        audience: Audience.CUSTOMER,
+        title: this.t('landing.restaurant.benefits.allInOnePlace.title'),
+        subtitle: this.t('landing.restaurant.benefits.allInOnePlace.subtitle'),
+        icon: 'menu_book',
+        iconColor: 'text-orange-600',
+        bgColor: 'bg-orange-100'
+      },
+      {
+        audience: Audience.CUSTOMER,
+        title: this.t('landing.restaurant.benefits.gpsFilter.title'),
+        subtitle: this.t('landing.restaurant.benefits.gpsFilter.subtitle'),
+        icon: 'place',
+        iconColor: 'text-purple-600',
+        bgColor: 'bg-purple-100'
+      },
+      {
+        audience: Audience.CUSTOMER,
+        title: this.t('landing.restaurant.benefits.exclusivePromotions.title'),
+        subtitle: this.t('landing.restaurant.benefits.exclusivePromotions.subtitle'),
+        icon: 'image',
+        iconColor: 'text-yellow-600',
+        bgColor: 'bg-yellow-100'
+      }
+    ];
+  }
 }

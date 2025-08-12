@@ -1,7 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { I18nService } from '../../../../../shared/translations';
 import { FinalCtaSectionComponent } from './final-cta-section.component';
+
+class MockI18nService {
+  t(key: string): string {
+    const translations: Record<string, string> = {
+      'landing.diner.finalCta.stats.restaurants': 'Restaurantes verificados',
+      'landing.diner.finalCta.stats.users': 'Usuarios activos',
+      'landing.diner.finalCta.stats.rating': 'Calificación promedio'
+    };
+    return translations[key] || key;
+  }
+}
 
 describe('FinalCtaSectionComponent', () => {
   let component: FinalCtaSectionComponent;
@@ -9,7 +21,8 @@ describe('FinalCtaSectionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FinalCtaSectionComponent, FormsModule, BrowserAnimationsModule]
+      imports: [FinalCtaSectionComponent, FormsModule, BrowserAnimationsModule],
+      providers: [{ provide: I18nService, useClass: MockI18nService }]
     }).compileComponents();
 
     fixture = TestBed.createComponent(FinalCtaSectionComponent);
@@ -54,9 +67,16 @@ describe('FinalCtaSectionComponent', () => {
   it('should have descriptive stats labels', () => {
     const labels = component.stats.map((s) => s.label);
 
-    expect(labels).toContain('Restaurantes verificados');
-    expect(labels).toContain('Usuarios activos');
-    expect(labels).toContain('Calificación promedio');
+    expect(labels).toContain('landing.diner.finalCta.stats.restaurants');
+    expect(labels).toContain('landing.diner.finalCta.stats.users');
+    expect(labels).toContain('landing.diner.finalCta.stats.rating');
+  });
+
+  it('should have marketing-focused stats', () => {
+    const labels = component.stats.map((s) => s.label);
+
+    // Verificar que las etiquetas son claves de traducción válidas
+    expect(labels.every((label) => label.startsWith('landing.diner.finalCta.stats.'))).toBe(true);
   });
 
   it('should have non-empty stats labels', () => {
@@ -92,17 +112,6 @@ describe('FinalCtaSectionComponent', () => {
       component.email = '';
       expect(() => component.onSubscribe()).not.toThrow();
     });
-  });
-
-  it('should have marketing-focused stats', () => {
-    const allLabels = component.stats
-      .map((s) => s.label)
-      .join(' ')
-      .toLowerCase();
-
-    expect(allLabels).toContain('restaurantes');
-    expect(allLabels).toContain('usuarios');
-    expect(allLabels).toContain('calificación');
   });
 
   it('should have compelling numeric stats', () => {

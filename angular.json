@@ -27,6 +27,11 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "messages",
+                "output": "messages"
               }
             ],
             "styles": ["src/styles.scss"],

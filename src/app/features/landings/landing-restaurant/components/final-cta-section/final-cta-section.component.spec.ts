@@ -2,7 +2,24 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ButtonComponent } from '../../../../../shared/components/button/button.component';
 import { MaterialModule } from '../../../../../shared/material.module';
+import { I18nService } from '../../../../../shared/translations';
 import { FinalCtaSectionComponent } from './final-cta-section.component';
+
+class MockI18nService {
+  t(key: string): string {
+    const translations: Record<string, string> = {
+      'landing.restaurant.finalCta.title': '¿Todavía usas menús impresos? Tus clientes ya no.',
+      'landing.restaurant.finalCta.titleHighlight': 'Únete al cambio.',
+      'landing.restaurant.finalCta.subtitle':
+        '¡Regístrate ahora y comienza a disfrutar de los beneficios de tener un menú digital!',
+      'landing.restaurant.finalCta.primaryBtn': 'Comienza Gratis Ahora',
+      'landing.restaurant.finalCta.features.free': 'Configuración gratuita',
+      'landing.restaurant.finalCta.features.noCommitment': 'Sin compromisos',
+      'landing.restaurant.finalCta.features.support': 'Soporte incluido'
+    };
+    return translations[key] || key;
+  }
+}
 
 describe('FinalCtaSectionComponent', () => {
   let component: FinalCtaSectionComponent;
@@ -10,7 +27,8 @@ describe('FinalCtaSectionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FinalCtaSectionComponent, MaterialModule, ButtonComponent, NoopAnimationsModule]
+      imports: [FinalCtaSectionComponent, MaterialModule, ButtonComponent, NoopAnimationsModule],
+      providers: [{ provide: I18nService, useClass: MockI18nService }]
     }).compileComponents();
 
     fixture = TestBed.createComponent(FinalCtaSectionComponent);
@@ -24,9 +42,11 @@ describe('FinalCtaSectionComponent', () => {
 
   it('should render CTA title and description', () => {
     const compiled = fixture.nativeElement as HTMLElement;
-    // Cambiar línea 27:
-    expect(compiled.querySelector('h2')?.textContent).toContain('¿Todavía usas menús impresos?');
-    expect(compiled.querySelector('p')?.textContent).toContain('beneficios de tener un menú digital');
+    expect(compiled.querySelector('h2')?.textContent).toContain('¿Todavía usas menús impresos? Tus clientes ya no.');
+    expect(compiled.querySelector('h2')?.textContent).toContain('Únete al cambio.');
+    expect(compiled.querySelector('p')?.textContent).toContain(
+      '¡Regístrate ahora y comienza a disfrutar de los beneficios de tener un menú digital!'
+    );
   });
 
   it('should render dos botones de acción', () => {

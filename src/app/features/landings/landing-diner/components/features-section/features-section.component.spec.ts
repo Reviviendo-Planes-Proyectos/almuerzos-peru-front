@@ -1,14 +1,39 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { I18nService, TranslatePipe } from '../../../../../shared/translations';
 import { FeaturesSectionComponent } from './features-section.component';
+
+// Mock del servicio de traducción
+class MockI18nService {
+  t(key: string): string {
+    const translations: Record<string, string> = {
+      'landing.features.title': 'Características principales',
+      'landing.features.subtitle': 'Todo lo que necesitas para encontrar tu almuerzo ideal',
+      'landing.features.smartSearch.title': 'Búsqueda inteligente',
+      'landing.features.saveTime.title': 'Ahorra tiempo',
+      'landing.features.location.title': 'Ubicación precisa',
+      'landing.features.favorites.title': 'Favoritos',
+      'landing.features.smartSearch.description':
+        'Encuentra restaurantes cerca de ti con menús actualizados diariamente',
+      'landing.features.saveTime.description': 'No más llamadas o esperas. Ve el menú y precios al instante',
+      'landing.features.location.description': 'Restaurantes organizados por distrito y proximidad a tu ubicación',
+      'landing.features.favorites.description': 'Guarda tus restaurantes favoritos y accede rápidamente a sus menús'
+    };
+    return translations[key] || key;
+  }
+}
 
 describe('FeaturesSectionComponent', () => {
   let component: FeaturesSectionComponent;
   let fixture: ComponentFixture<FeaturesSectionComponent>;
+  let mockI18nService: MockI18nService;
 
   beforeEach(async () => {
+    mockI18nService = new MockI18nService();
+
     await TestBed.configureTestingModule({
-      imports: [FeaturesSectionComponent, BrowserAnimationsModule]
+      imports: [FeaturesSectionComponent, BrowserAnimationsModule, TranslatePipe],
+      providers: [{ provide: I18nService, useValue: mockI18nService }]
     }).compileComponents();
 
     fixture = TestBed.createComponent(FeaturesSectionComponent);
@@ -37,10 +62,10 @@ describe('FeaturesSectionComponent', () => {
   it('should contain expected feature titles', () => {
     const titles = component.features.map((f) => f.title);
 
-    expect(titles).toContain('Búsqueda inteligente');
-    expect(titles).toContain('Ahorra tiempo');
-    expect(titles).toContain('Ubicación precisa');
-    expect(titles).toContain('Favoritos');
+    expect(titles).toContain('landing.features.smartSearch.title');
+    expect(titles).toContain('landing.features.saveTime.title');
+    expect(titles).toContain('landing.features.location.title');
+    expect(titles).toContain('landing.features.favorites.title');
   });
 
   it('should contain expected feature icons', () => {

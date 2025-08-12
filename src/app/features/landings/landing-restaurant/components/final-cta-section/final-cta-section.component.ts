@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MaterialModule } from '../../../../../shared/material.module';
+import { I18nService } from '../../../../../shared/translations';
 
 @Component({
   selector: 'app-final-cta-section',
@@ -9,6 +10,12 @@ import { MaterialModule } from '../../../../../shared/material.module';
   imports: [MaterialModule]
 })
 export class FinalCtaSectionComponent {
+  private i18n = inject(I18nService);
+
+  protected t = (key: string): string => {
+    return this.i18n.t(key);
+  };
+
   onStartFree() {}
   onContactExpert() {}
 }

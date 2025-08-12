@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { MaterialModule } from '../../material.module';
+import { I18nService } from '../../translations';
 
 @Component({
   selector: 'app-button',
@@ -10,11 +11,18 @@ import { MaterialModule } from '../../material.module';
 })
 export class ButtonComponent {
   @Input() label = '';
+  @Input() translateKey: string | null = null;
   @Input() isActive = true;
   @Input() isOutline = false;
   @Input() imageSrc: string | null = null;
   @Input() imgAlt: string | null = '';
   @Input() iconName: string | null = null;
+
+  private i18n = inject(I18nService);
+
+  protected t = (key: string): string => {
+    return this.i18n.t(key);
+  };
 
   get buttonClasses(): string {
     if (this.isActive && !this.isOutline) {

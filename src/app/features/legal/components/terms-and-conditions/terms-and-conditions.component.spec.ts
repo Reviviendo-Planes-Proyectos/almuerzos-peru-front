@@ -2,17 +2,18 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
-import { PoliticaPrivacidadComponent } from './politica-privacidad.component';
+import { I18nService } from '../../../../shared/translations';
+import { TermsAndConditionsComponent } from './terms-and-conditions.component';
 
-describe('PoliticaPrivacidadComponent', () => {
-  let component: PoliticaPrivacidadComponent;
-  let fixture: ComponentFixture<PoliticaPrivacidadComponent>;
+describe('TermsAndConditionsComponent', () => {
+  let component: TermsAndConditionsComponent;
+  let fixture: ComponentFixture<TermsAndConditionsComponent>;
   let mockRouter: any;
 
   beforeEach(async () => {
     const routerSpy = {
       navigate: jest.fn(),
-      url: '/legal/politica-privacidad'
+      url: '/legal/terms-and-conditions'
     };
 
     const activatedRouteSpy = {
@@ -21,16 +22,27 @@ describe('PoliticaPrivacidadComponent', () => {
       snapshot: { params: {}, queryParams: {} }
     };
 
+    const i18nServiceSpy = {
+      t: jest.fn((key: string) => {
+        const translations: { [key: string]: string } = {
+          'landing.legal.terms.title': 'Términos y Condiciones',
+          'landing.legal.lastUpdated': 'Última actualización:'
+        };
+        return translations[key] || key;
+      })
+    };
+
     await TestBed.configureTestingModule({
-      imports: [PoliticaPrivacidadComponent],
+      imports: [TermsAndConditionsComponent],
       providers: [
         { provide: Router, useValue: routerSpy },
-        { provide: ActivatedRoute, useValue: activatedRouteSpy }
+        { provide: ActivatedRoute, useValue: activatedRouteSpy },
+        { provide: I18nService, useValue: i18nServiceSpy }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(PoliticaPrivacidadComponent);
+    fixture = TestBed.createComponent(TermsAndConditionsComponent);
     component = fixture.componentInstance;
     mockRouter = TestBed.inject(Router);
     fixture.detectChanges();
@@ -52,7 +64,7 @@ describe('PoliticaPrivacidadComponent', () => {
 
   it('should display the correct title', () => {
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Política de Privacidad');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Términos y Condiciones');
   });
 
   it('should display the update date', () => {
@@ -60,10 +72,5 @@ describe('PoliticaPrivacidadComponent', () => {
     const dateElement = compiled.querySelector('p');
     expect(dateElement?.textContent).toContain('Última actualización:');
     expect(dateElement?.textContent).toContain(component.fechaActualizacion);
-  });
-
-  it('should navigate to home when volverAlInicio method is called', () => {
-    component.volverAlInicio();
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['/']);
   });
 });

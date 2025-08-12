@@ -3,7 +3,7 @@
   <!-- Fondo -->
   <img
     src="img/background_almuerza_peru.png"
-    alt="Fondo"
+    [attr.alt]="t('common.background')"
     class="absolute inset-0 w-full h-full object-cover opacity-100"
   />
 
@@ -12,7 +12,7 @@
     mat-icon-button
     (click)="goBack()"
     class="absolute top-4 left-4 z-50 bg-white bg-opacity-70 hover:bg-opacity-100 rounded-full shadow-md transition duration-300"
-    aria-label="Volver"
+    [attr.aria-label]="t('common.back')"
   >
     <mat-icon class="text-gray-800">arrow_back</mat-icon>
   </button>
@@ -23,12 +23,11 @@
     <div class="bg-white bg-opacity-90 rounded-xl shadow-lg p-6 w-full max-w-md flex flex-col items-center">
       <!-- Título -->
       <h1 class="text-center text-3xl font-bold text-gray-800 uppercase mb-4">
-        <span class="text-black mr-2">ALMUERZOS</span>
-        <span class="text-brand-yellow">PERÚ</span>
+        <span class="text-black mr-2">{{ t('app.name') }}</span>
       </h1>
 
       <!-- Pregunta -->
-      <p class="text-xl text-center font-semibold text-gray-700 mb-6">¿Cómo deseas ingresar?</p>
+      <p class="text-xl text-center font-semibold text-gray-700 mb-6">{{ t('auth.profileSelection.question') }}</p>
 
       <!-- Opciones -->
       <div class="grid grid-cols-2 gap-4 w-full">
@@ -37,11 +36,11 @@
           (click)="elegirTipoUsuario('restaurante')"
           class="cursor-pointer border border-gray-300 hover:border-brand-yellow rounded-lg p-4 shadow-sm hover:shadow-lg transition"
         >
-          <img src="img/trestaurante.png" alt="Restaurante" class="" />
+          <img src="img/trestaurante.png" [attr.alt]="t('auth.profileSelection.restaurant.alt')" class="" />
           <br />
-          <h3 class="font-bold text-gray-800 mb-2">Tengo mi restaurante</h3>
+          <h3 class="font-bold text-gray-800 mb-2">{{ t('auth.profileSelection.restaurant.title') }}</h3>
           <p class="text-sm text-gray-600 text-left">
-            Administra tu menú diario y haz que tus clientes encuentren tu restaurante fácilmente.
+            {{ t('auth.profileSelection.restaurant.description') }}
           </p>
         </div>
 
@@ -50,18 +49,20 @@
           (click)="elegirTipoUsuario('comensal')"
           class="cursor-pointer border border-gray-300 hover:border-brand-yellow rounded-lg p-4 shadow-sm hover:shadow-lg transition"
         >
-          <img src="img/scomensal.png" alt="Comensal" class="" />
+          <img src="img/scomensal.png" [attr.alt]="t('auth.profileSelection.diner.alt')" class="" />
           <br />
-          <h3 class="font-bold text-gray-800 mb-2">Quiero comer</h3>
+          <h3 class="font-bold text-gray-800 mb-2">{{ t('auth.profileSelection.diner.title') }}</h3>
           <p class="text-sm text-gray-600 text-left">
-            Explora los menús del día de restaurantes cerca de ti y haz tu elección rápida y fácil.
+            {{ t('auth.profileSelection.diner.description') }}
           </p>
         </div>
       </div>
 
       <!-- Opción extra -->
       <div class="mt-6">
-        <a href="#" (click)="goBack()" class="text-gray-700 hover:underline font-medium">Registrarme luego</a>
+        <a href="#" (click)="goBack()" class="text-gray-700 hover:underline font-medium">
+          {{ t('auth.profileSelection.registerLater') }}
+        </a>
       </div>
     </div>
   </div>

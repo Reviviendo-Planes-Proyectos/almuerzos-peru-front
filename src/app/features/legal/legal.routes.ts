@@ -2,17 +2,15 @@ import { Routes } from '@angular/router';
 
 export const LEGAL_ROUTES: Routes = [
   {
-    path: 'terminos-condiciones',
+    path: 'terms-and-conditions',
     loadComponent: () =>
-      import('./components/terminos-condiciones/terminos-condiciones.component').then(
-        (m) => m.TerminosCondicionesComponent
+      import('./components/terms-and-conditions/terms-and-conditions.component').then(
+        (m) => m.TermsAndConditionsComponent
       )
   },
   {
-    path: 'politica-privacidad',
+    path: 'privacy-policy',
     loadComponent: () =>
-      import('./components/politica-privacidad/politica-privacidad.component').then(
-        (m) => m.PoliticaPrivacidadComponent
-      )
+      import('./components/privacy-policy/privacy-policy.component').then((m) => m.PrivacyPolicyComponent)
   }
 ];

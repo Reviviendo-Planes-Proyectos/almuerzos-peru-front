@@ -1,0 +1,187 @@
+<div class="min-h-screen bg-gradient-to-br pt-20 from-orange-100 via-orange-50 to-orange-50">
+  <app-header></app-header>
+  <div class="container mx-auto px-4 py-8 max-w-4xl">
+    <div class="mb-8">
+      <h1 class="text-4xl font-bold text-gray-900 mb-2">{{ t('landing.legal.privacy.title') }}</h1>
+      <p class="text-gray-600">{{ t('landing.legal.lastUpdated') }} {{ fechaActualizacion }}</p>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-lg mb-8">
+      <div class="p-8">
+        <div class="space-y-8">
+          <!-- Introducción -->
+          <section>
+            <h2 class="text-2xl font-semibold text-gray-900 mb-4">
+              {{ t('landing.legal.privacy.sections.introduction.title') }}
+            </h2>
+            <p
+              class="text-gray-700 leading-relaxed"
+              [innerHTML]="t('landing.legal.privacy.sections.introduction.content')"
+            ></p>
+          </section>
+
+          <hr class="border-gray-200" />
+
+          <!-- Información que recopilamos -->
+          <section>
+            <h2 class="text-2xl font-semibold text-gray-900 mb-4">
+              {{ t('landing.legal.privacy.sections.information.title') }}
+            </h2>
+            <div class="space-y-4">
+              <div>
+                <h3 class="text-lg font-medium text-gray-800 mb-2">
+                  {{ t('landing.legal.privacy.sections.information.personal.title') }}
+                </h3>
+                <ul class="list-disc list-inside text-gray-700 space-y-1">
+                  <li>{{ t('landing.legal.privacy.sections.information.personal.items.0') }}</li>
+                  <li>{{ t('landing.legal.privacy.sections.information.personal.items.1') }}</li>
+                  <li>{{ t('landing.legal.privacy.sections.information.personal.items.2') }}</li>
+                  <li>{{ t('landing.legal.privacy.sections.information.personal.items.3') }}</li>
+                </ul>
+              </div>
+              <div>
+                <h3 class="text-lg font-medium text-gray-800 mb-2">
+                  {{ t('landing.legal.privacy.sections.information.technical.title') }}
+                </h3>
+                <ul class="list-disc list-inside text-gray-700 space-y-1">
+                  <li>{{ t('landing.legal.privacy.sections.information.technical.items.0') }}</li>
+                  <li>{{ t('landing.legal.privacy.sections.information.technical.items.1') }}</li>
+                  <li>{{ t('landing.legal.privacy.sections.information.technical.items.2') }}</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <hr class="border-gray-200" />
+
+          <!-- Uso de la información -->
+          <section>
+            <h2 class="text-2xl font-semibold text-gray-900 mb-4">
+              {{ t('landing.legal.privacy.sections.usage.title') }}
+            </h2>
+            <p class="text-gray-700 mb-3">{{ t('landing.legal.privacy.sections.usage.intro') }}</p>
+            <ul class="list-disc list-inside text-gray-700 space-y-1">
+              <li>{{ t('landing.legal.privacy.sections.usage.items.0') }}</li>
+              <li>{{ t('landing.legal.privacy.sections.usage.items.1') }}</li>
+              <li>{{ t('landing.legal.privacy.sections.usage.items.2') }}</li>
+              <li>{{ t('landing.legal.privacy.sections.usage.items.3') }}</li>
+              <li>{{ t('landing.legal.privacy.sections.usage.items.4') }}</li>
+              <li>{{ t('landing.legal.privacy.sections.usage.items.5') }}</li>
+            </ul>
+          </section>
+
+          <hr class="border-gray-200" />
+
+          <!-- Compartir información -->
+          <section>
+            <h2 class="text-2xl font-semibold text-gray-900 mb-4">
+              {{ t('landing.legal.privacy.sections.sharing.title') }}
+            </h2>
+            <p class="text-gray-700 mb-3">{{ t('landing.legal.privacy.sections.sharing.intro') }}</p>
+            <ul class="list-disc list-inside text-gray-700 space-y-1">
+              <li>{{ t('landing.legal.privacy.sections.sharing.items.0') }}</li>
+              <li>{{ t('landing.legal.privacy.sections.sharing.items.1') }}</li>
+              <li>{{ t('landing.legal.privacy.sections.sharing.items.2') }}</li>
+            </ul>
+            <p class="text-gray-700 mt-3" [innerHTML]="t('landing.legal.privacy.sections.sharing.notice')"></p>
+          </section>
+
+          <hr class="border-gray-200" />
+
+          <!-- Seguridad -->
+          <section>
+            <h2 class="text-2xl font-semibold text-gray-900 mb-4">
+              {{ t('landing.legal.privacy.sections.security.title') }}
+            </h2>
+            <p class="text-gray-700">
+              {{ t('landing.legal.privacy.sections.security.content') }}
+            </p>
+          </section>
+
+          <hr class="border-gray-200" />
+
+          <!-- Derechos del usuario -->
+          <section>
+            <h2 class="text-2xl font-semibold text-gray-900 mb-4">
+              {{ t('landing.legal.privacy.sections.rights.title') }}
+            </h2>
+            <p class="text-gray-700 mb-3">{{ t('landing.legal.privacy.sections.rights.intro') }}</p>
+            <ul class="list-disc list-inside text-gray-700 space-y-1">
+              <li>{{ t('landing.legal.privacy.sections.rights.items.0') }}</li>
+              <li>{{ t('landing.legal.privacy.sections.rights.items.1') }}</li>
+              <li>{{ t('landing.legal.privacy.sections.rights.items.2') }}</li>
+              <li>{{ t('landing.legal.privacy.sections.rights.items.3') }}</li>
+              <li>{{ t('landing.legal.privacy.sections.rights.items.4') }}</li>
+              <li>{{ t('landing.legal.privacy.sections.rights.items.5') }}</li>
+            </ul>
+          </section>
+
+          <hr class="border-gray-200" />
+
+          <!-- Cookies -->
+          <section>
+            <h2 class="text-2xl font-semibold text-gray-900 mb-4">
+              {{ t('landing.legal.privacy.sections.cookies.title') }}
+            </h2>
+            <p class="text-gray-700">
+              {{ t('landing.legal.privacy.sections.cookies.content') }}
+            </p>
+          </section>
+
+          <hr class="border-gray-200" />
+
+          <!-- Contacto -->
+          <section>
+            <h2 class="text-2xl font-semibold text-gray-900 mb-4">
+              {{ t('landing.legal.privacy.sections.contact.title') }}
+            </h2>
+            <p class="text-gray-700 mb-4">
+              {{ t('landing.legal.privacy.sections.contact.intro') }}
+            </p>
+            <div class="space-y-2">
+              <div class="flex items-center text-gray-700">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 8l7.89 4.947a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  ></path>
+                </svg>
+                <span>{{ t('landing.legal.privacy.sections.contact.email') }}</span>
+              </div>
+              <div class="flex items-center text-gray-700">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                  ></path>
+                </svg>
+                <span>{{ t('landing.legal.privacy.sections.contact.phone') }}</span>
+              </div>
+              <div class="flex items-center text-gray-700">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                  ></path>
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                  ></path>
+                </svg>
+                <span>{{ t('landing.legal.privacy.sections.contact.address') }}</span>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

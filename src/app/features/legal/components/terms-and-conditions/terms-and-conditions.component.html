@@ -1,0 +1,282 @@
+<div class="min-h-screen bg-gradient-to-br from-yellow-50 via-orange-50 to-red-50 pt-20">
+  <app-header></app-header>
+  <div class="container mx-auto px-4 py-8 max-w-4xl">
+    <div class="mb-8">
+      <h1 class="text-4xl font-bold text-gray-900 mb-2">{{ t('landing.legal.terms.title') }}</h1>
+      <p class="text-gray-600">{{ t('landing.legal.lastUpdated') }} {{ fechaActualizacion }}</p>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-lg mb-8">
+      <div class="p-8">
+        <div class="space-y-8">
+          <!-- Introducción -->
+          <section>
+            <h2 class="text-2xl font-semibold text-gray-900 mb-4">
+              {{ t('landing.legal.terms.sections.acceptance.title') }}
+            </h2>
+            <p
+              class="text-gray-700 leading-relaxed"
+              [innerHTML]="t('landing.legal.terms.sections.acceptance.content')"
+            ></p>
+          </section>
+
+          <hr class="border-gray-200" />
+
+          <!-- Servicios -->
+          <section>
+            <h2 class="text-2xl font-semibold text-gray-900 mb-4">
+              {{ t('landing.legal.terms.sections.services.title') }}
+            </h2>
+            <div class="grid md:grid-cols-2 gap-4 mb-4">
+              <div class="p-4 border border-gray-200 rounded-lg">
+                <h3 class="font-semibold text-gray-800 mb-2">
+                  {{ t('landing.legal.terms.sections.services.restaurant.title') }}
+                </h3>
+                <p class="text-sm text-gray-600">
+                  {{ t('landing.legal.terms.sections.services.restaurant.description') }}
+                </p>
+              </div>
+              <div class="p-4 border border-gray-200 rounded-lg">
+                <h3 class="font-semibold text-gray-800 mb-2">
+                  {{ t('landing.legal.terms.sections.services.delivery.title') }}
+                </h3>
+                <p class="text-sm text-gray-600">
+                  {{ t('landing.legal.terms.sections.services.delivery.description') }}
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <hr class="border-gray-200" />
+
+          <!-- Pedidos y pagos -->
+          <section>
+            <h2 class="text-2xl font-semibold text-gray-900 mb-4">
+              {{ t('landing.legal.terms.sections.orders.title') }}
+            </h2>
+            <div class="space-y-4">
+              <div>
+                <h3 class="text-lg font-medium text-gray-800 mb-2">
+                  {{ t('landing.legal.terms.sections.orders.ordering.title') }}
+                </h3>
+                <ul class="list-disc list-inside text-gray-700 space-y-1">
+                  <li>{{ t('landing.legal.terms.sections.orders.ordering.items.0') }}</li>
+                  <li>{{ t('landing.legal.terms.sections.orders.ordering.items.1') }}</li>
+                  <li>{{ t('landing.legal.terms.sections.orders.ordering.items.2') }}</li>
+                  <li>{{ t('landing.legal.terms.sections.orders.ordering.items.3') }}</li>
+                </ul>
+              </div>
+              <div>
+                <h3 class="text-lg font-medium text-gray-800 mb-2">
+                  {{ t('landing.legal.terms.sections.orders.payment.title') }}
+                </h3>
+                <div class="flex flex-wrap gap-2 mb-2">
+                  <span
+                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800"
+                  >
+                    {{ t('landing.legal.terms.sections.orders.payment.methods.0') }}
+                  </span>
+                  <span
+                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800"
+                  >
+                    {{ t('landing.legal.terms.sections.orders.payment.methods.1') }}
+                  </span>
+                  <span
+                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800"
+                  >
+                    {{ t('landing.legal.terms.sections.orders.payment.methods.2') }}
+                  </span>
+                  <span
+                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800"
+                  >
+                    {{ t('landing.legal.terms.sections.orders.payment.methods.3') }}
+                  </span>
+                  <span
+                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800"
+                  >
+                    {{ t('landing.legal.terms.sections.orders.payment.methods.4') }}
+                  </span>
+                </div>
+                <p class="text-gray-700">
+                  {{ t('landing.legal.terms.sections.orders.payment.notice') }}
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <hr class="border-gray-200" />
+
+          <!-- Entrega -->
+          <section>
+            <h2 class="text-2xl font-semibold text-gray-900 mb-4">
+              {{ t('landing.legal.terms.sections.delivery.title') }}
+            </h2>
+            <div class="bg-orange-50 p-4 rounded-lg mb-4">
+              <div class="flex items-center mb-2">
+                <svg class="w-4 h-4 mr-2 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                  ></path>
+                </svg>
+                <span class="font-medium text-orange-800">
+                  {{ t('landing.legal.terms.sections.delivery.schedule.title') }}
+                </span>
+              </div>
+              <p class="text-orange-700 text-sm">{{ t('landing.legal.terms.sections.delivery.schedule.time') }}</p>
+            </div>
+            <ul class="list-disc list-inside text-gray-700 space-y-1">
+              <li>{{ t('landing.legal.terms.sections.delivery.conditions.0') }}</li>
+              <li>{{ t('landing.legal.terms.sections.delivery.conditions.1') }}</li>
+              <li>{{ t('landing.legal.terms.sections.delivery.conditions.2') }}</li>
+              <li>{{ t('landing.legal.terms.sections.delivery.conditions.3') }}</li>
+            </ul>
+          </section>
+
+          <hr class="border-gray-200" />
+
+          <!-- Cancelaciones -->
+          <section>
+            <h2 class="text-2xl font-semibold text-gray-900 mb-4">
+              {{ t('landing.legal.terms.sections.cancellations.title') }}
+            </h2>
+            <div class="space-y-4">
+              <div>
+                <h3 class="text-lg font-medium text-gray-800 mb-2">
+                  {{ t('landing.legal.terms.sections.cancellations.cancellation.title') }}
+                </h3>
+                <ul class="list-disc list-inside text-gray-700 space-y-1">
+                  <li>{{ t('landing.legal.terms.sections.cancellations.cancellation.items.0') }}</li>
+                  <li>{{ t('landing.legal.terms.sections.cancellations.cancellation.items.1') }}</li>
+                  <li>{{ t('landing.legal.terms.sections.cancellations.cancellation.items.2') }}</li>
+                </ul>
+              </div>
+              <div>
+                <h3 class="text-lg font-medium text-gray-800 mb-2">
+                  {{ t('landing.legal.terms.sections.cancellations.refunds.title') }}
+                </h3>
+                <ul class="list-disc list-inside text-gray-700 space-y-1">
+                  <li>{{ t('landing.legal.terms.sections.cancellations.refunds.items.0') }}</li>
+                  <li>{{ t('landing.legal.terms.sections.cancellations.refunds.items.1') }}</li>
+                  <li>{{ t('landing.legal.terms.sections.cancellations.refunds.items.2') }}</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <hr class="border-gray-200" />
+
+          <!-- Calidad y seguridad -->
+          <section>
+            <h2 class="text-2xl font-semibold text-gray-900 mb-4">
+              {{ t('landing.legal.terms.sections.quality.title') }}
+            </h2>
+            <ul class="list-disc list-inside text-gray-700 space-y-1">
+              <li>{{ t('landing.legal.terms.sections.quality.items.0') }}</li>
+              <li>{{ t('landing.legal.terms.sections.quality.items.1') }}</li>
+              <li>{{ t('landing.legal.terms.sections.quality.items.2') }}</li>
+              <li>{{ t('landing.legal.terms.sections.quality.items.3') }}</li>
+              <li>{{ t('landing.legal.terms.sections.quality.items.4') }}</li>
+            </ul>
+          </section>
+
+          <hr class="border-gray-200" />
+
+          <!-- Comportamiento del cliente -->
+          <section>
+            <h2 class="text-2xl font-semibold text-gray-900 mb-4">
+              {{ t('landing.legal.terms.sections.behavior.title') }}
+            </h2>
+            <p class="text-gray-700 mb-3">{{ t('landing.legal.terms.sections.behavior.intro') }}</p>
+            <ul class="list-disc list-inside text-gray-700 space-y-1">
+              <li>{{ t('landing.legal.terms.sections.behavior.items.0') }}</li>
+              <li>{{ t('landing.legal.terms.sections.behavior.items.1') }}</li>
+              <li>{{ t('landing.legal.terms.sections.behavior.items.2') }}</li>
+              <li>{{ t('landing.legal.terms.sections.behavior.items.3') }}</li>
+            </ul>
+            <p class="text-gray-700 mt-3">
+              {{ t('landing.legal.terms.sections.behavior.notice') }}
+            </p>
+          </section>
+
+          <hr class="border-gray-200" />
+
+          <!-- Limitación de responsabilidad -->
+          <section>
+            <h2 class="text-2xl font-semibold text-gray-900 mb-4">
+              {{ t('landing.legal.terms.sections.liability.title') }}
+            </h2>
+            <p class="text-gray-700">
+              {{ t('landing.legal.terms.sections.liability.content') }}
+            </p>
+          </section>
+
+          <hr class="border-gray-200" />
+
+          <!-- Modificaciones -->
+          <section>
+            <h2 class="text-2xl font-semibold text-gray-900 mb-4">
+              {{ t('landing.legal.terms.sections.modifications.title') }}
+            </h2>
+            <p class="text-gray-700">
+              {{ t('landing.legal.terms.sections.modifications.content') }}
+            </p>
+          </section>
+
+          <hr class="border-gray-200" />
+
+          <!-- Contacto -->
+          <section>
+            <h2 class="text-2xl font-semibold text-gray-900 mb-4">
+              {{ t('landing.legal.terms.sections.contact.title') }}
+            </h2>
+            <p class="text-gray-700 mb-4">{{ t('landing.legal.terms.sections.contact.intro') }}</p>
+            <div class="space-y-2">
+              <div class="flex items-center text-gray-700">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 8l7.89 4.947a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  ></path>
+                </svg>
+                <span>{{ t('landing.legal.terms.sections.contact.email') }}</span>
+              </div>
+              <div class="flex items-center text-gray-700">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                  ></path>
+                </svg>
+                <span>{{ t('landing.legal.terms.sections.contact.phone') }}</span>
+              </div>
+              <div class="flex items-center text-gray-700">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                  ></path>
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                  ></path>
+                </svg>
+                <span>{{ t('landing.legal.terms.sections.contact.address') }}</span>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
