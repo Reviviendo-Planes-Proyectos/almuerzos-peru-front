@@ -155,7 +155,6 @@ describe('HeaderComponent', () => {
   });
 
   it('should handle window scroll event', () => {
-    // Mock window.scrollY
     Object.defineProperty(window, 'scrollY', { value: 100, writable: true });
 
     component.onWindowScroll();

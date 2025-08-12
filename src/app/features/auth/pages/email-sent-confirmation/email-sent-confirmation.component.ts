@@ -1,8 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { BackButtonComponent } from '../../../../shared/components/back-button/back-button.component';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
-import { I18nService } from '../../../../shared/i18n';
+import { BaseTranslatableComponent } from '../../../../shared/i18n';
 import { MaterialModule } from '../../../../shared/material.module';
 
 @Component({
@@ -12,15 +12,12 @@ import { MaterialModule } from '../../../../shared/material.module';
   templateUrl: './email-sent-confirmation.component.html',
   styleUrls: ['./email-sent-confirmation.component.scss']
 })
-export class EmailSentConfirmationComponent {
-  private i18n = inject(I18nService);
+export class EmailSentConfirmationComponent extends BaseTranslatableComponent {
   isLoading = false;
 
-  constructor(private router: Router) {}
-
-  protected t = (key: string): string => {
-    return this.i18n.t(key);
-  };
+  constructor(private router: Router) {
+    super();
+  }
 
   goToLogin(): void {
     this.router.navigate(['auth/login']);

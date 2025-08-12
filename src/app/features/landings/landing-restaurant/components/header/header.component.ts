@@ -1,7 +1,7 @@
-import { Component, HostListener, inject } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ButtonComponent } from '../../../../../shared/components/button/button.component';
-import { I18nService } from '../../../../../shared/i18n';
+import { BaseTranslatableComponent } from '../../../../../shared/i18n';
 import { MaterialModule } from '../../../../../shared/material.module';
 
 @Component({
@@ -11,18 +11,15 @@ import { MaterialModule } from '../../../../../shared/material.module';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent {
+export class HeaderComponent extends BaseTranslatableComponent {
   isScrolled = false;
-  private i18n = inject(I18nService);
 
   constructor(
     public router: Router,
     private route: ActivatedRoute
-  ) {}
-
-  protected t = (key: string): string => {
-    return this.i18n.t(key);
-  };
+  ) {
+    super();
+  }
 
   @HostListener('window:scroll', [])
   onWindowScroll() {

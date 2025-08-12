@@ -1,3 +1,18 @@
+// Centrado perfecto de iconos en features
+.feature-icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+.feature-icon-container .feature-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.8rem;
+  height: 1.8rem;
+  font-size: 1.8rem;
+}
 .features-section {
   background: rgba(255, 255, 255, 0.5); // Tailwind bg-white/50 equivalente pero mantenemos para compatibilidad
 }

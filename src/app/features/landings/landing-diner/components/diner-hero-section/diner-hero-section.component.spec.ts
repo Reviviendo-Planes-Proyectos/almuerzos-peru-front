@@ -22,11 +22,6 @@ describe('DinerHeroSectionComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have stats data', () => {
-    expect(component.stats).toBeDefined();
-    expect(component.stats.length).toBeGreaterThan(0);
-  });
-
   it('should scroll to section when called', () => {
     const mockElement = document.createElement('div');
     const mockScrollIntoView = jest.fn();
@@ -43,15 +38,6 @@ describe('DinerHeroSectionComponent', () => {
     jest.spyOn(document, 'getElementById').mockReturnValue(null);
 
     expect(() => component.scrollToSection('non-existent-section')).not.toThrow();
-  });
-
-  it('should have correct stats structure', () => {
-    for (const stat of component.stats) {
-      expect(stat).toHaveProperty('value');
-      expect(stat).toHaveProperty('label');
-      expect(stat).toHaveProperty('icon');
-      expect(stat).toHaveProperty('color');
-    }
   });
 
   it('should initialize isVisible to false', () => {

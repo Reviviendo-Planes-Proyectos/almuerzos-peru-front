@@ -1,5 +1,5 @@
-import { Component, inject } from '@angular/core';
-import { I18nService } from '../../../../../shared/i18n';
+import { Component } from '@angular/core';
+import { BaseTranslatableComponent } from '../../../../../shared/i18n';
 import { MaterialModule } from '../../../../../shared/material.module';
 
 enum StepId {
@@ -15,13 +15,7 @@ enum StepId {
   templateUrl: './how-it-works-section.component.html',
   styleUrls: ['./how-it-works-section.component.scss']
 })
-export class HowItWorksSectionComponent {
-  private i18n = inject(I18nService);
-
-  protected t = (key: string): string => {
-    return this.i18n.t(key);
-  };
-
+export class HowItWorksSectionComponent extends BaseTranslatableComponent {
   get steps() {
     return [
       {

@@ -36,4 +36,27 @@ describe('AUTH_ROUTES', () => {
     const loadedComponent = await profileSelectionRoute?.loadComponent?.();
     expect(loadedComponent).toBeTruthy();
   });
+
+  it('should define email-sent-confirmation route correctly', async () => {
+    const emailSentRoute = AUTH_ROUTES.find((route) => route.path === 'email-sent-confirmation');
+    expect(emailSentRoute).toBeTruthy();
+    expect(emailSentRoute?.loadComponent).toBeDefined();
+
+    const loadedComponent = await emailSentRoute?.loadComponent?.();
+    expect(loadedComponent).toBeTruthy();
+  });
+
+  it('should have correct number of routes', () => {
+    expect(AUTH_ROUTES).toHaveLength(5);
+  });
+
+  it('should have all expected route paths', () => {
+    const expectedPaths = ['login', 'register', 'forgot-password', 'profile-selection', 'email-sent-confirmation'];
+
+    const actualPaths = AUTH_ROUTES.map((route) => route.path);
+
+    for (const path of expectedPaths) {
+      expect(actualPaths).toContain(path);
+    }
+  });
 });

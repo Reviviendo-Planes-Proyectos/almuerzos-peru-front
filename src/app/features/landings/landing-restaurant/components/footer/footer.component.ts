@@ -1,6 +1,6 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { I18nService } from '../../../../../shared/i18n';
+import { BaseTranslatableComponent } from '../../../../../shared/i18n';
 import { MaterialModule } from '../../../../../shared/material.module';
 
 @Component({
@@ -10,14 +10,10 @@ import { MaterialModule } from '../../../../../shared/material.module';
   standalone: true,
   imports: [MaterialModule]
 })
-export class FooterComponent {
-  private i18n = inject(I18nService);
-
-  constructor(private router: Router) {}
-
-  protected t = (key: string): string => {
-    return this.i18n.t(key);
-  };
+export class FooterComponent extends BaseTranslatableComponent {
+  constructor(private router: Router) {
+    super();
+  }
 
   private getCurrentLandingType(): string {
     const currentUrl = this.router.url;
@@ -42,5 +38,13 @@ export class FooterComponent {
     this.router.navigate(['/legal/privacy-policy'], {
       queryParams: { from: fromLanding }
     });
+  }
+
+  get isDinerLanding(): boolean {
+    return this.getCurrentLandingType() === 'diner';
+  }
+
+  get isRestaurantLanding(): boolean {
+    return this.getCurrentLandingType() === 'restaurant';
   }
 }

@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
-import { TranslatePipe } from '../../../../../shared/i18n';
+import { BaseTranslatableComponent } from '../../../../../shared/i18n';
 import { MaterialModule } from '../../../../../shared/material.module';
 
 @Component({
   selector: 'app-features-section',
   standalone: true,
-  imports: [MaterialModule, TranslatePipe],
+  imports: [MaterialModule],
   templateUrl: './features-section.component.html',
   styleUrls: ['./features-section.component.scss']
 })
-export class FeaturesSectionComponent {
+export class FeaturesSectionComponent extends BaseTranslatableComponent {
   features = [
     {
       icon: 'search',

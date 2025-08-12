@@ -1,7 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { BackButtonComponent } from '../../../../shared/components/back-button/back-button.component';
-import { I18nService } from '../../../../shared/i18n';
+import { BaseTranslatableComponent } from '../../../../shared/i18n';
 import { MaterialModule } from '../../../../shared/material.module';
 import { LoggerService } from '../../../../shared/services/logger/logger.service';
 
@@ -12,17 +12,13 @@ import { LoggerService } from '../../../../shared/services/logger/logger.service
   templateUrl: './profile-selection.component.html',
   styleUrl: './profile-selection.component.scss'
 })
-export class ProfileSelectionComponent {
-  private i18n = inject(I18nService);
-
+export class ProfileSelectionComponent extends BaseTranslatableComponent {
   constructor(
     public router: Router,
     public readonly logger: LoggerService
-  ) {}
-
-  protected t = (key: string): string => {
-    return this.i18n.t(key);
-  };
+  ) {
+    super();
+  }
 
   goToLogin(tipo: 'restaurante' | 'comensal'): void {
     this.logger.info('Tipo de usuario seleccionado:', tipo);
