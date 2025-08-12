@@ -215,6 +215,7 @@
         "subtitle": "Elige el plan perfecto para llevar tu restaurante al siguiente nivel",
         "limitedOffer": "¡Oferta limitada!",
         "annualDiscount": "20% de descuento en planes anuales",
+        "swipeToView": "Desliza para ver todos los planes",
         "paymentMethods": {
           "title": "Acepta pagos con:",
           "yape": "Yape",
@@ -280,11 +281,13 @@
             "period": "Para siempre",
             "button": "Comenzar Gratis",
             "features": {
-              "menuBasic": "Menú digital básico con hasta 5 cartas",
+              "menuBasic": "Menú digital básico",
               "dishes": "Hasta 20 platos",
+              "cards": "Hasta con 5 cartas",
+              "promotions": "Hasta 5 promociones diarias",
               "whatsapp": "Compartir por WhatsApp",
               "realTime": "Actualizaciones en tiempo real",
-              "support": "Soporte por email. Hasta 5 promociones diarias"
+              "support": "Soporte por email"
             }
           },
           "premium": {
@@ -294,7 +297,7 @@
               "menuCustom": "Menú digital personalizado",
               "dishesUnlimited": "Platos ilimitados",
               "cardsUnlimited": "Cartas ilimitadas",
-              "reports": "Reportes de rendimiento",
+              "reports": "Reportes e informes",
               "support24": "Soporte premium 24/7",
               "promotionsUnlimited": "Promociones ilimitadas"
             }

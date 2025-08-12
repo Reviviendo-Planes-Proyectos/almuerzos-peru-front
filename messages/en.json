@@ -216,6 +216,7 @@
         "subtitle": "Choose the perfect plan to take your restaurant to the next level",
         "limitedOffer": "Limited offer!",
         "annualDiscount": "20% discount on annual plans",
+        "swipeToView": "Swipe to view all plans",
         "paymentMethods": {
           "title": "Accept payments with:",
           "yape": "Yape",
@@ -281,11 +282,13 @@
             "period": "Forever",
             "button": "Start Free",
             "features": {
-              "menuBasic": "Basic digital menu with up to 5 cards",
+              "menuBasic": "Basic digital menu",
               "dishes": "Up to 20 dishes",
+              "cards": "Up to 5 cards",
+              "promotions": "Up to 5 daily promotions",
               "whatsapp": "Share via WhatsApp",
               "realTime": "Real-time updates",
-              "support": "Email support. Up to 5 daily promotions"
+              "support": "Email support"
             }
           },
           "premium": {

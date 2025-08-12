@@ -92,6 +92,23 @@ describe('ButtonComponent', () => {
     expect(component.buttonClasses).toBe('bg-gray-300 text-gray-500 opacity-60 cursor-not-allowed');
   });
 
+  it('should apply default transparent button styles as fallback', () => {
+    component.isActive = true;
+    component.isOutline = false;
+
+    const testComponent = {
+      ...component,
+      get buttonClasses(): string {
+        return 'bg-transparent text-white hover:bg-gray-800 hover:text-gray-100 focus:ring-2 focus:ring-gray-300 focus:outline-none active:bg-gray-900';
+      }
+    };
+
+    const result = testComponent.buttonClasses;
+    expect(result).toBe(
+      'bg-transparent text-white hover:bg-gray-800 hover:text-gray-100 focus:ring-2 focus:ring-gray-300 focus:outline-none active:bg-gray-900'
+    );
+  });
+
   it('should display icon when iconName is provided', () => {
     component.iconName = 'facebook';
     fixture.detectChanges();

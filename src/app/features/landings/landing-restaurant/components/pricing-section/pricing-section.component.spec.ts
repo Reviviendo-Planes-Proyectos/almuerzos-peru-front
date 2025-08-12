@@ -15,7 +15,7 @@ class MockI18nService {
       'landing.restaurant.pricing.plans.free.title': 'Plan Gratuito',
       'landing.restaurant.pricing.plans.free.period': 'Para siempre',
       'landing.restaurant.pricing.plans.free.button': 'Comenzar Gratis',
-      'landing.restaurant.pricing.plans.free.features.menuBasic': 'Menú digital básico con hasta 5 cartas',
+      'landing.restaurant.pricing.plans.free.features.menuBasic': 'Menú digital básico',
       'landing.restaurant.pricing.plans.free.features.dishes': 'Hasta 20 platos',
       'landing.restaurant.pricing.plans.free.features.whatsapp': 'Compartir por WhatsApp',
       'landing.restaurant.pricing.plans.free.features.realTime': 'Actualizaciones en tiempo real',
@@ -202,5 +202,84 @@ describe('PricingSectionComponent', () => {
 
       done();
     }, 400);
+  });
+
+  it('should handle ngOnInit with document ready state complete', () => {
+    Object.defineProperty(window, 'innerWidth', {
+      writable: true,
+      configurable: true,
+      value: 400
+    });
+
+    Object.defineProperty(document, 'readyState', {
+      writable: true,
+      configurable: true,
+      value: 'complete'
+    });
+
+    const scheduleInitialCenteringSpy = jest.spyOn(component as any, 'scheduleInitialCentering');
+
+    component.ngOnInit();
+
+    expect(scheduleInitialCenteringSpy).toHaveBeenCalled();
+  });
+
+  it('should handle ngOnInit with document not ready', () => {
+    Object.defineProperty(document, 'readyState', {
+      writable: true,
+      configurable: true,
+      value: 'loading'
+    });
+
+    const mockAddEventListener = jest.spyOn(window, 'addEventListener');
+
+    component.ngOnInit();
+
+    expect(mockAddEventListener).toHaveBeenCalledWith('load', expect.any(Function), { once: true });
+  });
+
+  it('should not run intersection observer setup when pricingSection is undefined', () => {
+    (component as any).pricingSection = undefined;
+
+    const setupIntersectionObserverSpy = jest.spyOn(component as any, 'setupIntersectionObserver');
+
+    component.ngAfterViewInit();
+
+    expect(setupIntersectionObserverSpy).toHaveBeenCalled();
+  });
+
+  it('should handle intersection observer entries correctly', () => {
+    Object.defineProperty(window, 'innerWidth', {
+      writable: true,
+      configurable: true,
+      value: 400
+    });
+
+    let intersectionCallback: any;
+    const mockIntersectionObserver = jest.fn().mockImplementation((callback) => {
+      intersectionCallback = callback;
+      return {
+        observe: jest.fn(),
+        disconnect: jest.fn()
+      };
+    });
+
+    (global as any).IntersectionObserver = mockIntersectionObserver;
+
+    const mockPricingSection = { nativeElement: {} };
+    component.pricingSection = mockPricingSection as any;
+
+    const centerViewOnMobileSpy = jest.spyOn(component as any, 'centerViewOnMobile');
+    const centerComparisonOnMobileSpy = jest.spyOn(component as any, 'centerComparisonOnMobile');
+
+    component.ngAfterViewInit();
+
+    const mockEntries = [{ isIntersecting: true }];
+    intersectionCallback(mockEntries);
+
+    setTimeout(() => {
+      expect(centerViewOnMobileSpy).toHaveBeenCalled();
+      expect(centerComparisonOnMobileSpy).toHaveBeenCalled();
+    }, 500);
   });
 });

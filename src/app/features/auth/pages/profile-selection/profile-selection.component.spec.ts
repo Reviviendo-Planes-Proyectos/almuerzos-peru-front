@@ -99,13 +99,19 @@ describe('ProfileSelectionComponent', () => {
     expect(backButton.nativeElement.getAttribute('aria-label')).toBe('Volver');
   });
 
-  it('should navigate to login when goToLogin is called with restaurante', () => {
+  it('should navigate to auth/login when goToLogin is called with restaurante', () => {
     component.goToLogin('restaurante');
     expect(mockRouter.navigate).toHaveBeenCalledWith(['auth/login']);
   });
 
-  it('should navigate to login when goToLogin is called with comensal', () => {
+  it('should navigate to auth/login when goToLogin is called with comensal', () => {
     component.goToLogin('comensal');
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['auth/login']);
+  });
+
+  it('should navigate to auth/login when register later button is clicked', () => {
+    const registerLaterButton = debugElement.query(By.css('.mt-6 button'));
+    registerLaterButton.nativeElement.click();
     expect(mockRouter.navigate).toHaveBeenCalledWith(['auth/login']);
   });
 

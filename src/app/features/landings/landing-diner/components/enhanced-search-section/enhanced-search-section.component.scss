@@ -39,7 +39,6 @@
   }
 }
 
-// Mantenemos los estilos para Material Angular que no se pueden reemplazar con Tailwind
 .search-card {
   &:hover {
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
@@ -60,115 +59,6 @@
   }
 }
 
-// Material Form Field Styles - Estos estilos ::ng-deep no se pueden reemplazar con Tailwind
-.location-input {
-  ::ng-deep .mat-mdc-form-field {
-    width: 100%;
-  }
-
-  ::ng-deep .mat-mdc-text-field-wrapper {
-    background: white;
-    border-radius: 1rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    border: 2px solid #f3f4f6;
-    transition: all 0.3s ease;
-    overflow: hidden;
-
-    &:hover {
-      border-color: #f59e0b;
-      box-shadow: 0 6px 20px rgba(245, 158, 11, 0.15);
-      transform: translateY(-1px);
-    }
-
-    &.mdc-text-field--focused {
-      border-color: #f59e0b;
-      box-shadow: 0 8px 25px rgba(245, 158, 11, 0.25);
-      transform: translateY(-2px);
-    }
-  }
-
-  ::ng-deep .mat-mdc-form-field-flex {
-    padding-left: 3rem !important;
-    padding-right: 1rem !important;
-    align-items: center;
-    min-height: 3.5rem;
-
-    @media (min-width: 768px) {
-      min-height: 4rem;
-    }
-  }
-
-  ::ng-deep .mat-mdc-form-field-infix {
-    padding: 1rem 0 !important;
-    border: none !important;
-    min-height: auto !important;
-  }
-
-  ::ng-deep .mat-mdc-form-field-label {
-    color: #9ca3af !important;
-    font-weight: 500 !important;
-    font-size: 1rem !important;
-    top: 50% !important;
-    transform: translateY(-50%) !important;
-
-    &.mdc-floating-label--float-above {
-      transform: translateY(-1.5rem) scale(0.75) !important;
-      color: #f59e0b !important;
-    }
-  }
-
-  ::ng-deep input {
-    font-size: 1rem !important;
-    color: #1f2937 !important;
-    font-weight: 500 !important;
-    padding: 0 !important;
-    border: none !important;
-    outline: none !important;
-    background: transparent !important;
-
-    @media (min-width: 768px) {
-      font-size: 1.125rem !important;
-    }
-
-    &::placeholder {
-      color: #9ca3af !important;
-      font-weight: 400 !important;
-    }
-  }
-
-  ::ng-deep .mat-mdc-form-field-hint {
-    color: #6b7280 !important;
-    font-size: 0.75rem !important;
-    font-weight: 400 !important;
-    margin-top: 0.5rem !important;
-    padding-left: 0.5rem !important;
-
-    @media (min-width: 768px) {
-      font-size: 0.875rem !important;
-    }
-  }
-
-  ::ng-deep .mat-mdc-form-field-suffix {
-    color: #f59e0b !important;
-    margin-left: 0.5rem !important;
-  }
-
-  ::ng-deep .mat-mdc-form-field-subscript-wrapper {
-    padding: 0 !important;
-    margin-top: 0.25rem !important;
-  }
-
-  // Remove outline
-  ::ng-deep .mdc-notched-outline {
-    display: none !important;
-  }
-
-  ::ng-deep .mat-mdc-form-field-focus-overlay {
-    display: none !important;
-  }
-}
-
-// Estilos específicos para efectos hover y animaciones que no se pueden replicar con Tailwind
 .action-btn {
   &.location-btn {
     background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(99, 102, 241, 0.1));
@@ -195,7 +85,6 @@
   }
 }
 
-// Search Button - Efectos especiales no disponibles en Tailwind
 .search-button {
   &:before {
     content: '';
@@ -225,29 +114,15 @@
   }
 }
 
-// Estilos específicos para estadísticas con colores que no se pueden hacer fácilmente con Tailwind
 .stat-value {
   &:nth-child(3n-2) {
     color: #ff6b00;
   }
-
   &:nth-child(3n-1) {
     color: #2563eb;
   }
-
   &:nth-child(3n) {
     color: #16a34a;
-  }
-}
-
-// Animaciones que no se pueden replicar fácilmente con Tailwind
-@keyframes pulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
   }
 }
 
@@ -262,7 +137,6 @@
   }
 }
 
-// Clase de animación personalizada
 .animate-fade-in-up {
   animation: fadeInUp 0.3s ease-out;
 }
