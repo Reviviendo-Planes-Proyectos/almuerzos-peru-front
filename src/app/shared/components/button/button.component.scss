@@ -8,6 +8,44 @@
   }
 }
 
-button:hover {
+button:not(:disabled):hover {
   animation: blink 0.7s linear infinite;
+}
+
+button:disabled {
+  background-color: #d1d5db !important;
+  color: #9ca3af !important;
+  opacity: 0.6 !important;
+  transform: none !important;
+  box-shadow: none !important;
+
+  &:hover {
+    animation: none !important;
+    transform: none !important;
+    background-color: #d1d5db !important;
+  }
+
+  .material-icons {
+    color: #9ca3af !important;
+  }
+}
+
+button:not(:disabled) {
+  &.bg-yellow-500 {
+    background-color: #eab308;
+    color: white;
+
+    &:hover {
+      background-color: #d97706;
+    }
+
+    &:active {
+      background-color: #b45309;
+    }
+  }
+
+  &.bg-gray-300 {
+    background-color: #d1d5db;
+    color: #9ca3af;
+  }
 }

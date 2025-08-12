@@ -17,7 +17,7 @@ class MockI18nService {
       'auth.register.title': 'Crear Cuenta',
       'auth.register.button': 'Continuar',
       'auth.register.email': 'Correo',
-      'auth.register.later': 'REGISTRARSE DESPUÉS',
+      'auth.register.later': 'Registrarse después',
       'auth.register.withGoogle': 'Continuar con Google',
       'auth.register.withFacebook': 'Continuar con Facebook',
       'auth.register.withEmail': 'Continuar con Correo',
@@ -93,9 +93,9 @@ describe('RegisterComponent', () => {
     expect(separatorElement.nativeElement.textContent.trim()).toBe('O');
   });
 
-  it('should display "REGISTRARSE DESPUÉS" link', () => {
+  it('should display "Registrarse después" link', () => {
     const linkElement = debugElement.query(By.css('button.text-purple-700'));
-    expect(linkElement.nativeElement.textContent.trim()).toBe('REGISTRARSE DESPUÉS');
+    expect(linkElement.nativeElement.textContent.trim()).toBe('Registrarse después');
   });
 
   it('should call location.back() when goBack is called', () => {
@@ -127,7 +127,7 @@ describe('RegisterComponent', () => {
       expect(welcomeElement.nativeElement.textContent.trim()).toBe('¡Bienvenido a Almuerzos Peru!');
       expect(subtitleElement.nativeElement.textContent.trim()).toBe('Crear Cuenta');
       expect(separatorElement.nativeElement.textContent.trim()).toBe('O');
-      expect(linkElement.nativeElement.textContent.trim()).toBe('REGISTRARSE DESPUÉS');
+      expect(linkElement.nativeElement.textContent.trim()).toBe('Registrarse después');
     });
 
     it('should have proper aria-label for back button with translation', () => {

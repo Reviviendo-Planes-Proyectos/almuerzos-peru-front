@@ -35,7 +35,21 @@
       "withEmail": "Continue with Email"
     },
     "forgot": {
-      "title": "Forgot Password"
+      "title": "Forgot Password",
+      "description": "Enter your email address and we'll send you a link to reset your password",
+      "emailLabel": "Email address",
+      "emailPlaceholder": "youremail@example.com",
+      "emailRequired": "Email address is required",
+      "emailInvalid": "Please enter a valid email address",
+      "sendButton": "Send recovery link",
+      "sending": "Sending...",
+      "backToLogin": "Back to login",
+      "resendButton": "Resend email",
+      "emailSent": {
+        "title": "Email sent!",
+        "description": "We've sent a recovery link to your email address.",
+        "checkSpam": "If you don't see the email, check your spam folder."
+      }
     },
     "profileSelection": {
       "question": "How do you want to access?",

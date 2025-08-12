@@ -29,13 +29,27 @@
       "title": "Crear Cuenta",
       "button": "Continuar",
       "email": "Correo",
-      "later": "REGISTRARSE DESPUÉS",
+      "later": "Registrarse después",
       "withGoogle": "Continuar con Google",
       "withFacebook": "Continuar con Facebook",
       "withEmail": "Continuar con Correo"
     },
     "forgot": {
-      "title": "Olvidé mi Contraseña"
+      "title": "Olvidé mi Contraseña",
+      "description": "Ingresa tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña",
+      "emailLabel": "Correo electrónico",
+      "emailPlaceholder": "tucorreo@ejemplo.com",
+      "emailRequired": "El correo electrónico es requerido",
+      "emailInvalid": "Ingresa un correo electrónico válido",
+      "sendButton": "Enviar enlace de recuperación",
+      "sending": "Enviando...",
+      "backToLogin": "Volver al inicio de sesión",
+      "resendButton": "Reenviar correo",
+      "emailSent": {
+        "title": "¡Correo enviado!",
+        "description": "Hemos enviado un enlace de recuperación a tu correo electrónico.",
+        "checkSpam": "Si no ves el correo, revisa tu carpeta de spam."
+      }
     },
     "profileSelection": {
       "question": "¿Cómo deseas ingresar?",

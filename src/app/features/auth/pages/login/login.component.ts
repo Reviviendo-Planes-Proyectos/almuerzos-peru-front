@@ -44,7 +44,7 @@ export class LoginComponent {
   }
 
   forgotPassword(): void {
-    // Implementar lógica de recuperar contraseña
+    this.router.navigate(['auth/forgot-password']);
   }
 
   goToRegister(): void {

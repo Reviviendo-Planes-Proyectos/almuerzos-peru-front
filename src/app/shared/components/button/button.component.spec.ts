@@ -89,7 +89,7 @@ describe('ButtonComponent', () => {
     fixture.detectChanges();
 
     expect(buttonElement.disabled).toBe(true);
-    expect(buttonElement.classList.toString()).toMatch(/bg-transparent/);
+    expect(component.buttonClasses).toBe('bg-gray-300 text-gray-500 opacity-60');
   });
 
   it('should display icon when iconName is provided', () => {
@@ -235,27 +235,21 @@ describe('ButtonComponent', () => {
   });
 
   it('should apply correct button classes for different states', () => {
-    // Test primary active state
     component.isActive = true;
     component.isOutline = false;
     fixture.detectChanges();
-    expect(component.buttonClasses).toBe('bg-yellow-500 text-white');
+    expect(component.buttonClasses).toBe('bg-yellow-500 text-white hover:bg-yellow-600');
 
-    // Test outline state
     component.isOutline = true;
     fixture.detectChanges();
-    expect(component.buttonClasses).toBe('border-yellow-500 border-2 text-gray-900 bg-transparent');
+    expect(component.buttonClasses).toBe('border-yellow-500 border-2 text-gray-900 bg-transparent hover:bg-yellow-50');
 
-    // Test inactive state
     component.isActive = false;
     component.isOutline = false;
     fixture.detectChanges();
-    expect(component.buttonClasses).toBe(
-      'bg-transparent text-[#ffffff] hover:bg-[#1C212D] hover:text-neutral-light06 focus:border-brand-medium focus:border-0 focus:bg-[#2b303b] focus:text-neutral-light06 active:text-neutral-light06 active:bg-[#2b303b] active:border-0'
-    );
+    expect(component.buttonClasses).toBe('bg-gray-300 text-gray-500 opacity-60');
   });
 
-  // Tests de internacionalización
   describe('Internationalization', () => {
     it('should display translated text when translateKey is provided', () => {
       component.translateKey = 'auth.login.button';
