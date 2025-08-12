@@ -1,7 +1,7 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, inject } from '@angular/core';
 import { ButtonComponent } from '../../../../../shared/components/button/button.component';
-import { MaterialModule } from '../../../../../shared/material.module';
 import { I18nService } from '../../../../../shared/i18n';
+import { MaterialModule } from '../../../../../shared/material.module';
 
 @Component({
   selector: 'app-hero-section',

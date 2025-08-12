@@ -1,13 +1,13 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { I18nService, TranslatePipe } from '../../../../shared/i18n';
 import { MaterialModule } from '../../../../shared/material.module';
-import { I18nService } from '../../../../shared/i18n';
 import { HeaderComponent } from '../../../landings/landing-restaurant/components/header/header.component';
 
 @Component({
   selector: 'app-terms-and-conditions',
   standalone: true,
-  imports: [MaterialModule, HeaderComponent],
+  imports: [MaterialModule, HeaderComponent, TranslatePipe],
   templateUrl: './terms-and-conditions.component.html',
   styleUrls: ['./terms-and-conditions.component.scss']
 })

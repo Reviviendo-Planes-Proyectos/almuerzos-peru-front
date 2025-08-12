@@ -1,7 +1,7 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, HostListener, OnInit } from '@angular/core';
-import { MaterialModule } from '../../../../../shared/material.module';
 import { TranslatePipe } from '../../../../../shared/i18n';
+import { MaterialModule } from '../../../../../shared/material.module';
 
 @Component({
   selector: 'app-diner-hero-section',

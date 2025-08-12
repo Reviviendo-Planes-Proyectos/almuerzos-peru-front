@@ -4,8 +4,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
-import { MaterialModule } from '../../../../shared/material.module';
 import { I18nService, TranslatePipe } from '../../../../shared/i18n';
+import { MaterialModule } from '../../../../shared/material.module';
 import { LoginComponent } from './login.component';
 
 class MockI18nService {

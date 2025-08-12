@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ButtonComponent } from '../../../../../shared/components/button/button.component';
-import { MaterialModule } from '../../../../../shared/material.module';
 import { I18nService } from '../../../../../shared/i18n';
+import { MaterialModule } from '../../../../../shared/material.module';
 import { FinalCtaSectionComponent } from './final-cta-section.component';
 
 class MockI18nService {

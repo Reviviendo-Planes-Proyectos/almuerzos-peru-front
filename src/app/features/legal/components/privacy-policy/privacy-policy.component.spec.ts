@@ -25,8 +25,8 @@ describe('PrivacyPolicyComponent', () => {
     const i18nServiceSpy = {
       t: jest.fn((key: string) => {
         const translations: { [key: string]: string } = {
-          'landing.legal.privacy.title': 'Política de Privacidad',
-          'landing.legal.lastUpdated': 'Última actualización:'
+          'landing.footer.legal.privacy.title': 'Política de Privacidad',
+          'landing.footer.legal.lastUpdated': 'Última actualización:'
         };
         return translations[key] || key;
       })

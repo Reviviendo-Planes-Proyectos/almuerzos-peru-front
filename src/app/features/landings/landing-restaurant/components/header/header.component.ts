@@ -1,8 +1,8 @@
 import { Component, HostListener, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ButtonComponent } from '../../../../../shared/components/button/button.component';
-import { MaterialModule } from '../../../../../shared/material.module';
 import { I18nService } from '../../../../../shared/i18n';
+import { MaterialModule } from '../../../../../shared/material.module';
 
 @Component({
   selector: 'app-header',

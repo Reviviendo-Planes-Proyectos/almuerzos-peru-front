@@ -560,6 +560,7 @@
             },
             "usage": {
               "title": "3. How We Use Your Information",
+              "intro": "We use your personal information for the following purposes:",
               "items": [
                 "Process and fulfill your orders",
                 "Improve our services and user experience",
@@ -571,13 +572,15 @@
             },
             "sharing": {
               "title": "4. Information Sharing",
-              "content": "We do not sell, rent or share your personal information with third parties, except:",
+              "intro": "We do not sell, rent or share your personal information with third parties, except in the following cases:",
               "items": [
                 "With your explicit consent",
                 "To fulfill your orders (delivery partners)",
                 "To comply with legal obligations",
                 "To protect our rights and security"
-              ]
+              ],
+              "notice": "All our business partners are required to maintain the <strong>confidentiality</strong> of your information.",
+              "content": "We do not sell, rent or share your personal information with third parties, except:"
             },
             "security": {
               "title": "5. Data Security",
@@ -585,6 +588,7 @@
             },
             "rights": {
               "title": "6. Your Rights",
+              "intro": "As a data subject, you have the following rights:",
               "items": [
                 "Access your personal information",
                 "Correct inaccurate data",
@@ -599,6 +603,10 @@
             },
             "contact": {
               "title": "8. Contact",
+              "intro": "If you have questions about this privacy policy or need to exercise your rights, you can contact us through the following means:",
+              "email": "privacy@almuerzosperu.com",
+              "phone": "+51 123 456 789",
+              "address": "Av. Javier Prado Este 123, San Isidro, Lima, Peru",
               "content": "For questions about this policy, contact us at: support@almuerzosperu.com"
             }
           }

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ButtonComponent } from '../../../../../shared/components/button/button.component';
-import { MaterialModule } from '../../../../../shared/material.module';
 import { I18nService } from '../../../../../shared/i18n';
+import { MaterialModule } from '../../../../../shared/material.module';
 import { HeroSectionComponent } from './hero-section.component';
 
 // Mock del servicio de traducción

@@ -25,8 +25,8 @@ describe('TermsAndConditionsComponent', () => {
     const i18nServiceSpy = {
       t: jest.fn((key: string) => {
         const translations: { [key: string]: string } = {
-          'landing.legal.terms.title': 'Términos y Condiciones',
-          'landing.legal.lastUpdated': 'Última actualización:'
+          'landing.footer.legal.terms.title': 'Términos y Condiciones',
+          'landing.footer.legal.lastUpdated': 'Última actualización:'
         };
         return translations[key] || key;
       })

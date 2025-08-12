@@ -1,8 +1,8 @@
 import { Location } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { MaterialModule } from '../../../../shared/material.module';
 import { I18nService } from '../../../../shared/i18n';
+import { MaterialModule } from '../../../../shared/material.module';
 
 @Component({
   selector: 'app-login',
