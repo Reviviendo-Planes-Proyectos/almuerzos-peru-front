@@ -41,7 +41,7 @@ describe('HeaderComponent', () => {
   it('should navigate to profile-selection when navigateToLogin is called', async () => {
     const navigateSpy = jest.spyOn(router, 'navigate');
     component.navigateToLogin();
-    expect(navigateSpy).toHaveBeenCalledWith(['auth/profile-selection']);
+    expect(navigateSpy).toHaveBeenCalledWith(['auth/profile-selection'], { queryParams: {} });
   });
 
   it('should scroll to section when element exists', () => {

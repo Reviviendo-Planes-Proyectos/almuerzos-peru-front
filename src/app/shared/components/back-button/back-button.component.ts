@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component, Input, inject } from '@angular/core';
+import { Component, EventEmitter, Input, inject, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { BaseTranslatableComponent } from '../../i18n';
 import { MaterialModule } from '../../modules';
@@ -16,6 +16,7 @@ export class BackButtonComponent extends BaseTranslatableComponent {
   @Input() customClass = '';
   @Input() ariaLabel = '';
   @Input() routerLink: string | string[] = '';
+  @Output() backClick = new EventEmitter<void>();
 
   private location = inject(Location);
   private router = inject(Router);
@@ -35,12 +36,14 @@ export class BackButtonComponent extends BaseTranslatableComponent {
   }
 
   goBack(): void {
+    if (this.backClick.observed) {
+      this.backClick.emit();
+      return;
+    }
+
     if (this.routerLink) {
-      if (Array.isArray(this.routerLink)) {
-        this.router.navigate(this.routerLink);
-      } else {
-        this.router.navigate([this.routerLink]);
-      }
+      const route = Array.isArray(this.routerLink) ? this.routerLink : [this.routerLink];
+      this.router.navigate(route);
     } else {
       this.location.back();
     }

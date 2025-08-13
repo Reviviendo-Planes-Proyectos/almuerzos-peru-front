@@ -1,14 +1,13 @@
 import { Component } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BackButtonComponent } from '../../../../shared/components/back-button/back-button.component';
 import { BaseTranslatableComponent } from '../../../../shared/i18n';
 import { MaterialModule } from '../../../../shared/modules';
-import { LoggerService } from '../../../../shared/services/logger/logger.service';
 
 @Component({
   selector: 'app-profile-selection',
   standalone: true,
-  imports: [MaterialModule, RouterModule, BackButtonComponent],
+  imports: [MaterialModule, BackButtonComponent],
   templateUrl: './profile-selection.component.html',
   styleUrl: './profile-selection.component.scss'
 })
@@ -18,7 +17,7 @@ export class ProfileSelectionComponent extends BaseTranslatableComponent {
 
   constructor(
     public router: Router,
-    public readonly logger: LoggerService
+    private route: ActivatedRoute
   ) {
     super();
   }
@@ -30,10 +29,21 @@ export class ProfileSelectionComponent extends BaseTranslatableComponent {
     this.isNavigating = true;
 
     setTimeout(() => {
-      this.logger.info('Tipo de usuario seleccionado:', tipo);
       this.router.navigate(['auth/login'], {
         queryParams: { userType: tipo }
       });
     }, 800);
+  }
+
+  goBackToLanding(): void {
+    const { from } = this.route.snapshot.queryParams;
+
+    if (from === 'diner') {
+      this.router.navigate(['/home-diner']);
+    } else if (from === 'restaurant') {
+      this.router.navigate(['/home-restaurant']);
+    } else {
+      this.router.navigate(['/home-restaurant']);
+    }
   }
 }

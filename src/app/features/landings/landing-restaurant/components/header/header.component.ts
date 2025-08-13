@@ -39,7 +39,15 @@ export class HeaderComponent extends BaseTranslatableComponent {
   }
 
   navigateToLogin() {
-    this.router.navigate(['auth/profile-selection']);
+    const queryParams: { from?: string } = {};
+
+    if (this.isDinerLanding) {
+      queryParams.from = 'diner';
+    } else if (this.isRestaurantLanding) {
+      queryParams.from = 'restaurant';
+    }
+
+    this.router.navigate(['auth/profile-selection'], { queryParams });
   }
 
   navigateToHome() {

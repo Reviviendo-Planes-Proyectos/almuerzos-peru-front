@@ -1,8 +1,8 @@
 import { DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { I18nService, TranslatePipe } from '../../../../shared/i18n';
 import { MaterialModule } from '../../../../shared/modules';
 import { LoggerService } from '../../../../shared/services/logger/logger.service';
@@ -43,6 +43,12 @@ describe('ProfileSelectionComponent', () => {
       navigate: jest.fn().mockResolvedValue(true)
     };
 
+    const activatedRouteSpy = {
+      snapshot: {
+        queryParams: {}
+      }
+    };
+
     mockI18nService = new MockI18nService();
     mockLoggerService = new MockLoggerService();
 
@@ -50,6 +56,7 @@ describe('ProfileSelectionComponent', () => {
       imports: [ProfileSelectionComponent, MaterialModule, NoopAnimationsModule, TranslatePipe],
       providers: [
         { provide: Router, useValue: routerSpy },
+        { provide: ActivatedRoute, useValue: activatedRouteSpy },
         { provide: I18nService, useValue: mockI18nService },
         { provide: LoggerService, useValue: mockLoggerService }
       ]
@@ -124,29 +131,25 @@ describe('ProfileSelectionComponent', () => {
     expect(component.isNavigating).toBe(true);
   });
 
-  it('should navigate to auth/login when elegirTipoUsuario is called with comensal', (done) => {
+  it('should navigate to auth/login when elegirTipoUsuario is called with comensal', fakeAsync(() => {
     component.elegirTipoUsuario('comensal');
 
-    setTimeout(() => {
-      expect(mockRouter.navigate).toHaveBeenCalledWith(['auth/login'], {
-        queryParams: { userType: 'comensal' }
-      });
-      expect(mockLoggerService.info).toHaveBeenCalledWith('Tipo de usuario seleccionado:', 'comensal');
-      done();
-    }, 900);
-  });
+    tick(800);
 
-  it('should navigate to auth/login when elegirTipoUsuario is called with restaurante', (done) => {
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['auth/login'], {
+      queryParams: { userType: 'comensal' }
+    });
+  }));
+
+  it('should navigate to auth/login when elegirTipoUsuario is called with restaurante', fakeAsync(() => {
     component.elegirTipoUsuario('restaurante');
 
-    setTimeout(() => {
-      expect(mockRouter.navigate).toHaveBeenCalledWith(['auth/login'], {
-        queryParams: { userType: 'restaurante' }
-      });
-      expect(mockLoggerService.info).toHaveBeenCalledWith('Tipo de usuario seleccionado:', 'restaurante');
-      done();
-    }, 900);
-  });
+    tick(800);
+
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['auth/login'], {
+      queryParams: { userType: 'restaurante' }
+    });
+  }));
 
   it('should navigate to auth/login when register later button is clicked', () => {
     const registerLaterButton = debugElement.query(By.css('.mt-6 button'));
@@ -157,10 +160,8 @@ describe('ProfileSelectionComponent', () => {
   it('should not allow multiple selections when navigating', () => {
     component.elegirTipoUsuario('comensal');
     expect(component.isNavigating).toBe(true);
-
-    // Try to select again
     component.elegirTipoUsuario('restaurante');
-    expect(component.selectedType).toBe('comensal'); // Should remain unchanged
+    expect(component.selectedType).toBe('comensal');
   });
 
   describe('Internationalization', () => {
@@ -179,7 +180,7 @@ describe('ProfileSelectionComponent', () => {
     it('should render both option cards', () => {
       const compiled = fixture.nativeElement;
       const cards = compiled.querySelectorAll('[class*="cursor-pointer"]');
-      expect(cards.length).toBe(3); // 2 cards de opciones + 1 botón "Registrarme luego"
+      expect(cards.length).toBe(3);
     });
 
     it('should call elegirTipoUsuario when card is clicked', () => {
@@ -232,12 +233,49 @@ describe('ProfileSelectionComponent', () => {
       fixture.detectChanges();
 
       const compiled = fixture.nativeElement;
-      // Solo verificar las cards, no el botón "Registrarme luego"
       const cards = compiled.querySelectorAll('.grid > div[class*="cursor-pointer"]');
 
       for (const card of cards) {
         expect(card.classList.contains('pointer-events-none')).toBeTruthy();
       }
+    });
+  });
+
+  describe('goBackToLanding', () => {
+    it('should navigate to /home-diner when from query param is "diner"', () => {
+      const activatedRoute = TestBed.inject(ActivatedRoute);
+      activatedRoute.snapshot.queryParams = { from: 'diner' };
+
+      component.goBackToLanding();
+
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/home-diner']);
+    });
+
+    it('should navigate to /home-restaurant when from query param is "restaurant"', () => {
+      const activatedRoute = TestBed.inject(ActivatedRoute);
+      activatedRoute.snapshot.queryParams = { from: 'restaurant' };
+
+      component.goBackToLanding();
+
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/home-restaurant']);
+    });
+
+    it('should navigate to /home-restaurant by default when no from query param', () => {
+      const activatedRoute = TestBed.inject(ActivatedRoute);
+      activatedRoute.snapshot.queryParams = {};
+
+      component.goBackToLanding();
+
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/home-restaurant']);
+    });
+
+    it('should navigate to /home-restaurant by default when from query param is unknown', () => {
+      const activatedRoute = TestBed.inject(ActivatedRoute);
+      activatedRoute.snapshot.queryParams = { from: 'unknown' };
+
+      component.goBackToLanding();
+
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/home-restaurant']);
     });
   });
 });
