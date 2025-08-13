@@ -75,27 +75,37 @@ body {
 // Estilos de scrollbar personalizado
 @layer base {
   ::-webkit-scrollbar {
-    width: 12px;
-    height: 12px;
-    background: var(--color-gray-100);
+    width: 0px;
+    background: transparent;
   }
+
   ::-webkit-scrollbar-thumb {
-    background: #e6b43a;
-    border-radius: 10px;
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    -ms-border-radius: 10px;
-    -o-border-radius: 10px;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: #fb8500;
-  }
-  ::-webkit-scrollbar-track {
-    background: var(--color-gray-200);
+    background: transparent;
   }
 
   html {
-    scrollbar-width: auto;
-    scrollbar-color: #e6b43a var(--color-gray-200);
+    scrollbar-width: none;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    top: var(--scroll-position, 0%);
+    right: 2px;
+    width: 4px;
+    height: var(--scroll-progress, 12%);
+    background: #e6b43a;
+    border-radius: 2px;
+    opacity: 0;
+    transition:
+      opacity 0.3s ease,
+      top 0.1s ease;
+    z-index: 9999;
+    pointer-events: none;
+    box-shadow: 0 1px 4px rgba(230, 180, 58, 0.3);
+  }
+
+  body.scrolling::after {
+    opacity: 0.9;
   }
 }

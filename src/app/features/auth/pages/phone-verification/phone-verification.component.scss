@@ -1,0 +1,18 @@
+/* Estilos específicos para phone-verification component */
+.countdown-display {
+  font-variant-numeric: tabular-nums;
+}
+
+.method-button {
+  transition: all 0.2s ease-in-out;
+}
+
+.method-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.code-input {
+  letter-spacing: 0.2em;
+  font-family: 'Courier New', monospace;
+}

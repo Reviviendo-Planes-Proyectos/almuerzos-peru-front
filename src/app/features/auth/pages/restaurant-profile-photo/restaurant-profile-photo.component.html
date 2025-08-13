@@ -1,0 +1,174 @@
+<div class="relative min-h-screen">
+  <img
+    src="img/background_almuerza_peru.png"
+    [attr.alt]="t('common.background')"
+    class="absolute inset-0 w-full h-full object-cover opacity-100"
+  />
+
+  <!-- Inputs file ocultos -->
+  <input
+    #restaurantFileInput
+    type="file"
+    accept="image/png,image/jpeg,image/jpg"
+    (change)="onRestaurantFileInputChange($event)"
+    class="hidden"
+    style="display: none"
+  />
+  <input
+    #logoFileInput
+    type="file"
+    accept="image/png,image/jpeg,image/jpg"
+    (change)="onLogoFileInputChange($event)"
+    class="hidden"
+    style="display: none"
+  />
+
+  <app-back-button position="top-left" (click)="onBackClick()"></app-back-button>
+
+  <div class="relative z-10 flex items-end sm:items-center justify-center min-h-[95vh]">
+    <div
+      class="bg-white bg-opacity-90 rounded-xl shadow-lg p-6 w-full max-w-md max-h-[85vh] flex flex-col items-center overflow-y-auto"
+    >
+      <div class="mb-6 flex justify-center">
+        <app-step-indicator [step]="currentStep" [total]="4"></app-step-indicator>
+      </div>
+
+      <h1 class="text-center text-3xl font-bold text-gray-800 uppercase mb-2">
+        {{ t('app.name') }}
+      </h1>
+
+      <p class="text-center text-gray-600 mb-6">Imágenes del Restaurante</p>
+
+      <div class="w-full space-y-6">
+        <!-- Icono grande centrado -->
+        <div class="flex justify-center mb-4">
+          <div class="w-16 h-16 bg-purple-500 rounded-full flex items-center justify-center">
+            <i class="material-icons text-white text-3xl">photo_camera</i>
+          </div>
+        </div>
+
+        <div class="text-center mb-6">
+          <p class="text-gray-600 text-sm">Muestra lo mejor de tu negocio</p>
+        </div>
+
+        <!-- Sección Foto del Local o Portada -->
+        <div class="space-y-4">
+          <div class="text-left">
+            <h3 class="text-lg font-semibold text-gray-900 mb-1">Foto del Local o Portada</h3>
+            <p class="text-gray-600 text-sm">Una foto atractiva de tu restaurante que será la imagen principal</p>
+          </div>
+
+          <!-- Preview de la imagen del restaurante o componente de upload -->
+          <div *ngIf="!hasRestaurantPhoto">
+            <app-file-upload
+              [hasSelectedImage]="hasRestaurantPhoto"
+              (fileSelected)="onRestaurantPhotoSelected($event)"
+              (fileError)="onRestaurantPhotoError($event)"
+            ></app-file-upload>
+          </div>
+
+          <!-- Preview de la imagen seleccionada -->
+          <div *ngIf="hasRestaurantPhoto && restaurantPhotoPreview" class="relative mb-4">
+            <img
+              [src]="restaurantPhotoPreview"
+              alt="Foto del restaurante"
+              class="w-full h-48 object-cover rounded-lg"
+            />
+            <button
+              (click)="removeRestaurantPhoto()"
+              class="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center transition-colors"
+            >
+              <i class="material-icons text-sm">close</i>
+            </button>
+          </div>
+
+          <app-button
+            *ngIf="hasRestaurantPhoto"
+            [label]="'Seleccionar archivo'"
+            [isActive]="true"
+            [isOutline]="true"
+            iconName="file_upload"
+            (click)="triggerRestaurantFileInput()"
+            class="w-full"
+          ></app-button>
+        </div>
+
+        <!-- Sección Logo del Restaurante -->
+        <div class="space-y-4">
+          <div class="text-left">
+            <h3 class="text-lg font-semibold text-gray-900 mb-1">Logo del Restaurante</h3>
+            <p class="text-gray-600 text-sm">Tu logo aparecerá en el perfil y pedidos</p>
+          </div>
+
+          <!-- Preview del logo o componente de upload -->
+          <div *ngIf="!hasLogoPhoto">
+            <app-file-upload
+              [hasSelectedImage]="hasLogoPhoto"
+              (fileSelected)="onLogoPhotoSelected($event)"
+              (fileError)="onLogoPhotoError($event)"
+            ></app-file-upload>
+          </div>
+
+          <!-- Preview del logo seleccionado -->
+          <div *ngIf="hasLogoPhoto && logoPhotoPreview" class="relative mb-4">
+            <img [src]="logoPhotoPreview" alt="Logo del restaurante" class="w-full h-48 object-cover rounded-lg" />
+            <button
+              (click)="removeLogo()"
+              class="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center transition-colors"
+            >
+              <i class="material-icons text-sm">close</i>
+            </button>
+          </div>
+
+          <app-button
+            *ngIf="hasLogoPhoto"
+            [label]="'Seleccionar archivo'"
+            [isActive]="true"
+            [isOutline]="true"
+            iconName="file_upload"
+            (click)="triggerLogoFileInput()"
+            class="w-full"
+          ></app-button>
+        </div>
+
+        <!-- Botón Continuar -->
+        <div class="pt-4">
+          <app-button
+            [label]="'Continuar'"
+            [isActive]="true"
+            [iconName]="'arrow_forward'"
+            [isOutline]="false"
+            (click)="continue()"
+            class="w-full"
+          ></app-button>
+        </div>
+
+        <!-- Opciones adicionales -->
+        <div class="text-center mt-4">
+          <div class="bg-gray-50 p-4 rounded-lg">
+            <p class="text-gray-500 text-sm mb-3">¿Prefieres subir las imágenes más tarde?</p>
+            <app-button
+              [label]="'Atrás'"
+              [isActive]="true"
+              [isOutline]="true"
+              (click)="goBack()"
+              class="w-full"
+            ></app-button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de advertencia -->
+  <app-warning-modal
+    [isVisible]="showWarningModal"
+    title="Celular sin verificar"
+    message="Tu celular +51 9*** aún no está verificado."
+    primaryButtonText="Verificar celular"
+    secondaryButtonText="Recordar después"
+    (primaryAction)="onVerifyPhone()"
+    (secondaryAction)="onRemindLater()"
+    (closeModal)="onCloseWarningModal()"
+  ></app-warning-modal>
+</div>

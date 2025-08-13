@@ -1,0 +1,77 @@
+// CTA Section optimizado con Tailwind - Solo estilos únicos
+
+// Decoraciones específicas con posicionamiento único
+.decoration {
+  &.decoration-1 {
+    top: 10%;
+    left: 5%;
+  }
+
+  &.decoration-2 {
+    top: 60%;
+    right: 10%;
+  }
+
+  &.decoration-3 {
+    bottom: 15%;
+    left: 15%;
+  }
+}
+
+// Textos con sombras específicas (Tailwind no soporta text-shadow directamente)
+.text-shadow {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.text-shadow-lg {
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+// Formulario con estilos específicos de Material
+.email-input {
+  ::ng-deep .mat-mdc-text-field-wrapper {
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 2px solid #f3f4f6;
+    transition: all 0.3s ease;
+    overflow: hidden;
+  }
+
+  ::ng-deep .mat-mdc-text-field-wrapper:hover {
+    border-color: #f59e0b;
+    box-shadow: 0 6px 20px rgba(245, 158, 11, 0.15);
+    transform: translateY(-1px);
+  }
+
+  ::ng-deep .mat-mdc-text-field-wrapper.mdc-text-field--focused {
+    border-color: #f59e0b;
+    box-shadow: 0 8px 25px rgba(245, 158, 11, 0.25);
+    transform: translateY(-2px);
+  }
+}
+
+.subscribe-button {
+  background: linear-gradient(135deg, #ff6b00 0%, #ffb800 100%);
+  color: white;
+  padding: 0.875rem 1.5rem;
+  font-weight: 900;
+  font-size: 1rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 8px 20px -5px rgba(255, 107, 0, 0.4);
+  transform: scale(1);
+  transition: all 0.3s ease;
+  border: none;
+
+  &:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 12px 25px -5px rgba(255, 107, 0, 0.6);
+  }
+}
+
+// Responsive específico para mobile muy pequeño
+@media (max-width: 480px) {
+  .decoration {
+    display: none; // Ocultar decoraciones en mobile muy pequeño
+  }
+}

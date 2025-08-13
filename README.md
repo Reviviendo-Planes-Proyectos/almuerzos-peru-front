@@ -19,6 +19,8 @@
 - [🧱 Arquitectura del Proyecto](./docs/architecture.md)
 - [🛠️ Tecnologías Utilizadas](./docs/technologies-used.md)
 - [📁 Estructura del Proyecto](./docs/project-structure.md)
+- [📦 Guía de Módulos Compartidos](./docs/shared-modules-guide.md)
+- [🌐 Sistema de Traducción (i18n)](./docs/i18n-guide.md)
 - [🚦 GitFlow, Branches, Pull Request y Changelog](./docs/gitflow-changelog.md)
 - [💻 Requisitos del Sistema](#requisitos-del-sistema)
 - [🚀 Instalación y Ejecución](#instalacion-y-ejecucion)
@@ -248,6 +250,14 @@ El proyecto incluye configuración preestablecida para:
 - 🧹 **Biome + Prettier**: Linting y formateo automático
 - 🔒 **Husky + lint-staged + Commitlint**: Calidad y seguridad en los commits
 
+### 🌐 Internacionalización (i18n)
+
+- **Idiomas Soportados**: Español (ES) y Inglés (EN)
+- **Cambio Dinámico**: Selector de idioma en tiempo real
+- **Archivos JSON**: Traducciones externas en `/messages/`
+- **Pipe Reactivo**: Sistema de traducciones con reactividad automática
+- **Signal-based**: Basado en Angular Signals para mejor rendimiento
+
 ### 📱 Funcionalidades PWA
 
 - **Instalación Automática**: Prompt de instalación aparece automáticamente después de 3 segundos
@@ -269,6 +279,7 @@ El proyecto incluye configuración preestablecida para:
 - [📐 Arquitectura del Proyecto](docs/architecture.md) — Estructura y patrones de diseño (Clean Architecture + Component-Based)
 - [⚙️ Tecnologías Utilizadas](docs/technologies-used.md) — Stack tecnológico detallado y justificación
 - [📁 Estructura del Proyecto](docs/project-structure.md) — Organización de archivos y carpetas
+- [📦 Guía de Módulos Compartidos](docs/shared-modules-guide.md) — Sistema modular optimizado para imports y tree-shaking
 - [🧹 Calidad de Código y Automatización](docs/code-quality.md) — Uso de Husky, Commitlint, lint-staged, Biome y Prettier
 
 ### 📱 Configuración PWA

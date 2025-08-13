@@ -1,0 +1,101 @@
+section {
+  background-color: #f9fafb;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #fdc94c 0%, #f59e0b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+// Se añadio para limitar la altura de los cards y evitar que el texto se desborde
+// Se usa -webkit-line-clamp para limitar el número de líneas visibles
+mat-card {
+  display: flex;
+  align-items: flex-start; // Cambio de center a flex-start
+  min-height: 100px; // Altura mínima en lugar de fija
+
+  // Desktop y tablet
+  @media (min-width: 768px) {
+    height: 120px; // Altura fija solo en pantallas grandes
+    align-items: center;
+  }
+
+  // Mobile
+  @media (max-width: 767px) {
+    min-height: 120px; // Altura mínima más grande para mejor centrado
+    padding: 24px !important; // Más padding para mejor centrado
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  // Contenido del texto
+  div:last-child {
+    flex: 1;
+
+    h4 {
+      // Título responsive
+      @media (max-width: 767px) {
+        font-size: 1rem !important; // Texto más pequeño en móvil
+        line-height: 1.4;
+        margin-bottom: 0.25rem;
+        text-align: left;
+      }
+    }
+
+    p {
+      // Descripción responsive
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      // Desktop: máximo 3 líneas
+      @media (min-width: 768px) {
+        -webkit-line-clamp: 3;
+      }
+
+      // Mobile: máximo 3 líneas para evitar desbordamiento
+      @media (max-width: 767px) {
+        -webkit-line-clamp: 3;
+        font-size: 0.875rem !important; // Texto más pequeño
+        line-height: 1.4;
+        word-wrap: break-word;
+        hyphens: auto;
+        text-align: left;
+        margin-top: 0;
+      }
+    }
+  }
+
+  // Icono responsive (a la izquierda)
+  div:first-child {
+    @media (max-width: 767px) {
+      width: 2.5rem !important;
+      height: 2.5rem !important;
+      margin-right: 1rem;
+      margin-bottom: 0;
+      flex-shrink: 0;
+      align-self: flex-start;
+      margin-top: 0.25rem;
+
+      mat-icon {
+        font-size: 1.5rem !important;
+      }
+    }
+  }
+}
+
+// Asegurar que todas las tarjetas tengan la misma altura en desktop
+@media (min-width: 768px) {
+  .space-y-8 {
+    display: flex;
+    flex-direction: column;
+
+    mat-card {
+      flex: 1;
+    }
+  }
+}

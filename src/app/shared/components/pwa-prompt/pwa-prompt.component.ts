@@ -1,15 +1,14 @@
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser } from '@angular/common';
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { I18nService } from '../../i18n/services/translation.service';
+import { SharedModule } from '../../modules';
 import { PwaService } from '../../services/pwa/pwa.service';
 
 @Component({
   selector: 'app-pwa-prompt',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatIconModule, MatSnackBarModule, MatTooltipModule],
+  imports: [SharedModule],
   templateUrl: './pwa-prompt.component.html',
   styleUrl: './pwa-prompt.component.scss'
 })
@@ -24,10 +23,15 @@ export class PwaPromptComponent implements OnInit {
   constructor(
     private readonly pwaService: PwaService,
     private readonly snackBar: MatSnackBar,
+    private readonly i18n: I18nService,
     @Inject(PLATFORM_ID) private readonly platformId: object
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
+
+  protected t = (key: string): string => {
+    return this.i18n.t(key);
+  };
 
   ngOnInit(): void {
     // Solo ejecutar lógica PWA en el navegador
@@ -38,15 +42,11 @@ export class PwaPromptComponent implements OnInit {
     // Detectar si es dispositivo móvil
     this.detectMobileDevice();
 
-    // Suscribirse a los observables del servicio PWA
     this.pwaService.updateAvailable$.subscribe((available) => {
       this.updateAvailable = available;
     });
 
-    // Iniciar temporizador para mostrar el modal automáticamente después de 30 segundos
     this.scheduleInstallPrompt();
-
-    // Mostrar FAB después de 30 segundos (solo en móvil)
     this.scheduleFabDisplay();
   }
 
@@ -62,14 +62,13 @@ export class PwaPromptComponent implements OnInit {
   }
 
   private scheduleFabDisplay(): void {
-    // Solo mostrar FAB en dispositivos móviles después de 30 segundos
     if (!this.isMobile) {
       return;
     }
 
     setTimeout(() => {
       this.showFabAfter30Seconds = true;
-    }, 30000); // 30 segundos
+    }, 25000); // 30 segundos
   }
 
   private scheduleInstallPrompt(): void {
@@ -78,13 +77,16 @@ export class PwaPromptComponent implements OnInit {
       return;
     }
 
+    if (!this.isMobile) {
+      return;
+    }
+
     // Mostrar el modal después de 30 segundos de navegación
     setTimeout(() => {
-      // Solo mostrar si no fue rechazado en el meantime
       if (!this.wasPromptRecentlyDismissed()) {
         this.showInstallPrompt = true;
       }
-    }, 30000); // 30 segundos después de cargar la página
+    }, 25000);
   }
 
   private wasPromptRecentlyDismissed(): boolean {

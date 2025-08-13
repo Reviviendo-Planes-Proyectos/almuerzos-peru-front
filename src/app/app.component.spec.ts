@@ -78,4 +78,74 @@ describe('AppComponent', () => {
     expect(app.apiStatus).toEqual(mockError);
     expect(mockLogger.error).toHaveBeenCalledWith('Error fetching API status:', mockError);
   });
+
+  it('debe inicializar el indicador de scroll al cargar', () => {
+    const addEventListenerSpy = jest.spyOn(window, 'addEventListener');
+    mockApiService.getHealth.mockReturnValue(of({ status: 'ok' }));
+
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+
+    expect(addEventListenerSpy).toHaveBeenCalledWith('scroll', expect.any(Function));
+  });
+
+  it('debe manejar el scroll y actualizar las propiedades CSS', () => {
+    Object.defineProperty(window, 'pageYOffset', { value: 100, writable: true });
+    Object.defineProperty(document.documentElement, 'scrollTop', { value: 100, writable: true });
+    Object.defineProperty(document.documentElement, 'scrollHeight', { value: 2000, writable: true });
+    Object.defineProperty(window, 'innerHeight', { value: 800, writable: true });
+
+    const setPropertySpy = jest.spyOn(document.documentElement.style, 'setProperty');
+    const addClassSpy = jest.spyOn(document.body.classList, 'add');
+
+    mockApiService.getHealth.mockReturnValue(of({ status: 'ok' }));
+
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    fixture.detectChanges();
+
+    (app as any).handleScroll();
+
+    expect(setPropertySpy).toHaveBeenCalledWith('--scroll-progress', expect.any(String));
+    expect(setPropertySpy).toHaveBeenCalledWith('--scroll-position', expect.any(String));
+    expect(addClassSpy).toHaveBeenCalledWith('scrolling');
+  });
+
+  it('debe limpiar el timeout de scroll y remover clase scrolling', (done) => {
+    jest.useFakeTimers();
+    const removeClassSpy = jest.spyOn(document.body.classList, 'remove');
+
+    mockApiService.getHealth.mockReturnValue(of({ status: 'ok' }));
+
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    fixture.detectChanges();
+
+    (app as any).handleScroll();
+    (app as any).handleScroll();
+
+    jest.advanceTimersByTime(1500);
+
+    expect(removeClassSpy).toHaveBeenCalledWith('scrolling');
+
+    jest.useRealTimers();
+    done();
+  });
+
+  it('debe manejar scrollHeight igual a 0', () => {
+    Object.defineProperty(document.documentElement, 'scrollHeight', { value: 800, writable: true });
+    Object.defineProperty(window, 'innerHeight', { value: 800, writable: true });
+
+    const setPropertySpy = jest.spyOn(document.documentElement.style, 'setProperty');
+
+    mockApiService.getHealth.mockReturnValue(of({ status: 'ok' }));
+
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    fixture.detectChanges();
+
+    (app as any).handleScroll();
+
+    expect(setPropertySpy).not.toHaveBeenCalledWith('--scroll-progress', expect.any(String));
+  });
 });

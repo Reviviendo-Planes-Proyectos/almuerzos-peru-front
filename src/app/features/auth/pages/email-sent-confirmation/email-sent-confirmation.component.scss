@@ -1,0 +1,20 @@
+.loading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 12px;
+  background-color: #ffd700;
+  border-radius: 8px;
+  width: 100%;
+}
+
+.loading-text {
+  color: #1f2937;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.mat-spinner-yellow ::ng-deep .mat-spinner-path {
+  stroke: #1f2937;
+}

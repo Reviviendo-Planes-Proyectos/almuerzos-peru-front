@@ -1,0 +1,188 @@
+<!-- Enhanced Search Section -->
+<section id="search-section" class="search-section relative py-12 md:py-20 overflow-hidden">
+  <!-- Background decoration -->
+  <div class="bg-decoration bg-decoration-1 absolute rounded-full blur-3xl opacity-70"></div>
+  <div class="bg-decoration bg-decoration-2 absolute rounded-full blur-3xl opacity-70"></div>
+
+  <div class="container relative z-10 max-w-6xl mx-auto px-4 md:px-8">
+    <div class="section-header text-center mb-8 md:mb-12">
+      <h2 class="section-title text-3xl md:text-4xl lg:text-6xl font-black text-gray-800 mb-4 leading-tight">
+        {{ t('landing.diner.enhancedSearch.title.where') }}
+        <span class="title-highlight bg-gradient-to-r from-orange-600 to-yellow-500 bg-clip-text text-transparent">
+          {{ t('landing.diner.enhancedSearch.title.lunchToday') }}
+        </span>
+      </h2>
+      <p
+        class="section-description text-base md:text-xl lg:text-2xl text-gray-500 max-w-4xl mx-auto font-medium leading-relaxed"
+      >
+        {{ t('landing.diner.enhancedSearch.subtitle') }}
+      </p>
+    </div>
+
+    <div
+      class="content-grid grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start lg:items-center max-w-7xl mx-auto"
+    >
+      <!-- Enhanced Search Card with Guide Interface -->
+      <mat-card
+        class="search-card shadow-xl border-0 rounded-3xl md:rounded-2xl bg-white/98 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
+      >
+        <mat-card-content class="search-card-content p-6 md:p-8 lg:p-10">
+          <!-- Step-by-step guide interface -->
+          <div class="guide-header flex items-center gap-4 mb-6 md:mb-4">
+            <div
+              class="guide-icon w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-orange-600 to-yellow-500 rounded-xl flex items-center justify-center shadow-lg flex-shrink-0"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="icon text-white"
+                width="28"
+                height="28"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+            </div>
+            <div class="guide-info flex-1 min-w-0">
+              <h3 class="guide-title font-black text-xl md:text-2xl text-gray-800 m-0">
+                {{ t('landing.diner.enhancedSearch.findLunch') }}
+              </h3>
+              <p class="guide-subtitle text-gray-500 font-medium m-0 text-sm md:text-base">
+                {{ t('landing.diner.enhancedSearch.nearYou') }}
+              </p>
+            </div>
+          </div>
+
+          <!-- Guide Steps -->
+          <div class="input-container relative mb-4 md:mb-6">
+            <div class="custom-input-wrapper relative">
+              <mat-icon
+                class="input-icon-left absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 z-10 text-xl"
+              >
+                search
+              </mat-icon>
+              <input
+                type="text"
+                readonly
+                placeholder="{{ t('landing.diner.enhancedSearch.form.placeholder') }}"
+                class="custom-input w-full pl-12 pr-12 py-4 border-2 border-gray-300 rounded-lg text-base focus:outline-none hover:border-orange-500 bg-white transition-colors duration-200 cursor-default"
+                autocomplete="off"
+              />
+              <mat-icon
+                class="input-icon-right absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 z-10 text-xl"
+              >
+                place
+              </mat-icon>
+            </div>
+            <div class="input-hint text-sm text-gray-500 mt-2">{{ t('landing.diner.enhancedSearch.form.hint') }}</div>
+          </div>
+
+          <div class="action-buttons grid grid-cols-2 md:grid-cols-2 gap-2 md:gap-3 mb-4 md:mb-6">
+            <button
+              type="button"
+              disabled
+              class="action-btn location-btn rounded-lg bg-gray-50 font-semibold text-xs md:text-sm py-3 px-4 md:px-6 border-2 border-gray-200 flex items-center justify-center gap-2 text-gray-400"
+            >
+              <mat-icon class="btn-icon text-base md:text-xl flex items-center justify-center">my_location</mat-icon>
+              {{ t('landing.diner.enhancedSearch.buttons.myLocation') }}
+            </button>
+            <button
+              type="button"
+              disabled
+              class="action-btn nearby-btn rounded-lg bg-gray-50 font-semibold text-xs md:text-sm py-3 px-4 md:px-6 border-2 border-gray-200 flex items-center justify-center gap-2 text-gray-400"
+            >
+              <mat-icon class="btn-icon text-base md:text-xl flex items-center justify-center">schedule</mat-icon>
+              {{ t('landing.diner.enhancedSearch.buttons.nearMe') }}
+            </button>
+          </div>
+
+          <button
+            mat-raised-button
+            class="search-button w-full bg-gradient-to-r from-yellow-500 via-orange-500 to-orange-600 text-white py-4 md:py-6 px-8 text-base md:text-lg font-bold rounded-2xl border-0 mt-4 md:mt-6 relative overflow-hidden transition-all duration-300 shadow-lg md:shadow-xl hover:-translate-y-1 flex items-center justify-center gap-2 align-middle"
+            disabled
+          >
+            {{ t('landing.diner.enhancedSearch.searchButton') }}
+            <mat-icon
+              class="btn-icon text-lg md:text-xl transition-transform duration-300 flex items-center justify-center"
+            >
+              arrow_forward
+            </mat-icon>
+          </button>
+
+          <!-- Enhanced stats -->
+          <div class="stats-section grid grid-cols-3 gap-2 md:gap-4 mt-6 md:mt-8 pt-4 md:pt-6 border-t border-gray-200">
+            <div *ngFor="let stat of stats" class="stat-item text-center">
+              <div class="stat-value text-xl md:text-3xl font-black leading-none">{{ stat.value }}</div>
+              <div class="stat-label text-xs md:text-sm text-gray-500 font-medium mt-1">{{ t(stat.label) }}</div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Visual Content -->
+      <div class="visual-content flex flex-col gap-4 md:gap-6">
+        <div class="main-image relative">
+          <img
+            src="/img/landing/main_course.png"
+            alt="Trabajadores almorzando en Lima"
+            class="main-img w-full rounded-2xl shadow-lg md:shadow-xl"
+          />
+          <div
+            class="price-badge absolute top-2 right-2 bg-orange-600 text-white text-xs md:text-sm py-1 px-2 md:px-3 rounded-full font-bold shadow-sm md:shadow-md"
+          >
+            S/ 35
+          </div>
+          <div
+            class="floating-notification absolute top-2 left-2 md:top-4 md:left-4 bg-white/95 backdrop-blur-sm rounded-lg md:rounded-xl p-3 md:p-4 shadow-lg border border-yellow-200 max-w-[calc(100%-1rem)] md:max-w-[calc(100%-2rem)]"
+          >
+            <div class="notification-content flex items-center gap-2 md:gap-3">
+              <img
+                src="/img/landing/restaurant-logo.png"
+                alt="Restaurant"
+                class="restaurant-logo w-8 h-8 md:w-10 md:h-10 rounded-full flex-shrink-0"
+              />
+              <div class="notification-text">
+                <div class="notification-title text-xs md:text-sm font-bold text-gray-800 leading-tight">
+                  {{ t('landing.diner.enhancedSearch.notification.newMenu') }}
+                </div>
+                <div class="notification-subtitle text-xs md:text-sm text-gray-500">
+                  {{ t('landing.diner.enhancedSearch.notification.restaurant') }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="food-gallery grid grid-cols-2 gap-3 md:gap-4">
+          <div class="food-item relative">
+            <img
+              src="/img/landing/peruvian-ceviche.png"
+              alt="Ceviche peruano"
+              class="food-img w-full h-24 md:h-32 object-cover rounded-xl shadow-sm md:shadow-lg transition-transform duration-300 hover:scale-105"
+            />
+            <div
+              class="price-badge absolute top-2 right-2 bg-orange-600 text-white text-xs md:text-sm py-1 px-2 md:px-3 rounded-full font-bold shadow-sm md:shadow-md"
+            >
+              S/ 18
+            </div>
+          </div>
+          <div class="food-item relative">
+            <img
+              src="/img/landing/lomo-saltado.png"
+              alt="Lomo saltado"
+              class="food-img w-full h-24 md:h-32 object-cover rounded-xl shadow-sm md:shadow-lg transition-transform duration-300 hover:scale-105"
+            />
+            <div
+              class="price-badge absolute top-2 right-2 bg-orange-600 text-white text-xs md:text-sm py-1 px-2 md:px-3 rounded-full font-bold shadow-sm md:shadow-md"
+            >
+              S/ 22
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

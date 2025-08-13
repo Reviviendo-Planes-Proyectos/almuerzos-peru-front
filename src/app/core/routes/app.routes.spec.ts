@@ -4,12 +4,12 @@ describe('app.routes', () => {
   it('should define redirect route correctly', () => {
     const redirectRoute = routes.find((route) => route.path === '');
     expect(redirectRoute).toBeTruthy();
-    expect(redirectRoute?.redirectTo).toBe('home');
+    expect(redirectRoute?.redirectTo).toBe('home-restaurant');
     expect(redirectRoute?.pathMatch).toBe('full');
   });
 
   it('should define home route with loadComponent correctly', async () => {
-    const homeRoute = routes.find((route) => route.path === 'home');
+    const homeRoute = routes.find((route) => route.path === 'home-restaurant');
     expect(homeRoute).toBeTruthy();
     expect(homeRoute?.loadComponent).toBeDefined();
 
@@ -29,6 +29,29 @@ describe('app.routes', () => {
     expect(authRoute).toBeTruthy();
 
     const loadChildrenFn = authRoute?.loadChildren;
+    expect(loadChildrenFn).toBeDefined();
+
+    const loadedRoutes = await loadChildrenFn?.();
+    expect(loadedRoutes).toBeTruthy();
+
+    if (Array.isArray(loadedRoutes)) {
+      expect(loadedRoutes.length).toBeGreaterThan(0);
+    } else {
+      expect(typeof loadedRoutes).toBe('object');
+    }
+  });
+
+  it('should define legal route correctly', () => {
+    const legalRoute = routes.find((route) => route.path === 'legal');
+    expect(legalRoute).toBeTruthy();
+    expect(legalRoute?.loadChildren).toBeDefined();
+  });
+
+  it('should load legal children routes correctly', async () => {
+    const legalRoute = routes.find((route) => route.path === 'legal');
+    expect(legalRoute).toBeTruthy();
+
+    const loadChildrenFn = legalRoute?.loadChildren;
     expect(loadChildrenFn).toBeDefined();
 
     const loadedRoutes = await loadChildrenFn?.();

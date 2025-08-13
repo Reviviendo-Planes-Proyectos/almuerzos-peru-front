@@ -1,0 +1,72 @@
+<section id="beneficios" class="py-12 md:py-20 bg-gray-50 px-4 md:px-8 lg:px-16 xl:px-20 2xl:px-24">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-12 md:mb-16">
+      <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
+        {{ t('landing.restaurant.benefits.title.prefix') }}
+        <span class="gradient-text">{{ t('landing.restaurant.benefits.title.highlight') }}</span>
+        {{ t('landing.restaurant.benefits.title.suffix') }}
+      </h2>
+      <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+        {{ t('landing.restaurant.benefits.description') }}
+      </p>
+    </div>
+
+    <div class="flex flex-col lg:grid lg:grid-cols-2 gap-8 lg:gap-16 space-y-6 md:space-y-8 lg:space-y-0 mb-16">
+      <div class="space-y-8" *ngFor="let audienceKey of ['restaurant', 'customer']">
+        <div class="text-center lg:text-left">
+          <div
+            [ngClass]="{
+              'bg-yellow-100 text-yellow-900': audienceKey === 'restaurant',
+              'bg-orange-100 text-orange-700': audienceKey === 'customer'
+            }"
+            class="inline-flex items-center space-x-2 px-4 py-2 rounded-full mb-4"
+          >
+            <mat-icon
+              *ngIf="audienceKey === 'customer'"
+              class="transform transition-transform duration-500 hover:scale-105"
+            >
+              favorite_border
+            </mat-icon>
+            <span
+              class="material-symbols-outlined transform transition-transform duration-500 hover:scale-105"
+              *ngIf="audienceKey === 'restaurant'"
+            >
+              restaurant_menu
+            </span>
+            <span class="font-semibold">{{ t('landing.restaurant.benefits.' + audienceKey + '.title') }}</span>
+          </div>
+          <h3 class="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+            {{ t('landing.restaurant.benefits.' + audienceKey + '.subtitle') }}
+          </h3>
+        </div>
+
+        <ng-container *ngFor="let benefit of benefits">
+          <mat-card
+            *ngIf="benefit.audience === audienceKey"
+            class="flex !flex-row items-center space-x-4 p-4 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all border border-transparent rounded-lg !bg-white"
+          >
+            <div class="flex items-center w-full">
+              <div
+                [ngClass]="[
+                  benefit.bgColor,
+                  'rounded-md w-10 h-10 flex items-center justify-center flex-shrink-0 mr-4'
+                ]"
+              >
+                <mat-icon
+                  [ngClass]="benefit.iconColor"
+                  class="transform transition-transform duration-500 hover:scale-105"
+                >
+                  {{ benefit.icon }}
+                </mat-icon>
+              </div>
+              <div>
+                <h4 class="text-lg sm:text-xl font-semibold text-gray-900">{{ benefit.title }}</h4>
+                <p class="text-base sm:text-lg text-gray-600 mt-1">{{ benefit.subtitle }}</p>
+              </div>
+            </div>
+          </mat-card>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</section>

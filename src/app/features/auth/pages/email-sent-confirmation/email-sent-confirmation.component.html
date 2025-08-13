@@ -1,0 +1,69 @@
+<!-- Fondo -->
+<div class="relative min-h-screen">
+  <img
+    src="img/background_almuerza_peru.png"
+    [attr.alt]="t('common.background')"
+    class="absolute inset-0 w-full h-full object-cover opacity-100"
+  />
+
+  <app-back-button routerLink="/auth/forgot-password"></app-back-button>
+
+  <div class="relative z-10 flex items-end sm:items-center justify-center min-h-[95vh]">
+    <div
+      class="bg-white bg-opacity-90 rounded-xl shadow-lg p-6 w-full max-w-md max-h-[85vh] flex flex-col items-center overflow-y-auto"
+    >
+      <!-- Estado de confirmación: Email enviado -->
+      <div class="w-full flex flex-col items-center text-center">
+        <mat-icon class="text-green-500 mb-4" style="font-size: 64px; width: 64px; height: 64px">
+          mark_email_read
+        </mat-icon>
+
+        <h1 class="text-center text-3xl font-bold text-gray-800 uppercase mb-2">
+          {{ t('app.name') }}
+        </h1>
+
+        <h2 class="text-2xl font-bold text-gray-800 mb-2">
+          {{ t('auth.forgot.emailSent.title') }}
+        </h2>
+
+        <p class="text-gray-600 mb-4">
+          {{ t('auth.forgot.emailSent.description') }}
+        </p>
+
+        <p class="text-sm text-gray-500 mb-6">
+          {{ t('auth.forgot.emailSent.checkSpam') }}
+        </p>
+
+        <!-- Botón de reenvío amarillo -->
+        <div class="w-full mb-4">
+          <!-- Mostrar botón cuando NO está cargando -->
+          <app-button
+            *ngIf="!isLoading"
+            [label]="t('auth.forgot.resendButton')"
+            [isActive]="true"
+            [isOutline]="false"
+            [iconName]="'refresh'"
+            (click)="resendEmail()"
+            (keydown.enter)="resendEmail()"
+            (keydown.space)="resendEmail()"
+            class="w-full"
+          ></app-button>
+
+          <!-- Mostrar spinner cuando SÍ está cargando -->
+          <div *ngIf="isLoading" class="loading-container">
+            <mat-spinner diameter="24" class="mat-spinner-yellow"></mat-spinner>
+            <span class="loading-text">{{ t('auth.forgot.sending') }}</span>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          (click)="goToLogin()"
+          class="mt-4 text-purple-700 hover:underline font-medium bg-transparent border-none cursor-pointer"
+        >
+          {{ t('auth.forgot.backToLogin') }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

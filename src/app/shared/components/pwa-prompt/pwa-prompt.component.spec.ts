@@ -3,6 +3,7 @@ import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testin
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { BehaviorSubject, of } from 'rxjs';
+import { I18nService } from '../../i18n/services/translation.service';
 import { PwaService } from '../../services/pwa/pwa.service';
 import { PwaPromptComponent } from './pwa-prompt.component';
 
@@ -11,6 +12,7 @@ describe('PwaPromptComponent', () => {
   let fixture: ComponentFixture<PwaPromptComponent>;
   let mockPwaService: jest.Mocked<PwaService>;
   let mockSnackBar: jest.Mocked<MatSnackBar>;
+  let mockI18nService: jest.Mocked<I18nService>;
   let updateAvailableSubject: BehaviorSubject<boolean>;
 
   beforeEach(async () => {
@@ -21,6 +23,20 @@ describe('PwaPromptComponent', () => {
       updateApp: jest.fn().mockResolvedValue(undefined),
       updateAvailable$: updateAvailableSubject.asObservable()
     } as unknown as jest.Mocked<PwaService>;
+
+    mockI18nService = {
+      t: jest.fn().mockImplementation((key: string) => {
+        const translations: { [key: string]: string } = {
+          'pwa.install.title': 'Instalar Aplicación',
+          'pwa.install.message': '¿Deseas instalar esta aplicación?',
+          'pwa.install.accept': 'Instalar',
+          'pwa.install.cancel': 'Cancelar',
+          'pwa.update.message': 'Nueva versión disponible',
+          'pwa.update.action': 'Actualizar'
+        };
+        return translations[key] || key;
+      })
+    } as unknown as jest.Mocked<I18nService>;
 
     const snackBarRef = {
       dismiss: jest.fn(),
@@ -37,7 +53,8 @@ describe('PwaPromptComponent', () => {
       providers: [
         { provide: PwaService, useValue: mockPwaService },
         { provide: MatSnackBar, useValue: mockSnackBar },
-        { provide: PLATFORM_ID, useValue: 'browser' }
+        { provide: PLATFORM_ID, useValue: 'browser' },
+        { provide: I18nService, useValue: mockI18nService }
       ]
     }).compileComponents();
 
@@ -248,6 +265,16 @@ describe('PwaPromptComponent', () => {
       writable: true
     });
 
+    // Simular dispositivo móvil
+    Object.defineProperty(window.navigator, 'userAgent', {
+      writable: true,
+      value: 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/605.1.15'
+    });
+    Object.defineProperty(window, 'innerWidth', {
+      writable: true,
+      value: 375
+    });
+
     component.ngOnInit();
     tick(30000);
 
@@ -308,7 +335,7 @@ describe('PwaPromptComponent', () => {
 
     (component as unknown as { scheduleFabDisplay: () => void }).scheduleFabDisplay();
 
-    expect(setTimeoutSpy).toHaveBeenCalledWith(expect.any(Function), 30000);
+    expect(setTimeoutSpy).toHaveBeenCalledWith(expect.any(Function), 25000);
 
     setTimeoutSpy.mockRestore();
   });

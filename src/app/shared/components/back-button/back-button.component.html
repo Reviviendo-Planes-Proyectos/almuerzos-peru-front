@@ -1,0 +1,13 @@
+<button
+  mat-icon-button
+  (click)="goBack()"
+  [class]="
+    'absolute z-50 bg-white bg-opacity-70 hover:bg-opacity-100 rounded-full shadow-md transition duration-300 ' +
+    positionClasses +
+    ' ' +
+    customClass
+  "
+  [attr.aria-label]="buttonAriaLabel"
+>
+  <mat-icon class="text-gray-800">arrow_back</mat-icon>
+</button>

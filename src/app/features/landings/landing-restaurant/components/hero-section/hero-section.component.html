@@ -1,0 +1,77 @@
+<section class="pt-36 pb-16 hero-gradient relative overflow-hidden">
+  <div class="container mx-auto px-4 sm:px-8 relative">
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <!-- Texto -->
+      <div class="space-y-8">
+        <div class="space-y-4">
+          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight flex items-center gap-5">
+            <span>
+              <span class="gradient-text">{{ t('landing.restaurant.hero.title.upload') }}</span>
+              {{ t('landing.restaurant.hero.title.sales') }}
+            </span>
+            <span class="material-icons text-orange-500 flex-shrink-0" style="font-size: 3.5rem">show_chart</span>
+          </h1>
+          <p class="text-lg sm:text-xl text-gray-600 leading-relaxed">
+            {{ t('landing.restaurant.hero.description') }}
+          </p>
+        </div>
+
+        <!-- Botones con componente reutilizable -->
+        <div class="flex flex-col sm:flex-row gap-2 sm:gap-5 w-full">
+          <app-button
+            [translateKey]="'landing.restaurant.hero.buttons.startFree'"
+            [isActive]="true"
+            [isOutline]="false"
+            class="w-full sm:flex-1"
+            iconName="rocket_launch"
+            (click)="handleFeatureClick('registro')"
+          ></app-button>
+
+          <app-button
+            [translateKey]="'landing.restaurant.hero.buttons.seeHowItWorks'"
+            [isActive]="true"
+            [isOutline]="true"
+            iconName="smart_display"
+            class="w-full sm:flex-1"
+            (click)="handleFeatureClick('demo')"
+          ></app-button>
+        </div>
+
+        <!-- Beneficios -->
+        <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-6 text-sm text-gray-600">
+          <div class="flex items-center space-x-2 mb-2 sm:mb-0">
+            <mat-icon class="!w-6 !h-6 text-green-500">check</mat-icon>
+            <span>{{ t('landing.restaurant.hero.benefits.noCreditCard') }}</span>
+          </div>
+          <div class="flex items-center space-x-2">
+            <mat-icon class="!w-6 !h-6 text-green-500">check</mat-icon>
+            <span>{{ t('landing.restaurant.hero.benefits.setup5min') }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Imagen -->
+      <div class="relative">
+        <div class="floating-animation">
+          <img
+            [attr.alt]="t('landing.restaurant.hero.imageAlt')"
+            class="w-full h-auto rounded-2xl shadow-2xl"
+            src="/img/landing/hero-restaurant-phone.png"
+          />
+        </div>
+
+        <div class="absolute -bottom-6 -left-6 bg-white rounded-xl p-4 shadow-lg">
+          <div class="flex items-center space-x-3">
+            <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+              <mat-icon class="text-green-600">trending_up</mat-icon>
+            </div>
+            <div>
+              <p class="font-semibold text-gray-900">{{ t('landing.restaurant.hero.stats.sales') }}</p>
+              <p class="text-sm text-gray-600">{{ t('landing.restaurant.hero.stats.salesDescription') }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

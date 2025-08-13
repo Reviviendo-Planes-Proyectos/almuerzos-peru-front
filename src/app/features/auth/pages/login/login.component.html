@@ -1,63 +1,87 @@
-<div>
+<!-- Fondo -->
+<div class="relative min-h-screen">
   <img
     src="img/background_almuerza_peru.png"
-    alt="Fondo"
+    [attr.alt]="t('common.background')"
     class="absolute inset-0 w-full h-full object-cover opacity-100"
   />
-  <div class="relative min-h-screen">
-    <button
-      mat-icon-button
-      (click)="goBack()"
-      class="absolute top-4 left-4 z-50 bg-white bg-opacity-70 hover:bg-opacity-100 rounded-full shadow-md transition duration-300"
-      aria-label="Volver"
+
+  <app-back-button position="top-left" routerLink="/auth/profile-selection"></app-back-button>
+
+  <div class="relative z-10 flex items-end sm:items-center justify-center min-h-[95vh]">
+    <div
+      class="bg-white bg-opacity-90 rounded-xl shadow-lg p-6 w-full max-w-md max-h-[85vh] flex flex-col items-center overflow-y-auto"
     >
-      <mat-icon class="text-gray-800">arrow_back</mat-icon>
-    </button>
-    <div class="flex items-end sm:items-center justify-center min-h-[95vh]">
-      <div
-        class="bg-white bg-opacity-80 rounded-lg px-4 py-6 sm:px-4 sm:py-6 md:px-4 md:py-6 lg:px-8 lg:py-10 shadow-lg w-full max-w-lg z-10 gap-6 flex flex-col justify-between sm:h-3/4 lg:h-1/2"
+      <h1 class="text-center text-3xl font-bold text-gray-800 uppercase mb-2">
+        {{ t('app.name') }}
+      </h1>
+
+      <p class="text-center text-gray-600 mb-6">{{ t('auth.login.title') }}</p>
+
+      <button
+        (click)="loginWithGoogle()"
+        [disabled]="isGoogleLoading || isFacebookLoading || isEmailLoading"
+        onkeypress="if(event.key === 'Enter'){ loginWithGoogle(); }"
+        class="w-full flex items-center justify-center gap-2 border border-yellow-500 text-red-600 font-semibold py-2 px-4 rounded-lg hover:bg-red-100 transition mb-3 disabled:opacity-50 disabled:hover:bg-transparent"
       >
-        <h1 class="text-center text-3xl font-bold mb-6 text-gray-800 uppercase sm:text-3xl md:text-4xl lg:text-5xl">
-          <span class="text-black mr-2">ALMUERZOS</span>
-          <span class="text-brand-yellow">PERÚ</span>
-        </h1>
+        <!-- Spinner de carga -->
+        <div *ngIf="isGoogleLoading" class="animate-spin rounded-full h-5 w-5 border-b-2 border-yellow-500"></div>
+        <!-- Icono normal -->
+        <img *ngIf="!isGoogleLoading" src="img/google.png" [attr.alt]="t('common.google')" class="w-5 h-5" />
 
-        <p class="text-center text-gray-600 text-xl sm:text-lg md:text-2xl lg:text-3xl mb-6 uppercase">
-          Encuentra tu
-          <span class="font-bold">menú diario</span>
-          , ¡sin perder tiempo!
-        </p>
+        <span *ngIf="!isGoogleLoading">{{ t('auth.login.withGoogle') }}</span>
+        <span *ngIf="isGoogleLoading">{{ t('auth.register.connecting') }}</span>
+      </button>
 
-        <div class="flex flex-col gap-4">
-          <app-button [label]="'Empezar'" [isActive]="true" [isOutline]="false"></app-button>
+      <button
+        (click)="loginWithFacebook()"
+        [disabled]="isGoogleLoading || isFacebookLoading || isEmailLoading"
+        onkeypress="if(event.key === 'Enter'){ loginWithFacebook(); }"
+        class="w-full flex items-center justify-center gap-2 border border-yellow-500 text-blue-600 font-semibold py-2 px-4 rounded-lg hover:bg-blue-100 transition mb-3 disabled:opacity-50 disabled:hover:bg-transparent"
+      >
+        <!-- Spinner de carga -->
+        <div *ngIf="isFacebookLoading" class="animate-spin rounded-full h-5 w-5 border-b-2 border-yellow-500"></div>
+        <!-- Icono normal -->
+        <img *ngIf="!isFacebookLoading" src="img/facebook.png" [attr.alt]="t('common.facebook')" class="w-5 h-5" />
 
-          <div class="flex items-center my-6">
-            <hr class="flex-grow border-2 border-gray-300" />
-            <span class="mx-4 text-gray-600 uppercase font-medium">OR</span>
-            <hr class="flex-grow border-2 border-gray-300" />
-          </div>
+        <span *ngIf="!isFacebookLoading">{{ t('auth.login.withFacebook') }}</span>
+        <span *ngIf="isFacebookLoading">{{ t('auth.register.connecting') }}</span>
+      </button>
 
-          <app-button
-            [label]="'Ingresar con Google'"
-            [isActive]="true"
-            [isOutline]="true"
-            [iconName]="'email'"
-          ></app-button>
-
-          <app-button
-            [label]="'Continuar con Facebook'"
-            [isActive]="true"
-            [isOutline]="true"
-            [iconName]="'facebook'"
-          ></app-button>
-        </div>
-
-        <div class="text-center mt-12">
-          <a href="#" (click)="goBack()" class="text-gray-600 hover:text-gray-800 uppercase font-medium">
-            Registrarme luego
-          </a>
-        </div>
+      <div class="flex items-center w-full my-4">
+        <hr class="flex-grow border-t border-gray-300" />
+        <span class="mx-4 text-gray-500 font-medium">{{ t('common.or') }}</span>
+        <hr class="flex-grow border-t border-gray-300" />
       </div>
+
+      <button
+        (click)="iniciarConEmail()"
+        [disabled]="isGoogleLoading || isFacebookLoading || isEmailLoading"
+        onkeypress="if(event.key === 'Enter'){ iniciarConEmail(); }"
+        class="w-full flex items-center justify-center gap-2 border border-yellow-500 text-gray-800 font-semibold py-2 px-4 rounded-lg hover:bg-gray-100 transition mb-3 disabled:opacity-50 disabled:hover:bg-transparent"
+      >
+        <!-- Icono siempre visible (sin spinner) -->
+        <mat-icon>mail</mat-icon>
+        {{ t('auth.login.withEmail') }}
+      </button>
+
+      <button
+        type="button"
+        (click)="forgotPassword()"
+        onkeypress="if(event.key === 'Enter'){ forgotPassword(); }"
+        class="mt-2 text-purple-700 hover:underline font-medium bg-transparent border-none cursor-pointer"
+      >
+        {{ t('auth.forgot.title') }}
+      </button>
+
+      <button
+        type="button"
+        (click)="goToRegister()"
+        onkeypress="if(event.key === 'Enter'){ goToRegister(); }"
+        class="mt-4 text-purple-700 hover:underline font-medium bg-transparent border-none cursor-pointer"
+      >
+        {{ t('auth.login.noAccount') }}
+      </button>
     </div>
   </div>
 </div>
