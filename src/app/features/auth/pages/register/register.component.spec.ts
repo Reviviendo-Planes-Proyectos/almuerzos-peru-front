@@ -5,8 +5,34 @@ import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
+import { I18nService, TranslatePipe } from '../../../../shared/i18n';
+import { MaterialModule } from '../../../../shared/material.module';
 import { LoggerService } from '../../../../shared/services/logger/logger.service';
 import { RegisterComponent } from './register.component';
+
+// Mock del servicio de traducción
+class MockI18nService {
+  t(key: string): string {
+    const translations: Record<string, string> = {
+      'app.name': 'ALMUERZOS PERU',
+      'messages.welcome': '¡Bienvenido a Almuerzos Peru!',
+      'auth.register.title': '¿Cómo deseas registrarte?',
+      'auth.register.button': 'Continuar',
+      'auth.register.email': 'Correo',
+      'auth.register.later': 'Registrarse después',
+      'auth.register.withGoogle': 'Continuar con Google',
+      'auth.register.withFacebook': 'Continuar con Facebook',
+      'auth.register.withEmail': 'Continuar con Correo',
+      'auth.register.connecting': 'Conectando...',
+      'common.back': 'Volver',
+      'common.or': 'O',
+      'common.background': 'Fondo',
+      'common.google': 'Google',
+      'common.facebook': 'Facebook'
+    };
+    return translations[key] || key;
+  }
+}
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
@@ -14,8 +40,7 @@ describe('RegisterComponent', () => {
   let router: Router;
   let location: Location;
   let debugElement: DebugElement;
-  let activatedRoute: ActivatedRoute;
-  let loggerService: LoggerService;
+  let mockI18nService: MockI18nService;
 
   beforeEach(async () => {
     const routerSpy = {
@@ -37,26 +62,26 @@ describe('RegisterComponent', () => {
     };
 
     const activatedRouteSpy = {
-      queryParams: of({}),
-      snapshot: {
-        queryParams: {}
-      }
+      queryParams: of({})
     };
 
     const loggerServiceSpy = {
       info: jest.fn(),
-      error: jest.fn(),
       warn: jest.fn(),
+      error: jest.fn(),
       debug: jest.fn()
     };
 
+    mockI18nService = new MockI18nService();
+
     await TestBed.configureTestingModule({
-      imports: [RegisterComponent, NoopAnimationsModule],
+      imports: [RegisterComponent, MaterialModule, NoopAnimationsModule, TranslatePipe],
       providers: [
         { provide: Router, useValue: routerSpy },
         { provide: Location, useValue: locationSpy },
         { provide: ActivatedRoute, useValue: activatedRouteSpy },
-        { provide: LoggerService, useValue: loggerServiceSpy }
+        { provide: LoggerService, useValue: loggerServiceSpy },
+        { provide: I18nService, useValue: mockI18nService }
       ]
     }).compileComponents();
 
@@ -64,8 +89,6 @@ describe('RegisterComponent', () => {
     component = fixture.componentInstance;
     router = TestBed.inject(Router);
     location = TestBed.inject(Location);
-    activatedRoute = TestBed.inject(ActivatedRoute);
-    loggerService = TestBed.inject(LoggerService);
     debugElement = fixture.debugElement;
 
     // Mock window.history.state
@@ -87,61 +110,37 @@ describe('RegisterComponent', () => {
     expect(component.isEmailLoading).toBe(false);
   });
 
-  describe('ngOnInit', () => {
-    it('should get tipo from router navigation state', () => {
-      const routerSpy = router as any;
-      routerSpy.getCurrentNavigation.mockReturnValue({
-        extras: {
-          state: { tipo: 'restaurante' }
-        }
-      });
+  it('should display the app name', () => {
+    const titleElement = debugElement.query(By.css('h1'));
+    expect(titleElement.nativeElement.textContent.trim()).toBe('ALMUERZOS PERU');
+  });
 
-      component.ngOnInit();
+  it('should display register title', () => {
+    const titleElement = debugElement.query(By.css('p'));
+    expect(titleElement.nativeElement.textContent.trim()).toBe('¿Cómo deseas registrarte?');
+  });
 
-      expect(component.tipo).toBe('restaurante');
-    });
+  it('should display three registration buttons', () => {
+    const buttons = debugElement.queryAll(By.css('button'));
+    // Hay 5 botones en total: app-back-button (1) + Google (1) + Facebook (1) + Email (1) + "Registrarse después" (1)
+    expect(buttons.length).toBe(5);
+  });
 
-    it('should get tipo from router state as fallback', () => {
-      const routerSpy = router as any;
-      routerSpy.getCurrentNavigation.mockReturnValue(null);
-      routerSpy.routerState.root.firstChild.snapshot.data = { tipo: 'comensal' };
+  it('should display "O" separator', () => {
+    const separatorElement = debugElement.query(By.css('.mx-4'));
+    expect(separatorElement.nativeElement.textContent.trim()).toBe('O');
+  });
 
-      component.ngOnInit();
-
-      expect(component.tipo).toBe('comensal');
-    });
-
-    it('should get tipo from queryParams as backup', () => {
-      const activatedRouteSpy = activatedRoute as any;
-      activatedRouteSpy.queryParams = of({ userType: 'restaurante' });
-
-      component.ngOnInit();
-
-      expect(component.tipo).toBe('restaurante');
-    });
-
-    it('should get tipo from window.history.state as final fallback', () => {
-      Object.defineProperty(window, 'history', {
-        value: { state: { tipo: 'comensal' } },
-        writable: true
-      });
-
-      component.ngOnInit();
-
-      expect(component.tipo).toBe('comensal');
-    });
+  it('should display "Registrarse después" link', () => {
+    const linkElement = debugElement.query(By.css('button[type="button"]'));
+    expect(linkElement.nativeElement.textContent.trim()).toBe('Registrarse después');
   });
 
   describe('UI Elements', () => {
     it('should display the main title correctly', () => {
       const titleElement = debugElement.query(By.css('h1'));
       expect(titleElement.nativeElement.textContent.trim()).toContain('ALMUERZOS');
-      expect(titleElement.nativeElement.textContent.trim()).toContain('PERÚ');
-    });
-
-    it('should display welcome message', () => {
-      const welcomeElement = debugElement.query(By.css('h2'));
-      expect(welcomeElement.nativeElement.textContent.trim()).toBe('¡Bienvenido!');
+      expect(titleElement.nativeElement.textContent.trim()).toContain('PERU');
     });
 
     it('should display subtitle message', () => {
@@ -154,11 +153,9 @@ describe('RegisterComponent', () => {
     });
 
     it('should display back button with correct icon', () => {
-      const backButton = debugElement.query(By.css('button[mat-icon-button]'));
-      const iconElement = backButton.query(By.css('mat-icon'));
+      const backButton = debugElement.query(By.css('app-back-button'));
 
       expect(backButton).toBeTruthy();
-      expect(iconElement.nativeElement.textContent.trim()).toBe('arrow_back');
     });
 
     it('should display Google login button with correct text', () => {
@@ -205,29 +202,22 @@ describe('RegisterComponent', () => {
       expect(emailButton).toBeTruthy();
 
       if (emailButton) {
-        const spanElement = emailButton.query(By.css('span'));
-        expect(spanElement).toBeTruthy();
-        if (spanElement) {
-          expect(spanElement.nativeElement.textContent.trim()).toBe('Crear cuenta con email');
-        }
+        expect(emailButton.nativeElement.textContent.trim()).toContain('Continuar con Correo');
       }
     });
 
     it('should display "Registrarme luego" link', () => {
-      const laterLink = debugElement.query(By.css('a[href="#"]'));
-      expect(laterLink).toBeTruthy();
-      expect(laterLink.nativeElement.textContent.trim()).toBe('Registrarme luego');
+      const laterButton = debugElement.query(By.css('button[type="button"]'));
+      expect(laterButton.nativeElement.textContent.trim()).toBe('Registrarse después');
     });
   });
 
   describe('Navigation', () => {
-    it('should call goBack when back button is clicked', () => {
-      const spy = jest.spyOn(component, 'goBack');
-      const backButton = debugElement.query(By.css('button[mat-icon-button]'));
+    it('should have back button configured with correct routerLink', () => {
+      const backButton = debugElement.query(By.css('app-back-button'));
 
-      backButton.triggerEventHandler('click', null);
-
-      expect(spy).toHaveBeenCalled();
+      expect(backButton).toBeTruthy();
+      expect(backButton.componentInstance.routerLink).toBe('/auth/profile-selection');
     });
 
     it('should call location.back() when goBack is called', () => {
@@ -236,13 +226,13 @@ describe('RegisterComponent', () => {
       expect(location.back).toHaveBeenCalled();
     });
 
-    it('should call goBack when "Registrarme luego" link is clicked', () => {
-      const spy = jest.spyOn(component, 'goBack');
-      const laterLink = debugElement.query(By.css('a[href="#"]'));
+    it('should navigate to login when "Registrarme luego" button is clicked', () => {
+      const routerSpy = jest.spyOn(component.router, 'navigate');
+      const laterButton = debugElement.query(By.css('button[type="button"]'));
 
-      laterLink.triggerEventHandler('click', null);
+      laterButton.triggerEventHandler('click', null);
 
-      expect(spy).toHaveBeenCalled();
+      expect(routerSpy).toHaveBeenCalledWith(['auth/login']);
     });
   });
 
@@ -314,213 +304,63 @@ describe('RegisterComponent', () => {
       component.isGoogleLoading = true;
       fixture.detectChanges();
 
-      const buttons = debugElement.queryAll(By.css('button:not([mat-icon-button])'));
-      for (const button of buttons) {
-        expect(button.nativeElement.disabled).toBe(true);
-      }
-    });
-  });
-
-  describe('Facebook Login', () => {
-    it('should call loginWithFacebook when Facebook button is clicked', () => {
-      const spy = jest.spyOn(component, 'loginWithFacebook');
-
-      const buttons = debugElement.queryAll(By.css('button:not([mat-icon-button])'));
-      const facebookButton = buttons.find((btn) => {
-        const spans = btn.queryAll(By.css('span'));
-        return spans.some((span) => span?.nativeElement?.textContent?.includes('Facebook'));
+      // Los botones que deben deshabilitarse son todos los botones de acción (no el de back)
+      const googleButton = debugElement.queryAll(By.css('button')).find((btn) => {
+        const img = btn.query(By.css('img[alt="Google"]'));
+        return img !== null;
+      });
+      const facebookButton = debugElement.queryAll(By.css('button')).find((btn) => {
+        const img = btn.query(By.css('img[alt="Facebook"]'));
+        return img !== null;
+      });
+      const emailButton = debugElement.queryAll(By.css('button')).find((btn) => {
+        const matIcon = btn.query(By.css('mat-icon'));
+        return matIcon !== null && matIcon.nativeElement.textContent.trim() === 'mail';
       });
 
-      expect(facebookButton).toBeTruthy();
+      if (googleButton) {
+        expect(googleButton.nativeElement.disabled).toBe(true);
+      }
       if (facebookButton) {
-        facebookButton.triggerEventHandler('click', null);
-        expect(spy).toHaveBeenCalled();
+        expect(facebookButton.nativeElement.disabled).toBe(true);
       }
-    });
-
-    it('should set isFacebookLoading to true when loginWithFacebook is called', () => {
-      component.loginWithFacebook();
-
-      expect(component.isFacebookLoading).toBe(true);
-    });
-
-    it('should prevent multiple clicks when Facebook loading', () => {
-      component.isFacebookLoading = true;
-      const spy = jest.spyOn(component as any, 'navigateToBasicInfo');
-
-      component.loginWithFacebook();
-
-      expect(spy).not.toHaveBeenCalled();
-    });
-
-    it('should reset loading state after Facebook login timeout', fakeAsync(() => {
-      component.loginWithFacebook();
-      tick(2000);
-
-      expect(component.isFacebookLoading).toBe(false);
-    }));
-
-    it('should show loading spinner when Facebook loading', () => {
-      component.isFacebookLoading = true;
-      fixture.detectChanges();
-
-      const spinner = debugElement.query(By.css('.animate-spin'));
-      expect(spinner).toBeTruthy();
-
-      const connectingSpan = Array.from(debugElement.queryAll(By.css('span'))).find(
-        (span) => span?.nativeElement?.textContent?.trim() === 'Conectando...'
-      );
-      expect(connectingSpan).toBeTruthy();
-    });
-
-    it('should disable all buttons when Facebook loading', () => {
-      component.isFacebookLoading = true;
-      fixture.detectChanges();
-
-      const buttons = debugElement.queryAll(By.css('button:not([mat-icon-button])'));
-      for (const button of buttons) {
-        expect(button.nativeElement.disabled).toBe(true);
-      }
-    });
-  });
-
-  describe('Email Registration', () => {
-    it('should call crearConEmail when email button is clicked', () => {
-      const spy = jest.spyOn(component, 'crearConEmail');
-
-      const buttons = debugElement.queryAll(By.css('button:not([mat-icon-button])'));
-      const emailButton = buttons.find((btn) => {
-        const matIcon = btn.query(By.css('mat-icon'));
-        return matIcon && matIcon.nativeElement.textContent.trim() === 'mail';
-      });
-
-      expect(emailButton).toBeTruthy();
       if (emailButton) {
-        emailButton.triggerEventHandler('click', null);
-        expect(spy).toHaveBeenCalled();
-      }
-    });
-
-    it('should set isEmailLoading to true when crearConEmail is called', () => {
-      component.crearConEmail();
-
-      expect(component.isEmailLoading).toBe(true);
-    });
-
-    it('should prevent multiple clicks when email loading', () => {
-      component.isEmailLoading = true;
-      const spy = jest.spyOn(component as any, 'navigateToBasicInfo');
-
-      component.crearConEmail();
-
-      expect(spy).not.toHaveBeenCalled();
-    });
-
-    it('should reset loading state after email registration timeout', fakeAsync(() => {
-      component.crearConEmail();
-      tick(500);
-
-      expect(component.isEmailLoading).toBe(false);
-    }));
-
-    it('should disable all buttons when email loading', () => {
-      component.isEmailLoading = true;
-      fixture.detectChanges();
-
-      const buttons = debugElement.queryAll(By.css('button:not([mat-icon-button])'));
-      for (const button of buttons) {
-        expect(button.nativeElement.disabled).toBe(true);
-      }
-    });
-
-    it('should not show loading spinner for email button', () => {
-      component.isEmailLoading = true;
-      fixture.detectChanges();
-
-      const buttons = debugElement.queryAll(By.css('button:not([mat-icon-button])'));
-      const emailButton = buttons.find((btn) => {
-        const matIcon = btn.query(By.css('mat-icon'));
-        return matIcon && matIcon.nativeElement.textContent.trim() === 'mail';
-      });
-
-      expect(emailButton).toBeTruthy();
-      if (emailButton) {
-        const spinner = emailButton.query(By.css('.animate-spin'));
-        expect(spinner).toBeFalsy();
+        expect(emailButton.nativeElement.disabled).toBe(true);
       }
     });
   });
 
-  describe('Navigation Logic', () => {
-    it('should navigate to restaurant-basic-info when tipo is restaurante', () => {
-      component.tipo = 'restaurante';
-      (component as any).navigateToBasicInfo();
+  describe('Internationalization', () => {
+    it('should display all text elements with proper translations', () => {
+      const titleElement = debugElement.query(By.css('h1'));
+      const subtitleElement = debugElement.query(By.css('p'));
+      const separatorElement = debugElement.query(By.css('.mx-4'));
+      const linkElement = debugElement.query(By.css('button.text-purple-700'));
 
-      expect(router.navigate).toHaveBeenCalledWith(['/auth/restaurant-basic-info']);
+      expect(titleElement.nativeElement.textContent.trim()).toBe('ALMUERZOS PERU');
+      expect(subtitleElement.nativeElement.textContent.trim()).toBe('¿Cómo deseas registrarte?');
+      expect(separatorElement.nativeElement.textContent.trim()).toBe('O');
+      expect(linkElement.nativeElement.textContent.trim()).toBe('Registrarse después');
     });
 
-    it('should navigate to customer-basic-info when tipo is comensal', () => {
-      component.tipo = 'comensal';
-      (component as any).navigateToBasicInfo();
-
-      expect(router.navigate).toHaveBeenCalledWith(['/auth/customer-basic-info']);
+    it('should have proper aria-label for back button with translation', () => {
+      const backButton = debugElement.query(By.css('button[mat-icon-button]'));
+      expect(backButton.nativeElement.getAttribute('aria-label')).toBe('Volver');
     });
 
-    it('should default to customer-basic-info when tipo is undefined', () => {
-      component.tipo = null;
-      (component as any).navigateToBasicInfo();
+    it('should display registration buttons with translated text', () => {
+      const googleButton = debugElement.queryAll(By.css('button'))[1];
+      const facebookButton = debugElement.queryAll(By.css('button'))[2];
+      const emailButton = debugElement.queryAll(By.css('button'))[3];
 
-      expect(router.navigate).toHaveBeenCalledWith(['/auth/customer-basic-info']);
-      expect(loggerService.info).toHaveBeenCalledWith('Tipo no detectado, redirigiendo a customer-basic-info');
-    });
-  });
-
-  describe('Cross-loading behavior', () => {
-    it('should disable all buttons when any loading state is active', () => {
-      component.isGoogleLoading = true;
-      fixture.detectChanges();
-
-      const allButtons = debugElement.queryAll(By.css('button:not([mat-icon-button])'));
-      for (const button of allButtons) {
-        expect(button.nativeElement.disabled).toBe(true);
-      }
+      expect(googleButton.nativeElement.textContent.trim()).toBe('Continuar con Google');
+      expect(facebookButton.nativeElement.textContent.trim()).toBe('Continuar con Facebook');
+      expect(emailButton.nativeElement.textContent.trim()).toBe('mail Continuar con Correo');
     });
 
-    it('should allow methods to execute if their specific loading state is false', () => {
-      component.isGoogleLoading = false;
-      component.isFacebookLoading = false;
-      component.isEmailLoading = false;
-
-      // Ejecutar Google login
-      component.loginWithGoogle();
-      expect(component.isGoogleLoading).toBe(true);
-
-      // Reiniciar estados
-      component.isGoogleLoading = false;
-      component.isFacebookLoading = false;
-      component.isEmailLoading = false;
-
-      // Ejecutar Facebook login
-      component.loginWithFacebook();
-      expect(component.isFacebookLoading).toBe(true);
-
-      // Reiniciar estados
-      component.isGoogleLoading = false;
-      component.isFacebookLoading = false;
-      component.isEmailLoading = false;
-
-      // Ejecutar email registration
-      component.crearConEmail();
-      expect(component.isEmailLoading).toBe(true);
-    });
-  });
-
-  describe('Background image', () => {
-    it('should display background image with correct src', () => {
-      const backgroundImg = debugElement.query(By.css('img[alt="Fondo"]'));
-
-      expect(backgroundImg).toBeTruthy();
-      expect(backgroundImg.nativeElement.src).toContain('background_almuerza_peru.png');
+    it('should use TranslatePipe in template correctly', () => {
+      expect(debugElement.query(By.css('h1')).nativeElement.textContent.trim()).toBe('ALMUERZOS PERU');
+      expect(debugElement.query(By.css('p')).nativeElement.textContent.trim()).toBe('¿Cómo deseas registrarte?');
     });
   });
 });

@@ -1,14 +1,42 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { I18nService, TranslatePipe } from '../../../../../shared/i18n';
 import { TestimonialsSectionComponent } from './testimonials-section.component';
+
+// Mock del servicio de traducción
+class MockI18nService {
+  t(key: string): string {
+    const translations: Record<string, string> = {
+      'landing.testimonials.title': 'Lo que dicen nuestros usuarios',
+      'landing.testimonials.subtitle': 'Miles de personas ya usan Almuerza Perú para encontrar su comida favorita',
+      'landing.testimonials.users.maria.name': 'María González',
+      'landing.testimonials.users.maria.role': 'Ejecutiva en San Isidro',
+      'landing.testimonials.users.maria.text':
+        'Desde que uso Almuerza Perú, encontrar un buen restaurante cerca de mi oficina es súper fácil. Los menús están siempre actualizados.',
+      'landing.testimonials.users.carlos.name': 'Carlos Mendoza',
+      'landing.testimonials.users.carlos.role': 'Empresario en Miraflores',
+      'landing.testimonials.users.carlos.text':
+        'Me encanta poder ver los precios antes de ir. Ya no tengo sorpresas y puedo planificar mejor mis comidas de trabajo.',
+      'landing.testimonials.users.roberto.name': 'Roberto Quispe',
+      'landing.testimonials.users.roberto.role': 'Estudiante en Lima Centro',
+      'landing.testimonials.users.roberto.text':
+        'Como estudiante, necesito opciones económicas y buenas. Almuerza Perú me ayuda a encontrar el mejor menú por mi presupuesto.'
+    };
+    return translations[key] || key;
+  }
+}
 
 describe('TestimonialsSectionComponent', () => {
   let component: TestimonialsSectionComponent;
   let fixture: ComponentFixture<TestimonialsSectionComponent>;
+  let mockI18nService: MockI18nService;
 
   beforeEach(async () => {
+    mockI18nService = new MockI18nService();
+
     await TestBed.configureTestingModule({
-      imports: [TestimonialsSectionComponent, BrowserAnimationsModule]
+      imports: [TestimonialsSectionComponent, BrowserAnimationsModule, TranslatePipe],
+      providers: [{ provide: I18nService, useValue: mockI18nService }]
     }).compileComponents();
 
     fixture = TestBed.createComponent(TestimonialsSectionComponent);
@@ -38,9 +66,9 @@ describe('TestimonialsSectionComponent', () => {
   it('should have valid testimonial names', () => {
     const names = component.testimonials.map((t) => t.name);
 
-    expect(names).toContain('María González');
-    expect(names).toContain('Carlos Mendoza');
-    expect(names).toContain('Roberto Silva');
+    expect(names).toContain('landing.testimonials.users.maria.name');
+    expect(names).toContain('landing.testimonials.users.carlos.name');
+    expect(names).toContain('landing.testimonials.users.roberto.name');
   });
 
   it('should have valid ratings for all testimonials', () => {
@@ -74,9 +102,9 @@ describe('TestimonialsSectionComponent', () => {
   it('should have descriptive roles for testimonials', () => {
     const roles = component.testimonials.map((t) => t.role);
 
-    expect(roles).toContain('Ejecutiva en San Isidro');
-    expect(roles).toContain('Estudiante PUCP');
-    expect(roles).toContain('Gerente en Miraflores');
+    expect(roles).toContain('landing.testimonials.users.maria.role');
+    expect(roles).toContain('landing.testimonials.users.carlos.role');
+    expect(roles).toContain('landing.testimonials.users.roberto.role');
   });
 
   describe('getStarArray method', () => {
@@ -103,8 +131,8 @@ describe('TestimonialsSectionComponent', () => {
       .join(' ')
       .toLowerCase();
 
-    expect(allText).toContain('san isidro');
-    expect(allText).toContain('pucp');
-    expect(allText).toContain('miraflores');
+    expect(allText).toContain('landing.testimonials.users.maria');
+    expect(allText).toContain('landing.testimonials.users.carlos');
+    expect(allText).toContain('landing.testimonials.users.roberto');
   });
 });

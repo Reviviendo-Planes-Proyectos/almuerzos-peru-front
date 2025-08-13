@@ -1,36 +1,41 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { BackButtonComponent } from '../../../../shared/components/back-button/back-button.component';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
 import { FileUploadComponent } from '../../../../shared/components/file-upload/file-upload.component';
-import { HeaderWithStepsComponent } from '../../../../shared/components/header-with-steps/header-with-steps.component';
-import { SectionTitleComponent } from '../../../../shared/components/section-title/section-title.component';
-import { StepIndicatorComponent } from '../../../../shared/components/step-indicator/step-indicator.component';
 import { WarningModalComponent } from '../../../../shared/components/warning-modal/warning-modal.component';
+import { BaseTranslatableComponent } from '../../../../shared/i18n';
 
 @Component({
   selector: 'app-customer-profile-photo',
   standalone: true,
-  imports: [
-    CommonModule,
-    HeaderWithStepsComponent,
-    StepIndicatorComponent,
-    SectionTitleComponent,
-    ButtonComponent,
-    FileUploadComponent,
-    WarningModalComponent
-  ],
+  imports: [CommonModule, BackButtonComponent, ButtonComponent, FileUploadComponent, WarningModalComponent],
   templateUrl: './customer-profile-photo.component.html',
   styleUrl: './customer-profile-photo.component.scss'
 })
-export class CustomerProfilePhotoComponent {
+export class CustomerProfilePhotoComponent extends BaseTranslatableComponent implements OnInit {
   @ViewChild(FileUploadComponent) fileUploadComponent!: FileUploadComponent;
 
   selectedImage: string | null = null;
   selectedFile: File | null = null;
   showWarningModal = true;
+  private emailParam: string | null = null;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
+    super();
+  }
+
+  ngOnInit(): void {
+    this.route.queryParams.subscribe((params: Params) => {
+      const emailKey = 'email';
+      const email = params[emailKey] as string;
+      this.emailParam = email || null;
+    });
+  }
 
   triggerFileInput(): void {
     this.fileUploadComponent.triggerFileInput();
@@ -62,31 +67,26 @@ export class CustomerProfilePhotoComponent {
   }
 
   finishRegistration(): void {
-    if (!this.selectedFile) {
-      alert('Por favor selecciona una imagen antes de continuar.');
-      return;
-    }
-
-    // Aquí implementarías la lógica para subir la imagen y finalizar el registro
-    // TODO: Implement image upload logic
-
-    // Por ahora, navegar a una página de éxito o dashboard
-    // this.router.navigate(['/auth/registration-success']);
     alert('¡Registro completado exitosamente!');
   }
 
-  goBack(): void {
-    this.router.navigate(['/auth/email-verification']);
+  skipForNow(): void {
+    this.router.navigate(['/']);
   }
 
-  // Métodos para el modal de advertencia
+  goBack(): void {
+    if (this.emailParam) {
+      this.router.navigate(['/auth/email-verification', this.emailParam]);
+    } else {
+      this.router.navigate(['/auth/email-verification']);
+    }
+  }
+
   onVerifyEmail(): void {
-    // Navegar a verificación de email
     this.router.navigate(['/auth/email-verification']);
   }
 
   onRemindLater(): void {
-    // Cerrar el modal por ahora
     this.showWarningModal = false;
   }
 

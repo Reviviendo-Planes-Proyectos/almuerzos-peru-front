@@ -1,17 +1,19 @@
 import { Location, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BackButtonComponent } from '../../../../shared/components/back-button/back-button.component';
+import { BaseTranslatableComponent } from '../../../../shared/i18n';
 import { MaterialModule } from '../../../../shared/material.module';
 import { LoggerService } from '../../../../shared/services/logger/logger.service';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [MaterialModule, NgIf],
+  imports: [MaterialModule, NgIf, BackButtonComponent],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent extends BaseTranslatableComponent implements OnInit {
   isGoogleLoading = false;
   isFacebookLoading = false;
   isEmailLoading = false;
@@ -22,7 +24,9 @@ export class RegisterComponent implements OnInit {
     public router: Router,
     private route: ActivatedRoute,
     private loggerService: LoggerService
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit() {
     // Opción 1: Usar el estado del router (más confiable)
@@ -62,9 +66,8 @@ export class RegisterComponent implements OnInit {
     this.location.back();
   }
 
-  // Botón Google
   loginWithGoogle(): void {
-    if (this.isGoogleLoading) return; // Prevenir múltiples clicks
+    if (this.isGoogleLoading) return;
 
     this.isGoogleLoading = true;
 
@@ -81,9 +84,8 @@ export class RegisterComponent implements OnInit {
     }, 2000); // 2 segundos de simulación
   }
 
-  // Botón Facebook
   loginWithFacebook(): void {
-    if (this.isFacebookLoading) return; // Prevenir múltiples clicks
+    if (this.isFacebookLoading) return;
 
     this.isFacebookLoading = true;
 
@@ -100,9 +102,8 @@ export class RegisterComponent implements OnInit {
     }, 2000); // 2 segundos de simulación
   }
 
-  // Botón Crear cuenta con email
   crearConEmail(): void {
-    if (this.isEmailLoading) return; // Prevenir múltiples clicks
+    if (this.isEmailLoading) return;
 
     this.isEmailLoading = true;
 
@@ -110,7 +111,7 @@ export class RegisterComponent implements OnInit {
       //console.log('Redirigiendo a formulario de registro con email...');
       this.navigateToBasicInfo();
       this.isEmailLoading = false;
-    }, 500); // Más rápido, sin mostrar loading visual
+    }, 500);
   }
 
   // Método auxiliar para navegar según el tipo de usuario

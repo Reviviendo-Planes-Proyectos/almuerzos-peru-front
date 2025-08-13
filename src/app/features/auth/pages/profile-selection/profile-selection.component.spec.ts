@@ -1,34 +1,65 @@
-import { Location } from '@angular/common';
+import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
+import { I18nService, TranslatePipe } from '../../../../shared/i18n';
+import { MaterialModule } from '../../../../shared/material.module';
+import { LoggerService } from '../../../../shared/services/logger/logger.service';
 import { ProfileSelectionComponent } from './profile-selection.component';
+
+// Mock del servicio de traducción
+class MockI18nService {
+  t(key: string): string {
+    const translations: Record<string, string> = {
+      'app.name': 'ALMUERZOS PERU',
+      'common.back': 'Volver',
+      'common.background': 'Fondo',
+      'auth.profileSelection.question': '¿Cómo deseas ingresar?',
+      'auth.profileSelection.registerLater': 'Registrarme luego'
+    };
+    return translations[key] || key;
+  }
+}
+
+// Mock del LoggerService
+class MockLoggerService {
+  info = jest.fn();
+  error = jest.fn();
+  warn = jest.fn();
+  debug = jest.fn();
+}
 
 describe('ProfileSelectionComponent', () => {
   let component: ProfileSelectionComponent;
   let fixture: ComponentFixture<ProfileSelectionComponent>;
-  let mockLocation: jest.Mocked<Location>;
+  let debugElement: DebugElement;
   let mockRouter: jest.Mocked<Router>;
+  let mockI18nService: MockI18nService;
+  let mockLoggerService: MockLoggerService;
 
   beforeEach(async () => {
-    const locationSpy = {
-      back: jest.fn()
-    };
     const routerSpy = {
       navigate: jest.fn().mockResolvedValue(true)
     };
 
+    mockI18nService = new MockI18nService();
+    mockLoggerService = new MockLoggerService();
+
     await TestBed.configureTestingModule({
-      imports: [ProfileSelectionComponent],
+      imports: [ProfileSelectionComponent, MaterialModule, NoopAnimationsModule, TranslatePipe],
       providers: [
-        { provide: Location, useValue: locationSpy },
-        { provide: Router, useValue: routerSpy }
+        { provide: Router, useValue: routerSpy },
+        { provide: I18nService, useValue: mockI18nService },
+        { provide: LoggerService, useValue: mockLoggerService }
       ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(ProfileSelectionComponent);
     component = fixture.componentInstance;
-    mockLocation = TestBed.inject(Location) as jest.Mocked<Location>;
+    debugElement = fixture.debugElement;
     mockRouter = TestBed.inject(Router) as jest.Mocked<Router>;
+    mockLoggerService = TestBed.inject(LoggerService) as unknown as MockLoggerService;
     fixture.detectChanges();
   });
 
@@ -37,140 +68,106 @@ describe('ProfileSelectionComponent', () => {
     jest.clearAllTimers();
   });
 
-  describe('Component Initialization', () => {
-    it('should create', () => {
-      expect(component).toBeTruthy();
-    });
-
-    it('should initialize with default values', () => {
-      expect(component.selectedType).toBeNull();
-      expect(component.isNavigating).toBeFalsy();
-    });
-
-    it('should have router property accessible', () => {
-      expect(component.router).toBeDefined();
-      expect(component.router).toBe(mockRouter);
-    });
+  it('should display the app name', () => {
+    const titleElement = debugElement.query(By.css('h1 span'));
+    expect(titleElement.nativeElement.textContent.trim()).toBe('ALMUERZOS PERU');
   });
 
-  describe('goBack method', () => {
-    it('should call location.back() when goBack is called', () => {
-      component.goBack();
-      expect(mockLocation.back).toHaveBeenCalled();
-      expect(mockLocation.back).toHaveBeenCalledTimes(1);
-    });
+  it('should display the welcome title', () => {
+    const welcomeElement = debugElement.query(By.css('h2'));
+    expect(welcomeElement.nativeElement.textContent.trim()).toBe('¡Bienvenido!');
   });
 
-  describe('elegirTipoUsuario method', () => {
-    beforeEach(() => {
-      jest.useFakeTimers();
-    });
+  it('should display the profile selection question', () => {
+    const questionElement = debugElement.query(By.css('p'));
+    expect(questionElement.nativeElement.textContent.trim()).toBe('¿Cómo deseas ingresar?');
+  });
 
-    afterEach(() => {
-      jest.useRealTimers();
-    });
+  it('should display client option', () => {
+    const clientCards = debugElement.queryAll(By.css('.grid > div'));
+    const clientCard = clientCards[0];
+    const clientTitle = clientCard.query(By.css('h3'));
+    const clientDescription = clientCard.query(By.css('p'));
 
-    it('should set selectedType and isNavigating when called with restaurante', () => {
-      component.elegirTipoUsuario('restaurante');
+    expect(clientTitle.nativeElement.textContent.trim()).toBe('Cliente');
+    expect(clientDescription.nativeElement.textContent.trim()).toBe('Encuentra almuerzos cerca de ti en segundos.');
+  });
 
-      expect(component.selectedType).toBe('restaurante');
-      expect(component.isNavigating).toBeTruthy();
-    });
+  it('should display restaurant owner option', () => {
+    const ownerCards = debugElement.queryAll(By.css('.grid > div'));
+    const ownerCard = ownerCards[1];
+    const ownerTitle = ownerCard.query(By.css('h3'));
+    const ownerDescription = ownerCard.query(By.css('p'));
 
-    it('should set selectedType and isNavigating when called with comensal', () => {
-      component.elegirTipoUsuario('comensal');
+    expect(ownerTitle.nativeElement.textContent.trim()).toBe('Dueño');
+    expect(ownerDescription.nativeElement.textContent.trim()).toBe('Administra tu menú diario y atrae más clientes.');
+  });
 
-      expect(component.selectedType).toBe('comensal');
-      expect(component.isNavigating).toBeTruthy();
-    });
+  it('should display register later link', () => {
+    const linkElement = debugElement.query(By.css('.mt-6 button'));
+    expect(linkElement.nativeElement.textContent.trim()).toBe('Registrarme luego');
+  });
 
-    it('should navigate to register with correct parameters for restaurante', () => {
-      component.elegirTipoUsuario('restaurante');
+  it('should select comensal type when clicked', () => {
+    const comensalCard = debugElement.queryAll(By.css('.grid > div'))[0];
+    comensalCard.nativeElement.click();
 
-      // Avanzar el tiempo para que se ejecute el setTimeout
-      jest.advanceTimersByTime(800);
+    expect(component.selectedType).toBe('comensal');
+    expect(component.isNavigating).toBe(true);
+  });
 
-      expect(mockRouter.navigate).toHaveBeenCalledWith(['auth/register'], {
-        state: { tipo: 'restaurante' },
-        queryParams: { userType: 'restaurante' }
-      });
-      expect(mockRouter.navigate).toHaveBeenCalledTimes(1);
-    });
+  it('should select restaurante type when clicked', () => {
+    const restauranteCard = debugElement.queryAll(By.css('.grid > div'))[1];
+    restauranteCard.nativeElement.click();
 
-    it('should navigate to register with correct parameters for comensal', () => {
-      component.elegirTipoUsuario('comensal');
+    expect(component.selectedType).toBe('restaurante');
+    expect(component.isNavigating).toBe(true);
+  });
 
-      // Avanzar el tiempo para que se ejecute el setTimeout
-      jest.advanceTimersByTime(800);
+  it('should navigate to auth/login when elegirTipoUsuario is called with comensal', (done) => {
+    component.elegirTipoUsuario('comensal');
 
-      expect(mockRouter.navigate).toHaveBeenCalledWith(['auth/register'], {
-        state: { tipo: 'comensal' },
-        queryParams: { userType: 'comensal' }
-      });
-      expect(mockRouter.navigate).toHaveBeenCalledTimes(1);
-    });
+    setTimeout(() => {
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['auth/login']);
+      expect(mockLoggerService.info).toHaveBeenCalledWith('Tipo de usuario seleccionado:', 'comensal');
+      done();
+    }, 900);
+  });
 
-    it('should not navigate immediately, but wait for timeout', () => {
-      component.elegirTipoUsuario('restaurante');
+  it('should navigate to auth/login when elegirTipoUsuario is called with restaurante', (done) => {
+    component.elegirTipoUsuario('restaurante');
 
-      // No debería navegar inmediatamente
-      expect(mockRouter.navigate).not.toHaveBeenCalled();
+    setTimeout(() => {
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['auth/login']);
+      expect(mockLoggerService.info).toHaveBeenCalledWith('Tipo de usuario seleccionado:', 'restaurante');
+      done();
+    }, 900);
+  });
 
-      // Avanzar solo 400ms (menos que los 800ms)
-      jest.advanceTimersByTime(400);
-      expect(mockRouter.navigate).not.toHaveBeenCalled();
+  it('should navigate to auth/login when register later button is clicked', () => {
+    const registerLaterButton = debugElement.query(By.css('.mt-6 button'));
+    registerLaterButton.nativeElement.click();
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['auth/login']);
+  });
 
-      // Avanzar el resto del tiempo
-      jest.advanceTimersByTime(400);
-      expect(mockRouter.navigate).toHaveBeenCalled();
-    });
+  it('should not allow multiple selections when navigating', () => {
+    component.elegirTipoUsuario('comensal');
+    expect(component.isNavigating).toBe(true);
 
-    it('should prevent multiple clicks when isNavigating is true', () => {
-      // Primera llamada
-      component.elegirTipoUsuario('restaurante');
-      expect(component.selectedType).toBe('restaurante');
-      expect(component.isNavigating).toBeTruthy();
+    // Try to select again
+    component.elegirTipoUsuario('restaurante');
+    expect(component.selectedType).toBe('comensal'); // Should remain unchanged
+  });
 
-      // Segunda llamada inmediata (debería ser ignorada por la condición isNavigating)
-      component.elegirTipoUsuario('comensal');
+  describe('Internationalization', () => {
+    it('should display all text elements with proper translations', () => {
+      const titleElement = debugElement.query(By.css('h1 span'));
+      const questionElement = debugElement.query(By.css('p'));
+      const linkElement = debugElement.query(By.css('.mt-6 button'));
 
-      // Verificar que selectedType no cambió
-      expect(component.selectedType).toBe('restaurante'); // No cambió a 'comensal'
-
-      // Avanzar tiempo completo
-      jest.advanceTimersByTime(800);
-
-      // Solo debería haberse llamado navigate una vez (de la primera llamada)
-      expect(mockRouter.navigate).toHaveBeenCalledTimes(1);
-      expect(mockRouter.navigate).toHaveBeenCalledWith(['auth/register'], {
-        state: { tipo: 'restaurante' },
-        queryParams: { userType: 'restaurante' }
-      });
-    });
-
-    it('should handle both user types correctly in separate calls', () => {
-      // Probar restaurante
-      component.elegirTipoUsuario('restaurante');
-      jest.advanceTimersByTime(800);
-
-      expect(mockRouter.navigate).toHaveBeenCalledWith(['auth/register'], {
-        state: { tipo: 'restaurante' },
-        queryParams: { userType: 'restaurante' }
-      });
-
-      // Reset para segunda prueba
-      component.selectedType = null;
-      component.isNavigating = false;
-      mockRouter.navigate.mockClear();
-
-      // Probar comensal
-      component.elegirTipoUsuario('comensal');
-      jest.advanceTimersByTime(800);
-
-      expect(mockRouter.navigate).toHaveBeenCalledWith(['auth/register'], {
-        state: { tipo: 'comensal' },
-        queryParams: { userType: 'comensal' }
-      });
+      expect(titleElement.nativeElement.textContent.trim()).toBe('ALMUERZOS PERU');
+      expect(questionElement.nativeElement.textContent.trim()).toBe('¿Cómo deseas ingresar?');
+      expect(linkElement.nativeElement.textContent.trim()).toBe('Registrarme luego');
     });
   });
 
@@ -178,7 +175,7 @@ describe('ProfileSelectionComponent', () => {
     it('should render both option cards', () => {
       const compiled = fixture.nativeElement;
       const cards = compiled.querySelectorAll('[class*="cursor-pointer"]');
-      expect(cards.length).toBe(2);
+      expect(cards.length).toBe(3); // 2 cards de opciones + 1 botón "Registrarme luego"
     });
 
     it('should call elegirTipoUsuario when card is clicked', () => {
@@ -198,15 +195,10 @@ describe('ProfileSelectionComponent', () => {
       expect(backButton).toBeTruthy();
     });
 
-    it('should call goBack when back button is clicked', () => {
-      jest.spyOn(component, 'goBack');
-
+    it('should show back button component', () => {
       const compiled = fixture.nativeElement;
-      const backButton = compiled.querySelector('button[mat-icon-button]');
-
-      backButton.click();
-
-      expect(component.goBack).toHaveBeenCalled();
+      const backButton = compiled.querySelector('app-back-button');
+      expect(backButton).toBeTruthy();
     });
   });
 
@@ -236,7 +228,8 @@ describe('ProfileSelectionComponent', () => {
       fixture.detectChanges();
 
       const compiled = fixture.nativeElement;
-      const cards = compiled.querySelectorAll('[class*="cursor-pointer"]');
+      // Solo verificar las cards, no el botón "Registrarme luego"
+      const cards = compiled.querySelectorAll('.grid > div[class*="cursor-pointer"]');
 
       for (const card of cards) {
         expect(card.classList.contains('pointer-events-none')).toBeTruthy();

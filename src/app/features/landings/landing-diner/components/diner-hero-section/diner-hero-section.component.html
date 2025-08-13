@@ -9,93 +9,36 @@
 
   <!-- Floating Elements -->
   <div class="floating-elements absolute inset-0 z-10 hidden md:block">
-    <!-- Floating notification cards -->
-    <div class="floating-card top-20 left-10 absolute">
-      <div
-        class="notification-card bg-white bg-opacity-90 backdrop-blur-2xl rounded-xl md:rounded-2xl p-3 md:p-4 shadow-2xl md:shadow-3xl border border-white border-opacity-30 flex items-center gap-2 md:gap-3"
-      >
-        <div
-          class="card-icon w-10 h-10 md:w-12 md:h-12 bg-gradient-to-r from-orange-500 to-yellow-500 rounded-lg md:rounded-xl flex items-center justify-center"
-        >
-          <mat-icon class="text-white text-xl md:text-2xl">people</mat-icon>
-        </div>
-        <div>
-          <div class="card-value text-gray-800 font-bold text-base md:text-lg">+2,847</div>
-          <div class="card-label text-gray-500 text-xs md:text-sm">Almorzando ahora</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="floating-card top-32 right-16 absolute">
-      <div
-        class="notification-card bg-white bg-opacity-90 backdrop-blur-2xl rounded-xl md:rounded-2xl p-3 md:p-4 shadow-2xl md:shadow-3xl border border-white border-opacity-30 flex items-center gap-2 md:gap-3"
-      >
-        <div
-          class="card-icon w-10 h-10 md:w-12 md:h-12 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-lg md:rounded-xl flex items-center justify-center"
-        >
-          <mat-icon class="text-white text-xl md:text-2xl">schedule</mat-icon>
-        </div>
-        <div>
-          <div class="card-value text-gray-800 font-bold text-base md:text-lg">12:30 PM</div>
-          <div class="card-label text-gray-500 text-xs md:text-sm">Hora pico</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="floating-card bottom-32 left-20 absolute">
-      <div
-        class="notification-card bg-white bg-opacity-90 backdrop-blur-2xl rounded-xl md:rounded-2xl p-3 md:p-4 shadow-2xl md:shadow-3xl border border-white border-opacity-30 flex items-center gap-2 md:gap-3"
-      >
-        <div
-          class="card-icon w-10 h-10 md:w-12 md:h-12 bg-gradient-to-r from-orange-500 to-yellow-500 rounded-lg md:rounded-xl flex items-center justify-center"
-        >
-          <mat-icon class="text-white text-xl md:text-2xl">star</mat-icon>
-        </div>
-        <div>
-          <div class="card-value text-gray-800 font-bold text-base md:text-lg">4.8★</div>
-          <div class="card-label text-gray-500 text-xs md:text-sm">Calificación</div>
-        </div>
-      </div>
-    </div>
-
     <!-- Floating Food Images -->
-    <div class="food-image top-16 right-32 absolute">
+    <div class="food-image top-20 right-40 absolute">
       <div
-        class="food-circle w-20 h-20 rounded-full overflow-hidden shadow-3xl border-4 border-white border-opacity-80"
+        class="food-circle w-32 h-32 rounded-full overflow-hidden shadow-3xl border-4 border-white border-opacity-80"
       >
         <img src="/img/landing/delicious-ceviche.png" alt="Ceviche" class="food-img w-full h-full object-cover" />
       </div>
     </div>
 
-    <div class="food-image top-40 left-32 absolute">
+    <div class="food-image top-40 left-80 absolute">
       <div
-        class="food-circle small w-16 h-16 rounded-full overflow-hidden shadow-3xl border-4 border-white border-opacity-80"
+        class="food-circle w-28 h-28 rounded-full overflow-hidden shadow-3xl border-4 border-white border-opacity-80"
       >
         <img src="/img/landing/lomo-saltado.png" alt="Lomo Saltado" class="food-img w-full h-full object-cover" />
       </div>
     </div>
 
-    <div class="food-image bottom-40 right-20 absolute">
+    <div class="food-image bottom-40 right-40 absolute">
       <div
-        class="food-circle medium w-18 h-18 rounded-full overflow-hidden shadow-3xl border-4 border-white border-opacity-80"
+        class="food-circle w-28 h-28 rounded-full overflow-hidden shadow-3xl border-4 border-white border-opacity-80"
       >
         <img src="/img/landing/aji-de-gallina.png" alt="Ají de Gallina" class="food-img w-full h-full object-cover" />
       </div>
     </div>
 
-    <div class="food-image top-60 left-16 absolute">
+    <div class="food-image bottom-60 left-32 absolute">
       <div
-        class="food-circle tiny w-14 h-14 rounded-full overflow-hidden shadow-3xl border-4 border-white border-opacity-80"
+        class="food-circle w-32 h-32 rounded-full overflow-hidden shadow-3xl border-4 border-white border-opacity-80"
       >
         <img src="/img/landing/anticuchos-skewers.png" alt="Anticuchos" class="food-img w-full h-full object-cover" />
-      </div>
-    </div>
-
-    <div class="food-image bottom-60 right-40 absolute">
-      <div
-        class="food-circle small w-16 h-16 rounded-full overflow-hidden shadow-3xl border-4 border-white border-opacity-80"
-      >
-        <img src="/img/landing/peruvian-ceviche.png" alt="Ceviche Mixto" class="food-img w-full h-full object-cover" />
       </div>
     </div>
   </div>
@@ -105,78 +48,99 @@
     <div class="container max-w-6xl mx-auto px-4 md:px-8 text-center">
       <div class="content-wrapper transition-all duration-1000 ease-out" [@fadeInUp]="isVisible ? 'visible' : ''">
         <h1
-          class="hero-title text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black text-white mb-4 md:mb-6 leading-tight"
+          class="hero-title text-4xl sm:text-5xl md:text-5xl lg:text-7xl font-black text-white mb-10 md:mb-12 leading-tight"
         >
-          Encuentra tu menú diario,
+          {{ t('landing.hero.title.findMenu') }}
           <br />
           <span class="hero-title-highlight bg-gradient-to-r from-yellow-300 to-white bg-clip-text text-transparent">
-            ¡sin perder tiempo!
+            {{ t('landing.hero.title.noWasteTime') }}
           </span>
         </h1>
 
         <p
-          class="hero-description text-base sm:text-lg md:text-xl lg:text-2xl text-white text-opacity-90 mb-6 md:mb-8 max-w-4xl mx-auto leading-relaxed font-medium"
+          class="hero-description text-base sm:text-lg md:text-lg lg:text-xl text-white text-opacity-90 mb-14 md:mb-12 max-w-4xl mx-auto leading-relaxed font-medium"
         >
-          Descubre los mejores restaurantes y menús diarios cerca de ti.
+          {{ t('landing.hero.description.discover') }}
           <br />
           <span class="hero-description-highlight text-yellow-300 font-bold">
-            ¡Perfecto para estudiantes y trabajadores en Lima!
+            {{ t('landing.hero.description.perfect') }}
           </span>
         </p>
 
-        <!-- Animated Stats -->
+        <!-- Notification Cards -->
         <div
-          class="stats-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 max-w-5xl mx-auto mb-8 md:mb-12"
+          class="notification-cards-grid hidden md:flex flex-col md:flex-row gap-4 md:gap-6 max-w-4xl mx-auto mb-10 md:mb-12 justify-center"
         >
           <div
-            *ngFor="let stat of stats; let i = index"
-            class="stat-card bg-white bg-opacity-10 backdrop-blur-2xl rounded-xl md:rounded-2xl p-4 md:p-6 border border-white border-opacity-20 shadow-3xl transition-all duration-500 ease-out hover:scale-105 hover:bg-white hover:bg-opacity-20"
-            [style.animation-delay]="i * 200 + 'ms'"
+            class="notification-card bg-white bg-opacity-90 backdrop-blur-2xl rounded-xl md:rounded-2xl p-3 md:p-4 shadow-2xl md:shadow-3xl border border-white border-opacity-30 flex items-center gap-2 md:gap-3"
           >
-            <mat-icon
-              [class]="'stat-icon w-8 h-8 md:w-10 md:h-10 mb-2 md:mb-3 mx-auto text-2xl md:text-3xl ' + stat.color"
+            <div
+              class="card-icon w-10 h-10 md:w-12 md:h-12 bg-gradient-to-r from-orange-500 to-yellow-500 rounded-lg md:rounded-xl flex items-center justify-center"
             >
-              {{ stat.icon }}
-            </mat-icon>
-            <div class="stat-value text-2xl md:text-4xl font-black text-white mb-1">{{ stat.value }}</div>
-            <div class="stat-label text-white text-opacity-80 font-medium uppercase tracking-wide text-xs md:text-sm">
-              {{ stat.label }}
+              <mat-icon class="text-white text-xl md:text-2xl">people</mat-icon>
+            </div>
+            <div class="text-left">
+              <div class="card-value text-gray-800 font-bold text-base md:text-lg">+2,847</div>
+              <div class="card-label text-gray-500 text-xs md:text-sm">{{ t('landing.hero.cards.eatingNow') }}</div>
+            </div>
+          </div>
+
+          <div
+            class="notification-card bg-white bg-opacity-90 backdrop-blur-2xl rounded-xl md:rounded-2xl p-3 md:p-4 shadow-2xl md:shadow-3xl border border-white border-opacity-30 flex items-center gap-2 md:gap-3"
+          >
+            <div
+              class="card-icon w-10 h-10 md:w-12 md:h-12 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-lg md:rounded-xl flex items-center justify-center"
+            >
+              <mat-icon class="text-white text-xl md:text-2xl">schedule</mat-icon>
+            </div>
+            <div class="text-left">
+              <div class="card-value text-gray-800 font-bold text-base md:text-lg">12:30 PM</div>
+              <div class="card-label text-gray-500 text-xs md:text-sm">{{ t('landing.hero.cards.peakTime') }}</div>
+            </div>
+          </div>
+
+          <div
+            class="notification-card bg-white bg-opacity-90 backdrop-blur-2xl rounded-xl md:rounded-2xl p-3 md:p-4 shadow-2xl md:shadow-3xl border border-white border-opacity-30 flex items-center gap-2 md:gap-3"
+          >
+            <div
+              class="card-icon w-10 h-10 md:w-12 md:h-12 bg-gradient-to-r from-orange-500 to-yellow-500 rounded-lg md:rounded-xl flex items-center justify-center"
+            >
+              <mat-icon class="text-white text-xl md:text-2xl">star</mat-icon>
+            </div>
+            <div class="text-left">
+              <div class="card-value text-gray-800 font-bold text-base md:text-lg">4.8★</div>
+              <div class="card-label text-gray-500 text-xs md:text-sm">{{ t('landing.hero.cards.rating') }}</div>
             </div>
           </div>
         </div>
 
-        <div class="hero-actions flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center mb-8 sm:mb-12 md:mb-16">
+        <div class="hero-actions flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center mb-10 md:mb-12">
           <button
-            mat-raised-button
-            class="primary-button py-3.5 md:py-4 px-8 md:px-10 text-base md:text-xl font-bold shadow-2xl md:shadow-3xl transform scale-100 transition-all duration-300 bg-gradient-to-r from-orange-600 to-yellow-500 text-white border-0 rounded-lg hover:scale-105 hover:from-orange-700 hover:to-yellow-600"
+            type="button"
             (click)="scrollToSection('search-section')"
+            class="px-6 sm:px-10 py-3 sm:py-4 text-base sm:text-lg font-bold rounded-full bg-yellow-400 text-gray-900 shadow-lg border-2 border-yellow-500 flex items-center justify-center gap-2 sm:gap-3 hover:bg-yellow-500 hover:text-white hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-yellow-200 transition-all duration-200"
           >
-            <mat-icon class="mr-3">search</mat-icon>
-            Buscar restaurantes
-          </button>
-          <button
-            mat-stroked-button
-            class="secondary-button py-3.5 md:py-4 px-8 md:px-10 text-base md:text-xl font-bold backdrop-blur-2xl transition-all duration-300 border-2 border-white border-opacity-50 text-white bg-white bg-opacity-10 rounded-lg hover:bg-white hover:bg-opacity-20"
-            (click)="scrollToSection('como-funciona')"
-          >
-            <mat-icon class="mr-3">play_arrow</mat-icon>
-            Ver cómo funciona
+            <mat-icon class="text-lg sm:text-xl">search</mat-icon>
+            {{ t('landing.hero.buttons.searchRestaurants') }}
           </button>
         </div>
 
         <!-- Scroll Indicator -->
-        <div
-          class="scroll-indicator cursor-pointer text-center animate-bounce"
-          (click)="scrollToSection('search-section')"
-        >
-          <div
-            class="scroll-button bg-white bg-opacity-20 backdrop-blur-2xl rounded-full p-3 md:p-4 inline-block shadow-2xl md:shadow-3xl border border-white border-opacity-30 transition-all duration-300 hover:bg-white hover:bg-opacity-30"
+        <div class="w-full flex justify-center mt-12 md:mt-16">
+          <button
+            class="scroll-indicator cursor-pointer text-center animate-bounce flex flex-col items-center justify-center bg-transparent border-none outline-none focus:outline-none"
+            (click)="scrollToSection('search-section')"
+            [attr.aria-label]="t('landing.hero.scrollIndicator')"
           >
-            <mat-icon class="animate-bounce text-white">keyboard_arrow_down</mat-icon>
-          </div>
-          <p class="scroll-text text-white text-opacity-80 text-base md:text-lg mt-3 md:mt-4 font-bold">
-            DESCUBRE MÁS ABAJO
-          </p>
+            <div
+              class="scroll-button bg-white bg-opacity-20 backdrop-blur-2xl rounded-full w-12 h-12 md:w-14 md:h-14 flex items-center justify-center shadow-2xl md:shadow-3xl border border-white border-opacity-30 transition-all duration-300 hover:bg-white hover:bg-opacity-30"
+            >
+              <mat-icon class="animate-bounce text-white">keyboard_arrow_down</mat-icon>
+            </div>
+            <p class="scroll-text text-white text-opacity-80 text-base md:text-lg mt-3 md:mt-4 font-bold">
+              {{ t('landing.hero.scrollIndicator') }}
+            </p>
+          </button>
         </div>
       </div>
     </div>

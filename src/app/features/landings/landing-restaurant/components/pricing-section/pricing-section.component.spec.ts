@@ -1,6 +1,49 @@
 import { ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { I18nService } from '../../../../../shared/i18n';
 import { PricingSectionComponent } from './pricing-section.component';
+
+// Mock del servicio de traducción
+class MockI18nService {
+  t(key: string): string {
+    const translations: Record<string, string> = {
+      'landing.restaurant.pricing.title.prefix': 'Planes que se adaptan a',
+      'landing.restaurant.pricing.title.highlight': 'tu ritmo',
+      'landing.restaurant.pricing.title.suffix': 'de crecimiento',
+      'landing.restaurant.pricing.subtitle': 'Elige el plan perfecto para llevar tu restaurante al siguiente nivel',
+      'landing.restaurant.pricing.limitedOffer': '¡Oferta limitada!',
+      'landing.restaurant.pricing.plans.free.title': 'Plan Gratuito',
+      'landing.restaurant.pricing.plans.free.period': 'Para siempre',
+      'landing.restaurant.pricing.plans.free.button': 'Comenzar Gratis',
+      'landing.restaurant.pricing.plans.free.features.menuBasic': 'Menú digital básico',
+      'landing.restaurant.pricing.plans.free.features.dishes': 'Hasta 20 platos',
+      'landing.restaurant.pricing.plans.free.features.whatsapp': 'Compartir por WhatsApp',
+      'landing.restaurant.pricing.plans.free.features.realTime': 'Actualizaciones en tiempo real',
+      'landing.restaurant.pricing.plans.free.features.support': 'Soporte por email. Hasta 5 promociones diarias',
+      'landing.restaurant.pricing.plans.premium.title': 'Plan Premium',
+      'landing.restaurant.pricing.plans.premium.button': 'Comenzar Premium',
+      'landing.restaurant.pricing.plans.premium.features.menuCustom': 'Menú digital personalizado',
+      'landing.restaurant.pricing.plans.premium.features.dishesUnlimited': 'Platos ilimitados',
+      'landing.restaurant.pricing.plans.premium.features.cardsUnlimited': 'Cartas ilimitadas',
+      'landing.restaurant.pricing.plans.premium.features.reports': 'Reporte de informes',
+      'landing.restaurant.pricing.plans.premium.features.support24': 'Soporte premium 24/7',
+      'landing.restaurant.pricing.plans.premium.features.promotionsUnlimited': 'Promociones ilimitadas',
+      'landing.restaurant.pricing.plans.enterprise.title': 'Plan Empresarial',
+      'landing.restaurant.pricing.plans.enterprise.button': 'Contactar Ventas',
+      'landing.restaurant.pricing.plans.enterprise.features.allPremium': 'Todo del plan premium',
+      'landing.restaurant.pricing.plans.enterprise.features.multiRestaurant': 'Función multi-restaurante',
+      'landing.restaurant.pricing.plans.enterprise.features.brandCustomization': 'Personalización marca o sede',
+      'landing.restaurant.pricing.plans.enterprise.features.posIntegration': 'Integración con POS',
+      'landing.restaurant.pricing.plans.enterprise.features.autoBilling': 'Facturación automática',
+      'landing.restaurant.pricing.plans.enterprise.features.personalizedTraining': 'Capacitación personalizada',
+      'landing.restaurant.pricing.plans.enterprise.features.smartCombos': 'Gestión de combos inteligentes',
+      'landing.restaurant.pricing.periods.monthly': 'por mes',
+      'landing.restaurant.pricing.periods.annual': 'por año',
+      'landing.restaurant.pricing.periods.forever': 'Para siempre'
+    };
+    return translations[key] || key;
+  }
+}
 
 describe('PricingSectionComponent', () => {
   let component: PricingSectionComponent;
@@ -8,7 +51,8 @@ describe('PricingSectionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PricingSectionComponent]
+      imports: [PricingSectionComponent],
+      providers: [{ provide: I18nService, useClass: MockI18nService }]
     }).compileComponents();
 
     fixture = TestBed.createComponent(PricingSectionComponent);
@@ -22,21 +66,22 @@ describe('PricingSectionComponent', () => {
 
   it('should render the section title and subtitle', () => {
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h2')?.textContent).toContain('Planes que se Adaptan');
-    expect(compiled.querySelector('p')?.textContent).toContain('Elige el plan perfecto');
+    expect(compiled.querySelector('h2')?.textContent).toContain('Planes que se adaptan a');
+    expect(compiled.querySelector('h2')?.textContent).toContain('tu ritmo');
+    expect(compiled.querySelector('h2')?.textContent).toContain('de crecimiento');
+    expect(compiled.querySelector('p')?.textContent).toContain(
+      'Elige el plan perfecto para llevar tu restaurante al siguiente nivel'
+    );
   });
 
   it('should render three pricing cards', () => {
     const compiled = fixture.nativeElement as HTMLElement;
-    // Buscar las tarjetas de precios con la estructura actual
     const plans = compiled.querySelectorAll('div[data-plan]');
-    expect(plans.length).toBe(3); // Ahora son 3 planes (Gratuito, Premium, Empresarial)
+    expect(plans.length).toBe(3);
 
-    // Buscar las listas de características dentro de las tarjetas
     const featureLists = compiled.querySelectorAll('div[data-plan] ul');
     expect(featureLists.length).toBe(3); // 3 listas de características
 
-    // Verificar que cada lista tiene características
     const freePlanFeatures = featureLists[0]?.querySelectorAll('li');
     const premiumPlanFeatures = featureLists[1]?.querySelectorAll('li');
     const enterprisePlanFeatures = featureLists[2]?.querySelectorAll('li');
@@ -45,11 +90,9 @@ describe('PricingSectionComponent', () => {
     expect(premiumPlanFeatures?.length).toBeGreaterThan(0);
     expect(enterprisePlanFeatures?.length).toBeGreaterThan(0);
 
-    // Verificar los botones de acción
     const buttons = compiled.querySelectorAll('div[data-plan] button');
-    expect(buttons.length).toBe(3); // 3 botones
+    expect(buttons.length).toBe(3);
 
-    // Verificar el texto de los botones (más flexible)
     expect(buttons[0]?.textContent).toContain('Gratis');
     expect(buttons[1]?.textContent).toContain('Premium');
     expect(buttons[2]?.textContent).toContain('Ventas');
@@ -78,7 +121,6 @@ describe('PricingSectionComponent', () => {
   });
 
   it('should toggle pricing and update prices', () => {
-    // Verificar que los planes existen antes de acceder
     expect(component.plans).toBeDefined();
     expect(component.plans.length).toBeGreaterThan(1);
 
@@ -93,7 +135,6 @@ describe('PricingSectionComponent', () => {
   });
 
   it('should toggle showAllFeatures and update visibleComparisonFeatures', () => {
-    // Verificar que las propiedades existen
     expect(component.showAllFeatures).toBeDefined();
     expect(component.visibleComparisonFeatures).toBeDefined();
     expect(component.comparisonFeatures).toBeDefined();
@@ -101,17 +142,14 @@ describe('PricingSectionComponent', () => {
 
     const initialShowAll = component.showAllFeatures;
 
-    // Activar mostrar todas las características
     component.toggleShowAllFeatures();
     expect(component.showAllFeatures).toBe(!initialShowAll);
 
-    // Desactivar mostrar todas las características
     component.toggleShowAllFeatures();
     expect(component.showAllFeatures).toBe(initialShowAll);
   });
 
   it('should handle mobile scroll functionality', (done) => {
-    // Simular entorno móvil
     const originalInnerWidth = window.innerWidth;
     Object.defineProperty(window, 'innerWidth', {
       writable: true,
@@ -119,13 +157,11 @@ describe('PricingSectionComponent', () => {
       value: 375
     });
 
-    // Mock de getComputedStyle
     const originalGetComputedStyle = window.getComputedStyle;
     window.getComputedStyle = jest.fn().mockReturnValue({
       paddingLeft: '16px'
     });
 
-    // Crear mock del contenedor
     const mockScrollTo = jest.fn();
     const mockFlexContainer = {
       style: { paddingLeft: '16px' }
@@ -151,18 +187,12 @@ describe('PricingSectionComponent', () => {
       scrollTo: mockScrollTo
     };
 
-    // Asignar el mock al componente
     component.pricingContainer = new ElementRef(mockContainer);
-
-    // Llamar al método
     component.ngAfterViewInit();
 
-    // Usar setTimeout para esperar que se ejecute el timeout del componente
     setTimeout(() => {
-      // Verificar que se llamó scrollTo
       expect(mockScrollTo).toHaveBeenCalled();
 
-      // Restaurar valores originales
       Object.defineProperty(window, 'innerWidth', {
         writable: true,
         configurable: true,
@@ -171,6 +201,85 @@ describe('PricingSectionComponent', () => {
       window.getComputedStyle = originalGetComputedStyle;
 
       done();
-    }, 400); // Esperar más que el timeout del componente (300ms)
+    }, 400);
+  });
+
+  it('should handle ngOnInit with document ready state complete', () => {
+    Object.defineProperty(window, 'innerWidth', {
+      writable: true,
+      configurable: true,
+      value: 400
+    });
+
+    Object.defineProperty(document, 'readyState', {
+      writable: true,
+      configurable: true,
+      value: 'complete'
+    });
+
+    const scheduleInitialCenteringSpy = jest.spyOn(component as any, 'scheduleInitialCentering');
+
+    component.ngOnInit();
+
+    expect(scheduleInitialCenteringSpy).toHaveBeenCalled();
+  });
+
+  it('should handle ngOnInit with document not ready', () => {
+    Object.defineProperty(document, 'readyState', {
+      writable: true,
+      configurable: true,
+      value: 'loading'
+    });
+
+    const mockAddEventListener = jest.spyOn(window, 'addEventListener');
+
+    component.ngOnInit();
+
+    expect(mockAddEventListener).toHaveBeenCalledWith('load', expect.any(Function), { once: true });
+  });
+
+  it('should not run intersection observer setup when pricingSection is undefined', () => {
+    (component as any).pricingSection = undefined;
+
+    const setupIntersectionObserverSpy = jest.spyOn(component as any, 'setupIntersectionObserver');
+
+    component.ngAfterViewInit();
+
+    expect(setupIntersectionObserverSpy).toHaveBeenCalled();
+  });
+
+  it('should handle intersection observer entries correctly', () => {
+    Object.defineProperty(window, 'innerWidth', {
+      writable: true,
+      configurable: true,
+      value: 400
+    });
+
+    let intersectionCallback: any;
+    const mockIntersectionObserver = jest.fn().mockImplementation((callback) => {
+      intersectionCallback = callback;
+      return {
+        observe: jest.fn(),
+        disconnect: jest.fn()
+      };
+    });
+
+    (global as any).IntersectionObserver = mockIntersectionObserver;
+
+    const mockPricingSection = { nativeElement: {} };
+    component.pricingSection = mockPricingSection as any;
+
+    const centerViewOnMobileSpy = jest.spyOn(component as any, 'centerViewOnMobile');
+    const centerComparisonOnMobileSpy = jest.spyOn(component as any, 'centerComparisonOnMobile');
+
+    component.ngAfterViewInit();
+
+    const mockEntries = [{ isIntersecting: true }];
+    intersectionCallback(mockEntries);
+
+    setTimeout(() => {
+      expect(centerViewOnMobileSpy).toHaveBeenCalled();
+      expect(centerComparisonOnMobileSpy).toHaveBeenCalled();
+    }, 500);
   });
 });

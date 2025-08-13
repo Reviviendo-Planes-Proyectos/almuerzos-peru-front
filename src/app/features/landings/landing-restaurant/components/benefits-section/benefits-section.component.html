@@ -2,48 +2,47 @@
   <div class="max-w-7xl mx-auto">
     <div class="text-center mb-12 md:mb-16">
       <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
-        Beneficios que
-        <span class="gradient-text">Transforman</span>
-        tu Negocio
+        {{ t('landing.restaurant.benefits.title.prefix') }}
+        <span class="gradient-text">{{ t('landing.restaurant.benefits.title.highlight') }}</span>
+        {{ t('landing.restaurant.benefits.title.suffix') }}
       </h2>
       <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
-        Descubre cómo nuestro software revoluciona la experiencia gastronómica tanto para restaurantes como para
-        comensales
+        {{ t('landing.restaurant.benefits.description') }}
       </p>
     </div>
 
     <div class="flex flex-col lg:grid lg:grid-cols-2 gap-8 lg:gap-16 space-y-6 md:space-y-8 lg:space-y-0 mb-16">
-      <div class="space-y-8" *ngFor="let audience of ['Para Restaurantes', 'Para Comensales']">
+      <div class="space-y-8" *ngFor="let audienceKey of ['restaurant', 'customer']">
         <div class="text-center lg:text-left">
           <div
             [ngClass]="{
-              'bg-yellow-100 text-yellow-900': audience === 'Para Restaurantes',
-              'bg-orange-100 text-orange-700': audience === 'Para Comensales'
+              'bg-yellow-100 text-yellow-900': audienceKey === 'restaurant',
+              'bg-orange-100 text-orange-700': audienceKey === 'customer'
             }"
             class="inline-flex items-center space-x-2 px-4 py-2 rounded-full mb-4"
           >
             <mat-icon
-              *ngIf="audience === 'Para Comensales'"
+              *ngIf="audienceKey === 'customer'"
               class="transform transition-transform duration-500 hover:scale-105"
             >
               favorite_border
             </mat-icon>
             <span
               class="material-symbols-outlined transform transition-transform duration-500 hover:scale-105"
-              *ngIf="audience === 'Para Restaurantes'"
+              *ngIf="audienceKey === 'restaurant'"
             >
               restaurant_menu
             </span>
-            <span class="font-semibold">{{ audience }}</span>
+            <span class="font-semibold">{{ t('landing.restaurant.benefits.' + audienceKey + '.title') }}</span>
           </div>
           <h3 class="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-4">
-            {{ audience === 'Para Restaurantes' ? 'Gestiona tu menú ' : 'Descubre sabores increíbles' }}
+            {{ t('landing.restaurant.benefits.' + audienceKey + '.subtitle') }}
           </h3>
         </div>
 
         <ng-container *ngFor="let benefit of benefits">
           <mat-card
-            *ngIf="benefit.audience === audience"
+            *ngIf="benefit.audience === audienceKey"
             class="flex !flex-row items-center space-x-4 p-4 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all border border-transparent rounded-lg !bg-white"
           >
             <div class="flex items-center w-full">

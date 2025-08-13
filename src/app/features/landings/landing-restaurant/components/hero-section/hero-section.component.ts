@@ -1,6 +1,9 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Router } from '@angular/router';
 import { ButtonComponent } from '../../../../../shared/components/button/button.component';
+import { BaseTranslatableComponent } from '../../../../../shared/i18n';
 import { MaterialModule } from '../../../../../shared/material.module';
+import { LoggerService } from '../../../../../shared/services/logger/logger.service';
 
 @Component({
   selector: 'app-hero-section',
@@ -10,8 +13,16 @@ import { MaterialModule } from '../../../../../shared/material.module';
   imports: [MaterialModule, ButtonComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class HeroSectionComponent {
+export class HeroSectionComponent extends BaseTranslatableComponent {
+  constructor(
+    private router: Router,
+    private logger: LoggerService
+  ) {
+    super();
+  }
+
   handleFeatureClick(feature: string) {
-    window.alert(`Feature clicked: ${feature}`);
+    this.logger.log(`Feature clicked: ${feature}`);
+    this.router.navigate(['/home-diner']);
   }
 }

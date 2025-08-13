@@ -1,0 +1,799 @@
+{
+  "app": {
+    "name": "ALMUERZOS PERU",
+    "tagline": "¡Encuentra tu menú diario, sin perder tiempo!"
+  },
+  "common": {
+    "back": "Volver",
+    "or": "O",
+    "continue": "Continuar",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "close": "Cerrar",
+    "with": "con",
+    "background": "Fondo",
+    "google": "Google",
+    "facebook": "Facebook"
+  },
+  "auth": {
+    "login": {
+      "title": "Iniciar Sesión",
+      "button": "Iniciar Sesión",
+      "email": "Correo",
+      "noAccount": "¿No tienes cuenta? Regístrate",
+      "withGoogle": "Iniciar Sesión con Google",
+      "withFacebook": "Iniciar Sesión con Facebook",
+      "withEmail": "Iniciar Sesión con Correo"
+    },
+    "register": {
+      "title": "¿Cómo deseas registrarte?",
+      "button": "Continuar",
+      "email": "Correo",
+      "later": "Registrarse después",
+      "withGoogle": "Continuar con Google",
+      "withFacebook": "Continuar con Facebook",
+      "withEmail": "Continuar con Correo",
+      "connecting": "Conectando..."
+    },
+    "forgot": {
+      "title": "Olvidé mi Contraseña",
+      "description": "Ingresa tu correo para restablecer tu contraseña",
+      "emailLabel": "Correo electrónico",
+      "emailPlaceholder": "tucorreo@ejemplo.com",
+      "emailRequired": "El correo electrónico es requerido",
+      "emailInvalid": "Ingresa un correo electrónico válido",
+      "sendButton": "Enviar enlace de recuperación",
+      "sending": "Enviando...",
+      "backToLogin": "Volver al inicio de sesión",
+      "resendButton": "Reenviar correo",
+      "emailSent": {
+        "title": "¡Correo enviado!",
+        "description": "Hemos enviado un enlace de recuperación a tu correo electrónico.",
+        "checkSpam": "Si no ves el correo, revisa tu carpeta de spam."
+      }
+    },
+    "profileSelection": {
+      "question": "¿Cómo deseas ingresar?",
+      "restaurant": {
+        "title": "Tengo mi restaurante",
+        "description": "Administra tu menú diario y haz que tus clientes encuentren tu restaurante fácilmente.",
+        "alt": "Restaurante"
+      },
+      "diner": {
+        "title": "Quiero comer",
+        "description": "Explora los menús del día de restaurantes cerca de ti y haz tu elección rápida y fácil.",
+        "alt": "Comensal"
+      },
+      "registerLater": "Registrarme luego"
+    },
+    "emailVerification": {
+      "title": "Verificar Correo",
+      "subtitle": "Confirma tu correo electrónico para continuar",
+      "message": "Enviaremos un código de verificación a:",
+      "sendButton": "Enviar Código de Verificación",
+      "laterMessage": "¿Prefieres verificar tu correo más tarde?",
+      "laterButton": "Hacer Más Tarde",
+      "backButton": "Atrás",
+      "verifyTitle": "Verificar Correo",
+      "verifySubtitle": "Confirma tu correo electrónico para continuar",
+      "codeSentTitle": "Código enviado a tu correo",
+      "codeSentMessage": "Revisa tu bandeja de entrada y confirma el código",
+      "codeLabel": "Código de Verificación",
+      "codePlaceholder": "Ingresa el código de 6 dígitos",
+      "verifyButton": "Verificar Código",
+      "resendButton": "Reenviar código",
+      "tryAgainButton": "Intentar de Nuevo",
+      "noCodeReceived": "¿No recibiste el código?",
+      "resendIn": "Reenviar en 0:"
+    }
+  },
+  "messages": {
+    "welcome": "¡Bienvenido a Almuerzos Peru!"
+  },
+  "landing": {
+    "hero": {
+      "title": {
+        "findMenu": "Encuentra tu menú diario,",
+        "noWasteTime": "¡sin perder tiempo!"
+      },
+      "description": {
+        "discover": "Conoce los mejores restaurantes y menús diarios cerca de ti.",
+        "perfect": "Descúbrelo ¡Ya!"
+      },
+      "stats": {
+        "restaurants": "restaurantes",
+        "users": "usuarios",
+        "peru": "Perú"
+      },
+      "cards": {
+        "eatingNow": "Comiendo ahora",
+        "peakTime": "Hora pico",
+        "rating": "Calificación"
+      },
+      "buttons": {
+        "searchRestaurants": "Buscar restaurantes",
+        "howItWorks": "Ver cómo funciona"
+      },
+      "scrollIndicator": "DESCUBRE MÁS ABAJO"
+    },
+    "restaurant": {
+      "hero": {
+        "title": {
+          "upload": "Sube tu carta.",
+          "sales": "Sube tus ventas. Fácil y rápido."
+        },
+        "description": "¡Lleva tu restaurante al siguiente nivel con un menú digital fácil de usar y accesible desde cualquier dispositivo!",
+        "buttons": {
+          "startFree": "Comienza Gratis",
+          "seeHowItWorks": "Ver como funciona"
+        },
+        "benefits": {
+          "noCreditCard": "Sin tarjeta de crédito",
+          "setup5min": "Configuración en 5 minutos"
+        },
+        "stats": {
+          "sales": "+150% Ventas",
+          "customers": "+200% Clientes",
+          "efficiency": "+300% Eficiencia",
+          "salesDescription": "Incremento promedio"
+        },
+        "imageAlt": "Restaurante digital moderno mostrando menú en dispositivo móvil"
+      },
+      "testimonials": {
+        "title": "Lo que Dicen Nuestros",
+        "titleHighlight": "Clientes",
+        "subtitle": "Historias reales de restaurantes que han transformado su negocio",
+        "users": {
+          "rosa": {
+            "name": "Rosa Méndez",
+            "role": "Dueña de restaurante",
+            "restaurant": "Antojitos Doña Rosa",
+            "text": "Antes actualizábamos el menú en un grupo de WhatsApp y nadie lo veía. Con Almuerzos Perú, los clientes ya llegan sabiendo qué pedir. En 2 semanas, tuvimos más movimiento en el almuerzo que en todo un mes antes."
+          },
+          "luis": {
+            "name": "Luis Contreras",
+            "role": "Dueño de restaurante",
+            "restaurant": "Fonda San Martín – Callao",
+            "text": "Lo mejor es que no necesito tener redes sociales ni pagar a nadie para publicar. Yo misma actualizo desde mi celular y los clientes nos encuentran por ubicación. ¡Hasta personas que vivían cerca, pero no nos conocían, ahora vienen a nosotros!"
+          },
+          "maricielo": {
+            "name": "Maricielo Ramírez",
+            "role": "Chef y dueña",
+            "restaurant": "Cocina Criolla Familiar – Ate Vitarte",
+            "text": "Nos costaba mostrar todos los platos del menú diario porque cambiamos seguido. Ahora los subimos en 1 minuto y la gente los ve con foto, precio y hasta comenta. Se siente más profesional, aunque somos un negocio familiar."
+          }
+        }
+      },
+      "howItWorks": {
+        "title": "¿Cómo",
+        "titleHighlight": "Funciona",
+        "titleSuffix": "?",
+        "subtitle": "En solo 3 pasos simples, tu restaurante estará listo para la era digital",
+        "steps": {
+          "register": {
+            "title": "Regístrate Gratis",
+            "description": "Crea tu cuenta en menos de 2 minutos. Solo necesitas tu email y el nombre de tu restaurante para comenzar.",
+            "alt": "Registro de restaurante en línea"
+          },
+          "uploadMenu": {
+            "title": "Sube tu Menú",
+            "description": "Agrega los platos de tu menú diario con fotos, precios y descripciones. Es súper fácil e intuitivo.",
+            "alt": "Subir menú digital del restaurante"
+          },
+          "publishShare": {
+            "title": "Publica y Comparte",
+            "description": "Tu menú estará disponible al instante. Compártelo por WhatsApp, redes sociales o déjanos ayudarte a encontrar más clientes.",
+            "alt": "Compartir menú digital por WhatsApp"
+          }
+        }
+      },
+      "benefits": {
+        "title": {
+          "prefix": "Beneficios que",
+          "highlight": "Transforman",
+          "suffix": "tu Negocio"
+        },
+        "description": "Descubre cómo nuestro software revoluciona la experiencia gastronómica tanto para restaurantes como para comensales",
+        "restaurant": {
+          "title": "Para Restaurantes",
+          "subtitle": "Gestiona tu menú"
+        },
+        "customer": {
+          "title": "Para Comensales",
+          "subtitle": "Descubre sabores increíbles"
+        },
+        "realTimeUpdate": {
+          "title": "Actualización en Tiempo Real",
+          "subtitle": "Si algo se acabó, retíralo fácilmente."
+        },
+        "whatsappShare": {
+          "title": "Comparte por WhatsApp",
+          "subtitle": "Envía tu carta por WhatsApp y compártesela a tus contactos."
+        },
+        "freeAdvertising": {
+          "title": "Publicidad Gratis",
+          "subtitle": "Sube tu menú y listo. Tu restaurante será visible para más clientes sin esfuerzos."
+        },
+        "allInOnePlace": {
+          "title": "Todo en un Solo Lugar",
+          "subtitle": "Encuentra el menú diario de tu restaurante favorito en un solo lugar, fácil y rápido."
+        },
+        "gpsFilter": {
+          "title": "Filtro por Ubicación GPS",
+          "subtitle": "Encuentra opciones cercanas con el filtro de ubicación GPS. Descubre nuevos sabores."
+        },
+        "exclusivePromotions": {
+          "title": "Promociones exclusivas",
+          "subtitle": "Accede a menús con descuentos,y promocionas solo para usuarios activos. ¡Usa la app, gana más y almuerza mejor!"
+        }
+      },
+      "pricing": {
+        "title": {
+          "prefix": "Planes que se adaptan a",
+          "highlight": "tu ritmo",
+          "suffix": "de crecimiento"
+        },
+        "subtitle": "Elige el plan perfecto para llevar tu restaurante al siguiente nivel",
+        "limitedOffer": "¡Oferta limitada!",
+        "annualDiscount": "20% de descuento en planes anuales",
+        "swipeToView": "Desliza para ver todos los planes",
+        "paymentMethods": {
+          "title": "Acepta pagos con:",
+          "yape": "Yape",
+          "plin": "Plin",
+          "cards": "Tarjetas"
+        },
+        "benefits": {
+          "instantSetup": {
+            "title": "Configuración Instantánea",
+            "description": "Tu menú digital listo en menos de 5 minutos"
+          },
+          "exceptionalSupport": {
+            "title": "Soporte Excepcional",
+            "description": "4.9/5 estrellas en satisfacción del cliente"
+          },
+          "provenResults": {
+            "title": "Resultados Comprobados",
+            "description": "Promedio de 40% más ventas en 30 días"
+          }
+        },
+        "mostPopular": "Más Popular",
+        "comparison": {
+          "title": "Comparación de Planes",
+          "subtitle": "Las características más importantes de un vistazo",
+          "seeMore": "Ver más características",
+          "seeLess": "Ver menos características",
+          "planNames": {
+            "features": "Características",
+            "free": "Gratuito",
+            "premium": "Premium",
+            "enterprise": "Empresarial"
+          },
+          "features": {
+            "digitalMenu": "Menú digital básico",
+            "numberOfDishes": "Número de platos",
+            "whatsappShare": "Compartir por WhatsApp",
+            "realTimeUpdates": "Actualizaciones en tiempo real",
+            "emailSupport": "Soporte por email",
+            "onlinePayments": "Pagos en línea integrados",
+            "performanceReports": "Informes de desempeño",
+            "premium24Support": "Soporte premium 24/7",
+            "advancedCustomization": "Personalización avanzada",
+            "detailedAnalytics": "Analytics detallados",
+            "multipleLocations": "Múltiples ubicaciones",
+            "multiRestaurantManagement": "Gestión multi-restaurante",
+            "customApi": "API personalizada",
+            "posIntegration": "Integración con POS",
+            "dedicatedAccountManager": "Gerente de cuenta dedicado",
+            "unlimited": "ilimitados",
+            "upTo3": "Hasta 3"
+          }
+        },
+        "periods": {
+          "monthly": "Mensual",
+          "annual": "Anual",
+          "per_month": "por mes",
+          "per_year": "por año",
+          "forever": "Para siempre"
+        },
+        "plans": {
+          "free": {
+            "title": "Plan Gratuito",
+            "period": "Para siempre",
+            "button": "Comenzar Gratis",
+            "features": {
+              "menuBasic": "Menú digital básico",
+              "dishes": "Hasta 20 platos",
+              "cards": "Hasta con 5 cartas",
+              "promotions": "Hasta 5 promociones diarias",
+              "whatsapp": "Compartir por WhatsApp",
+              "realTime": "Actualizaciones en tiempo real",
+              "support": "Soporte por email"
+            }
+          },
+          "premium": {
+            "title": "Plan Premium",
+            "button": "Comenzar Premium",
+            "features": {
+              "menuCustom": "Menú digital personalizado",
+              "dishesUnlimited": "Platos ilimitados",
+              "cardsUnlimited": "Cartas ilimitadas",
+              "reports": "Reportes e informes",
+              "support24": "Soporte premium 24/7",
+              "promotionsUnlimited": "Promociones ilimitadas"
+            }
+          },
+          "enterprise": {
+            "title": "Plan Empresarial",
+            "button": "Contactar Ventas",
+            "features": {
+              "allPremium": "Todo del plan premium",
+              "multiRestaurant": "Función multi-restaurante",
+              "brandCustomization": "Personalización marca o sede",
+              "posIntegration": "Integración con POS",
+              "autoBilling": "Facturación automática",
+              "personalizedTraining": "Capacitación personalizada",
+              "smartCombos": "Gestión de combos inteligentes"
+            }
+          }
+        },
+        "features": {
+          "instantSetup": {
+            "title": "Configuración Instantánea",
+            "description": "Tu menú digital listo en menos de 5 minutos"
+          },
+          "satisfaction": {
+            "title": "Satisfacción Garantizada",
+            "description": "4.9/5 estrellas en satisfacción del cliente"
+          },
+          "salesIncrease": {
+            "title": "Aumento de Ventas",
+            "description": "Promedio de 40% más ventas en 30 días"
+          }
+        },
+        "howItWorks": {
+          "title": {
+            "prefix": "¿Cómo",
+            "highlight": "funciona?",
+            "suffix": ""
+          },
+          "subtitle": "Solo 3 pasos para digitalizar tu restaurante",
+          "steps": {
+            "register": {
+              "title": "Regístrate",
+              "description": "Regístrate como dueño de restaurante en menos de 2 minutos. Es completamente gratis.",
+              "alt": "Registro de restaurante en la plataforma"
+            },
+            "uploadMenu": {
+              "title": "Sube tu Menú",
+              "description": "Sube y actualiza tu menú diario con facilidad. Añade fotos, precios y descripciones.",
+              "alt": "Chef subiendo menú digital con fotos de platos"
+            },
+            "publishShare": {
+              "title": "Publica y Comparte",
+              "description": "Publica tu menú en una página web accesible y compártelo con tus clientes por WhatsApp.",
+              "alt": "Compartiendo menú digital por WhatsApp"
+            }
+          }
+        },
+        "testimonials": {
+          "title": "Lo que dicen nuestros clientes",
+          "testimonial1": {
+            "name": "Carlos Mendoza",
+            "business": "Restaurante La Tradición",
+            "text": "Increíble cómo mejoró la experiencia de mis clientes. Los pedidos son más rápidos y precisos.",
+            "rating": "5 estrellas"
+          },
+          "testimonial2": {
+            "name": "María González",
+            "business": "Cafetería Central",
+            "text": "La implementación fue súper fácil y el soporte técnico es excelente. Lo recomiendo 100%.",
+            "rating": "5 estrellas"
+          },
+          "testimonial3": {
+            "name": "Roberto Silva",
+            "business": "Pizza Express",
+            "text": "Reducimos los errores en pedidos y aumentamos la satisfacción del cliente notablemente.",
+            "rating": "5 estrellas"
+          }
+        }
+      },
+      "finalCta": {
+        "title": "¿Todavía usas menús impresos? Tus clientes ya no.",
+        "titleHighlight": "Únete al cambio.",
+        "subtitle": "¡Regístrate ahora y comienza a disfrutar de los beneficios de tener un menú digital!",
+        "primaryBtn": "Comienza Gratis Ahora",
+        "features": {
+          "free": "Configuración gratuita",
+          "noCommitment": "Sin compromisos",
+          "support": "Soporte incluido"
+        }
+      }
+    },
+    "features": {
+      "title": "¿Por qué elegir AlmuerzosPeru?",
+      "subtitle": "Hemos diseñado la plataforma pensando en tu comodidad y tu tiempo",
+      "smartSearch": {
+        "title": "Búsqueda inteligente",
+        "description": "Encuentra restaurantes cerca de ti con menús actualizados diariamente"
+      },
+      "saveTime": {
+        "title": "Ahorra tiempo",
+        "description": "No más llamadas ni esperas. Ve el menú y precios al instante"
+      },
+      "location": {
+        "title": "Ubicación precisa",
+        "description": "Restaurantes organizados por distrito y proximidad a tu ubicación"
+      },
+      "favorites": {
+        "title": "Favoritos",
+        "description": "Guarda tus restaurantes favoritos para acceso rápido"
+      }
+    },
+    "howItWorks": {
+      "title": "¿Cómo funciona?",
+      "subtitle": "Encuentra tu almuerzo perfecto en solo 3 pasos",
+      "steps": {
+        "search": {
+          "title": "Busca tu zona",
+          "description": "Ingresa tu ubicación o distrito en Lima"
+        },
+        "explore": {
+          "title": "Explora menús",
+          "description": "Ve menús diarios y precios actualizados"
+        },
+        "enjoy": {
+          "title": "¡Disfruta!",
+          "description": "Ve al restaurante o haz tu pedido"
+        }
+      }
+    },
+    "header": {
+      "navigation": {
+        "diner": {
+          "howItWorks": "Cómo funciona",
+          "features": "Características",
+          "testimonials": "Testimonios"
+        },
+        "restaurant": {
+          "benefits": "Beneficios",
+          "howItWorks": "Cómo Funciona",
+          "pricing": "Precios",
+          "testimonials": "Testimonios"
+        }
+      },
+      "actions": {
+        "login": "Iniciar Sesión"
+      }
+    },
+    "testimonials": {
+      "title": "Lo que dicen nuestros usuarios",
+      "subtitle": "Miles de limeños ya encontraron su almuerzo perfecto",
+      "users": {
+        "maria": {
+          "name": "David González",
+          "role": "Repartidor",
+          "text": "Me gustó que pude ver los precios antes de salir. Ya no gasto más de la cuenta."
+        },
+        "carlos": {
+          "name": "Julio Mendoza",
+          "role": "Técnico en telecomunicaciones",
+          "text": "La carta estaba actualizada y pude pagar con Yape. Súper práctico. Me ahorré tiempo y dinero."
+        },
+        "roberto": {
+          "name": "Carla Silva",
+          "role": "Diseñadora gráfica",
+          "text": "Yo almuerzo cerca del trabajo en Surco y siempre caía en lo mismo. Con esta app descubrí 3 huariques que no sabía que existían."
+        }
+      }
+    },
+    "diner": {
+      "enhancedSearch": {
+        "title": {
+          "where": "¿Dónde estás",
+          "lunchToday": "almorzando hoy?"
+        },
+        "subtitle": "Descubre los mejores menús cerca de ti en tiempo real",
+        "findLunch": "Encuentra tu almuerzo",
+        "nearYou": "Restaurantes cerca de ti",
+        "form": {
+          "label": "¿En qué distrito trabajas?",
+          "placeholder": "Ej: San Isidro, Miraflores, Surco, La Molina...",
+          "hint": "Ingresa tu distrito para encontrar restaurantes cercanos"
+        },
+        "popularDistricts": "Distritos populares:",
+        "buttons": {
+          "myLocation": "Mi ubicación",
+          "nearMe": "Cerca de mí"
+        },
+        "searchButton": "Buscar restaurantes",
+        "stats": {
+          "restaurants": "Restaurantes",
+          "users": "Usuarios",
+          "available": "Disponible"
+        },
+        "notification": {
+          "newMenu": "Nuevo menú disponible",
+          "restaurant": "Restaurante El Dorado"
+        }
+      },
+      "finalCta": {
+        "title": {
+          "ready": "¿Listo para encontrar tu",
+          "idealLunch": "almuerzo ideal?"
+        },
+        "description": {
+          "joinUsers": "Únete a",
+          "usersCount": "+10,000 usuarios",
+          "enjoyExperience": "que ya disfrutan de la mejor experiencia para encontrar comida en Lima"
+        },
+        "button": {
+          "explore": "Explora restaurantes"
+        },
+        "features": {
+          "easy": "Fácil",
+          "fast": "Rápido",
+          "delicious": "Rico"
+        },
+        "stats": {
+          "restaurants": "Restaurantes verificados",
+          "users": "Usuarios activos",
+          "rating": "Calificación promedio"
+        }
+      }
+    },
+    "footer": {
+      "description": "Transformando restaurantes con tecnología digital innovadora.",
+      "sections": {
+        "product": {
+          "title": "Producto",
+          "features": "Características",
+          "pricing": "Precios",
+          "demo": "Demo",
+          "integrations": "Integraciones"
+        },
+        "support": {
+          "title": "Soporte",
+          "helpCenter": "Centro de Ayuda",
+          "contact": "Contacto",
+          "tutorials": "Tutoriales"
+        },
+        "contact": {
+          "title": "Contacto",
+          "email": "soporte@almuerzosperu.com",
+          "phone": "+51 999 888 777",
+          "location": "Lima, Perú"
+        }
+      },
+      "copyright": "© 2025 ALMUERZOSPERÚ. Todos los derechos reservados.",
+      "social": {
+        "facebook": "Síguenos en Facebook",
+        "instagram": "Síguenos en Instagram"
+      },
+      "legal": {
+        "privacyPolicy": "Política de Privacidad",
+        "termsConditions": "Términos y Condiciones",
+        "lastUpdated": "Última actualización:",
+        "privacy": {
+          "title": "Política de Privacidad",
+          "sections": {
+            "introduction": {
+              "title": "1. Introducción",
+              "content": "En <strong>AlmuerzosPerú</strong>, nos comprometemos a proteger la privacidad y seguridad de la información personal de nuestros clientes. Esta Política de Privacidad describe cómo recopilamos, utilizamos, almacenamos y protegemos su información personal cuando utiliza nuestros servicios de restaurante, sitio web y aplicaciones móviles."
+            },
+            "information": {
+              "title": "2. Información que Recopilamos",
+              "personal": {
+                "title": "2.1 Información Personal",
+                "items": [
+                  "Nombre completo y datos de contacto (teléfono, email, dirección)",
+                  "Información de pedidos y preferencias alimentarias",
+                  "Historial de compras y transacciones",
+                  "Información de pago (procesada de forma segura)"
+                ]
+              },
+              "technical": {
+                "title": "2.2 Información Técnica",
+                "items": [
+                  "Dirección IP y datos de navegación",
+                  "Cookies y tecnologías similares",
+                  "Información del dispositivo y sistema operativo",
+                  "Datos de ubicación (con su permiso)"
+                ]
+              }
+            },
+            "usage": {
+              "title": "3. Uso de la Información",
+              "intro": "Utilizamos su información personal para los siguientes propósitos:",
+              "items": [
+                "Procesar y entregar sus pedidos de comida",
+                "Comunicarnos sobre el estado de sus pedidos",
+                "Mejorar nuestros servicios y menú",
+                "Enviar promociones y ofertas especiales (con su consentimiento)",
+                "Cumplir con obligaciones legales y fiscales",
+                "Prevenir fraudes y garantizar la seguridad"
+              ]
+            },
+            "sharing": {
+              "title": "4. Compartir Información",
+              "intro": "No vendemos, alquilamos o compartimos su información personal con terceros, excepto en los siguientes casos:",
+              "items": [
+                "Con su consentimiento explícito",
+                "Para cumplir con sus pedidos (socios de entrega)",
+                "Para cumplir con obligaciones legales",
+                "Para proteger nuestros derechos y seguridad"
+              ],
+              "notice": "Todos nuestros socios comerciales están obligados a mantener la <strong>confidencialidad</strong> de su información.",
+              "content": "No vendemos, alquilamos o compartimos su información personal con terceros, excepto:"
+            },
+            "security": {
+              "title": "5. Seguridad de Datos",
+              "content": "Implementamos medidas de seguridad técnicas y organizativas apropiadas para proteger su información personal contra acceso no autorizado, alteración, divulgación o destrucción. Esto incluye encriptación de datos, acceso restringido y monitoreo regular de nuestros sistemas."
+            },
+            "rights": {
+              "title": "6. Sus Derechos",
+              "intro": "Como titular de datos personales, usted tiene los siguientes derechos:",
+              "items": [
+                "Acceder a su información personal",
+                "Rectificar datos incorrectos o incompletos",
+                "Solicitar la eliminación de sus datos",
+                "Oponerse al procesamiento de sus datos",
+                "Retirar su consentimiento en cualquier momento",
+                "Portabilidad de sus datos"
+              ]
+            },
+            "cookies": {
+              "title": "7. Cookies",
+              "content": "Utilizamos cookies para mejorar su experiencia en nuestro sitio web, recordar sus preferencias y analizar el tráfico. Puede configurar su navegador para rechazar cookies, aunque esto puede afectar la funcionalidad del sitio."
+            },
+            "contact": {
+              "title": "8. Contacto",
+              "intro": "Si tiene preguntas sobre esta política de privacidad o necesita ejercer sus derechos, puede contactarnos a través de los siguientes medios:",
+              "email": "privacidad@almuerzosperu.com",
+              "phone": "+51 123 456 789",
+              "address": "Av. Javier Prado Este 123, San Isidro, Lima, Perú",
+              "content": "Para preguntas sobre esta política, contáctenos en: soporte@almuerzosperu.com"
+            }
+          }
+        },
+        "terms": {
+          "title": "Términos y Condiciones",
+          "sections": {
+            "acceptance": {
+              "title": "1. Aceptación de Términos",
+              "content": "Al utilizar los servicios de <strong>AlmuerzosPerú</strong>, ya sea en nuestro restaurante físico, sitio web, aplicación móvil o servicios de entrega, usted acepta estar sujeto a estos Términos y Condiciones. Si no está de acuerdo con alguno de estos términos, le pedimos que no utilice nuestros servicios."
+            },
+            "services": {
+              "title": "2. Nuestros Servicios",
+              "restaurant": {
+                "title": "🍽️ Servicio en Restaurante",
+                "description": "Comida peruana tradicional servida en nuestras instalaciones"
+              },
+              "delivery": {
+                "title": "🚚 Delivery",
+                "description": "Entrega a domicilio en Lima Metropolitana"
+              }
+            },
+            "orders": {
+              "title": "3. Pedidos y Pagos",
+              "ordering": {
+                "title": "3.1 Realización de Pedidos",
+                "items": [
+                  "Los pedidos pueden realizarse en persona, por teléfono, web o app móvil",
+                  "Confirmamos todos los pedidos antes de la preparación",
+                  "Nos reservamos el derecho de rechazar pedidos por razones operativas",
+                  "Los precios están sujetos a cambios sin previo aviso"
+                ]
+              },
+              "payment": {
+                "title": "3.2 Métodos de Pago",
+                "methods": ["Efectivo", "Tarjetas de Crédito/Débito", "Yape", "Plin", "Transferencia Bancaria"],
+                "notice": "El pago debe realizarse al momento del pedido para delivery o al recibir el servicio en restaurante."
+              }
+            },
+            "delivery": {
+              "title": "4. Política de Entrega",
+              "schedule": {
+                "title": "Horarios de Entrega",
+                "time": "Lunes a Domingo: 11:00 AM - 9:00 PM"
+              },
+              "conditions": [
+                "Tiempo estimado de entrega: 30-45 minutos",
+                "Zona de cobertura: Lima Metropolitana (consultar disponibilidad)",
+                "El cliente debe estar disponible en la dirección indicada",
+                "No nos hacemos responsables por demoras debido a factores externos"
+              ]
+            },
+            "registration": {
+              "title": "5. Registro de Usuario",
+              "items": [
+                "Debe proporcionar información precisa y completa",
+                "Es responsable de mantener la confidencialidad de su cuenta",
+                "Debe notificarnos inmediatamente cualquier uso no autorizado",
+                "Debe tener al menos 18 años para usar nuestros servicios"
+              ]
+            },
+            "cancellations": {
+              "title": "6. Cancelaciones y Reembolsos",
+              "cancellation": {
+                "title": "6.1 Cancelaciones",
+                "items": [
+                  "Pedidos pueden cancelarse hasta 10 minutos después de confirmados",
+                  "Cancelaciones después de iniciar preparación tendrán cargo del 50%",
+                  "No se aceptan cancelaciones una vez enviado el pedido"
+                ]
+              },
+              "refunds": {
+                "title": "6.2 Reembolsos",
+                "items": [
+                  "Reembolsos procesados en 3-5 días hábiles",
+                  "Problemas de calidad: reembolso o reemplazo completo",
+                  "Demoras mayores a 60 minutos: reembolso de costo de delivery"
+                ]
+              }
+            },
+            "quality": {
+              "title": "7. Calidad y Seguridad Alimentaria",
+              "items": [
+                "Cumplimos con todas las normas sanitarias peruanas (DIGESA)",
+                "Ingredientes frescos y de calidad en todos nuestros platos",
+                "Informamos sobre alérgenos principales en nuestro menú",
+                "El cliente debe informar sobre alergias o restricciones alimentarias",
+                "No nos hacemos responsables por reacciones no informadas previamente"
+              ]
+            },
+            "behavior": {
+              "title": "8. Comportamiento del Cliente",
+              "intro": "Esperamos que nuestros clientes:",
+              "items": [
+                "Traten al personal con respeto y cortesía",
+                "Proporcionen información precisa para pedidos y entregas",
+                "Respeten las instalaciones y otros comensales",
+                "Cumplan con los horarios de reserva"
+              ],
+              "notice": "Nos reservamos el derecho de rechazar el servicio a clientes que no cumplan con estas expectativas."
+            },
+            "liability": {
+              "title": "9. Limitación de Responsabilidad",
+              "content": "Nuestra responsabilidad se limita al valor del pedido realizado. No somos responsables por daños indirectos, pérdida de ganancias o daños consecuenciales. En caso de problemas con el servicio, trabajaremos para resolverlos de manera justa y rápida."
+            },
+            "modifications": {
+              "title": "10. Modificaciones",
+              "content": "Nos reservamos el derecho de modificar estos términos en cualquier momento. Los cambios serán publicados en nuestro sitio web y entrarán en vigor inmediatamente. El uso continuado de nuestros servicios constituye la aceptación de los términos modificados."
+            },
+            "contact": {
+              "title": "11. Información de Contacto",
+              "intro": "Para preguntas sobre estos términos o nuestros servicios:",
+              "email": "soporte@almuerzosperu.com",
+              "phone": "+51 999 888 777",
+              "address": "Lima, Perú"
+            }
+          }
+        }
+      }
+    }
+  },
+  "pwa": {
+    "update": {
+      "available": "Nueva versión disponible",
+      "button": "Actualizar"
+    },
+    "install": {
+      "title": "¡Instala Almuerzos Perú!",
+      "description": "La mejor experiencia gastronómica peruana",
+      "features": {
+        "notifications": "Notificaciones de ofertas",
+        "offline": "Funciona sin internet",
+        "speed": "Acceso ultra rápido"
+      },
+      "buttons": {
+        "install": "Instalar App",
+        "later": "Más tarde"
+      },
+      "tooltip": "Instalar Almuerzos Perú"
+    }
+  },
+  "modal": {
+    "close": "Cerrar"
+  }
+}

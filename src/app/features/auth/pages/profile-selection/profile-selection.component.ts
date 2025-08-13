@@ -1,44 +1,38 @@
-import { Location, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
+import { BackButtonComponent } from '../../../../shared/components/back-button/back-button.component';
+import { BaseTranslatableComponent } from '../../../../shared/i18n';
 import { MaterialModule } from '../../../../shared/material.module';
+import { LoggerService } from '../../../../shared/services/logger/logger.service';
 
 @Component({
   selector: 'app-profile-selection',
   standalone: true,
-  imports: [MaterialModule, RouterModule, NgIf],
+  imports: [MaterialModule, RouterModule, BackButtonComponent],
   templateUrl: './profile-selection.component.html',
   styleUrl: './profile-selection.component.scss'
 })
-export class ProfileSelectionComponent {
+export class ProfileSelectionComponent extends BaseTranslatableComponent {
   selectedType: 'restaurante' | 'comensal' | null = null;
   isNavigating = false;
 
   constructor(
-    private readonly location: Location,
-    public router: Router
-    // private loggerService: LoggerService
-  ) {}
-
-  goBack(): void {
-    this.location.back();
+    public router: Router,
+    public readonly logger: LoggerService
+  ) {
+    super();
   }
 
   elegirTipoUsuario(tipo: 'restaurante' | 'comensal') {
-    if (this.isNavigating) return; // Prevenir múltiples clicks
+    if (this.isNavigating) return;
 
     this.selectedType = tipo;
     this.isNavigating = true;
 
     // Delay para mostrar la animación antes de navegar
     setTimeout(() => {
-      // this.loggerService.info('Navegando a registro como:', tipo);
-
-      // Opción más robusta: usar tanto state como queryParams
-      this.router.navigate(['auth/register'], {
-        state: { tipo },
-        queryParams: { userType: tipo } // Backup en queryParams
-      });
-    }, 800); // 800ms para mostrar la animación
+      this.logger.info('Tipo de usuario seleccionado:', tipo);
+      this.router.navigate(['auth/login']);
+    }, 800);
   }
 }

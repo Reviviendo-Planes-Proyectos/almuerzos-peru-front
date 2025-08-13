@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { BaseTranslatableComponent } from '../../../../../shared/i18n';
 import { MaterialModule } from '../../../../../shared/material.module';
 
 @Component({
@@ -9,14 +10,14 @@ import { MaterialModule } from '../../../../../shared/material.module';
   templateUrl: './enhanced-search-section.component.html',
   styleUrls: ['./enhanced-search-section.component.scss']
 })
-export class EnhancedSearchSectionComponent {
+export class EnhancedSearchSectionComponent extends BaseTranslatableComponent {
   searchLocation = '';
   showSuggestions = false;
 
   stats = [
-    { value: '500+', label: 'Restaurantes' },
-    { value: '10k+', label: 'Usuarios' },
-    { value: '24/7', label: 'Disponible' }
+    { value: '5000+', label: 'landing.diner.enhancedSearch.stats.restaurants' },
+    { value: '10k+', label: 'landing.diner.enhancedSearch.stats.users' },
+    { value: '24/7', label: 'landing.diner.enhancedSearch.stats.available' }
   ];
 
   popularDistricts = [

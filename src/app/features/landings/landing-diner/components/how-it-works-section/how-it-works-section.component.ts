@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { BaseTranslatableComponent } from '../../../../../shared/i18n';
 import { MaterialModule } from '../../../../../shared/material.module';
 
 @Component({
@@ -8,24 +9,24 @@ import { MaterialModule } from '../../../../../shared/material.module';
   templateUrl: './how-it-works-section.component.html',
   styleUrls: ['./how-it-works-section.component.scss']
 })
-export class HowItWorksSectionComponent {
+export class HowItWorksSectionComponent extends BaseTranslatableComponent {
   steps = [
     {
       step: '1',
-      title: 'Busca tu zona',
-      description: 'Ingresa tu ubicación o distrito en Lima',
+      title: 'landing.howItWorks.steps.search.title',
+      description: 'landing.howItWorks.steps.search.description',
       image: '/img/landing/search-interface.png'
     },
     {
       step: '2',
-      title: 'Explora menús',
-      description: 'Ve los menús diarios y precios actualizados',
+      title: 'landing.howItWorks.steps.explore.title',
+      description: 'landing.howItWorks.steps.explore.description',
       image: '/img/landing/peruvian-menu-board.png'
     },
     {
       step: '3',
-      title: '¡Disfruta!',
-      description: 'Dirígete al restaurante o haz tu pedido',
+      title: 'landing.howItWorks.steps.enjoy.title',
+      description: 'landing.howItWorks.steps.enjoy.description',
       image: '/img/landing/happy-office-workers-eating.png'
     }
   ];

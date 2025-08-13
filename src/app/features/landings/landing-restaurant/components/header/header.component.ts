@@ -1,6 +1,7 @@
 import { Component, HostListener } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ButtonComponent } from '../../../../../shared/components/button/button.component';
+import { BaseTranslatableComponent } from '../../../../../shared/i18n';
 import { MaterialModule } from '../../../../../shared/material.module';
 
 @Component({
@@ -10,13 +11,15 @@ import { MaterialModule } from '../../../../../shared/material.module';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent {
+export class HeaderComponent extends BaseTranslatableComponent {
   isScrolled = false;
 
   constructor(
     public router: Router,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    super();
+  }
 
   @HostListener('window:scroll', [])
   onWindowScroll() {

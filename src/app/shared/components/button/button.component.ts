@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { BaseTranslatableComponent } from '../../i18n';
 import { MaterialModule } from '../../material.module';
 
 @Component({
@@ -8,8 +9,9 @@ import { MaterialModule } from '../../material.module';
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.scss']
 })
-export class ButtonComponent {
+export class ButtonComponent extends BaseTranslatableComponent {
   @Input() label = '';
+  @Input() translateKey: string | null = null;
   @Input() isActive = true;
   @Input() isOutline = false;
   @Input() outlineGray = false;
@@ -17,16 +19,27 @@ export class ButtonComponent {
   @Input() imgAlt: string | null = '';
   @Input() iconName: string | null = null;
 
+  @Output() clicked = new EventEmitter<void>();
+
+  onClick(): void {
+    if (this.isActive) {
+      this.clicked.emit();
+    }
+  }
+
   get buttonClasses(): string {
-    if (this.isActive && !this.isOutline && !this.outlineGray) {
-      return 'bg-yellow-500 text-white';
+    if (!this.isActive) {
+      return 'bg-gray-300 text-gray-500 opacity-60 cursor-not-allowed';
     }
-    if (this.isOutline && !this.outlineGray) {
-      return 'border-yellow-500 border-2 text-gray-900 bg-transparent';
+
+    if (this.isActive && !this.isOutline) {
+      return 'bg-yellow-500 text-white hover:shadow-lg focus:ring-2 focus:ring-yellow-300 focus:outline-none';
     }
-    if (this.outlineGray) {
-      return 'border-gray-300 border-2 text-gray-600 bg-transparent hover:border-gray-400 hover:text-gray-700';
+
+    if (this.isOutline) {
+      return 'border-yellow-500 border-2 text-gray-900 bg-transparent hover:bg-yellow-50 focus:ring-2 focus:ring-yellow-200 focus:outline-none';
     }
-    return 'bg-transparent text-[#ffffff] hover:bg-[#1C212D] hover:text-neutral-light06 focus:border-brand-medium focus:border-0 focus:bg-[#2b303b] focus:text-neutral-light06 active:text-neutral-light06 active:bg-[#2b303b] active:border-0';
+
+    return 'bg-transparent text-white hover:bg-gray-800 hover:text-gray-100 focus:ring-2 focus:ring-gray-300 focus:outline-none active:bg-gray-900';
   }
 }

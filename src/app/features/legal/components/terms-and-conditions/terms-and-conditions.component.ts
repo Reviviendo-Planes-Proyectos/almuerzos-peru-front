@@ -1,20 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { I18nService } from '../../../../shared/i18n';
 import { MaterialModule } from '../../../../shared/material.module';
 import { HeaderComponent } from '../../../landings/landing-restaurant/components/header/header.component';
 
 @Component({
-  selector: 'app-politica-privacidad',
+  selector: 'app-terms-and-conditions',
   standalone: true,
   imports: [MaterialModule, HeaderComponent],
-  templateUrl: './politica-privacidad.component.html',
-  styleUrls: ['./politica-privacidad.component.scss']
+  templateUrl: './terms-and-conditions.component.html',
+  styleUrls: ['./terms-and-conditions.component.scss']
 })
-export class PoliticaPrivacidadComponent {
+export class TermsAndConditionsComponent {
   fechaActualizacion: string;
+  private i18nService = inject(I18nService);
 
   constructor(private router: Router) {
     this.fechaActualizacion = new Date().toLocaleDateString('es-PE');
+  }
+
+  protected t(key: string): string {
+    return this.i18nService.t(key);
   }
 
   volverAlInicio(): void {

@@ -28,8 +28,7 @@
         <img
           src="/img/landing/Logo-Almuerzo-Perú.png"
           alt="Logo Almuerzos Perú"
-          class="h-10 object-contain rounded-lg bg-transparent"
-          style="max-width: 100%; max-height: 100%"
+          class="h-10 object-contain rounded-lg bg-transparent max-w-full max-h-full"
         />
       </div>
 
@@ -62,7 +61,7 @@
             'text-gray-700 hover:text-orange-500': isScrolled
           }"
         >
-          Cómo funciona
+          {{ t('landing.header.navigation.diner.howItWorks') }}
         </a>
         <a
           (click)="scrollToSection('caracteristicas')"
@@ -72,7 +71,7 @@
             'text-gray-700 hover:text-orange-500': isScrolled
           }"
         >
-          Características
+          {{ t('landing.header.navigation.diner.features') }}
         </a>
         <a
           (click)="scrollToSection('testimonios')"
@@ -82,7 +81,7 @@
             'text-gray-700 hover:text-orange-500': isScrolled
           }"
         >
-          Testimonios
+          {{ t('landing.header.navigation.diner.testimonials') }}
         </a>
       </ng-container>
 
@@ -92,25 +91,25 @@
           (click)="scrollToSection('beneficios')"
           class="text-gray-600 hover:text-yellow-500 transition-colors cursor-pointer"
         >
-          Beneficios
+          {{ t('landing.header.navigation.restaurant.benefits') }}
         </a>
         <a
           (click)="scrollToSection('como-funciona')"
           class="text-gray-600 hover:text-yellow-500 transition-colors cursor-pointer"
         >
-          Cómo Funciona
+          {{ t('landing.header.navigation.restaurant.howItWorks') }}
         </a>
         <a
           (click)="scrollToSection('precios')"
           class="text-gray-600 hover:text-yellow-500 transition-colors cursor-pointer"
         >
-          Precios
+          {{ t('landing.header.navigation.restaurant.pricing') }}
         </a>
         <a
           (click)="scrollToSection('testimonios')"
           class="text-gray-600 hover:text-yellow-500 transition-colors cursor-pointer"
         >
-          Testimonios
+          {{ t('landing.header.navigation.restaurant.testimonials') }}
         </a>
       </ng-container>
     </nav>
@@ -118,7 +117,7 @@
     <!-- Botón de Iniciar Sesión para ambos landings -->
     <ng-container *ngIf="isDinerLanding || isRestaurantLanding || isLegalPage">
       <app-button
-        [label]="'Iniciar Sesión'"
+        [translateKey]="'landing.header.actions.login'"
         [isActive]="true"
         [isOutline]="false"
         class="w-auto px-0"

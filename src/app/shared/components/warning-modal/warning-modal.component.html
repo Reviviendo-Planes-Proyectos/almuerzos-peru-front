@@ -5,7 +5,7 @@
     <button
       (click)="onClose()"
       class="absolute top-2 right-2 w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors"
-      aria-label="Cerrar"
+      [attr.aria-label]="t('modal.close')"
     >
       <i class="material-icons text-lg">close</i>
     </button>

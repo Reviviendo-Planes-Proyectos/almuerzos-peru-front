@@ -20,6 +20,13 @@ export const AUTH_ROUTES: Routes = [
       import('./pages/profile-selection/profile-selection.component').then((m) => m.ProfileSelectionComponent)
   },
   {
+    path: 'email-sent-confirmation',
+    loadComponent: () =>
+      import('./pages/email-sent-confirmation/email-sent-confirmation.component').then(
+        (m) => m.EmailSentConfirmationComponent
+      )
+  },
+  {
     path: 'customer-basic-info',
     loadComponent: () =>
       import('./pages/customer-basic-info/customer-basic-info.component').then((m) => m.CustomerBasicInfoComponent)
