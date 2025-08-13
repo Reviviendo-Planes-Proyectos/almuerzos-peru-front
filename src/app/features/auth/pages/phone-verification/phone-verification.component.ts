@@ -30,6 +30,7 @@ export class PhoneVerificationComponent implements OnInit, OnDestroy {
   codeSent = false;
   verificationForm!: FormGroup;
   preferredMethod: 'sms' | 'whatsapp' = 'sms';
+  isVerifying = false;
   private intervalId?: number;
   currentStep = 2;
 
@@ -90,15 +91,33 @@ export class PhoneVerificationComponent implements OnInit, OnDestroy {
     this.preferredMethod = method;
   }
 
+  get sendCodeButtonLabel(): string {
+    return this.preferredMethod === 'whatsapp' ? 'Enviar Código por WhatsApp' : 'Enviar Código por SMS';
+  }
+
+  get sentMethodText(): string {
+    return this.preferredMethod === 'whatsapp' ? 'WhatsApp' : 'SMS';
+  }
+
+  get resendMethodText(): string {
+    return this.preferredMethod === 'whatsapp' ? 'WhatsApp' : 'SMS';
+  }
+
   sendVerificationCode(): void {
     this.currentStep = 3;
     this.codeSent = true;
   }
 
   verifyCode(): void {
-    if (this.verificationForm.valid) {
-      // Navegar al siguiente paso
-      // this.router.navigate(['/auth/email-verification']);
+    if (this.verificationForm.valid && !this.isVerifying) {
+      this.isVerifying = true;
+
+      // Simular proceso de verificación (reemplazar con llamada real al API)
+      setTimeout(() => {
+        this.isVerifying = false;
+        // Navegar al siguiente paso - restaurant-profile-photo
+        this.router.navigate(['/auth/restaurant-profile-photo']);
+      }, 2000); // 2 segundos de simulación
     } else {
       this.verificationForm.markAllAsTouched();
     }

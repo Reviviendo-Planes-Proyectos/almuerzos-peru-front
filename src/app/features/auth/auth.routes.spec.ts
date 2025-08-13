@@ -2,7 +2,7 @@ import { AUTH_ROUTES } from './auth.routes';
 
 describe('AUTH_ROUTES', () => {
   it('should have correct number of routes', () => {
-    expect(AUTH_ROUTES).toHaveLength(10);
+    expect(AUTH_ROUTES).toHaveLength(12);
   });
 
   describe('Route configuration', () => {

@@ -1,0 +1,255 @@
+<div class="min-h-screen">
+  <!-- Header con pasos -->
+  <app-header-with-steps
+    [currentStep]="currentStep"
+    [showBackButton]="true"
+    (backClick)="onBackClick()"
+  ></app-header-with-steps>
+
+  <div class="flex flex-col gap-6 max-w-sm mx-auto p-6">
+    <!-- Paso del formulario -->
+    <app-step-indicator [step]="currentStep" [total]="6"></app-step-indicator>
+
+    <!-- Icono grande centrado -->
+    <div class="flex justify-center mb-4">
+      <div class="w-16 h-16 bg-blue-500 rounded-2xl flex items-center justify-center">
+        <i class="material-icons text-white text-3xl">schedule</i>
+      </div>
+    </div>
+
+    <!-- Título -->
+    <div class="text-center mb-6">
+      <h2 class="text-xl font-semibold text-gray-900 mb-2">Tipos de Atención</h2>
+      <p class="text-gray-600 text-sm">¿Cómo quieres atender a tus clientes?</p>
+    </div>
+
+    <!-- Modalidades de Servicio -->
+    <div class="bg-white rounded-2xl p-6 shadow-sm mb-6">
+      <h3 class="text-lg font-semibold text-gray-900 mb-4">Modalidades de Servicio</h3>
+
+      <!-- Atención en Local -->
+      <div
+        class="flex items-center justify-between p-4 border border-gray-200 rounded-xl mb-3"
+        [class.border-orange-500]="isLocalService"
+        [class.bg-orange-50]="isLocalService"
+      >
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
+            <i class="material-icons text-orange-600">storefront</i>
+          </div>
+          <div>
+            <p class="font-medium text-gray-900">Atención en Local</p>
+            <p class="text-sm text-gray-600">Los clientes pueden comer en tu restaurante</p>
+          </div>
+        </div>
+        <div class="relative">
+          <input type="checkbox" [checked]="isLocalService" (change)="toggleLocalService()" class="sr-only" />
+          <div
+            (click)="toggleLocalService()"
+            class="w-12 h-6 rounded-full cursor-pointer transition-colors"
+            [class.bg-orange-500]="isLocalService"
+            [class.bg-gray-300]="!isLocalService"
+          >
+            <div
+              class="w-5 h-5 bg-white rounded-full shadow transform transition-transform mt-0.5"
+              [class.translate-x-6]="isLocalService"
+              [class.translate-x-0.5]="!isLocalService"
+            ></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Servicio Delivery -->
+      <div
+        class="flex items-center justify-between p-4 border border-gray-200 rounded-xl"
+        [class.border-orange-500]="isDeliveryService"
+        [class.bg-orange-50]="isDeliveryService"
+      >
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
+            <i class="material-icons text-orange-600">delivery_dining</i>
+          </div>
+          <div>
+            <p class="font-medium text-gray-900">Servicio Delivery</p>
+            <p class="text-sm text-gray-600">Entregas a domicilio</p>
+          </div>
+        </div>
+        <div class="relative">
+          <input type="checkbox" [checked]="isDeliveryService" (change)="toggleDeliveryService()" class="sr-only" />
+          <div
+            (click)="toggleDeliveryService()"
+            class="w-12 h-6 rounded-full cursor-pointer transition-colors"
+            [class.bg-orange-500]="isDeliveryService"
+            [class.bg-gray-300]="!isDeliveryService"
+          >
+            <div
+              class="w-5 h-5 bg-white rounded-full shadow transform transition-transform mt-0.5"
+              [class.translate-x-6]="isDeliveryService"
+              [class.translate-x-0.5]="!isDeliveryService"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Horarios de Atención -->
+    <div class="bg-white rounded-2xl p-6 shadow-sm mb-6">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-semibold text-gray-900">Horarios de Atención</h3>
+        <span class="text-sm text-gray-500">Configura tus horarios para cada día</span>
+      </div>
+
+      <!-- Lista de días -->
+      <div class="space-y-3">
+        <div
+          *ngFor="let day of schedule; let i = index"
+          class="flex items-center justify-between p-3 border border-gray-200 rounded-lg"
+        >
+          <div class="flex items-center gap-3">
+            <!-- Toggle día -->
+            <div class="relative">
+              <input type="checkbox" [checked]="day.isActive" (change)="toggleDay(i)" class="sr-only" />
+              <div
+                (click)="toggleDay(i)"
+                class="w-5 h-5 rounded border-2 cursor-pointer transition-colors flex items-center justify-center"
+                [class.bg-green-500]="day.isActive"
+                [class.border-green-500]="day.isActive"
+                [class.border-gray-300]="!day.isActive"
+              >
+                <i *ngIf="day.isActive" class="material-icons text-white text-sm">check</i>
+              </div>
+            </div>
+
+            <!-- Nombre del día -->
+            <span class="font-medium text-gray-900">{{ day.day }}</span>
+
+            <!-- Estado -->
+            <span *ngIf="!day.isActive" class="text-sm text-red-500">Cerrado</span>
+            <span
+              *ngIf="day.isActive && day.isConfigured"
+              (click)="configureDay(i)"
+              class="text-sm text-green-600 cursor-pointer hover:text-green-700"
+            >
+              {{ day.openTime }} - {{ day.closeTime }}
+            </span>
+            <span
+              *ngIf="day.isActive && !day.isConfigured"
+              (click)="configureDay(i)"
+              class="text-sm text-gray-500 cursor-pointer hover:text-gray-700"
+            >
+              Configurar horario
+            </span>
+          </div>
+
+          <!-- Botón configurar -->
+          <button
+            *ngIf="day.isActive"
+            (click)="configureDay(i)"
+            class="text-orange-500 hover:text-orange-600 text-sm font-medium"
+          >
+            <i class="material-icons text-lg">chevron_right</i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Acciones rápidas -->
+      <div class="mt-4 pt-4 border-t border-gray-200">
+        <p class="text-sm font-medium text-gray-700 mb-3">Acciones rápidas:</p>
+        <div class="flex gap-2">
+          <button
+            (click)="selectAllDays()"
+            class="px-3 py-1.5 text-xs bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors"
+          >
+            Abrir todos los días
+          </button>
+          <button
+            (click)="selectOnlyWeekdays()"
+            class="px-3 py-1.5 text-xs bg-green-100 text-green-700 rounded-lg hover:bg-green-200 transition-colors"
+          >
+            Solo días laborales
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botón Continuar -->
+    <app-button
+      [label]="'Continuar'"
+      [isActive]="true"
+      [iconName]="'arrow_forward'"
+      [isOutline]="false"
+      (click)="continue()"
+    ></app-button>
+
+    <!-- Botón Atrás -->
+    <div class="text-center">
+      <app-button [label]="'Atrás'" [isActive]="true" [outlineGray]="true" (click)="goBack()"></app-button>
+    </div>
+  </div>
+
+  <!-- Modal de configuración de horarios -->
+  <div *ngIf="showTimeModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl w-full max-w-md">
+      <!-- Header del modal -->
+      <div class="flex items-center justify-between p-6 border-b border-gray-200">
+        <h3 class="text-lg font-semibold text-gray-900">Configurar {{ selectedDay?.day }}</h3>
+        <button
+          (click)="closeTimeModal()"
+          class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
+        >
+          <i class="material-icons text-gray-500">close</i>
+        </button>
+      </div>
+
+      <!-- Contenido del modal -->
+      <div class="p-6">
+        <!-- Horario de apertura -->
+        <div class="mb-6">
+          <label class="block text-sm font-medium text-gray-700 mb-2">Hora de apertura</label>
+          <div class="relative">
+            <input
+              type="time"
+              [(ngModel)]="tempOpenTime"
+              class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+            />
+            <i class="material-icons absolute right-3 top-3 text-gray-400">schedule</i>
+          </div>
+        </div>
+
+        <!-- Horario de cierre -->
+        <div class="mb-6">
+          <label class="block text-sm font-medium text-gray-700 mb-2">Hora de cierre</label>
+          <div class="relative">
+            <input
+              type="time"
+              [(ngModel)]="tempCloseTime"
+              class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+            />
+            <i class="material-icons absolute right-3 top-3 text-gray-400">schedule</i>
+          </div>
+        </div>
+
+        <!-- Validación de horarios -->
+        <div *ngIf="timeValidationError" class="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+          <p class="text-sm text-red-600">{{ timeValidationError }}</p>
+        </div>
+      </div>
+
+      <!-- Footer del modal -->
+      <div class="flex gap-3 p-6 border-t border-gray-200">
+        <button
+          (click)="closeTimeModal()"
+          class="flex-1 px-4 py-3 text-gray-700 border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors"
+        >
+          Cancelar
+        </button>
+        <button
+          (click)="saveTimeConfiguration()"
+          class="flex-1 px-4 py-3 bg-orange-500 text-white rounded-xl hover:bg-orange-600 transition-colors"
+        >
+          Guardar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
