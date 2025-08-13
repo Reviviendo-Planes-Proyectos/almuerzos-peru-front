@@ -3,33 +3,24 @@ import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { ButtonComponent } from '../../../../shared/components/button/button.component';
-import { HeaderWithStepsComponent } from '../../../../shared/components/header-with-steps/header-with-steps.component';
+import { BackButtonComponent } from '../../../../shared/components/back-button/back-button.component';
 import { InputFieldComponent } from '../../../../shared/components/input-field/input-field.component';
-import { SectionTitleComponent } from '../../../../shared/components/section-title/section-title.component';
 import { StepIndicatorComponent } from '../../../../shared/components/step-indicator/step-indicator.component';
-import { I18nService } from '../../../../shared/i18n/services/translation.service';
+import { BaseTranslatableComponent } from '../../../../shared/i18n';
 
 @Component({
   selector: 'app-email-verification',
   standalone: true,
-  imports: [
-    HeaderWithStepsComponent,
-    StepIndicatorComponent,
-    SectionTitleComponent,
-    ButtonComponent,
-    InputFieldComponent,
-    ReactiveFormsModule,
-    CommonModule
-  ],
+  imports: [BackButtonComponent, InputFieldComponent, StepIndicatorComponent, ReactiveFormsModule, CommonModule],
   templateUrl: './email-verification.component.html',
   styleUrl: './email-verification.component.scss'
 })
-export class EmailVerificationComponent implements OnInit, OnDestroy {
-  userEmail!: string; // Valor por defecto
+export class EmailVerificationComponent extends BaseTranslatableComponent implements OnInit, OnDestroy {
+  userEmail!: string;
+  originalEmail: string | null = null;
   canResendCode = false;
   countdownTimer = 60;
-  codeSent = false; // Nueva propiedad para controlar la vista
+  codeSent = false;
   verificationForm!: FormGroup;
   private paramsSubscription!: Subscription;
   private intervalId?: number;
@@ -39,60 +30,49 @@ export class EmailVerificationComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private fb: FormBuilder,
-    private cdr: ChangeDetectorRef,
-    private readonly i18n: I18nService
-  ) {}
-
-  protected t = (key: string): string => {
-    return this.i18n.t(key);
-  };
+    private cdr: ChangeDetectorRef
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
-    // Inicializar formulario primero
     this.initializeForm();
 
-    // Suscribirse a los parámetros de ruta Y query parameters para máxima compatibilidad
     this.paramsSubscription = this.route.params.subscribe((params: Params) => {
       const emailKey = 'email';
       let email = params[emailKey] as string;
 
-      // Si no hay email en params, buscar en queryParams
       if (!email) {
         email = this.route.snapshot.queryParams[emailKey] as string;
       }
 
       if (email) {
-        // Decodificar el email si viene de la URL
         const decodedEmail = decodeURIComponent(email);
+        this.originalEmail = decodedEmail;
         this.userEmail = this.maskEmail(decodedEmail);
 
-        // Forzar la detección de cambios y reset del estado
         this.cdr.detectChanges();
         this.resetComponentState();
       } else {
-        this.userEmail = 's***@gmail.com'; // Fallback
+        this.userEmail = 's***@gmail.com';
         this.startCountdown();
       }
     });
   }
 
   private resetComponentState(): void {
-    // Reiniciar el estado del componente
     this.codeSent = false;
     this.canResendCode = false;
     this.countdownTimer = 60;
 
-    // Reinicializar el formulario
     if (this.verificationForm) {
       this.verificationForm.reset();
     }
 
-    // Reiniciar el countdown
     this.startCountdown();
   }
 
   ngOnDestroy(): void {
-    // Limpiar suscripciones y timers
     if (this.paramsSubscription) {
       this.paramsSubscription.unsubscribe();
     }
@@ -101,14 +81,10 @@ export class EmailVerificationComponent implements OnInit, OnDestroy {
     }
   }
 
-  /**
-   * Enmascara el email para mostrar solo parte del mismo
-   * Ejemplo: test@gmail.com -> t***@gmail.com
-   */
   private maskEmail(email: string): string {
     const [localPart, domain] = email.split('@');
     if (localPart.length <= 1) {
-      return email; // Si es muy corto, no enmascarar
+      return email;
     }
     const maskedLocal = `${localPart[0]}***${localPart.length > 2 ? localPart.slice(-1) : ''}`;
     return `${maskedLocal}@${domain}`;
@@ -121,24 +97,19 @@ export class EmailVerificationComponent implements OnInit, OnDestroy {
   }
 
   sendVerificationCode(): void {
-    // Aquí iría la lógica para enviar el código
-    // Por ejemplo: this.authService.sendVerificationCode(this.userEmail)
-    this.currentStep = 3;
-    this.codeSent = true; // Cambiar a la vista de ingreso de código
+    this.codeSent = true;
+    this.startCountdown();
   }
 
   verifyCode(): void {
     if (this.verificationForm.valid) {
-      // Aquí iría la lógica para verificar el código
-      // const code = this.verificationForm.get('verificationCode')?.value;
-
-      // Simulamos una verificación exitosa por ahora
-      // En el futuro: this.authService.verifyCode(code).subscribe(...)
-
-      // Navegar al siguiente paso: subir foto de perfil
-      // Cambiar al paso 3
-
-      this.router.navigate(['/auth/customer-profile-photo']);
+      if (this.originalEmail) {
+        this.router.navigate(['/auth/customer-profile-photo'], {
+          queryParams: { email: this.originalEmail }
+        });
+      } else {
+        this.router.navigate(['/auth/customer-profile-photo']);
+      }
     } else {
       this.verificationForm.markAllAsTouched();
     }
@@ -160,8 +131,13 @@ export class EmailVerificationComponent implements OnInit, OnDestroy {
   }
 
   doLater(): void {
-    // Navegación o lógica para postergar
-    // Por ejemplo: this.router.navigate(['/dashboard']);
+    if (this.originalEmail) {
+      this.router.navigate(['/auth/customer-profile-photo'], {
+        queryParams: { email: this.originalEmail }
+      });
+    } else {
+      this.router.navigate(['/auth/customer-profile-photo']);
+    }
   }
 
   goBack(): void {
@@ -173,12 +149,10 @@ export class EmailVerificationComponent implements OnInit, OnDestroy {
   }
 
   private startCountdown(): void {
-    // Limpiar cualquier timer anterior
     if (this.intervalId) {
       clearInterval(this.intervalId);
     }
 
-    // Reiniciar el estado del countdown
     this.canResendCode = false;
     this.countdownTimer = 60;
 

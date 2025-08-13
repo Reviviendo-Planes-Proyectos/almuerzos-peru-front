@@ -1,72 +1,69 @@
-<div class="min-h-screen">
-  <!-- Header con pasos -->
-  <app-header-with-steps [currentStep]="1" [showBackButton]="true" (backClick)="onBackClick()"></app-header-with-steps>
+<div class="relative min-h-screen">
+  <img
+    src="img/background_almuerza_peru.png"
+    [attr.alt]="t('common.background')"
+    class="absolute inset-0 w-full h-full object-cover opacity-100"
+  />
 
-  <form [formGroup]="customerForm" class="flex flex-col gap-6 max-w-lg mx-auto p-6">
-    <!-- Paso del formulario -->
-    <app-step-indicator [step]="1" [total]="4"></app-step-indicator>
+  <app-back-button position="top-left" (click)="onBackClick()"></app-back-button>
 
-    <!-- Título de sección -->
-    <app-section-title
-      icon="description"
-      title="Información Básica"
-      subtitle="Empecemos con los datos principales"
-    ></app-section-title>
+  <div class="relative z-10 flex items-end sm:items-center justify-center min-h-[95vh]">
+    <div class="bg-white bg-opacity-90 rounded-xl shadow-lg p-6 w-full max-w-md flex flex-col items-center">
+      <!-- Indicador de paso -->
+      <div class="mb-6 flex justify-center">
+        <app-step-indicator [step]="1" [total]="4"></app-step-indicator>
+      </div>
 
-    <!-- Tarjeta de formulario -->
-    <div class="p-0 rounded-xl shadow-sm flex flex-col gap-5">
-      <app-input-field
-        label="Nombre de Usuario*"
-        icon="restaurant"
-        placeholder="Ej: Restaurante El Sabor Criollo"
-        formControlName="name"
-      ></app-input-field>
+      <h1 class="text-center text-3xl font-bold text-gray-800 uppercase mb-2">
+        {{ t('app.name') }}
+      </h1>
 
-      <app-input-field
-        label="Correo Electrónico*"
-        icon="email"
-        type="email"
-        placeholder="contacto@mirestaurante.com"
-        formControlName="email"
-      ></app-input-field>
+      <p class="text-center text-gray-600 mb-6">Información Básica</p>
+      <form [formGroup]="customerForm" class="w-full space-y-6">
+        <app-input-field
+          label="Nombre de Usuario*"
+          icon="restaurant"
+          placeholder="Ej: Restaurante El Sabor Criollo"
+          formControlName="name"
+        ></app-input-field>
 
-      <app-input-field label="DNI*" icon="badge" placeholder="12345678" formControlName="dni"></app-input-field>
+        <app-input-field
+          label="Correo Electrónico*"
+          icon="email"
+          type="email"
+          placeholder="contacto@mirestaurante.com"
+          formControlName="email"
+        ></app-input-field>
 
-      <!-- <app-select-field
-        label="Provincia*"
-        icon="location_on"
-        placeholder="Selecciona tu provincia"
-        [options]="provinciaOptions"
-        formControlName="provincia"
-      ></app-select-field>
+        <app-input-field label="DNI*" icon="badge" placeholder="12345678" formControlName="dni"></app-input-field>
 
-      <app-select-field
-        label="Distrito*"
-        icon="place"
-        placeholder="Selecciona tu distrito"
-        [options]="distritoOptions"
-        formControlName="distrito"
-      ></app-select-field> -->
-      <app-input-field
-        label="Provincia*"
-        icon="location_on"
-        variant="select"
-        [options]="provinciaOptions"
-        formControlName="provincia"
-      ></app-input-field>
+        <app-select-field
+          label="Provincia*"
+          icon="location_on"
+          placeholder="Selecciona tu provincia"
+          [options]="provinciaOptions"
+          formControlName="provincia"
+        ></app-select-field>
 
-      <app-input-field
-        label="Distrito*"
-        icon="place"
-        variant="select"
-        [options]="distritoOptions"
-        formControlName="distrito"
-      ></app-input-field>
+        <app-select-field
+          label="Distrito*"
+          icon="place"
+          placeholder="Selecciona tu distrito"
+          [options]="distritoOptions"
+          formControlName="distrito"
+        ></app-select-field>
+
+        <div class="pt-4">
+          <app-button
+            [label]="'Continuar'"
+            [isActive]="customerForm.valid"
+            [isOutline]="false"
+            iconName="arrow_forward"
+            (click)="onSubmit()"
+            class="w-full"
+          ></app-button>
+        </div>
+      </form>
     </div>
-
-    <!-- Botón de acción -->
-    <div class="mt-4">
-      <app-button [label]="'Continuar'" [isActive]="true" [isOutline]="false" (click)="onSubmit()"></app-button>
-    </div>
-  </form>
+  </div>
 </div>

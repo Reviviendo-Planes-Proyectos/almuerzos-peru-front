@@ -1,21 +1,30 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { of } from 'rxjs';
 import { CustomerProfilePhotoComponent } from './customer-profile-photo.component';
 
 describe('CustomerProfilePhotoComponent', () => {
   let component: CustomerProfilePhotoComponent;
   let fixture: ComponentFixture<CustomerProfilePhotoComponent>;
   let mockRouter: jest.Mocked<Router>;
+  let mockActivatedRoute: Partial<ActivatedRoute>;
 
   beforeEach(async () => {
     mockRouter = {
       navigate: jest.fn()
     } as any;
 
+    mockActivatedRoute = {
+      queryParams: of({ email: 'test@example.com' })
+    };
+
     await TestBed.configureTestingModule({
       imports: [CustomerProfilePhotoComponent],
-      providers: [{ provide: Router, useValue: mockRouter }]
+      providers: [
+        { provide: Router, useValue: mockRouter },
+        { provide: ActivatedRoute, useValue: mockActivatedRoute }
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(CustomerProfilePhotoComponent);
@@ -33,19 +42,16 @@ describe('CustomerProfilePhotoComponent', () => {
     expect(component.showWarningModal).toBe(true);
   });
 
-  it('should display step indicator with step 4 of 4', () => {
-    const stepIndicator = fixture.debugElement.query(By.css('app-step-indicator'));
-    expect(stepIndicator).toBeTruthy();
-    expect(stepIndicator.componentInstance.step).toBe(4);
-    expect(stepIndicator.componentInstance.total).toBe(4);
+  it('should display page title', () => {
+    const titleElement = fixture.debugElement.query(By.css('h1'));
+    expect(titleElement).toBeTruthy();
+    expect(titleElement.nativeElement.textContent.trim()).toContain('app.name');
   });
 
-  it('should display section title with correct props', () => {
-    const sectionTitle = fixture.debugElement.query(By.css('app-section-title'));
-    expect(sectionTitle).toBeTruthy();
-    expect(sectionTitle.componentInstance.icon).toBe('photo_camera');
-    expect(sectionTitle.componentInstance.title).toBe('Foto de Perfil');
-    expect(sectionTitle.componentInstance.subtitle).toBe('Ya casi termina tu registro');
+  it('should display subtitle', () => {
+    const subtitleElement = fixture.debugElement.query(By.css('p'));
+    expect(subtitleElement).toBeTruthy();
+    expect(subtitleElement.nativeElement.textContent.trim()).toBe('Foto de Perfil');
   });
 
   it('should display file upload component', () => {
@@ -106,13 +112,9 @@ describe('CustomerProfilePhotoComponent', () => {
       expect(removeButton).toBeTruthy();
     });
 
-    it('should show select file button when image is selected', () => {
-      component.selectedImage = 'data:image/jpeg;base64,mockdata';
-      fixture.detectChanges();
-
-      const selectFileButton = fixture.debugElement.query(By.css('app-button[iconName="upload"]'));
-      expect(selectFileButton).toBeTruthy();
-      expect(selectFileButton.componentInstance.label).toBe('Seleccionar archivo');
+    it('should show file upload component', () => {
+      const fileUploadComponent = fixture.debugElement.query(By.css('app-file-upload'));
+      expect(fileUploadComponent).toBeTruthy();
     });
 
     it('should remove selected image when remove button is clicked', () => {
@@ -153,7 +155,7 @@ describe('CustomerProfilePhotoComponent', () => {
     it('should navigate to email verification when goBack is called', () => {
       component.goBack();
 
-      expect(mockRouter.navigate).toHaveBeenCalledWith(['/auth/email-verification']);
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/auth/email-verification', 'test@example.com']);
     });
 
     it('should navigate to email verification when onVerifyEmail is called', () => {
@@ -164,19 +166,8 @@ describe('CustomerProfilePhotoComponent', () => {
   });
 
   describe('Registration completion', () => {
-    it('should show alert when trying to finish registration without selected file', () => {
+    it('should show success alert when finishing registration', () => {
       const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
-      component.selectedFile = null;
-
-      component.finishRegistration();
-
-      expect(alertSpy).toHaveBeenCalledWith('Por favor selecciona una imagen antes de continuar.');
-      alertSpy.mockRestore();
-    });
-
-    it('should show success alert when finishing registration with selected file', () => {
-      const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
-      component.selectedFile = new File(['test'], 'test.jpg', { type: 'image/jpeg' });
 
       component.finishRegistration();
 

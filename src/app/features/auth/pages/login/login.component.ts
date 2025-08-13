@@ -26,12 +26,12 @@ export class LoginComponent extends BaseTranslatableComponent {
   }
 
   loginWithGoogle(): void {
-    if (this.isGoogleLoading || this.isFacebookLoading || this.isEmailLoading) return;
+    if (this.isGoogleLoading) return;
 
     this.isGoogleLoading = true;
-    // Implementar lógica de login con Google
-    // Simular carga por ahora
+
     setTimeout(() => {
+      this.router.navigate(['/auth/customer-basic-info']);
       this.isGoogleLoading = false;
     }, 2000);
   }
@@ -40,8 +40,6 @@ export class LoginComponent extends BaseTranslatableComponent {
     if (this.isGoogleLoading || this.isFacebookLoading || this.isEmailLoading) return;
 
     this.isFacebookLoading = true;
-    // Implementar lógica de login con Facebook
-    // Simular carga por ahora
     setTimeout(() => {
       this.isFacebookLoading = false;
     }, 2000);
@@ -51,7 +49,6 @@ export class LoginComponent extends BaseTranslatableComponent {
     if (this.isGoogleLoading || this.isFacebookLoading || this.isEmailLoading) return;
 
     this.isEmailLoading = true;
-    // Implementar lógica de login con email
     setTimeout(() => {
       this.isEmailLoading = false;
     }, 1000);
