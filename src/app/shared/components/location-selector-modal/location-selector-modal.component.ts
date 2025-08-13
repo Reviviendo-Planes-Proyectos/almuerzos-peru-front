@@ -1,10 +1,10 @@
-import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { CoreModule } from '../../modules';
 
 @Component({
   selector: 'app-location-selector-modal',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CoreModule],
   templateUrl: './location-selector-modal.component.html',
   styleUrl: './location-selector-modal.component.scss'
 })

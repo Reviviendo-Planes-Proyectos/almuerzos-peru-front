@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { BackButtonComponent } from '../../../../shared/components/back-button/back-button.component';
@@ -6,11 +5,12 @@ import { ButtonComponent } from '../../../../shared/components/button/button.com
 import { FileUploadComponent } from '../../../../shared/components/file-upload/file-upload.component';
 import { WarningModalComponent } from '../../../../shared/components/warning-modal/warning-modal.component';
 import { BaseTranslatableComponent } from '../../../../shared/i18n';
+import { CoreModule } from '../../../../shared/modules';
 
 @Component({
   selector: 'app-customer-profile-photo',
   standalone: true,
-  imports: [CommonModule, BackButtonComponent, ButtonComponent, FileUploadComponent, WarningModalComponent],
+  imports: [CoreModule, BackButtonComponent, ButtonComponent, FileUploadComponent, WarningModalComponent],
   templateUrl: './customer-profile-photo.component.html',
   styleUrl: './customer-profile-photo.component.scss'
 })

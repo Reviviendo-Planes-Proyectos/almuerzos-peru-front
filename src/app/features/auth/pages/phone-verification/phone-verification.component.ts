@@ -1,29 +1,21 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { BackButtonComponent } from '../../../../shared/components/back-button/back-button.component';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
-import { HeaderWithStepsComponent } from '../../../../shared/components/header-with-steps/header-with-steps.component';
 import { InputFieldComponent } from '../../../../shared/components/input-field/input-field.component';
-import { SectionTitleComponent } from '../../../../shared/components/section-title/section-title.component';
 import { StepIndicatorComponent } from '../../../../shared/components/step-indicator/step-indicator.component';
+import { BaseTranslatableComponent } from '../../../../shared/i18n';
+import { CoreModule } from '../../../../shared/modules';
 
 @Component({
   selector: 'app-phone-verification',
   standalone: true,
-  imports: [
-    HeaderWithStepsComponent,
-    StepIndicatorComponent,
-    SectionTitleComponent,
-    ButtonComponent,
-    InputFieldComponent,
-    ReactiveFormsModule,
-    CommonModule
-  ],
+  imports: [CoreModule, BackButtonComponent, StepIndicatorComponent, ButtonComponent, InputFieldComponent],
   templateUrl: './phone-verification.component.html',
   styleUrl: './phone-verification.component.scss'
 })
-export class PhoneVerificationComponent implements OnInit, OnDestroy {
+export class PhoneVerificationComponent extends BaseTranslatableComponent implements OnInit, OnDestroy {
   userPhone!: string;
   canResendCode = false;
   countdownTimer = 60;
@@ -37,7 +29,9 @@ export class PhoneVerificationComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private fb: FormBuilder
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
     this.initializeForm();

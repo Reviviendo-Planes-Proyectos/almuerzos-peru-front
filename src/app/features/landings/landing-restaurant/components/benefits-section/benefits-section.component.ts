@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { BaseTranslatableComponent } from '../../../../../shared/i18n';
-import { MaterialModule } from '../../../../../shared/material.module';
+import { CoreModule, MaterialModule } from '../../../../../shared/modules';
 
 enum Audience {
   RESTAURANT = 'restaurant',
@@ -18,7 +18,7 @@ interface Benefit {
 @Component({
   selector: 'app-benefits-section',
   standalone: true,
-  imports: [MaterialModule],
+  imports: [CoreModule, MaterialModule],
   templateUrl: './benefits-section.component.html',
   styleUrls: ['./benefits-section.component.scss']
 })

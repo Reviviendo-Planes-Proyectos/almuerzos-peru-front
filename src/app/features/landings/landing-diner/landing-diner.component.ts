@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MaterialModule } from '../../../shared/material.module';
+import { MaterialModule } from '../../../shared/modules';
 import { FooterComponent } from '../landing-restaurant/components/footer/footer.component';
 import { HeaderComponent } from '../landing-restaurant/components/header/header.component';
 import { DinerHeroSectionComponent } from './components/diner-hero-section/diner-hero-section.component';

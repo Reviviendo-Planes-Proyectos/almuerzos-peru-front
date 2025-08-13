@@ -2,12 +2,12 @@ import { Component, HostListener } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ButtonComponent } from '../../../../../shared/components/button/button.component';
 import { BaseTranslatableComponent } from '../../../../../shared/i18n';
-import { MaterialModule } from '../../../../../shared/material.module';
+import { CoreModule, MaterialModule } from '../../../../../shared/modules';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [MaterialModule, RouterModule, ButtonComponent],
+  imports: [CoreModule, MaterialModule, RouterModule, ButtonComponent],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })

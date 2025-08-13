@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { BaseTranslatableComponent } from '../../../../../shared/i18n';
-import { MaterialModule } from '../../../../../shared/material.module';
+import { CoreModule, MaterialModule } from '../../../../../shared/modules';
 
 @Component({
   selector: 'app-features-section',
   standalone: true,
-  imports: [MaterialModule],
+  imports: [CoreModule, MaterialModule],
   templateUrl: './features-section.component.html',
   styleUrls: ['./features-section.component.scss']
 })

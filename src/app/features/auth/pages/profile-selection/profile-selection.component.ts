@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { BackButtonComponent } from '../../../../shared/components/back-button/back-button.component';
 import { BaseTranslatableComponent } from '../../../../shared/i18n';
-import { MaterialModule } from '../../../../shared/material.module';
+import { MaterialModule } from '../../../../shared/modules';
 import { LoggerService } from '../../../../shared/services/logger/logger.service';
 
 @Component({
@@ -29,10 +29,11 @@ export class ProfileSelectionComponent extends BaseTranslatableComponent {
     this.selectedType = tipo;
     this.isNavigating = true;
 
-    // Delay para mostrar la animación antes de navegar
     setTimeout(() => {
       this.logger.info('Tipo de usuario seleccionado:', tipo);
-      this.router.navigate(['auth/login']);
+      this.router.navigate(['auth/login'], {
+        queryParams: { userType: tipo }
+      });
     }, 800);
   }
 }

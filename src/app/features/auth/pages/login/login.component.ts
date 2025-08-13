@@ -1,55 +1,65 @@
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BackButtonComponent } from '../../../../shared/components/back-button/back-button.component';
 import { BaseTranslatableComponent } from '../../../../shared/i18n';
-import { MaterialModule } from '../../../../shared/material.module';
+import { CoreModule, MaterialModule } from '../../../../shared/modules';
+import { LoggerService } from '../../../../shared/services/logger/logger.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, MaterialModule, BackButtonComponent],
+  imports: [CoreModule, MaterialModule, BackButtonComponent],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent extends BaseTranslatableComponent {
+export class LoginComponent extends BaseTranslatableComponent implements OnInit {
   isGoogleLoading = false;
   isFacebookLoading = false;
   isEmailLoading = false;
+  tipo!: string | null;
 
-  constructor(public router: Router) {
+  constructor(
+    public router: Router,
+    private route: ActivatedRoute,
+    private loggerService: LoggerService
+  ) {
     super();
   }
 
-  showWelcome() {
-    alert(this.t('messages.welcome'));
+  ngOnInit() {
+    this.route.queryParams.subscribe((params) => {
+      // biome-ignore lint/complexity/useLiteralKeys: accessing query params
+      this.tipo = params['userType'] || null;
+      this.loggerService.info('Tipo de usuario en login:', this.tipo || 'No definido');
+    });
   }
 
   loginWithGoogle(): void {
     if (this.isGoogleLoading) return;
 
     this.isGoogleLoading = true;
-
     setTimeout(() => {
-      this.router.navigate(['/auth/customer-basic-info']);
+      this.navigateToBasicInfo();
       this.isGoogleLoading = false;
     }, 2000);
   }
 
   loginWithFacebook(): void {
-    if (this.isGoogleLoading || this.isFacebookLoading || this.isEmailLoading) return;
+    if (this.isFacebookLoading) return;
 
     this.isFacebookLoading = true;
     setTimeout(() => {
+      this.navigateToBasicInfo();
       this.isFacebookLoading = false;
     }, 2000);
   }
 
   iniciarConEmail(): void {
-    if (this.isGoogleLoading || this.isFacebookLoading || this.isEmailLoading) return;
+    if (this.isEmailLoading) return;
 
     this.isEmailLoading = true;
     setTimeout(() => {
+      this.navigateToBasicInfo();
       this.isEmailLoading = false;
     }, 1000);
   }
@@ -59,6 +69,14 @@ export class LoginComponent extends BaseTranslatableComponent {
   }
 
   goToRegister(): void {
-    this.router.navigate(['auth/register']);
+    this.router.navigate(['auth/register'], {
+      queryParams: { userType: this.tipo }
+    });
+  }
+
+  private navigateToBasicInfo(): void {
+    const route = this.tipo === 'restaurante' ? '/auth/restaurant-basic-info' : '/auth/customer-basic-info';
+    this.loggerService.info('Navegando a:', route, 'para tipo:', this.tipo);
+    this.router.navigate([route]);
   }
 }

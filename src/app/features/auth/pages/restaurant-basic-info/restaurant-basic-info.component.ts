@@ -1,43 +1,38 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { BackButtonComponent } from '../../../../shared/components/back-button/back-button.component';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
-import { HeaderWithStepsComponent } from '../../../../shared/components/header-with-steps/header-with-steps.component';
 import { InputFieldComponent } from '../../../../shared/components/input-field/input-field.component';
 import { LocationSelectorModalComponent } from '../../../../shared/components/location-selector-modal/location-selector-modal.component';
-import { SectionTitleComponent } from '../../../../shared/components/section-title/section-title.component';
+import { SelectFieldComponent, SelectOption } from '../../../../shared/components/select-field/select-field.component';
 import { StepIndicatorComponent } from '../../../../shared/components/step-indicator/step-indicator.component';
+import { BaseTranslatableComponent } from '../../../../shared/i18n';
+import { CoreModule } from '../../../../shared/modules';
 import { LoggerService } from '../../../../shared/services/logger/logger.service';
-
-export interface SelectOption {
-  value: string;
-  label: string;
-  disabled?: boolean;
-}
 
 @Component({
   selector: 'app-restaurant-basic-info',
   standalone: true,
   imports: [
-    HeaderWithStepsComponent,
-    StepIndicatorComponent,
+    CoreModule,
     InputFieldComponent,
+    SelectFieldComponent,
     ButtonComponent,
-    ReactiveFormsModule,
-    SectionTitleComponent,
+    StepIndicatorComponent,
+    BackButtonComponent,
     LocationSelectorModalComponent
   ],
   templateUrl: './restaurant-basic-info.component.html',
-  styleUrl: './restaurant-basic-info.component.scss'
+  styleUrls: ['./restaurant-basic-info.component.scss']
 })
-export class RestaurantBasicInfoComponent implements OnInit {
+export class RestaurantBasicInfoComponent extends BaseTranslatableComponent implements OnInit {
   restaurantForm!: FormGroup;
   isRazonSocialEnabled = false;
   isLocationModalVisible = false;
   locationSearchQuery = '';
 
-  // Opciones para selects
-  departamentoOptions: SelectOption[] = [
+  provinciaOptions: SelectOption[] = [
     { value: 'lima', label: 'Lima' },
     { value: 'arequipa', label: 'Arequipa' },
     { value: 'cusco', label: 'Cusco' },
@@ -51,7 +46,6 @@ export class RestaurantBasicInfoComponent implements OnInit {
   ];
 
   distritoOptions: SelectOption[] = [
-    // Lima
     { value: 'miraflores', label: 'Miraflores' },
     { value: 'san_isidro', label: 'San Isidro' },
     { value: 'barranco', label: 'Barranco' },
@@ -75,22 +69,23 @@ export class RestaurantBasicInfoComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     public readonly logger: LoggerService
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
     this.restaurantForm = this.fb.group({
       restaurantName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      ownerDni: ['', [Validators.required, Validators.pattern(/^[0-9]{8}$/)]],
-      phoneNumber: ['', [Validators.required, Validators.pattern(/^[0-9]{9}$/)]],
-      address: ['', Validators.required],
-      departamento: ['', Validators.required],
+      ownerDni: ['', [Validators.required, Validators.minLength(8), Validators.pattern(/^[0-9]+$/)]],
+      phoneNumber: ['', [Validators.required, Validators.minLength(9), Validators.pattern(/^[0-9]+$/)]],
+      provincia: ['', Validators.required],
       distrito: ['', Validators.required],
-      ruc: ['', [Validators.pattern(/^[0-9]{11}$/)]], // RUC es opcional pero si se ingresa debe tener 11 dígitos
-      razonSocial: [{ value: '', disabled: true }] // Inicialmente deshabilitado
+      address: ['', Validators.required],
+      ruc: ['', [Validators.pattern(/^[0-9]{11}$/)]],
+      razonSocial: [{ value: '', disabled: true }]
     });
 
-    // Escuchar cambios en el campo RUC
     this.restaurantForm.get('ruc')?.valueChanges.subscribe((value) => {
       this.onRucChange(value);
     });
@@ -100,42 +95,35 @@ export class RestaurantBasicInfoComponent implements OnInit {
     if (this.restaurantForm.valid) {
       this.logger.info('Formulario de restaurante enviado:', this.restaurantForm.value);
 
-      // Obtener el teléfono del formulario
       const phoneNumber = this.restaurantForm.get('phoneNumber')?.value;
 
-      // Navegar al siguiente paso de verificación de teléfono pasando el phone por state
       this.router.navigate(['/auth/phone-verification'], {
         state: { phone: phoneNumber }
       });
     } else {
-      this.restaurantForm.markAllAsTouched(); // muestra errores
+      this.restaurantForm.markAllAsTouched();
     }
   }
 
   onBackClick(): void {
-    // Navegar hacia atrás o a la página anterior
-    this.router.navigate(['/auth/login']); // Ajusta la ruta según tu flujo
+    this.router.navigate(['/auth/register']);
   }
 
   onRucChange(rucValue: string): void {
     const razonSocialControl = this.restaurantForm.get('razonSocial');
 
     if (rucValue && rucValue.length === 11 && /^[0-9]{11}$/.test(rucValue)) {
-      // RUC válido: habilitar el campo de razón social
       this.isRazonSocialEnabled = true;
       razonSocialControl?.enable();
     } else {
-      // RUC inválido: deshabilitar y limpiar el campo de razón social
       this.isRazonSocialEnabled = false;
       razonSocialControl?.disable();
       razonSocialControl?.setValue('');
     }
   }
 
-  // Métodos para el modal de ubicación
   openLocationModal(): void {
     this.isLocationModalVisible = true;
-    // Inicializar con la dirección actual si existe
     const currentAddress = this.restaurantForm.get('address')?.value;
     this.locationSearchQuery = currentAddress || '';
   }
@@ -145,7 +133,6 @@ export class RestaurantBasicInfoComponent implements OnInit {
   }
 
   onLocationConfirmed(selectedLocation: string): void {
-    // Actualizar el campo de dirección con la ubicación seleccionada
     this.restaurantForm.patchValue({ address: selectedLocation });
     this.closeLocationModal();
   }

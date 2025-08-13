@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BaseTranslatableComponent } from '../../../../../shared/i18n';
-import { MaterialModule } from '../../../../../shared/material.module';
+import { CoreModule, MaterialModule } from '../../../../../shared/modules';
 
 @Component({
   selector: 'app-enhanced-search-section',
   standalone: true,
-  imports: [MaterialModule, FormsModule],
+  imports: [CoreModule, MaterialModule, FormsModule],
   templateUrl: './enhanced-search-section.component.html',
   styleUrls: ['./enhanced-search-section.component.scss']
 })

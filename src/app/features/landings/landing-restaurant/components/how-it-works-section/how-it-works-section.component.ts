@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { BaseTranslatableComponent } from '../../../../../shared/i18n';
-import { MaterialModule } from '../../../../../shared/material.module';
+import { CoreModule, MaterialModule } from '../../../../../shared/modules';
 
 enum StepId {
   REGISTRO = 1,
@@ -11,7 +11,7 @@ enum StepId {
 @Component({
   selector: 'app-how-it-works-section',
   standalone: true,
-  imports: [MaterialModule],
+  imports: [CoreModule, MaterialModule],
   templateUrl: './how-it-works-section.component.html',
   styleUrls: ['./how-it-works-section.component.scss']
 })

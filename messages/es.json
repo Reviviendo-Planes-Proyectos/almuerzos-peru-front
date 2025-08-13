@@ -87,6 +87,25 @@
       "resendIn": "Reenviar en 0:"
     }
   },
+  "RESTAURANT_SCHEDULE": {
+    "TITLE": "Tipos de Atención",
+    "SUBTITLE": "¿Cómo quieres atender a tus clientes?",
+    "SERVICE_TYPES": "Modalidades de Servicio",
+    "LOCAL_SERVICE": "Atención en Local",
+    "LOCAL_SERVICE_DESC": "Los clientes pueden comer en tu restaurante",
+    "DELIVERY_SERVICE": "Servicio Delivery",
+    "DELIVERY_SERVICE_DESC": "Entregas a domicilio",
+    "SCHEDULE_TITLE": "Horarios de Atención",
+    "SCHEDULE_SUBTITLE": "Configura tus horarios para cada día",
+    "CLOSED": "Cerrado",
+    "CONFIGURE_SCHEDULE": "Configurar horario",
+    "QUICK_ACTIONS": "Acciones rápidas",
+    "OPEN_ALL_DAYS": "Abrir todos los días",
+    "WEEKDAYS_ONLY": "Solo días laborales",
+    "CONFIGURE": "Configurar",
+    "OPEN_TIME": "Hora de apertura",
+    "CLOSE_TIME": "Hora de cierre"
+  },
   "messages": {
     "welcome": "¡Bienvenido a Almuerzos Peru!"
   },

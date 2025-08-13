@@ -1,11 +1,11 @@
-import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { I18nService } from '../../i18n/services/translation.service';
+import { CoreModule } from '../../modules';
 
 @Component({
   selector: 'app-warning-modal',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CoreModule],
   templateUrl: './warning-modal.component.html',
   styleUrl: './warning-modal.component.scss'
 })

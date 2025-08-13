@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
 import { I18nService, TranslatePipe } from '../../../../shared/i18n';
-import { MaterialModule } from '../../../../shared/material.module';
+import { MaterialModule } from '../../../../shared/modules';
 import { LoggerService } from '../../../../shared/services/logger/logger.service';
 import { ProfileSelectionComponent } from './profile-selection.component';
 
@@ -128,7 +128,9 @@ describe('ProfileSelectionComponent', () => {
     component.elegirTipoUsuario('comensal');
 
     setTimeout(() => {
-      expect(mockRouter.navigate).toHaveBeenCalledWith(['auth/login']);
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['auth/login'], {
+        queryParams: { userType: 'comensal' }
+      });
       expect(mockLoggerService.info).toHaveBeenCalledWith('Tipo de usuario seleccionado:', 'comensal');
       done();
     }, 900);
@@ -138,7 +140,9 @@ describe('ProfileSelectionComponent', () => {
     component.elegirTipoUsuario('restaurante');
 
     setTimeout(() => {
-      expect(mockRouter.navigate).toHaveBeenCalledWith(['auth/login']);
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['auth/login'], {
+        queryParams: { userType: 'restaurante' }
+      });
       expect(mockLoggerService.info).toHaveBeenCalledWith('Tipo de usuario seleccionado:', 'restaurante');
       done();
     }, 900);

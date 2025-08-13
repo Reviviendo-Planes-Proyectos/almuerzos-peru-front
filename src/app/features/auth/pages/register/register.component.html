@@ -9,7 +9,9 @@
   <app-back-button position="top-left" routerLink="/auth/profile-selection"></app-back-button>
 
   <div class="relative z-10 flex items-end sm:items-center justify-center min-h-[95vh]">
-    <div class="bg-white bg-opacity-90 rounded-xl shadow-lg p-6 w-full max-w-md flex flex-col items-center">
+    <div
+      class="bg-white bg-opacity-90 rounded-xl shadow-lg p-6 w-full max-w-md max-h-[85vh] flex flex-col items-center overflow-y-auto"
+    >
       <h1 class="text-center text-3xl font-bold text-gray-800 uppercase mb-2">
         {{ t('app.name') }}
       </h1>
@@ -62,7 +64,7 @@
 
       <button
         type="button"
-        (click)="router.navigate(['auth/login'])"
+        (click)="goToLogin()"
         class="mt-4 text-purple-700 hover:underline font-medium bg-transparent border-none cursor-pointer"
       >
         {{ t('auth.register.later') }}

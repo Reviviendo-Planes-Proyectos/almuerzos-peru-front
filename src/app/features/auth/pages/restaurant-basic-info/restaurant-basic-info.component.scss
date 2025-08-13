@@ -1,0 +1,22 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.space-y-6 > * + * {
+  margin-top: 1.5rem !important;
+}
+
+form {
+  .pt-4 {
+    padding-top: 1rem;
+  }
+}
+
+::ng-deep {
+  app-input-field,
+  app-select-field {
+    display: block;
+    width: 100%;
+  }
+}
