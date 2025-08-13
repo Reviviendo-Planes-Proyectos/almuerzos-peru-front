@@ -2,7 +2,7 @@ import { AUTH_ROUTES } from './auth.routes';
 
 describe('AUTH_ROUTES', () => {
   it('should have correct number of routes', () => {
-    expect(AUTH_ROUTES).toHaveLength(9);
+    expect(AUTH_ROUTES).toHaveLength(13);
   });
 
   describe('Route configuration', () => {
@@ -229,7 +229,7 @@ describe('AUTH_ROUTES', () => {
   });
 
   it('should have correct number of routes', () => {
-    expect(AUTH_ROUTES).toHaveLength(9);
+    expect(AUTH_ROUTES).toHaveLength(13);
   });
 
   it('should have all expected route paths', () => {
@@ -242,7 +242,11 @@ describe('AUTH_ROUTES', () => {
       'customer-basic-info',
       'email-verification',
       'email-verification/:email',
-      'customer-profile-photo'
+      'customer-profile-photo',
+      'restaurant-basic-info',
+      'phone-verification',
+      'restaurant-profile-photo',
+      'restaurant-schedule'
     ];
 
     const actualPaths = AUTH_ROUTES.map((route) => route.path);

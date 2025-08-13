@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit, Optional, Self } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Optional, Output, Self } from '@angular/core';
 import { ControlValueAccessor, FormControl, NgControl, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
@@ -15,10 +15,13 @@ export class InputFieldComponent implements OnInit, ControlValueAccessor {
   @Input() type = 'text';
   @Input() icon = 'person';
   @Input() required = false;
+  @Input() controlName!: string;
 
   // 👇 Nuevos inputs
   @Input() variant: 'input' | 'select' = 'input';
   @Input() options: { label: string; value: any }[] = [];
+  @Input() actionIcon = ''; // Icono de acción a la derecha
+  @Output() actionIconClick = new EventEmitter<void>(); // Evento cuando se clickea el icono de acción
 
   control!: FormControl;
   value: any = '';
@@ -85,5 +88,9 @@ export class InputFieldComponent implements OnInit, ControlValueAccessor {
 
   get hasValue(): boolean {
     return this.value != null && this.value !== '' && this.value.toString().length > 0;
+  }
+
+  onActionIconClick(): void {
+    this.actionIconClick.emit();
   }
 }

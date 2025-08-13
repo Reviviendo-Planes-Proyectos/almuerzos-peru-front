@@ -1,9 +1,10 @@
 import { Location, NgIf } from '@angular/common';
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BackButtonComponent } from '../../../../shared/components/back-button/back-button.component';
 import { BaseTranslatableComponent } from '../../../../shared/i18n';
 import { MaterialModule } from '../../../../shared/material.module';
+import { LoggerService } from '../../../../shared/services/logger/logger.service';
 
 @Component({
   selector: 'app-register',
@@ -12,16 +13,53 @@ import { MaterialModule } from '../../../../shared/material.module';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent extends BaseTranslatableComponent {
+export class RegisterComponent extends BaseTranslatableComponent implements OnInit {
   isGoogleLoading = false;
   isFacebookLoading = false;
   isEmailLoading = false;
+  tipo!: string | null;
 
   constructor(
     private readonly location: Location,
-    public router: Router
+    public router: Router,
+    private route: ActivatedRoute,
+    private loggerService: LoggerService
   ) {
     super();
+  }
+
+  ngOnInit() {
+    // Opción 1: Usar el estado del router (más confiable)
+    const navigation = this.router.getCurrentNavigation();
+    if (navigation?.extras.state) {
+      // biome-ignore lint/complexity/useLiteralKeys: accessing router state
+      this.tipo = navigation.extras.state['tipo'];
+    } else {
+      // Fallback: buscar en el historial del router
+      const routerState = this.router.routerState;
+      const root = routerState.root;
+      if (root.firstChild?.snapshot.data) {
+        // biome-ignore lint/complexity/useLiteralKeys: accessing router data
+        this.tipo = root.firstChild.snapshot.data['tipo'];
+      }
+    }
+
+    // Opción 2: También verificar queryParams como backup
+    if (!this.tipo) {
+      this.route.queryParams.subscribe((params) => {
+        // biome-ignore lint/complexity/useLiteralKeys: accessing query params
+        this.tipo = params['userType'];
+        this.loggerService.info('Tipo desde queryParams:', this.tipo);
+      });
+    }
+
+    // Opción 3: También puedes verificar el estado del window
+    if (!this.tipo && window.history.state) {
+      this.tipo = window.history.state.tipo;
+      this.loggerService.info('Tipo desde window.history.state:', this.tipo);
+    }
+
+    this.loggerService.info('Tipo de usuario seleccionado final:', this.tipo || 'No definido');
   }
 
   goBack(): void {
@@ -35,8 +73,13 @@ export class RegisterComponent extends BaseTranslatableComponent {
 
     // Simular proceso de autenticación
     setTimeout(() => {
-      // Navegar al componente customer-basic-info después del login exitoso
-      this.router.navigate(['/auth/customer-basic-info']);
+      //console.log('Iniciando sesión con Google...');
+      // Aquí podrías llamar a tu servicio de autenticación
+      // Ejemplo con Firebase:
+      // this.authService.loginWithGoogle();
+
+      // Navegar según el tipo de usuario seleccionado
+      this.navigateToBasicInfo();
       this.isGoogleLoading = false;
     }, 2000); // 2 segundos de simulación
   }
@@ -48,7 +91,13 @@ export class RegisterComponent extends BaseTranslatableComponent {
 
     // Simular proceso de autenticación
     setTimeout(() => {
-      // Simular fin del proceso (remover esto cuando tengas la implementación real)
+      //console.log('Iniciando sesión con Facebook...');
+      // Aquí podrías llamar a tu servicio de autenticación
+      // Ejemplo con Firebase:
+      // this.authService.loginWithFacebook();
+
+      // Navegar según el tipo de usuario seleccionado
+      this.navigateToBasicInfo();
       this.isFacebookLoading = false;
     }, 2000); // 2 segundos de simulación
   }
@@ -59,7 +108,22 @@ export class RegisterComponent extends BaseTranslatableComponent {
     this.isEmailLoading = true;
 
     setTimeout(() => {
+      //console.log('Redirigiendo a formulario de registro con email...');
+      this.navigateToBasicInfo();
       this.isEmailLoading = false;
     }, 500);
+  }
+
+  // Método auxiliar para navegar según el tipo de usuario
+  private navigateToBasicInfo(): void {
+    if (this.tipo === 'restaurante') {
+      this.router.navigate(['/auth/restaurant-basic-info']);
+    } else if (this.tipo === 'comensal') {
+      this.router.navigate(['/auth/customer-basic-info']);
+    } else {
+      // Fallback si no se detectó el tipo
+      this.loggerService.info('Tipo no detectado, redirigiendo a customer-basic-info');
+      this.router.navigate(['/auth/customer-basic-info']);
+    }
   }
 }

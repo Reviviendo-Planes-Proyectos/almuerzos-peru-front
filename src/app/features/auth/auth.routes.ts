@@ -47,5 +47,29 @@ export const AUTH_ROUTES: Routes = [
       import('./pages/customer-profile-photo/customer-profile-photo.component').then(
         (m) => m.CustomerProfilePhotoComponent
       )
+  },
+  {
+    path: 'restaurant-basic-info',
+    loadComponent: () =>
+      import('./pages/restaurant-basic-info/restaurant-basic-info.component').then(
+        (m) => m.RestaurantBasicInfoComponent
+      )
+  },
+  {
+    path: 'phone-verification',
+    loadComponent: () =>
+      import('./pages/phone-verification/phone-verification.component').then((m) => m.PhoneVerificationComponent)
+  },
+  {
+    path: 'restaurant-profile-photo',
+    loadComponent: () =>
+      import('./pages/restaurant-profile-photo/restaurant-profile-photo.component').then(
+        (m) => m.RestaurantProfilePhotoComponent
+      )
+  },
+  {
+    path: 'restaurant-schedule',
+    loadComponent: () =>
+      import('./pages/restaurant-schedule/restaurant-schedule.component').then((m) => m.RestaurantScheduleComponent)
   }
 ];

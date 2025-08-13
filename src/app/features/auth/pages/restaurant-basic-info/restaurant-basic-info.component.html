@@ -1,0 +1,109 @@
+<div class="min-h-screen">
+  <!-- Header con pasos -->
+  <app-header-with-steps [currentStep]="1" [showBackButton]="true" (backClick)="onBackClick()"></app-header-with-steps>
+
+  <form [formGroup]="restaurantForm" class="flex flex-col gap-6 max-w-lg mx-auto p-6">
+    <!-- Paso del formulario -->
+    <app-step-indicator [step]="1" [total]="4"></app-step-indicator>
+
+    <!-- Título de sección -->
+    <app-section-title
+      icon="restaurant"
+      title="Información Básica"
+      subtitle="Empecemos con los datos principales de tu restaurante"
+    ></app-section-title>
+
+    <!-- Tarjeta de formulario -->
+    <div class="p-0 rounded-xl shadow-sm flex flex-col gap-5">
+      <app-input-field
+        label="Nombre del Restaurante*"
+        icon="restaurant"
+        placeholder="Ej: Restaurante El Sabor Criollo"
+        formControlName="restaurantName"
+      ></app-input-field>
+
+      <app-input-field
+        label="Correo Electrónico*"
+        icon="email"
+        type="email"
+        placeholder="contacto@mirestaurante.com"
+        formControlName="email"
+      ></app-input-field>
+
+      <app-input-field
+        label="DNI del Propietario*"
+        icon="badge"
+        placeholder="12345678"
+        formControlName="ownerDni"
+        controlName="ownerDni"
+      >
+        >
+      </app-input-field>
+
+      <app-input-field
+        label="Número de Celular*"
+        icon="phone"
+        placeholder="987654321"
+        formControlName="phoneNumber"
+        controlName="phoneNumber"
+      >
+        >
+      </app-input-field>
+
+      <app-input-field
+        label="Dirección*"
+        icon="location_on"
+        placeholder="Av. Larco 123, Miraflores"
+        formControlName="address"
+        actionIcon="map"
+        (actionIconClick)="openLocationModal()"
+      ></app-input-field>
+
+      <app-input-field
+        label="Departamento*"
+        icon="map"
+        variant="select"
+        [options]="departamentoOptions"
+        formControlName="departamento"
+      ></app-input-field>
+
+      <app-input-field
+        label="Distrito*"
+        icon="place"
+        variant="select"
+        [options]="distritoOptions"
+        formControlName="distrito"
+      ></app-input-field>
+
+      <app-input-field
+        label="RUC de la Empresa (opcional)"
+        icon="business"
+        placeholder="20123456789"
+        formControlName="ruc"
+        controlName="ruc"
+      ></app-input-field>
+
+      <app-input-field
+        label="Razón Social / Propietario"
+        icon="person"
+        placeholder="Ingresa la razón social o nombre del propietario"
+        formControlName="razonSocial"
+        [disabled]="!isRazonSocialEnabled"
+      ></app-input-field>
+    </div>
+
+    <!-- Botón de acción -->
+    <div class="mt-4">
+      <app-button [label]="'Continuar'" [isActive]="true" [isOutline]="false" (click)="onSubmit()"></app-button>
+    </div>
+  </form>
+
+  <!-- Modal de selección de ubicación -->
+  <app-location-selector-modal
+    [isVisible]="isLocationModalVisible"
+    [searchQuery]="locationSearchQuery"
+    (closeModal)="closeLocationModal()"
+    (confirmLocation)="onLocationConfirmed($event)"
+    (searchQueryChange)="onLocationSearchChange($event)"
+  ></app-location-selector-modal>
+</div>

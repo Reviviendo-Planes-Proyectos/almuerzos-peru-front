@@ -1,0 +1,7 @@
+// El modal de advertencia ya tiene estilos posicionados en esquina superior derecha
+// No necesitamos override adicional, solo asegurar que tenga suficiente z-index
+:host ::ng-deep app-warning-modal {
+  .toast-container {
+    z-index: 1001; // Asegurar que aparezca por encima de otros elementos
+  }
+}

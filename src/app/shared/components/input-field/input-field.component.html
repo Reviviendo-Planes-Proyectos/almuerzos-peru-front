@@ -62,8 +62,20 @@
       {{ label }}
     </label>
 
-    <!-- Ícono de validación derecho -->
-    <span class="absolute inset-y-0 right-0 flex items-center pr-3" *ngIf="control.touched">
+    <!-- Ícono de acción derecho (si existe) - siempre visible cuando está configurado -->
+    <span class="absolute inset-y-0 right-0 flex items-center pr-3" *ngIf="actionIcon">
+      <button
+        type="button"
+        (click)="onActionIconClick()"
+        class="w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:text-orange-500 hover:bg-orange-50 transition-colors duration-200"
+        [attr.aria-label]="'Acción ' + actionIcon"
+      >
+        <i class="material-icons text-lg">{{ actionIcon }}</i>
+      </button>
+    </span>
+
+    <!-- Ícono de validación derecho (solo cuando NO hay actionIcon) -->
+    <span class="absolute inset-y-0 right-0 flex items-center pr-3" *ngIf="control.touched && !actionIcon">
       <div
         class="w-5 h-5 rounded-full flex items-center justify-center"
         [ngClass]="{
@@ -88,11 +100,11 @@
     <ng-container *ngIf="control.errors?.['required']">Este campo es obligatorio.</ng-container>
     <ng-container *ngIf="control.errors?.['email']">Ingresa un correo válido.</ng-container>
     <ng-container *ngIf="control.errors?.['pattern']">
-      Solo se permiten números.
-      <br />
+      Debe contener exactamente
+      {{ controlName === 'ownerDni' ? 8 : controlName === 'ruc' ? 11 : 9 }} números.
     </ng-container>
-    <ng-container *ngIf="control.errors?.['minlength']">
+    <!-- <ng-container *ngIf="control.errors?.['minlength']">
       Mínimo {{ control.errors?.['minlength'].requiredLength }} caracteres.
-    </ng-container>
+    </ng-container> -->
   </div>
 </div>

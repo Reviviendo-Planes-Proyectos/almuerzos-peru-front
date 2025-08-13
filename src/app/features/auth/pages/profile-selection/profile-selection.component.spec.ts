@@ -40,7 +40,7 @@ describe('ProfileSelectionComponent', () => {
 
   beforeEach(async () => {
     const routerSpy = {
-      navigate: jest.fn()
+      navigate: jest.fn().mockResolvedValue(true)
     };
 
     mockI18nService = new MockI18nService();
@@ -63,8 +63,9 @@ describe('ProfileSelectionComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  afterEach(() => {
+    jest.clearAllMocks();
+    jest.clearAllTimers();
   });
 
   it('should display the app name', () => {
@@ -170,8 +171,69 @@ describe('ProfileSelectionComponent', () => {
     });
   });
 
-  it('should have router property accessible', () => {
-    expect(component.router).toBeDefined();
-    expect(component.router).toBe(mockRouter);
+  describe('Template Integration', () => {
+    it('should render both option cards', () => {
+      const compiled = fixture.nativeElement;
+      const cards = compiled.querySelectorAll('[class*="cursor-pointer"]');
+      expect(cards.length).toBe(3); // 2 cards de opciones + 1 botón "Registrarme luego"
+    });
+
+    it('should call elegirTipoUsuario when card is clicked', () => {
+      jest.spyOn(component, 'elegirTipoUsuario');
+
+      const compiled = fixture.nativeElement;
+      const comensalCard = compiled.querySelector('[class*="cursor-pointer"]');
+
+      comensalCard.click();
+
+      expect(component.elegirTipoUsuario).toHaveBeenCalled();
+    });
+
+    it('should show back button', () => {
+      const compiled = fixture.nativeElement;
+      const backButton = compiled.querySelector('button[mat-icon-button]');
+      expect(backButton).toBeTruthy();
+    });
+
+    it('should show back button component', () => {
+      const compiled = fixture.nativeElement;
+      const backButton = compiled.querySelector('app-back-button');
+      expect(backButton).toBeTruthy();
+    });
+  });
+
+  describe('CSS Classes Application', () => {
+    it('should apply selected-card class when type is selected', () => {
+      component.selectedType = 'restaurante';
+      fixture.detectChanges();
+
+      const compiled = fixture.nativeElement;
+      const restauranteCard = compiled.querySelectorAll('[class*="cursor-pointer"]')[1];
+
+      expect(restauranteCard.classList.contains('selected-card')).toBeTruthy();
+    });
+
+    it('should apply unselected-card class to non-selected option', () => {
+      component.selectedType = 'restaurante';
+      fixture.detectChanges();
+
+      const compiled = fixture.nativeElement;
+      const comensalCard = compiled.querySelectorAll('[class*="cursor-pointer"]')[0];
+
+      expect(comensalCard.classList.contains('unselected-card')).toBeTruthy();
+    });
+
+    it('should disable pointer events when isNavigating is true', () => {
+      component.isNavigating = true;
+      fixture.detectChanges();
+
+      const compiled = fixture.nativeElement;
+      // Solo verificar las cards, no el botón "Registrarme luego"
+      const cards = compiled.querySelectorAll('.grid > div[class*="cursor-pointer"]');
+
+      for (const card of cards) {
+        expect(card.classList.contains('pointer-events-none')).toBeTruthy();
+      }
+    });
   });
 });
