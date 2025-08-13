@@ -1,0 +1,55 @@
+// Estilos para botones con loading
+button {
+  transition: all 0.3s ease;
+
+  &:disabled {
+    transform: none !important;
+
+    &:hover {
+      transform: none !important;
+      background-color: transparent !important;
+    }
+  }
+
+  // Animación suave para el cambio de contenido
+  .animate-spin {
+    animation: spin 1s linear infinite;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Mejoras visuales para estados de loading
+.loading-state {
+  pointer-events: none;
+  user-select: none;
+}
+
+// Transiciones suaves para el texto
+span {
+  transition: opacity 0.2s ease-in-out;
+}
+
+// Efecto de pulso sutil para los spinners
+.animate-spin {
+  animation:
+    spin 1s linear infinite,
+    pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}

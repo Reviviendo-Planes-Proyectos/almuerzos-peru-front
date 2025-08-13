@@ -1,0 +1,115 @@
+<div class="relative min-h-screen">
+  <img
+    src="img/background_almuerza_peru.png"
+    [attr.alt]="t('common.background')"
+    class="absolute inset-0 w-full h-full object-cover opacity-100"
+  />
+
+  <app-back-button position="top-left" (click)="onBackClick()"></app-back-button>
+
+  <div class="relative z-10 flex items-end sm:items-center justify-center min-h-[95vh]">
+    <div class="bg-white bg-opacity-90 rounded-xl shadow-lg p-6 w-full max-w-md flex flex-col items-center">
+      <!-- Indicador de paso -->
+      <div class="mb-6 flex justify-center">
+        <app-step-indicator [step]="currentStep" [total]="4"></app-step-indicator>
+      </div>
+
+      <h1 class="text-center text-3xl font-bold text-gray-800 uppercase mb-2">
+        {{ t('app.name') }}
+      </h1>
+
+      <!-- Vista para enviar código -->
+      <div *ngIf="!codeSent" class="w-full flex flex-col items-center">
+        <p class="text-center text-gray-600 mb-6">Verificación de Email</p>
+
+        <div class="mb-6 text-center">
+          <p class="text-gray-600 mb-4">Enviaremos un código de verificación a:</p>
+          <p class="font-semibold text-gray-800 bg-gray-50 py-2 px-4 rounded-lg">{{ userEmail }}</p>
+        </div>
+
+        <div class="w-full space-y-4">
+          <button
+            (click)="sendVerificationCode()"
+            onkeypress="if(event.key === 'Enter'){ sendVerificationCode(); }"
+            class="w-full flex items-center justify-center gap-2 bg-orange-500 text-white font-semibold py-3 px-4 rounded-lg hover:bg-orange-600 transition"
+          >
+            <span class="material-icons">send</span>
+            Enviar Código de Verificación
+          </button>
+
+          <button
+            (click)="goBack()"
+            onkeypress="if(event.key === 'Enter'){ goBack(); }"
+            class="w-full flex items-center justify-center gap-2 border border-gray-300 text-gray-600 font-semibold py-3 px-4 rounded-lg hover:bg-gray-50 transition"
+          >
+            <span class="material-icons">arrow_back</span>
+            Atrás
+          </button>
+
+          <button
+            (click)="doLater()"
+            onkeypress="if(event.key === 'Enter'){ doLater(); }"
+            class="w-full flex items-center justify-center gap-2 border border-yellow-500 text-yellow-600 font-semibold py-3 px-4 rounded-lg hover:bg-yellow-50 transition"
+          >
+            <span class="material-icons">schedule</span>
+            Hacer Más Tarde
+          </button>
+        </div>
+      </div>
+
+      <!-- Vista para verificar código -->
+      <div *ngIf="codeSent" class="w-full flex flex-col items-center">
+        <p class="text-center text-gray-600 mb-6">Verificar Código</p>
+
+        <div class="mb-6 text-center">
+          <p class="text-gray-600 mb-2">Ingresa el código de 6 dígitos que enviamos a:</p>
+          <p class="font-semibold text-gray-800">{{ userEmail }}</p>
+        </div>
+
+        <form [formGroup]="verificationForm" class="w-full space-y-6">
+          <app-input-field
+            label="Código de Verificación"
+            icon="security"
+            placeholder="Ingresa el código de 6 dígitos"
+            formControlName="verificationCode"
+          ></app-input-field>
+
+          <div class="space-y-3">
+            <button
+              (click)="verifyCode()"
+              [disabled]="!verificationForm.valid"
+              onkeypress="if(event.key === 'Enter'){ verifyCode(); }"
+              class="w-full flex items-center justify-center gap-2 bg-orange-500 text-white font-semibold py-3 px-4 rounded-lg hover:bg-orange-600 transition disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <span class="material-icons">check</span>
+              Verificar Código
+            </button>
+
+            <!-- Botón de reenvío con countdown -->
+            <button
+              (click)="resendCodeFromVerificationView()"
+              [disabled]="!canResendCode"
+              onkeypress="if(event.key === 'Enter'){ resendCodeFromVerificationView(); }"
+              class="w-full flex items-center justify-center gap-2 border border-gray-300 text-gray-600 font-semibold py-3 px-4 rounded-lg hover:bg-gray-50 transition disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <span class="material-icons">refresh</span>
+              <span *ngIf="canResendCode">Reenviar Código</span>
+              <span *ngIf="!canResendCode">
+                Reenviar en 0:{{ countdownTimer < 10 ? '0' + countdownTimer : countdownTimer }}
+              </span>
+            </button>
+
+            <button
+              (click)="goBack()"
+              onkeypress="if(event.key === 'Enter'){ goBack(); }"
+              class="w-full flex items-center justify-center gap-2 border border-gray-300 text-gray-600 font-semibold py-3 px-4 rounded-lg hover:bg-gray-50 transition"
+            >
+              <span class="material-icons">arrow_back</span>
+              Cambiar Email
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

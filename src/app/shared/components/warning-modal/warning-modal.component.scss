@@ -1,0 +1,46 @@
+// Estilos para toast en esquina superior derecha
+.toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  animation: slideInFromRight 0.4s ease-out;
+}
+
+.toast-content {
+  background: #fef3cd; // Fondo amarillo suave como en la imagen
+  border: 1px solid #fbbf24; // Borde amarillo/naranja
+  border-radius: 8px;
+  padding: 16px;
+  width: 400px; // Aumentado de 320px a 400px
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  position: relative;
+  transform: translateX(0);
+}
+
+@keyframes slideInFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+// Animación de salida
+.toast-content.closing {
+  animation: slideOutToRight 0.3s ease-in;
+}
+
+@keyframes slideOutToRight {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}

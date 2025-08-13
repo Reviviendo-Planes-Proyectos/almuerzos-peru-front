@@ -13,6 +13,9 @@ import { LoggerService } from '../../../../shared/services/logger/logger.service
   styleUrl: './profile-selection.component.scss'
 })
 export class ProfileSelectionComponent extends BaseTranslatableComponent {
+  selectedType: 'restaurante' | 'comensal' | null = null;
+  isNavigating = false;
+
   constructor(
     public router: Router,
     public readonly logger: LoggerService
@@ -20,8 +23,16 @@ export class ProfileSelectionComponent extends BaseTranslatableComponent {
     super();
   }
 
-  goToLogin(tipo: 'restaurante' | 'comensal'): void {
-    this.logger.info('Tipo de usuario seleccionado:', tipo);
-    this.router.navigate(['auth/login']);
+  elegirTipoUsuario(tipo: 'restaurante' | 'comensal') {
+    if (this.isNavigating) return;
+
+    this.selectedType = tipo;
+    this.isNavigating = true;
+
+    // Delay para mostrar la animación antes de navegar
+    setTimeout(() => {
+      this.logger.info('Tipo de usuario seleccionado:', tipo);
+      this.router.navigate(['auth/login']);
+    }, 800);
   }
 }

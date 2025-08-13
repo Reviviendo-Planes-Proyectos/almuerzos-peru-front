@@ -5,6 +5,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
 import { I18nService, TranslatePipe } from '../../../../shared/i18n';
 import { MaterialModule } from '../../../../shared/material.module';
+import { LoggerService } from '../../../../shared/services/logger/logger.service';
 import { ProfileSelectionComponent } from './profile-selection.component';
 
 // Mock del servicio de traducción
@@ -13,17 +14,20 @@ class MockI18nService {
     const translations: Record<string, string> = {
       'app.name': 'ALMUERZOS PERU',
       'common.back': 'Volver',
+      'common.background': 'Fondo',
       'auth.profileSelection.question': '¿Cómo deseas ingresar?',
-      'auth.profileSelection.restaurant.title': 'Tengo mi restaurante',
-      'auth.profileSelection.restaurant.description':
-        'Administra tu menú diario y haz que tus clientes encuentren tu restaurante fácilmente.',
-      'auth.profileSelection.diner.title': 'Quiero comer',
-      'auth.profileSelection.diner.description':
-        'Explora los menús del día de restaurantes cerca de ti y haz tu elección rápida y fácil.',
       'auth.profileSelection.registerLater': 'Registrarme luego'
     };
     return translations[key] || key;
   }
+}
+
+// Mock del LoggerService
+class MockLoggerService {
+  info = jest.fn();
+  error = jest.fn();
+  warn = jest.fn();
+  debug = jest.fn();
 }
 
 describe('ProfileSelectionComponent', () => {
@@ -32,6 +36,7 @@ describe('ProfileSelectionComponent', () => {
   let debugElement: DebugElement;
   let mockRouter: jest.Mocked<Router>;
   let mockI18nService: MockI18nService;
+  let mockLoggerService: MockLoggerService;
 
   beforeEach(async () => {
     const routerSpy = {
@@ -39,12 +44,14 @@ describe('ProfileSelectionComponent', () => {
     };
 
     mockI18nService = new MockI18nService();
+    mockLoggerService = new MockLoggerService();
 
     await TestBed.configureTestingModule({
       imports: [ProfileSelectionComponent, MaterialModule, NoopAnimationsModule, TranslatePipe],
       providers: [
         { provide: Router, useValue: routerSpy },
-        { provide: I18nService, useValue: mockI18nService }
+        { provide: I18nService, useValue: mockI18nService },
+        { provide: LoggerService, useValue: mockLoggerService }
       ]
     }).compileComponents();
 
@@ -52,6 +59,7 @@ describe('ProfileSelectionComponent', () => {
     component = fixture.componentInstance;
     debugElement = fixture.debugElement;
     mockRouter = TestBed.inject(Router) as jest.Mocked<Router>;
+    mockLoggerService = TestBed.inject(LoggerService) as unknown as MockLoggerService;
     fixture.detectChanges();
   });
 
@@ -60,8 +68,13 @@ describe('ProfileSelectionComponent', () => {
   });
 
   it('should display the app name', () => {
-    const titleElement = debugElement.query(By.css('h1'));
+    const titleElement = debugElement.query(By.css('h1 span'));
     expect(titleElement.nativeElement.textContent.trim()).toBe('ALMUERZOS PERU');
+  });
+
+  it('should display the welcome title', () => {
+    const welcomeElement = debugElement.query(By.css('h2'));
+    expect(welcomeElement.nativeElement.textContent.trim()).toBe('¡Bienvenido!');
   });
 
   it('should display the profile selection question', () => {
@@ -69,44 +82,65 @@ describe('ProfileSelectionComponent', () => {
     expect(questionElement.nativeElement.textContent.trim()).toBe('¿Cómo deseas ingresar?');
   });
 
-  it('should display restaurant option with translated text', () => {
-    const restaurantTitle = debugElement.queryAll(By.css('h3'))[0];
-    const restaurantDescription = debugElement.queryAll(By.css('.text-sm'))[0];
+  it('should display client option', () => {
+    const clientCards = debugElement.queryAll(By.css('.grid > div'));
+    const clientCard = clientCards[0];
+    const clientTitle = clientCard.query(By.css('h3'));
+    const clientDescription = clientCard.query(By.css('p'));
 
-    expect(restaurantTitle.nativeElement.textContent.trim()).toBe('Tengo mi restaurante');
-    expect(restaurantDescription.nativeElement.textContent.trim()).toBe(
-      'Administra tu menú diario y haz que tus clientes encuentren tu restaurante fácilmente.'
-    );
+    expect(clientTitle.nativeElement.textContent.trim()).toBe('Cliente');
+    expect(clientDescription.nativeElement.textContent.trim()).toBe('Encuentra almuerzos cerca de ti en segundos.');
   });
 
-  it('should display diner option with translated text', () => {
-    const dinerTitle = debugElement.queryAll(By.css('h3'))[1];
-    const dinerDescription = debugElement.queryAll(By.css('.text-sm'))[1];
+  it('should display restaurant owner option', () => {
+    const ownerCards = debugElement.queryAll(By.css('.grid > div'));
+    const ownerCard = ownerCards[1];
+    const ownerTitle = ownerCard.query(By.css('h3'));
+    const ownerDescription = ownerCard.query(By.css('p'));
 
-    expect(dinerTitle.nativeElement.textContent.trim()).toBe('Quiero comer');
-    expect(dinerDescription.nativeElement.textContent.trim()).toBe(
-      'Explora los menús del día de restaurantes cerca de ti y haz tu elección rápida y fácil.'
-    );
+    expect(ownerTitle.nativeElement.textContent.trim()).toBe('Dueño');
+    expect(ownerDescription.nativeElement.textContent.trim()).toBe('Administra tu menú diario y atrae más clientes.');
   });
 
-  it('should display register later link with translated text', () => {
+  it('should display register later link', () => {
     const linkElement = debugElement.query(By.css('.mt-6 button'));
     expect(linkElement.nativeElement.textContent.trim()).toBe('Registrarme luego');
   });
 
-  it('should have proper aria-label for back button with translation', () => {
-    const backButton = debugElement.query(By.css('button[mat-icon-button]'));
-    expect(backButton.nativeElement.getAttribute('aria-label')).toBe('Volver');
+  it('should select comensal type when clicked', () => {
+    const comensalCard = debugElement.queryAll(By.css('.grid > div'))[0];
+    comensalCard.nativeElement.click();
+
+    expect(component.selectedType).toBe('comensal');
+    expect(component.isNavigating).toBe(true);
   });
 
-  it('should navigate to auth/login when goToLogin is called with restaurante', () => {
-    component.goToLogin('restaurante');
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['auth/login']);
+  it('should select restaurante type when clicked', () => {
+    const restauranteCard = debugElement.queryAll(By.css('.grid > div'))[1];
+    restauranteCard.nativeElement.click();
+
+    expect(component.selectedType).toBe('restaurante');
+    expect(component.isNavigating).toBe(true);
   });
 
-  it('should navigate to auth/login when goToLogin is called with comensal', () => {
-    component.goToLogin('comensal');
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['auth/login']);
+  it('should navigate to auth/login when elegirTipoUsuario is called with comensal', (done) => {
+    component.elegirTipoUsuario('comensal');
+
+    setTimeout(() => {
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['auth/login']);
+      expect(mockLoggerService.info).toHaveBeenCalledWith('Tipo de usuario seleccionado:', 'comensal');
+      done();
+    }, 900);
+  });
+
+  it('should navigate to auth/login when elegirTipoUsuario is called with restaurante', (done) => {
+    component.elegirTipoUsuario('restaurante');
+
+    setTimeout(() => {
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['auth/login']);
+      expect(mockLoggerService.info).toHaveBeenCalledWith('Tipo de usuario seleccionado:', 'restaurante');
+      done();
+    }, 900);
   });
 
   it('should navigate to auth/login when register later button is clicked', () => {
@@ -115,20 +149,24 @@ describe('ProfileSelectionComponent', () => {
     expect(mockRouter.navigate).toHaveBeenCalledWith(['auth/login']);
   });
 
+  it('should not allow multiple selections when navigating', () => {
+    component.elegirTipoUsuario('comensal');
+    expect(component.isNavigating).toBe(true);
+
+    // Try to select again
+    component.elegirTipoUsuario('restaurante');
+    expect(component.selectedType).toBe('comensal'); // Should remain unchanged
+  });
+
   describe('Internationalization', () => {
     it('should display all text elements with proper translations', () => {
-      const titleElement = debugElement.query(By.css('h1'));
+      const titleElement = debugElement.query(By.css('h1 span'));
       const questionElement = debugElement.query(By.css('p'));
       const linkElement = debugElement.query(By.css('.mt-6 button'));
 
       expect(titleElement.nativeElement.textContent.trim()).toBe('ALMUERZOS PERU');
       expect(questionElement.nativeElement.textContent.trim()).toBe('¿Cómo deseas ingresar?');
       expect(linkElement.nativeElement.textContent.trim()).toBe('Registrarme luego');
-    });
-
-    it('should use translation function correctly', () => {
-      expect(debugElement.query(By.css('h1')).nativeElement.textContent.trim()).toBe('ALMUERZOS PERU');
-      expect(debugElement.query(By.css('p')).nativeElement.textContent.trim()).toBe('¿Cómo deseas ingresar?');
     });
   });
 

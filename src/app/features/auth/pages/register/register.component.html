@@ -14,23 +14,34 @@
         {{ t('app.name') }}
       </h1>
 
-      <h2 class="text-2xl font-bold text-center text-gray-800 mt-2 mb-2">{{ t('messages.welcome') }}</h2>
       <p class="text-center text-gray-600 mb-6">{{ t('auth.register.title') }}</p>
 
       <button
         (click)="loginWithGoogle()"
-        class="w-full flex items-center justify-center gap-2 border border-red-500 text-red-600 font-semibold py-2 px-4 rounded-lg hover:bg-red-100 transition mb-3"
+        [disabled]="isGoogleLoading || isFacebookLoading || isEmailLoading"
+        class="w-full flex items-center justify-center gap-2 border border-yellow-500 text-red-600 font-semibold py-2 px-4 rounded-lg hover:bg-red-100 transition mb-3 disabled:opacity-50 disabled:hover:bg-transparent"
       >
-        <img src="img/google.png" [attr.alt]="t('common.google')" class="w-5 h-5" />
-        {{ t('auth.register.withGoogle') }}
+        <!-- Spinner de carga -->
+        <div *ngIf="isGoogleLoading" class="animate-spin rounded-full h-5 w-5 border-b-2 border-yellow-500"></div>
+        <!-- Icono normal -->
+        <img *ngIf="!isGoogleLoading" src="img/google.png" [attr.alt]="t('common.google')" class="w-5 h-5" />
+
+        <span *ngIf="!isGoogleLoading">{{ t('auth.register.withGoogle') }}</span>
+        <span *ngIf="isGoogleLoading">{{ t('auth.register.connecting') }}</span>
       </button>
 
       <button
         (click)="loginWithFacebook()"
-        class="w-full flex items-center justify-center gap-2 border border-blue-600 text-blue-600 font-semibold py-2 px-4 rounded-lg hover:bg-blue-100 transition mb-3"
+        [disabled]="isGoogleLoading || isFacebookLoading || isEmailLoading"
+        class="w-full flex items-center justify-center gap-2 border border-yellow-500 text-blue-600 font-semibold py-2 px-4 rounded-lg hover:bg-blue-100 transition mb-3 disabled:opacity-50 disabled:hover:bg-transparent"
       >
-        <img src="img/facebook.png" [attr.alt]="t('common.facebook')" class="w-5 h-5" />
-        {{ t('auth.register.withFacebook') }}
+        <!-- Spinner de carga -->
+        <div *ngIf="isFacebookLoading" class="animate-spin rounded-full h-5 w-5 border-b-2 border-yellow-500"></div>
+        <!-- Icono normal -->
+        <img *ngIf="!isFacebookLoading" src="img/facebook.png" [attr.alt]="t('common.facebook')" class="w-5 h-5" />
+
+        <span *ngIf="!isFacebookLoading">{{ t('auth.register.withFacebook') }}</span>
+        <span *ngIf="isFacebookLoading">{{ t('auth.register.connecting') }}</span>
       </button>
 
       <div class="flex items-center w-full my-4">
@@ -41,8 +52,10 @@
 
       <button
         (click)="crearConEmail()"
-        class="w-full flex items-center justify-center gap-2 border border-gray-700 text-gray-800 font-semibold py-2 px-4 rounded-lg hover:bg-gray-100 transition mb-3"
+        [disabled]="isGoogleLoading || isFacebookLoading || isEmailLoading"
+        class="w-full flex items-center justify-center gap-2 border border-yellow-500 text-gray-800 font-semibold py-2 px-4 rounded-lg hover:bg-gray-100 transition mb-3 disabled:opacity-50 disabled:hover:bg-transparent"
       >
+        <!-- Icono siempre visible (sin spinner) -->
         <mat-icon>mail</mat-icon>
         {{ t('auth.register.withEmail') }}
       </button>

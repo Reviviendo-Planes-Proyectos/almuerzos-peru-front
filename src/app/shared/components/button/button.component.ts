@@ -14,6 +14,7 @@ export class ButtonComponent extends BaseTranslatableComponent {
   @Input() translateKey: string | null = null;
   @Input() isActive = true;
   @Input() isOutline = false;
+  @Input() outlineGray = false;
   @Input() imageSrc: string | null = null;
   @Input() imgAlt: string | null = '';
   @Input() iconName: string | null = null;

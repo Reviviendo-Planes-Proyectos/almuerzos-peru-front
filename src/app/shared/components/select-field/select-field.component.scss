@@ -1,0 +1,73 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.custom-input {
+  caret-color: #d97706;
+
+  &:focus {
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+  }
+
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: none;
+
+  &::-ms-expand {
+    display: none;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.2s ease-out;
+}
+
+select {
+  option {
+    padding: 8px 12px;
+    background-color: white;
+    color: #374151;
+
+    &:checked {
+      background-color: #f59e0b;
+      color: white;
+    }
+
+    &:hover {
+      background-color: #fef3c7;
+    }
+
+    &:disabled {
+      color: #9ca3af;
+      background-color: #f9fafb;
+      cursor: not-allowed;
+    }
+  }
+
+  &:disabled {
+    background-color: #f9fafb;
+    color: #9ca3af;
+    cursor: not-allowed;
+
+    & + span {
+      color: #9ca3af;
+    }
+  }
+}
+
+.rotate-180 {
+  transform: rotate(180deg);
+}

@@ -1,0 +1,79 @@
+<div class="relative min-h-screen">
+  <img
+    src="img/background_almuerza_peru.png"
+    [attr.alt]="t('common.background')"
+    class="absolute inset-0 w-full h-full object-cover opacity-100"
+  />
+
+  <app-back-button position="top-left" (click)="onBackClick()"></app-back-button>
+
+  <div class="relative z-10 flex items-end sm:items-center justify-center min-h-[95vh]">
+    <div class="bg-white bg-opacity-90 rounded-xl shadow-lg p-6 w-full max-w-md flex flex-col items-center">
+      <h1 class="text-center text-3xl font-bold text-gray-800 uppercase mb-2">
+        {{ t('app.name') }}
+      </h1>
+
+      <p class="text-center text-gray-600 mb-6">Foto de Perfil</p>
+
+      <div class="w-full text-center">
+        <div *ngIf="selectedImage" class="mb-6">
+          <img
+            [src]="selectedImage"
+            alt="Preview"
+            class="w-32 h-32 object-cover rounded-full mx-auto border-4 border-gray-200"
+          />
+          <button
+            (click)="removeSelectedImage()"
+            class="mt-2 w-8 h-8 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center mx-auto shadow-lg transition-colors duration-200"
+            aria-label="Eliminar imagen"
+          >
+            <i class="material-icons text-sm">close</i>
+          </button>
+        </div>
+
+        <app-file-upload
+          [hasSelectedImage]="selectedImage !== null"
+          [defaultBackgroundImage]="'/img/person.png'"
+          (fileSelected)="onFileSelected($event)"
+          (fileError)="onFileError($event)"
+          class="mb-6"
+        ></app-file-upload>
+
+        <div class="flex flex-col gap-4">
+          <app-button
+            [label]="'Finalizar Registro'"
+            [isActive]="true"
+            [isOutline]="false"
+            iconName="check"
+            (click)="finishRegistration()"
+            onkeypress="if(event.key === 'Enter'){ finishRegistration(); }"
+            class="w-full"
+          ></app-button>
+
+          <app-button
+            [label]="'Omitir por ahora'"
+            [isActive]="true"
+            [isOutline]="true"
+            iconName="skip_next"
+            (click)="skipForNow()"
+            onkeypress="if(event.key === 'Enter'){ skipForNow(); }"
+            class="w-full"
+          ></app-button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de advertencia para correo sin verificar -->
+<app-warning-modal
+  *ngIf="showWarningModal"
+  [isVisible]="showWarningModal"
+  title="Correo sin verificar"
+  message="Tu correo aún no está verificado. Verifícalo para recibir notificaciones importantes y completar tu registro."
+  primaryButtonText="Verificar ahora"
+  secondaryButtonText="Recordar después"
+  (primaryAction)="onVerifyEmail()"
+  (secondaryAction)="onRemindLater()"
+  (closeModal)="onCloseWarningModal()"
+></app-warning-modal>

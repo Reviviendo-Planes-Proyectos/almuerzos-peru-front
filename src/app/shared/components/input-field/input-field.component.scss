@@ -1,0 +1,7 @@
+.custom-input {
+  caret-color: #d97706; /* Cursor naranja oscuro */
+
+  &:not(:focus):placeholder-shown::placeholder {
+    color: #9ca3af;
+  }
+}

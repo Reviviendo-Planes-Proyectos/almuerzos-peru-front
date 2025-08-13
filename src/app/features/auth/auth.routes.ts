@@ -25,5 +25,27 @@ export const AUTH_ROUTES: Routes = [
       import('./pages/email-sent-confirmation/email-sent-confirmation.component').then(
         (m) => m.EmailSentConfirmationComponent
       )
+  },
+  {
+    path: 'customer-basic-info',
+    loadComponent: () =>
+      import('./pages/customer-basic-info/customer-basic-info.component').then((m) => m.CustomerBasicInfoComponent)
+  },
+  {
+    path: 'email-verification',
+    loadComponent: () =>
+      import('./pages/email-verification/email-verification.component').then((m) => m.EmailVerificationComponent)
+  },
+  {
+    path: 'email-verification/:email',
+    loadComponent: () =>
+      import('./pages/email-verification/email-verification.component').then((m) => m.EmailVerificationComponent)
+  },
+  {
+    path: 'customer-profile-photo',
+    loadComponent: () =>
+      import('./pages/customer-profile-photo/customer-profile-photo.component').then(
+        (m) => m.CustomerProfilePhotoComponent
+      )
   }
 ];

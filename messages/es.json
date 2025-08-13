@@ -26,17 +26,18 @@
       "withEmail": "Iniciar Sesión con Correo"
     },
     "register": {
-      "title": "Crear Cuenta",
+      "title": "¿Cómo deseas registrarte?",
       "button": "Continuar",
       "email": "Correo",
       "later": "Registrarse después",
       "withGoogle": "Continuar con Google",
       "withFacebook": "Continuar con Facebook",
-      "withEmail": "Continuar con Correo"
+      "withEmail": "Continuar con Correo",
+      "connecting": "Conectando..."
     },
     "forgot": {
       "title": "Olvidé mi Contraseña",
-      "description": "Ingresa tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña",
+      "description": "Ingresa tu correo para restablecer tu contraseña",
       "emailLabel": "Correo electrónico",
       "emailPlaceholder": "tucorreo@ejemplo.com",
       "emailRequired": "El correo electrónico es requerido",
@@ -64,6 +65,26 @@
         "alt": "Comensal"
       },
       "registerLater": "Registrarme luego"
+    },
+    "emailVerification": {
+      "title": "Verificar Correo",
+      "subtitle": "Confirma tu correo electrónico para continuar",
+      "message": "Enviaremos un código de verificación a:",
+      "sendButton": "Enviar Código de Verificación",
+      "laterMessage": "¿Prefieres verificar tu correo más tarde?",
+      "laterButton": "Hacer Más Tarde",
+      "backButton": "Atrás",
+      "verifyTitle": "Verificar Correo",
+      "verifySubtitle": "Confirma tu correo electrónico para continuar",
+      "codeSentTitle": "Código enviado a tu correo",
+      "codeSentMessage": "Revisa tu bandeja de entrada y confirma el código",
+      "codeLabel": "Código de Verificación",
+      "codePlaceholder": "Ingresa el código de 6 dígitos",
+      "verifyButton": "Verificar Código",
+      "resendButton": "Reenviar código",
+      "tryAgainButton": "Intentar de Nuevo",
+      "noCodeReceived": "¿No recibiste el código?",
+      "resendIn": "Reenviar en 0:"
     }
   },
   "messages": {
@@ -751,5 +772,28 @@
         }
       }
     }
+  },
+  "pwa": {
+    "update": {
+      "available": "Nueva versión disponible",
+      "button": "Actualizar"
+    },
+    "install": {
+      "title": "¡Instala Almuerzos Perú!",
+      "description": "La mejor experiencia gastronómica peruana",
+      "features": {
+        "notifications": "Notificaciones de ofertas",
+        "offline": "Funciona sin internet",
+        "speed": "Acceso ultra rápido"
+      },
+      "buttons": {
+        "install": "Instalar App",
+        "later": "Más tarde"
+      },
+      "tooltip": "Instalar Almuerzos Perú"
+    }
+  },
+  "modal": {
+    "close": "Cerrar"
   }
 }

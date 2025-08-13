@@ -49,13 +49,14 @@ describe('HeroSectionComponent', () => {
     expect(compiled.querySelector('.gradient-text')?.textContent).toContain('Sube tu carta.');
   });
 
-  it('should alert feature when handleFeatureClick is called', () => {
-    const alertSpy = jest.spyOn(window, 'alert').mockImplementation();
+  it('should log feature and navigate when handleFeatureClick is called', () => {
+    const loggerSpy = jest.spyOn((component as any).logger, 'log');
+    const routerSpy = jest.spyOn((component as any).router, 'navigate');
     const feature = 'Menú Digital';
 
     component.handleFeatureClick(feature);
 
-    expect(alertSpy).toHaveBeenCalledWith(`Feature clicked: ${feature}`);
-    alertSpy.mockRestore();
+    expect(loggerSpy).toHaveBeenCalledWith(`Feature clicked: ${feature}`);
+    expect(routerSpy).toHaveBeenCalledWith(['/home-diner']);
   });
 });
