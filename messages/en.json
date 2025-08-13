@@ -87,6 +87,25 @@
       "resendIn": "Resend in 0:"
     }
   },
+  "RESTAURANT_SCHEDULE": {
+    "TITLE": "Service Types",
+    "SUBTITLE": "How do you want to serve your customers?",
+    "SERVICE_TYPES": "Service Modalities",
+    "LOCAL_SERVICE": "Dine-in Service",
+    "LOCAL_SERVICE_DESC": "Customers can eat at your restaurant",
+    "DELIVERY_SERVICE": "Delivery Service",
+    "DELIVERY_SERVICE_DESC": "Home delivery",
+    "SCHEDULE_TITLE": "Operating Hours",
+    "SCHEDULE_SUBTITLE": "Configure your hours for each day",
+    "CLOSED": "Closed",
+    "CONFIGURE_SCHEDULE": "Configure schedule",
+    "QUICK_ACTIONS": "Quick actions",
+    "OPEN_ALL_DAYS": "Open all days",
+    "WEEKDAYS_ONLY": "Weekdays only",
+    "CONFIGURE": "Configure",
+    "OPEN_TIME": "Opening time",
+    "CLOSE_TIME": "Closing time"
+  },
   "messages": {
     "welcome": "Welcome to Lunches Peru!"
   },

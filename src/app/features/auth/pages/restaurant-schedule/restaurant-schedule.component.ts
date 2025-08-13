@@ -1,10 +1,11 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { BackButtonComponent } from '../../../../shared/components/back-button/back-button.component';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
-import { HeaderWithStepsComponent } from '../../../../shared/components/header-with-steps/header-with-steps.component';
 import { StepIndicatorComponent } from '../../../../shared/components/step-indicator/step-indicator.component';
+import { BaseTranslatableComponent } from '../../../../shared/i18n';
+import { CoreModule } from '../../../../shared/modules';
 
 interface DaySchedule {
   day: string;
@@ -17,11 +18,11 @@ interface DaySchedule {
 @Component({
   selector: 'app-restaurant-schedule',
   standalone: true,
-  imports: [CommonModule, FormsModule, HeaderWithStepsComponent, StepIndicatorComponent, ButtonComponent],
+  imports: [CoreModule, FormsModule, BackButtonComponent, StepIndicatorComponent, ButtonComponent],
   templateUrl: './restaurant-schedule.component.html',
   styleUrl: './restaurant-schedule.component.scss'
 })
-export class RestaurantScheduleComponent {
+export class RestaurantScheduleComponent extends BaseTranslatableComponent {
   currentStep = 5;
 
   // Configuración de días
@@ -47,7 +48,9 @@ export class RestaurantScheduleComponent {
   tempCloseTime = '';
   timeValidationError = '';
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+    super();
+  }
 
   // Toggle día activo/inactivo
   toggleDay(index: number): void {

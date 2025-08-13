@@ -1,21 +1,68 @@
-// Estilos para toast en esquina superior derecha
+// Estilos para toast responsive
 .toast-container {
   position: fixed;
-  top: 20px;
-  right: 20px;
   z-index: 1000;
   animation: slideInFromRight 0.4s ease-out;
+
+  // En pantallas grandes (desktop): esquina superior derecha
+  @media (min-width: 768px) {
+    top: 20px;
+    right: 20px;
+  }
+
+  // En pantallas pequeñas (móvil): centrado en la parte superior con mejores márgenes
+  @media (max-width: 767px) {
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100vw - 24px);
+    max-width: 380px;
+    padding: 0 4px; // Padding adicional por seguridad
+  }
 }
 
 .toast-content {
-  background: #fef3cd; // Fondo amarillo suave como en la imagen
-  border: 1px solid #fbbf24; // Borde amarillo/naranja
-  border-radius: 8px;
-  padding: 16px;
-  width: 400px; // Aumentado de 320px a 400px
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background: #fef3cd;
+  border: 1px solid #fbbf24;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
   position: relative;
-  transform: translateX(0);
+
+  // Padding y estilos para desktop
+  @media (min-width: 768px) {
+    width: 400px;
+    padding: 16px;
+    border-radius: 8px;
+  }
+
+  // Padding y estilos optimizados para móvil
+  @media (max-width: 767px) {
+    width: 100%;
+    min-width: 280px;
+    padding: 14px 12px 16px 12px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  }
+}
+
+// Mejoras específicas para móvil
+@media (max-width: 767px) {
+  .toast-content {
+    // Evita que el texto se corte en pantallas muy pequeñas
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+
+    // Mejora la experiencia táctil
+    button {
+      min-height: 44px; // Tamaño mínimo recomendado para touch
+      touch-action: manipulation; // Evita el zoom en doble tap
+    }
+
+    // Espaciado optimizado para el ícono de advertencia
+    .material-icons {
+      line-height: 1;
+    }
+  }
 }
 
 @keyframes slideInFromRight {
@@ -29,9 +76,31 @@
   }
 }
 
+// Animación para móvil (desde arriba)
+@media (max-width: 767px) {
+  .toast-container {
+    animation: slideInFromTop 0.4s ease-out;
+  }
+
+  @keyframes slideInFromTop {
+    from {
+      opacity: 0;
+      transform: translateX(-50%) translateY(-100%);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  }
+}
+
 // Animación de salida
 .toast-content.closing {
   animation: slideOutToRight 0.3s ease-in;
+
+  @media (max-width: 767px) {
+    animation: slideOutToTop 0.3s ease-in;
+  }
 }
 
 @keyframes slideOutToRight {
@@ -42,5 +111,16 @@
   to {
     opacity: 0;
     transform: translateX(100%);
+  }
+}
+
+@keyframes slideOutToTop {
+  from {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-100%);
   }
 }

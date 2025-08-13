@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { PwaPromptComponent } from './shared/components/pwa-prompt/pwa-prompt.component';
-import { MaterialModule } from './shared/material.module';
+import { MaterialModule } from './shared/modules';
 import { ApiService } from './shared/services/api/api.service';
 import { LoggerService } from './shared/services/logger/logger.service';
 

@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { I18nService } from '../../../../../shared/i18n/services/translation.service';
-import { MaterialModule } from '../../../../../shared/material.module';
+import { MaterialModule } from '../../../../../shared/modules';
 import { EnhancedSearchSectionComponent } from './enhanced-search-section.component';
 
 class MockI18nService {

@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { BaseTranslatableComponent } from '../../../../../shared/i18n';
-import { MaterialModule } from '../../../../../shared/material.module';
+import { CoreModule, MaterialModule } from '../../../../../shared/modules';
 
 @Component({
   selector: 'app-testimonials-section',
   standalone: true,
   templateUrl: './testimonials-section.component.html',
   styleUrls: ['./testimonials-section.component.scss'],
-  imports: [MaterialModule]
+  imports: [CoreModule, MaterialModule]
 })
 export class TestimonialsSectionComponent extends BaseTranslatableComponent {
   get testimonials() {

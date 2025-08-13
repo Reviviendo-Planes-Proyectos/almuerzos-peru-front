@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
 import { I18nService } from '../../i18n';
-import { MaterialModule } from '../../material.module';
+import { MaterialModule } from '../../modules';
 import { BackButtonComponent } from './back-button.component';
 
 class MockI18nService {

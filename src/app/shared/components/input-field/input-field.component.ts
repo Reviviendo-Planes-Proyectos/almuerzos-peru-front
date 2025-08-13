@@ -1,11 +1,11 @@
-import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Optional, Output, Self } from '@angular/core';
-import { ControlValueAccessor, FormControl, NgControl, ReactiveFormsModule } from '@angular/forms';
+import { ControlValueAccessor, FormControl, NgControl } from '@angular/forms';
+import { CoreModule } from '../../modules';
 
 @Component({
   selector: 'app-input-field',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [CoreModule],
   templateUrl: './input-field.component.html',
   styleUrl: './input-field.component.scss'
 })

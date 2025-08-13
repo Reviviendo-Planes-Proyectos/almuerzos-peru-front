@@ -6,7 +6,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
 import { I18nService, TranslatePipe } from '../../../../shared/i18n';
-import { MaterialModule } from '../../../../shared/material.module';
+import { MaterialModule } from '../../../../shared/modules';
 import { LoggerService } from '../../../../shared/services/logger/logger.service';
 import { RegisterComponent } from './register.component';
 
@@ -232,7 +232,9 @@ describe('RegisterComponent', () => {
 
       laterButton.triggerEventHandler('click', null);
 
-      expect(routerSpy).toHaveBeenCalledWith(['auth/login']);
+      expect(routerSpy).toHaveBeenCalledWith(['auth/login'], {
+        queryParams: { userType: null }
+      });
     });
   });
 

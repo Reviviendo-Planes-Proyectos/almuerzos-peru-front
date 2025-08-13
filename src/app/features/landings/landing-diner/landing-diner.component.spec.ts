@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
 import { I18nService } from '../../../shared/i18n/services/translation.service';
-import { MaterialModule } from '../../../shared/material.module';
+import { MaterialModule } from '../../../shared/modules';
 import { LandingDinerComponent } from './landing-diner.component';
 
 class MockI18nService {

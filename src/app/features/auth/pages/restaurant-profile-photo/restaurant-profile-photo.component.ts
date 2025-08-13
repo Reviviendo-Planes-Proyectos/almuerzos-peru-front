@@ -1,18 +1,19 @@
-import { CommonModule } from '@angular/common';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { BackButtonComponent } from '../../../../shared/components/back-button/back-button.component';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
 import { FileUploadComponent } from '../../../../shared/components/file-upload/file-upload.component';
-import { HeaderWithStepsComponent } from '../../../../shared/components/header-with-steps/header-with-steps.component';
 import { StepIndicatorComponent } from '../../../../shared/components/step-indicator/step-indicator.component';
 import { WarningModalComponent } from '../../../../shared/components/warning-modal/warning-modal.component';
+import { BaseTranslatableComponent } from '../../../../shared/i18n';
+import { CoreModule } from '../../../../shared/modules';
 
 @Component({
   selector: 'app-restaurant-profile-photo',
   standalone: true,
   imports: [
-    CommonModule,
-    HeaderWithStepsComponent,
+    CoreModule,
+    BackButtonComponent,
     StepIndicatorComponent,
     FileUploadComponent,
     ButtonComponent,
@@ -21,7 +22,7 @@ import { WarningModalComponent } from '../../../../shared/components/warning-mod
   templateUrl: './restaurant-profile-photo.component.html',
   styleUrl: './restaurant-profile-photo.component.scss'
 })
-export class RestaurantProfilePhotoComponent {
+export class RestaurantProfilePhotoComponent extends BaseTranslatableComponent {
   @ViewChild('restaurantFileInput') restaurantFileInput!: ElementRef<HTMLInputElement>;
   @ViewChild('logoFileInput') logoFileInput!: ElementRef<HTMLInputElement>;
 
@@ -39,7 +40,9 @@ export class RestaurantProfilePhotoComponent {
   // Estado del modal de advertencia
   showWarningModal = true;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+    super();
+  }
 
   // Manejo de foto del restaurante
   onRestaurantPhotoSelected(file: File): void {

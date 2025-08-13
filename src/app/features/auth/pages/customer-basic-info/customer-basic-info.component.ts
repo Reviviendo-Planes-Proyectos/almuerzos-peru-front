@@ -1,28 +1,15 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { BackButtonComponent } from '../../../../shared/components/back-button/back-button.component';
-import { ButtonComponent } from '../../../../shared/components/button/button.component';
-import { InputFieldComponent } from '../../../../shared/components/input-field/input-field.component';
-// Importación condicional para resolver problemas de compilación
-import { SelectFieldComponent, SelectOption } from '../../../../shared/components/select-field/select-field.component';
-import { StepIndicatorComponent } from '../../../../shared/components/step-indicator/step-indicator.component';
+import { SelectOption } from '../../../../shared/components/select-field/select-field.component';
 import { BaseTranslatableComponent } from '../../../../shared/i18n';
+import { SharedModule } from '../../../../shared/modules';
 import { LoggerService } from '../../../../shared/services/logger/logger.service';
 
 @Component({
   selector: 'app-customer-basic-info',
   standalone: true,
-  imports: [
-    CommonModule,
-    InputFieldComponent,
-    SelectFieldComponent,
-    ButtonComponent,
-    StepIndicatorComponent,
-    ReactiveFormsModule,
-    BackButtonComponent
-  ],
+  imports: [SharedModule],
   templateUrl: './customer-basic-info.component.html',
   styleUrls: ['./customer-basic-info.component.scss']
 })

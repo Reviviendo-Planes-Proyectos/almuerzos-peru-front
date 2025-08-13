@@ -1,9 +1,9 @@
-import { CommonModule } from '@angular/common';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { CoreModule } from '../../../../shared/modules';
 
 import { RestaurantScheduleComponent } from './restaurant-schedule.component';
 
@@ -18,7 +18,7 @@ describe('RestaurantScheduleComponent', () => {
     };
 
     await TestBed.configureTestingModule({
-      imports: [RestaurantScheduleComponent, CommonModule, FormsModule],
+      imports: [RestaurantScheduleComponent, CoreModule, FormsModule],
       providers: [{ provide: Router, useValue: routerSpy }],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();

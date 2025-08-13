@@ -1,17 +1,17 @@
-import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { BackButtonComponent } from '../../../../shared/components/back-button/back-button.component';
 import { InputFieldComponent } from '../../../../shared/components/input-field/input-field.component';
 import { StepIndicatorComponent } from '../../../../shared/components/step-indicator/step-indicator.component';
 import { BaseTranslatableComponent } from '../../../../shared/i18n';
+import { CoreModule } from '../../../../shared/modules';
 
 @Component({
   selector: 'app-email-verification',
   standalone: true,
-  imports: [BackButtonComponent, InputFieldComponent, StepIndicatorComponent, ReactiveFormsModule, CommonModule],
+  imports: [BackButtonComponent, InputFieldComponent, StepIndicatorComponent, CoreModule],
   templateUrl: './email-verification.component.html',
   styleUrl: './email-verification.component.scss'
 })

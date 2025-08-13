@@ -2,9 +2,11 @@ import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { of } from 'rxjs';
 import { I18nService, TranslatePipe } from '../../../../shared/i18n';
-import { MaterialModule } from '../../../../shared/material.module';
+import { MaterialModule } from '../../../../shared/modules';
+import { LoggerService } from '../../../../shared/services/logger/logger.service';
 import { LoginComponent } from './login.component';
 
 class MockI18nService {
@@ -45,12 +47,25 @@ describe('LoginComponent', () => {
       navigate: jest.fn()
     };
 
+    const mockActivatedRoute = {
+      queryParams: of({ userType: null })
+    };
+
+    const mockLoggerService = {
+      info: jest.fn(),
+      error: jest.fn(),
+      warn: jest.fn(),
+      debug: jest.fn()
+    };
+
     mockI18nService = new MockI18nService();
 
     await TestBed.configureTestingModule({
       imports: [LoginComponent, MaterialModule, NoopAnimationsModule, TranslatePipe],
       providers: [
         { provide: Router, useValue: routerSpyObj },
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        { provide: LoggerService, useValue: mockLoggerService },
         { provide: I18nService, useValue: mockI18nService }
       ]
     }).compileComponents();
@@ -177,7 +192,9 @@ describe('LoginComponent', () => {
 
   it('should navigate to register when goToRegister is called', () => {
     component.goToRegister();
-    expect(routerSpy.navigate).toHaveBeenCalledWith(['auth/register']);
+    expect(routerSpy.navigate).toHaveBeenCalledWith(['auth/register'], {
+      queryParams: { userType: null }
+    });
   });
 
   describe('Internationalization', () => {
@@ -202,13 +219,6 @@ describe('LoginComponent', () => {
     it('should translate "O" separator correctly', () => {
       const separatorElement = debugElement.query(By.css('.mx-4'));
       expect(separatorElement.nativeElement.textContent.trim()).toBe('O');
-    });
-
-    it('should call translation service for welcome message', () => {
-      const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
-      component.showWelcome();
-      expect(alertSpy).toHaveBeenCalledWith('¡Bienvenido a Almuerzos Peru!');
-      alertSpy.mockRestore();
     });
   });
 });

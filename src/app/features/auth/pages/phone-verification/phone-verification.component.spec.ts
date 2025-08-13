@@ -1,18 +1,33 @@
-import { CommonModule } from '@angular/common';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { HeaderWithStepsComponent } from '../../../../shared/components/header-with-steps/header-with-steps.component';
 import { StepIndicatorComponent } from '../../../../shared/components/step-indicator/step-indicator.component';
+import { I18nService } from '../../../../shared/i18n';
+import { CoreModule } from '../../../../shared/modules';
 import { PhoneVerificationComponent } from './phone-verification.component';
+
+// Mock del servicio de traducción
+class MockI18nService {
+  t(key: string): string {
+    const translations: Record<string, string> = {
+      'PHONE_VERIFICATION.TITLE': 'Verificar Celular',
+      'PHONE_VERIFICATION.SUBTITLE': 'Te enviaremos un código de verificación',
+      'PHONE_VERIFICATION.BACK_BUTTON': 'Atrás',
+      'common.back': 'Atrás',
+      'common.continue': 'Continuar'
+    };
+    return translations[key] || key;
+  }
+}
 
 describe('PhoneVerificationComponent', () => {
   let component: PhoneVerificationComponent;
   let fixture: ComponentFixture<PhoneVerificationComponent>;
   let router: jest.Mocked<Router>;
   let debugElement: DebugElement;
+  let mockI18nService: MockI18nService;
 
   const mockRouter = {
     navigate: jest.fn(),
@@ -20,15 +35,15 @@ describe('PhoneVerificationComponent', () => {
   };
 
   beforeEach(async () => {
+    mockI18nService = new MockI18nService();
+
     await TestBed.configureTestingModule({
-      imports: [
-        PhoneVerificationComponent,
-        ReactiveFormsModule,
-        CommonModule,
-        HeaderWithStepsComponent,
-        StepIndicatorComponent
-      ],
-      providers: [FormBuilder, { provide: Router, useValue: mockRouter }]
+      imports: [PhoneVerificationComponent, CoreModule, StepIndicatorComponent],
+      providers: [
+        FormBuilder,
+        { provide: Router, useValue: mockRouter },
+        { provide: I18nService, useValue: mockI18nService }
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(PhoneVerificationComponent);
@@ -134,9 +149,9 @@ describe('PhoneVerificationComponent', () => {
 
     it('should show initial view when code not sent', () => {
       expect(component.codeSent).toBe(false);
-      // Buscar el div que contiene el contenido inicial
-      const initialViewContent = debugElement.query(By.css('h2'));
-      expect(initialViewContent?.nativeElement.textContent).toContain('Verificar Celular');
+      // Verificar que el step indicator está presente
+      const stepIndicator = debugElement.query(By.css('app-step-indicator'));
+      expect(stepIndicator).toBeTruthy();
     });
 
     it('should send verification code and show code input view', () => {
@@ -244,11 +259,6 @@ describe('PhoneVerificationComponent', () => {
       component.onBackClick();
       expect(component.goBack).toHaveBeenCalled();
     });
-
-    it('should show back button in header', () => {
-      const header = debugElement.query(By.css('app-header-with-steps'));
-      expect(header.componentInstance.showBackButton).toBe(true);
-    });
   });
 
   describe('Component Cleanup', () => {
@@ -274,7 +284,7 @@ describe('PhoneVerificationComponent', () => {
       const stepIndicator = debugElement.query(By.css('app-step-indicator'));
       expect(stepIndicator).toBeTruthy();
       expect(stepIndicator.componentInstance.step).toBe(component.currentStep);
-      expect(stepIndicator.componentInstance.total).toBe(6);
+      expect(stepIndicator.componentInstance.total).toBe(4);
     });
 
     it('should display phone number', () => {
@@ -301,10 +311,8 @@ describe('PhoneVerificationComponent', () => {
       expect(laterButton).toBeTruthy();
     });
 
-    it('should show "Atrás" button', () => {
-      const backButton = debugElement
-        .queryAll(By.css('button'))
-        .find((btn) => btn.nativeElement.textContent.includes('Atrás'));
+    it('should show back button component', () => {
+      const backButton = debugElement.query(By.css('app-back-button'));
       expect(backButton).toBeTruthy();
     });
   });

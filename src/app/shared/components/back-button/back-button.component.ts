@@ -2,7 +2,7 @@ import { Location } from '@angular/common';
 import { Component, Input, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { BaseTranslatableComponent } from '../../i18n';
-import { MaterialModule } from '../../material.module';
+import { MaterialModule } from '../../modules';
 
 @Component({
   selector: 'app-back-button',

@@ -1,6 +1,6 @@
-import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { CoreModule } from '../../modules';
 
 export interface SelectOption {
   value: string;
@@ -11,7 +11,7 @@ export interface SelectOption {
 @Component({
   selector: 'app-select-field',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CoreModule],
   templateUrl: './select-field.component.html',
   styleUrls: ['./select-field.component.scss'],
   providers: [
