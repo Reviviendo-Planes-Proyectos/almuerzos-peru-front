@@ -40,9 +40,11 @@ export class SelectFieldComponent implements ControlValueAccessor {
 
   private onChange = (_value: string) => {};
   private onTouched = () => {};
+  private static instanceCounter = 0;
 
   constructor() {
-    this.fieldId = `select-field-${Math.random().toString(36).substr(2, 9)}`;
+    SelectFieldComponent.instanceCounter++;
+    this.fieldId = `select-field-${SelectFieldComponent.instanceCounter}-${Date.now()}`;
   }
 
   get hasValue(): boolean {
@@ -73,7 +75,6 @@ export class SelectFieldComponent implements ControlValueAccessor {
     this.isOpen = false;
   }
 
-  // ControlValueAccessor implementation
   writeValue(value: string): void {
     this.value = value || '';
   }
