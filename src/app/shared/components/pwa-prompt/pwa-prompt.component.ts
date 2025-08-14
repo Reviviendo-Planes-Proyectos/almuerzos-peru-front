@@ -1,8 +1,9 @@
 import { isPlatformBrowser } from '@angular/common';
-import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { I18nService } from '../../i18n/services/translation.service';
 import { SharedModule } from '../../modules';
+import { LoggerService } from '../../services/logger/logger.service';
 import { PwaService } from '../../services/pwa/pwa.service';
 
 @Component({
@@ -12,18 +13,20 @@ import { PwaService } from '../../services/pwa/pwa.service';
   templateUrl: './pwa-prompt.component.html',
   styleUrl: './pwa-prompt.component.scss'
 })
-export class PwaPromptComponent implements OnInit {
+export class PwaPromptComponent implements OnInit, OnDestroy {
   showInstallPrompt = false;
   canInstall = false;
   updateAvailable = false;
   isMobile = false;
   showFabAfter30Seconds = false;
   public isBrowser: boolean;
+  private canInstallInterval?: ReturnType<typeof setInterval>;
 
   constructor(
     private readonly pwaService: PwaService,
     private readonly snackBar: MatSnackBar,
     private readonly i18n: I18nService,
+    private readonly logger: LoggerService,
     @Inject(PLATFORM_ID) private readonly platformId: object
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
@@ -42,12 +45,29 @@ export class PwaPromptComponent implements OnInit {
     // Detectar si es dispositivo móvil
     this.detectMobileDevice();
 
+    // Verificar si puede instalar la app
+    this.checkCanInstall();
+
     this.pwaService.updateAvailable$.subscribe((available) => {
       this.updateAvailable = available;
     });
 
     this.scheduleInstallPrompt();
     this.scheduleFabDisplay();
+  }
+
+  private checkCanInstall(): void {
+    this.canInstall = this.pwaService.canInstallApp();
+    this.pwaService.checkInstallability();
+
+    // Solo verificar instalabilidad inicial, no hacer polling
+    // El evento beforeinstallprompt se captura automáticamente en el servicio
+  }
+
+  ngOnDestroy(): void {
+    if (this.canInstallInterval) {
+      clearInterval(this.canInstallInterval);
+    }
   }
 
   private detectMobileDevice(): void {
@@ -68,7 +88,7 @@ export class PwaPromptComponent implements OnInit {
 
     setTimeout(() => {
       this.showFabAfter30Seconds = true;
-    }, 25000); // 30 segundos
+    }, 30000); // 30 segundos
   }
 
   private scheduleInstallPrompt(): void {
@@ -81,12 +101,12 @@ export class PwaPromptComponent implements OnInit {
       return;
     }
 
-    // Mostrar el modal después de 30 segundos de navegación
+    // Mostrar el modal después de 45 segundos de navegación
     setTimeout(() => {
-      if (!this.wasPromptRecentlyDismissed()) {
+      if (!this.wasPromptRecentlyDismissed() && this.pwaService.canInstallApp()) {
         this.showInstallPrompt = true;
       }
-    }, 25000);
+    }, 45000);
   }
 
   private wasPromptRecentlyDismissed(): boolean {
@@ -108,7 +128,9 @@ export class PwaPromptComponent implements OnInit {
   }
 
   showPrompt(): void {
-    this.showInstallPrompt = true;
+    if (this.pwaService.canInstallApp()) {
+      this.showInstallPrompt = true;
+    }
   }
 
   dismissPrompt(): void {
@@ -126,13 +148,21 @@ export class PwaPromptComponent implements OnInit {
 
   async installApp(): Promise<void> {
     try {
+      if (!this.pwaService.canInstallApp()) {
+        this.snackBar.open('La aplicación no se puede instalar en este momento', 'Cerrar', { duration: 3000 });
+        return;
+      }
+
       const installed = await this.pwaService.installApp();
       if (installed) {
         this.showInstallPrompt = false;
         this.canInstall = false;
         this.snackBar.open('¡App instalada exitosamente!', 'Cerrar', { duration: 3000 });
+      } else {
+        this.snackBar.open('Instalación cancelada por el usuario', 'Cerrar', { duration: 3000 });
       }
-    } catch {
+    } catch (error) {
+      this.logger.error('Error al instalar la aplicación', error);
       this.snackBar.open('Error al instalar la aplicación', 'Cerrar', { duration: 3000 });
     }
   }

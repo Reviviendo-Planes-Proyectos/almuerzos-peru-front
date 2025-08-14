@@ -1,5 +1,5 @@
 import { PLATFORM_ID } from '@angular/core';
-import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, discardPeriodicTasks, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { BehaviorSubject, of } from 'rxjs';
@@ -16,12 +16,40 @@ describe('PwaPromptComponent', () => {
   let updateAvailableSubject: BehaviorSubject<boolean>;
 
   beforeEach(async () => {
+    Object.defineProperty(window, 'matchMedia', {
+      writable: true,
+      value: jest.fn().mockImplementation((query) => ({
+        matches: false,
+        media: query,
+        onchange: null,
+        addListener: jest.fn(),
+        removeListener: jest.fn(),
+        addEventListener: jest.fn(),
+        removeEventListener: jest.fn(),
+        dispatchEvent: jest.fn()
+      }))
+    });
+
+    const localStorageMock = {
+      getItem: jest.fn(),
+      setItem: jest.fn(),
+      removeItem: jest.fn(),
+      clear: jest.fn()
+    };
+    Object.defineProperty(window, 'localStorage', {
+      value: localStorageMock,
+      writable: true
+    });
+
     updateAvailableSubject = new BehaviorSubject<boolean>(false);
 
     mockPwaService = {
       installApp: jest.fn().mockResolvedValue(true),
       updateApp: jest.fn().mockResolvedValue(undefined),
-      updateAvailable$: updateAvailableSubject.asObservable()
+      updateAvailable$: updateAvailableSubject.asObservable(),
+      canInstallApp: jest.fn().mockReturnValue(false),
+      hasInstallPrompt: jest.fn().mockReturnValue(false),
+      checkInstallability: jest.fn()
     } as unknown as jest.Mocked<PwaService>;
 
     mockI18nService = {
@@ -60,6 +88,10 @@ describe('PwaPromptComponent', () => {
 
     fixture = TestBed.createComponent(PwaPromptComponent);
     component = fixture.componentInstance;
+
+    // Set default mock return values
+    mockPwaService.canInstallApp.mockReturnValue(false);
+    mockPwaService.hasInstallPrompt.mockReturnValue(false);
   });
 
   afterEach(() => {
@@ -84,6 +116,7 @@ describe('PwaPromptComponent', () => {
   });
 
   it('should handle installation successfully', async () => {
+    mockPwaService.canInstallApp.mockReturnValue(true);
     mockPwaService.installApp.mockResolvedValue(true);
     component.showInstallPrompt = true;
 
@@ -102,6 +135,8 @@ describe('PwaPromptComponent', () => {
       writable: true,
       value: 375
     });
+    mockPwaService.canInstallApp.mockReturnValue(false);
+    mockPwaService.checkInstallability.mockImplementation(() => {});
 
     component.ngOnInit();
 
@@ -133,6 +168,7 @@ describe('PwaPromptComponent', () => {
   });
 
   it('should show prompt manually', () => {
+    mockPwaService.canInstallApp.mockReturnValue(true);
     component.showInstallPrompt = false;
     component.showPrompt();
     expect(component.showInstallPrompt).toBe(true);
@@ -155,10 +191,16 @@ describe('PwaPromptComponent', () => {
       writable: true
     });
 
+    mockPwaService.canInstallApp.mockReturnValue(false);
+    mockPwaService.checkInstallability.mockImplementation(() => {});
+
     component.ngOnInit();
     tick(30000);
 
     expect(component.showInstallPrompt).toBe(false);
+
+    component.ngOnDestroy();
+    discardPeriodicTasks();
   }));
 
   it('should handle server-side rendering', () => {
@@ -193,6 +235,7 @@ describe('PwaPromptComponent', () => {
   });
 
   it('should handle installation error', async () => {
+    mockPwaService.canInstallApp.mockReturnValue(true);
     mockPwaService.installApp.mockRejectedValue(new Error('Installation failed'));
 
     await component.installApp();
@@ -219,6 +262,9 @@ describe('PwaPromptComponent', () => {
       writable: true,
       value: 500
     });
+
+    mockPwaService.canInstallApp.mockReturnValue(false);
+    mockPwaService.checkInstallability.mockImplementation(() => {});
 
     component.ngOnInit();
 
@@ -248,11 +294,17 @@ describe('PwaPromptComponent', () => {
     component.isMobile = false;
     component.showFabAfter30Seconds = false;
 
+    mockPwaService.canInstallApp.mockReturnValue(false);
+    mockPwaService.checkInstallability.mockImplementation(() => {});
+
     component.ngOnInit();
 
     tick(30000);
 
     expect(component.showFabAfter30Seconds).toBe(false);
+
+    component.ngOnDestroy();
+    discardPeriodicTasks();
   }));
 
   it('should show prompt if no dismissed time in localStorage', fakeAsync(() => {
@@ -275,10 +327,16 @@ describe('PwaPromptComponent', () => {
       value: 375
     });
 
+    mockPwaService.canInstallApp.mockReturnValue(true);
+    mockPwaService.checkInstallability.mockImplementation(() => {});
+
     component.ngOnInit();
-    tick(30000);
+    tick(45000);
 
     expect(component.showInstallPrompt).toBe(true);
+
+    component.ngOnDestroy();
+    discardPeriodicTasks();
   }));
 
   it('should handle undefined window in detectMobileDevice', () => {
@@ -289,7 +347,19 @@ describe('PwaPromptComponent', () => {
       writable: true
     });
 
-    const mockComponent = new PwaPromptComponent(mockPwaService, mockSnackBar, { toString: () => 'browser' });
+    const mockLoggerService = {
+      error: jest.fn(),
+      warn: jest.fn(),
+      log: jest.fn()
+    };
+
+    const mockComponent = new PwaPromptComponent(
+      mockPwaService,
+      mockSnackBar,
+      mockI18nService,
+      mockLoggerService as any,
+      { toString: () => 'browser' }
+    );
 
     expect(() => {
       (mockComponent as unknown as { detectMobileDevice: () => void }).detectMobileDevice();
@@ -335,7 +405,7 @@ describe('PwaPromptComponent', () => {
 
     (component as unknown as { scheduleFabDisplay: () => void }).scheduleFabDisplay();
 
-    expect(setTimeoutSpy).toHaveBeenCalledWith(expect.any(Function), 25000);
+    expect(setTimeoutSpy).toHaveBeenCalledWith(expect.any(Function), 30000);
 
     setTimeoutSpy.mockRestore();
   });

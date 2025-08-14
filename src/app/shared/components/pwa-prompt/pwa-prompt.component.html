@@ -83,7 +83,7 @@
 <!-- Install FAB -->
 <button
   mat-fab
-  *ngIf="!showInstallPrompt && isMobile && showFabAfter30Seconds"
+  *ngIf="!showInstallPrompt && isMobile && showFabAfter30Seconds && canInstall"
   (click)="showPrompt()"
   [matTooltip]="t('pwa.install.tooltip')"
   matTooltipPosition="left"
