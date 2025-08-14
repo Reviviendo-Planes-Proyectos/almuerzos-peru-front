@@ -1,8 +1,6 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
-import { ButtonComponent } from '../../../../../shared/components/button/button.component';
-import { BaseTranslatableComponent } from '../../../../../shared/i18n';
-import { MaterialModule } from '../../../../../shared/modules';
+import { BaseTranslatableComponent, MaterialModule, SharedComponentsModule } from '../../../../../shared/modules';
 import { LoggerService } from '../../../../../shared/services/logger/logger.service';
 
 @Component({
@@ -10,7 +8,7 @@ import { LoggerService } from '../../../../../shared/services/logger/logger.serv
   templateUrl: './hero-section.component.html',
   styleUrls: ['./hero-section.component.scss'],
   standalone: true,
-  imports: [MaterialModule, ButtonComponent],
+  imports: [MaterialModule, SharedComponentsModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class HeroSectionComponent extends BaseTranslatableComponent {

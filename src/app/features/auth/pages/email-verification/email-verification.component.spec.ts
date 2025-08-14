@@ -1,12 +1,9 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
-import { BackButtonComponent } from '../../../../shared/components/back-button/back-button.component';
-import { InputFieldComponent } from '../../../../shared/components/input-field/input-field.component';
-import { StepIndicatorComponent } from '../../../../shared/components/step-indicator/step-indicator.component';
+import { CoreModule, SharedComponentsModule } from '../../../../shared/modules';
 import { EmailVerificationComponent } from './email-verification.component';
 
 describe('EmailVerificationComponent', () => {
@@ -29,13 +26,7 @@ describe('EmailVerificationComponent', () => {
     } as any;
 
     await TestBed.configureTestingModule({
-      imports: [
-        EmailVerificationComponent,
-        ReactiveFormsModule,
-        BackButtonComponent,
-        StepIndicatorComponent,
-        InputFieldComponent
-      ],
+      imports: [EmailVerificationComponent, CoreModule, SharedComponentsModule],
       providers: [
         { provide: Router, useValue: mockRouter },
         { provide: ActivatedRoute, useValue: mockActivatedRoute }
@@ -46,7 +37,6 @@ describe('EmailVerificationComponent', () => {
     component = fixture.componentInstance;
     debugElement = fixture.debugElement;
 
-    // Set default values
     component.userEmail = 'test@example.com';
     component.currentStep = 2;
   });

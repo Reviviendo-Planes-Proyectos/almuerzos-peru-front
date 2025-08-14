@@ -2,14 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SelectOption } from '../../../../shared/components/select-field/select-field.component';
-import { BaseTranslatableComponent } from '../../../../shared/i18n';
-import { SharedModule } from '../../../../shared/modules';
+import { BaseTranslatableComponent, CoreModule, SharedComponentsModule } from '../../../../shared/modules';
 import { LoggerService } from '../../../../shared/services/logger/logger.service';
 
 @Component({
   selector: 'app-customer-basic-info',
   standalone: true,
-  imports: [SharedModule],
+  imports: [CoreModule, SharedComponentsModule],
   templateUrl: './customer-basic-info.component.html',
   styleUrls: ['./customer-basic-info.component.scss']
 })

@@ -1,7 +1,7 @@
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CoreModule, MaterialModule, SharedComponentsModule } from '../../../../shared/modules';
 import { LoggerService } from '../../../../shared/services/logger/logger.service';
 import { CustomerBasicInfoComponent } from './customer-basic-info.component';
 
@@ -25,19 +25,18 @@ describe('CustomerBasicInfoComponent', () => {
     } as any;
 
     await TestBed.configureTestingModule({
-      imports: [CustomerBasicInfoComponent, ReactiveFormsModule],
+      imports: [CustomerBasicInfoComponent, CoreModule, MaterialModule, SharedComponentsModule],
       providers: [
-        FormBuilder,
+        CoreModule,
         { provide: Router, useValue: mockRouter },
         { provide: LoggerService, useValue: mockLoggerService }
       ],
-      schemas: [NO_ERRORS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
 
     fixture = TestBed.createComponent(CustomerBasicInfoComponent);
     component = fixture.componentInstance;
 
-    // Inicializar el componente manualmente sin detectChanges
     component.ngOnInit();
   });
 

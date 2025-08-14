@@ -1,9 +1,10 @@
 import { PLATFORM_ID } from '@angular/core';
 import { ComponentFixture, discardPeriodicTasks, fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { BehaviorSubject, of } from 'rxjs';
 import { I18nService } from '../../i18n/services/translation.service';
+import { MaterialModule } from '../../modules';
 import { PwaService } from '../../services/pwa/pwa.service';
 import { PwaPromptComponent } from './pwa-prompt.component';
 
@@ -77,7 +78,7 @@ describe('PwaPromptComponent', () => {
     } as unknown as jest.Mocked<MatSnackBar>;
 
     await TestBed.configureTestingModule({
-      imports: [PwaPromptComponent, NoopAnimationsModule, MatSnackBarModule],
+      imports: [PwaPromptComponent, NoopAnimationsModule, MaterialModule],
       providers: [
         { provide: PwaService, useValue: mockPwaService },
         { provide: MatSnackBar, useValue: mockSnackBar },
@@ -89,7 +90,6 @@ describe('PwaPromptComponent', () => {
     fixture = TestBed.createComponent(PwaPromptComponent);
     component = fixture.componentInstance;
 
-    // Set default mock return values
     mockPwaService.canInstallApp.mockReturnValue(false);
     mockPwaService.hasInstallPrompt.mockReturnValue(false);
   });
@@ -274,7 +274,7 @@ describe('PwaPromptComponent', () => {
   it('should handle non-browser environment in detectMobileDevice', () => {
     TestBed.resetTestingModule();
     TestBed.configureTestingModule({
-      imports: [PwaPromptComponent, NoopAnimationsModule, MatSnackBarModule],
+      imports: [PwaPromptComponent, NoopAnimationsModule, MaterialModule],
       providers: [
         { provide: PwaService, useValue: mockPwaService },
         { provide: MatSnackBar, useValue: mockSnackBar },
@@ -317,7 +317,6 @@ describe('PwaPromptComponent', () => {
       writable: true
     });
 
-    // Simular dispositivo móvil
     Object.defineProperty(window.navigator, 'userAgent', {
       writable: true,
       value: 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/605.1.15'

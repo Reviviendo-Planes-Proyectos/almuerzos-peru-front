@@ -1,8 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { of } from 'rxjs';
 import { I18nService } from '../../../../shared/i18n';
+import { CoreModule, MaterialModule, SharedComponentsModule } from '../../../../shared/modules';
 import { EmailSentConfirmationComponent } from './email-sent-confirmation.component';
 
 class MockI18nService {
@@ -32,12 +34,25 @@ describe('EmailSentConfirmationComponent', () => {
       navigate: jest.fn()
     };
 
+    const mockActivatedRoute = {
+      params: of({}),
+      queryParams: of({}),
+      snapshot: { params: {}, queryParams: {} }
+    };
+
     mockI18nService = new MockI18nService();
 
     await TestBed.configureTestingModule({
-      imports: [EmailSentConfirmationComponent, NoopAnimationsModule],
+      imports: [
+        EmailSentConfirmationComponent,
+        CoreModule,
+        MaterialModule,
+        SharedComponentsModule,
+        NoopAnimationsModule
+      ],
       providers: [
         { provide: Router, useValue: mockRouter },
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: I18nService, useValue: mockI18nService }
       ]
     }).compileComponents();

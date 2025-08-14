@@ -9,8 +9,6 @@ section {
   background-clip: text;
 }
 
-// Se añadio para limitar la altura de los cards y evitar que el texto se desborde
-// Se usa -webkit-line-clamp para limitar el número de líneas visibles
 mat-card {
   display: flex;
   align-items: flex-start; // Cambio de center a flex-start
@@ -88,7 +86,6 @@ mat-card {
   }
 }
 
-// Asegurar que todas las tarjetas tengan la misma altura en desktop
 @media (min-width: 768px) {
   .space-y-8 {
     display: flex;

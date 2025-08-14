@@ -1,7 +1,7 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CoreModule } from '../../../../shared/modules';
 import { LoggerService } from '../../../../shared/services/logger/logger.service';
 import { RestaurantBasicInfoComponent } from './restaurant-basic-info.component';
 
@@ -12,7 +12,6 @@ describe('RestaurantBasicInfoComponent', () => {
   let mockLoggerService: LoggerService;
 
   beforeEach(async () => {
-    // Create mocks
     mockRouter = {
       navigate: jest.fn().mockResolvedValue(true)
     } as any;
@@ -25,13 +24,13 @@ describe('RestaurantBasicInfoComponent', () => {
     } as any;
 
     await TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, RestaurantBasicInfoComponent],
+      imports: [CoreModule, RestaurantBasicInfoComponent],
       providers: [
-        FormBuilder,
+        CoreModule,
         { provide: Router, useValue: mockRouter },
         { provide: LoggerService, useValue: mockLoggerService }
       ],
-      schemas: [NO_ERRORS_SCHEMA] // This allows unknown elements (child components)
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 
     fixture = TestBed.createComponent(RestaurantBasicInfoComponent);
@@ -99,11 +98,9 @@ describe('RestaurantBasicInfoComponent', () => {
     it('should validate email format', () => {
       const emailControl = component.restaurantForm.get('email');
 
-      // Invalid email
       emailControl?.setValue('invalid-email');
       expect(emailControl?.hasError('email')).toBeTruthy();
 
-      // Valid email
       emailControl?.setValue('test@example.com');
       expect(emailControl?.hasError('email')).toBeFalsy();
     });
@@ -111,20 +108,14 @@ describe('RestaurantBasicInfoComponent', () => {
     it('should validate DNI pattern (8 digits)', () => {
       const dniControl = component.restaurantForm.get('ownerDni');
 
-      // Invalid DNI (less than 8 digits)
       dniControl?.setValue('1234567');
       expect(dniControl?.hasError('minlength')).toBeTruthy();
 
-      // Invalid DNI (more than 8 digits) - This doesn't violate current validators but should be valid with current setup
       dniControl?.setValue('123456789');
-      // Note: With current validators (minLength(8) + pattern for numbers), this would be considered valid
-      // If exact length validation is needed, maxLength validator should be added to the component
 
-      // Invalid DNI (contains letters)
       dniControl?.setValue('1234567a');
       expect(dniControl?.hasError('pattern')).toBeTruthy();
 
-      // Valid DNI
       dniControl?.setValue('12345678');
       expect(dniControl?.hasError('pattern')).toBeFalsy();
     });
@@ -132,15 +123,11 @@ describe('RestaurantBasicInfoComponent', () => {
     it('should validate phone number pattern (9 digits)', () => {
       const phoneControl = component.restaurantForm.get('phoneNumber');
 
-      // Invalid phone (less than 9 digits)
       phoneControl?.setValue('12345678');
       expect(phoneControl?.hasError('minlength')).toBeTruthy();
 
-      // Invalid phone (more than 9 digits) - Similar issue as DNI
       phoneControl?.setValue('1234567890');
-      // Note: With current validators (minLength(9) + pattern for numbers), this would be considered valid
 
-      // Valid phone
       phoneControl?.setValue('987654321');
       expect(phoneControl?.hasError('pattern')).toBeFalsy();
     });
@@ -148,19 +135,15 @@ describe('RestaurantBasicInfoComponent', () => {
     it('should validate RUC pattern when provided (11 digits)', () => {
       const rucControl = component.restaurantForm.get('ruc');
 
-      // RUC is optional, so empty should be valid
       rucControl?.setValue('');
       expect(rucControl?.valid).toBeTruthy();
 
-      // Invalid RUC (less than 11 digits)
       rucControl?.setValue('2012345678');
       expect(rucControl?.hasError('pattern')).toBeTruthy();
 
-      // Invalid RUC (more than 11 digits)
       rucControl?.setValue('201234567890');
       expect(rucControl?.hasError('pattern')).toBeTruthy();
 
-      // Valid RUC
       rucControl?.setValue('20123456789');
       expect(rucControl?.hasError('pattern')).toBeFalsy();
     });
@@ -192,14 +175,12 @@ describe('RestaurantBasicInfoComponent', () => {
     });
 
     it('should disable and clear razonSocial when invalid RUC is entered', () => {
-      // First enable with valid RUC
       const rucControl = component.restaurantForm.get('ruc');
       const razonSocialControl = component.restaurantForm.get('razonSocial');
 
       rucControl?.setValue('20123456789');
       razonSocialControl?.setValue('Test Company');
 
-      // Then disable with invalid RUC
       rucControl?.setValue('123');
 
       expect(component.isRazonSocialEnabled).toBe(false);
@@ -211,11 +192,9 @@ describe('RestaurantBasicInfoComponent', () => {
       const rucControl = component.restaurantForm.get('ruc');
       const razonSocialControl = component.restaurantForm.get('razonSocial');
 
-      // Enable first
       rucControl?.setValue('20123456789');
       razonSocialControl?.setValue('Test Company');
 
-      // Clear RUC
       rucControl?.setValue('');
 
       expect(component.isRazonSocialEnabled).toBe(false);
@@ -226,7 +205,6 @@ describe('RestaurantBasicInfoComponent', () => {
 
   describe('Form Submission', () => {
     it('should navigate to phone verification when form is valid', () => {
-      // Fill form with valid data
       component.restaurantForm.patchValue({
         restaurantName: 'Test Restaurant',
         email: 'test@example.com',

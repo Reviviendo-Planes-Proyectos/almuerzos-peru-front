@@ -80,7 +80,7 @@ describe('PricingSectionComponent', () => {
     expect(plans.length).toBe(3);
 
     const featureLists = compiled.querySelectorAll('div[data-plan] ul');
-    expect(featureLists.length).toBe(3); // 3 listas de características
+    expect(featureLists.length).toBe(3);
 
     const freePlanFeatures = featureLists[0]?.querySelectorAll('li');
     const premiumPlanFeatures = featureLists[1]?.querySelectorAll('li');

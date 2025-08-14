@@ -2,14 +2,14 @@ import { isPlatformBrowser } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { I18nService } from '../../i18n/services/translation.service';
-import { SharedModule } from '../../modules';
+import { CoreModule, MaterialModule } from '../../modules';
 import { LoggerService } from '../../services/logger/logger.service';
 import { PwaService } from '../../services/pwa/pwa.service';
 
 @Component({
   selector: 'app-pwa-prompt',
   standalone: true,
-  imports: [SharedModule],
+  imports: [MaterialModule, CoreModule],
   templateUrl: './pwa-prompt.component.html',
   styleUrl: './pwa-prompt.component.scss'
 })
@@ -37,15 +37,12 @@ export class PwaPromptComponent implements OnInit, OnDestroy {
   };
 
   ngOnInit(): void {
-    // Solo ejecutar lógica PWA en el navegador
     if (!this.isBrowser) {
       return;
     }
 
-    // Detectar si es dispositivo móvil
     this.detectMobileDevice();
 
-    // Verificar si puede instalar la app
     this.checkCanInstall();
 
     this.pwaService.updateAvailable$.subscribe((available) => {
@@ -59,9 +56,6 @@ export class PwaPromptComponent implements OnInit, OnDestroy {
   private checkCanInstall(): void {
     this.canInstall = this.pwaService.canInstallApp();
     this.pwaService.checkInstallability();
-
-    // Solo verificar instalabilidad inicial, no hacer polling
-    // El evento beforeinstallprompt se captura automáticamente en el servicio
   }
 
   ngOnDestroy(): void {
@@ -88,11 +82,10 @@ export class PwaPromptComponent implements OnInit, OnDestroy {
 
     setTimeout(() => {
       this.showFabAfter30Seconds = true;
-    }, 30000); // 30 segundos
+    }, 30000);
   }
 
   private scheduleInstallPrompt(): void {
-    // Verificar si el usuario ya rechazó el prompt recientemente
     if (this.wasPromptRecentlyDismissed()) {
       return;
     }
@@ -101,7 +94,6 @@ export class PwaPromptComponent implements OnInit, OnDestroy {
       return;
     }
 
-    // Mostrar el modal después de 45 segundos de navegación
     setTimeout(() => {
       if (!this.wasPromptRecentlyDismissed() && this.pwaService.canInstallApp()) {
         this.showInstallPrompt = true;

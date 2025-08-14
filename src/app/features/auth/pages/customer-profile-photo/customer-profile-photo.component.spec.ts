@@ -2,7 +2,23 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
+import { I18nService } from '../../../../shared/i18n';
+import { CoreModule, SharedComponentsModule } from '../../../../shared/modules';
 import { CustomerProfilePhotoComponent } from './customer-profile-photo.component';
+
+class MockI18nService {
+  t(key: string): string {
+    const translations: Record<string, string> = {
+      'auth.customer.profilePhoto.title': 'Foto de Perfil',
+      'auth.customer.profilePhoto.subtitle': 'Elige una foto que te represente',
+      'auth.customer.profilePhoto.selectFileButton': 'Seleccionar archivo',
+      'auth.customer.profilePhoto.removeImageButton': 'Quitar imagen',
+      'auth.customer.profilePhoto.verifyEmailButton': 'Verificar email',
+      'common.back': 'Volver'
+    };
+    return translations[key] || key;
+  }
+}
 
 describe('CustomerProfilePhotoComponent', () => {
   let component: CustomerProfilePhotoComponent;
@@ -20,10 +36,11 @@ describe('CustomerProfilePhotoComponent', () => {
     };
 
     await TestBed.configureTestingModule({
-      imports: [CustomerProfilePhotoComponent],
+      imports: [CustomerProfilePhotoComponent, CoreModule, SharedComponentsModule],
       providers: [
         { provide: Router, useValue: mockRouter },
-        { provide: ActivatedRoute, useValue: mockActivatedRoute }
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        { provide: I18nService, useClass: MockI18nService }
       ]
     }).compileComponents();
 
@@ -86,7 +103,6 @@ describe('CustomerProfilePhotoComponent', () => {
       expect(component.selectedFile).toBe(mockFile);
       expect(mockFileReader.readAsDataURL).toHaveBeenCalledWith(mockFile);
 
-      // Simulate FileReader onload
       mockFileReader.onload({ target: { result: 'data:image/jpeg;base64,mockdata' } } as any);
 
       setTimeout(() => {
@@ -121,7 +137,6 @@ describe('CustomerProfilePhotoComponent', () => {
       component.selectedImage = 'data:image/jpeg;base64,mockdata';
       component.selectedFile = new File(['test'], 'test.jpg', { type: 'image/jpeg' });
 
-      // Mock the file input clearing
       const mockFileInput = { nativeElement: { value: 'test.jpg' } };
       component.fileUploadComponent = { fileInput: mockFileInput } as any;
 

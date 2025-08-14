@@ -1,17 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { BackButtonComponent } from '../../../../shared/components/back-button/back-button.component';
-import { ButtonComponent } from '../../../../shared/components/button/button.component';
-import { InputFieldComponent } from '../../../../shared/components/input-field/input-field.component';
-import { StepIndicatorComponent } from '../../../../shared/components/step-indicator/step-indicator.component';
-import { BaseTranslatableComponent } from '../../../../shared/i18n';
-import { CoreModule } from '../../../../shared/modules';
+import { BaseTranslatableComponent, CoreModule, SharedComponentsModule } from '../../../../shared/modules';
 
 @Component({
   selector: 'app-phone-verification',
   standalone: true,
-  imports: [CoreModule, BackButtonComponent, StepIndicatorComponent, ButtonComponent, InputFieldComponent],
+  imports: [CoreModule, SharedComponentsModule],
   templateUrl: './phone-verification.component.html',
   styleUrl: './phone-verification.component.scss'
 })
@@ -36,14 +31,12 @@ export class PhoneVerificationComponent extends BaseTranslatableComponent implem
   ngOnInit(): void {
     this.initializeForm();
 
-    // Obtener el teléfono desde el state de la navegación
     const phone = history.state.phone;
 
     if (phone) {
       this.userPhone = this.maskPhone(phone);
       this.resetComponentState();
     } else {
-      // Fallback si no hay teléfono en el state
       this.userPhone = '+51 9***';
       this.startCountdown();
     }
@@ -106,12 +99,10 @@ export class PhoneVerificationComponent extends BaseTranslatableComponent implem
     if (this.verificationForm.valid && !this.isVerifying) {
       this.isVerifying = true;
 
-      // Simular proceso de verificación (reemplazar con llamada real al API)
       setTimeout(() => {
         this.isVerifying = false;
-        // Navegar al siguiente paso - restaurant-profile-photo
         this.router.navigate(['/auth/restaurant-profile-photo']);
-      }, 2000); // 2 segundos de simulación
+      }, 2000);
     } else {
       this.verificationForm.markAllAsTouched();
     }

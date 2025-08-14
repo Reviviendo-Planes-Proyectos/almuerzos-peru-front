@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { BaseTranslatableComponent } from '../../../../../shared/i18n';
-import { MaterialModule } from '../../../../../shared/modules';
+import { BaseTranslatableComponent, MaterialModule } from '../../../../../shared/modules';
 
 @Component({
   selector: 'app-footer',

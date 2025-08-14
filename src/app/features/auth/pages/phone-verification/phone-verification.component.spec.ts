@@ -3,9 +3,7 @@ import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core
 import { FormBuilder } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { StepIndicatorComponent } from '../../../../shared/components/step-indicator/step-indicator.component';
-import { I18nService } from '../../../../shared/i18n';
-import { CoreModule } from '../../../../shared/modules';
+import { CoreModule, I18nService, SharedComponentsModule } from '../../../../shared/modules';
 import { PhoneVerificationComponent } from './phone-verification.component';
 
 // Mock del servicio de traducción
@@ -38,7 +36,7 @@ describe('PhoneVerificationComponent', () => {
     mockI18nService = new MockI18nService();
 
     await TestBed.configureTestingModule({
-      imports: [PhoneVerificationComponent, CoreModule, StepIndicatorComponent],
+      imports: [PhoneVerificationComponent, CoreModule, SharedComponentsModule],
       providers: [
         FormBuilder,
         { provide: Router, useValue: mockRouter },
@@ -51,7 +49,6 @@ describe('PhoneVerificationComponent', () => {
     debugElement = fixture.debugElement;
     router = TestBed.inject(Router) as jest.Mocked<Router>;
 
-    // Mock history.state
     Object.defineProperty(window, 'history', {
       value: {
         state: { phone: '987654321' }
@@ -149,7 +146,6 @@ describe('PhoneVerificationComponent', () => {
 
     it('should show initial view when code not sent', () => {
       expect(component.codeSent).toBe(false);
-      // Verificar que el step indicator está presente
       const stepIndicator = debugElement.query(By.css('app-step-indicator'));
       expect(stepIndicator).toBeTruthy();
     });
@@ -161,7 +157,6 @@ describe('PhoneVerificationComponent', () => {
       expect(component.codeSent).toBe(true);
       expect(component.currentStep).toBe(3);
 
-      // Buscar el formulario que aparece cuando se envía el código
       const form = debugElement.query(By.css('form'));
       expect(form).toBeTruthy();
     });
@@ -196,11 +191,6 @@ describe('PhoneVerificationComponent', () => {
 
       expect(component.verificationForm.touched).toBe(true);
     });
-
-    /*   it('should show verification form when code is sent', () => {
-      const form = debugElement.query(By.css('form'));
-      expect(form).toBeTruthy();
-    }); */
   });
 
   describe('Countdown Timer', () => {

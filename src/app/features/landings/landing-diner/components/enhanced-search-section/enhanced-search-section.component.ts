@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { BaseTranslatableComponent } from '../../../../../shared/i18n';
 import { CoreModule, MaterialModule } from '../../../../../shared/modules';
 
 @Component({
   selector: 'app-enhanced-search-section',
   standalone: true,
-  imports: [CoreModule, MaterialModule, FormsModule],
+  imports: [CoreModule, MaterialModule, CoreModule],
   templateUrl: './enhanced-search-section.component.html',
   styleUrls: ['./enhanced-search-section.component.scss']
 })
@@ -34,7 +33,6 @@ export class EnhancedSearchSectionComponent extends BaseTranslatableComponent {
   onLocationSearch() {
     if (this.searchLocation.trim()) {
       // Aquí se implementaría la navegación o llamada a API
-      // Por ejemplo: this.router.navigate(['/restaurants'], { queryParams: { district: this.searchLocation } });
     }
   }
 
@@ -51,10 +49,7 @@ export class EnhancedSearchSectionComponent extends BaseTranslatableComponent {
 
   searchRestaurants() {
     if (this.searchLocation.trim()) {
-      // Implementar búsqueda general de restaurantes
-      // Por ejemplo: this.router.navigate(['/search'], { queryParams: { location: this.searchLocation } });
     } else {
-      // Mostrar sugerencias si no hay distrito seleccionado
       this.showSuggestions = true;
     }
   }

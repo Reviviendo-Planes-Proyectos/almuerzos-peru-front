@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { BaseTranslatableComponent } from '../../../../../shared/i18n';
-import { CoreModule, MaterialModule } from '../../../../../shared/modules';
+import { BaseTranslatableComponent, CoreModule, MaterialModule } from '../../../../../shared/modules';
 
 @Component({
   selector: 'app-features-section',

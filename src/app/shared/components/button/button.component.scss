@@ -6,7 +6,6 @@ button {
   position: relative;
   overflow: hidden;
 
-  // Efecto de ripple/ondas al hacer hover
   &::before {
     content: '';
     position: absolute;

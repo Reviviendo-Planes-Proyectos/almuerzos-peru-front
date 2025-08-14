@@ -1,14 +1,16 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { BackButtonComponent } from '../../../../shared/components/back-button/back-button.component';
-import { ButtonComponent } from '../../../../shared/components/button/button.component';
-import { BaseTranslatableComponent } from '../../../../shared/i18n';
-import { CoreModule, MaterialModule } from '../../../../shared/modules';
+import {
+  BaseTranslatableComponent,
+  CoreModule,
+  MaterialModule,
+  SharedComponentsModule
+} from '../../../../shared/modules';
 
 @Component({
   selector: 'app-email-sent-confirmation',
   standalone: true,
-  imports: [CoreModule, MaterialModule, ButtonComponent, BackButtonComponent],
+  imports: [CoreModule, MaterialModule, SharedComponentsModule],
   templateUrl: './email-sent-confirmation.component.html',
   styleUrls: ['./email-sent-confirmation.component.scss']
 })

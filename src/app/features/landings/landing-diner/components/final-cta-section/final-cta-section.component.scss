@@ -18,7 +18,6 @@
   }
 }
 
-// Textos con sombras específicas (Tailwind no soporta text-shadow directamente)
 .text-shadow {
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
@@ -27,7 +26,6 @@
   text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
-// Formulario con estilos específicos de Material
 .email-input {
   ::ng-deep .mat-mdc-text-field-wrapper {
     background: white;

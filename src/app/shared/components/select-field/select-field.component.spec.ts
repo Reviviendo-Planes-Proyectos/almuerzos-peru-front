@@ -1,8 +1,7 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-
+import { CoreModule } from '../../modules';
 import { SelectFieldComponent, SelectOption } from './select-field.component';
 
 describe('SelectFieldComponent', () => {
@@ -19,7 +18,7 @@ describe('SelectFieldComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SelectFieldComponent, FormsModule, ReactiveFormsModule]
+      imports: [SelectFieldComponent, CoreModule]
     }).compileComponents();
 
     fixture = TestBed.createComponent(SelectFieldComponent);

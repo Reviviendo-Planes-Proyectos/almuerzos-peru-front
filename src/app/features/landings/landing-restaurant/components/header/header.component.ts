@@ -1,13 +1,16 @@
 import { Component, HostListener } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { ButtonComponent } from '../../../../../shared/components/button/button.component';
-import { BaseTranslatableComponent } from '../../../../../shared/i18n';
-import { CoreModule, MaterialModule } from '../../../../../shared/modules';
+import {
+  BaseTranslatableComponent,
+  CoreModule,
+  MaterialModule,
+  SharedComponentsModule
+} from '../../../../../shared/modules';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CoreModule, MaterialModule, RouterModule, ButtonComponent],
+  imports: [CoreModule, MaterialModule, RouterModule, SharedComponentsModule],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })

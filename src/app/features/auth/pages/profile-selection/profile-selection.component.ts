@@ -1,13 +1,11 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BackButtonComponent } from '../../../../shared/components/back-button/back-button.component';
-import { BaseTranslatableComponent } from '../../../../shared/i18n';
-import { MaterialModule } from '../../../../shared/modules';
+import { BaseTranslatableComponent, MaterialModule, SharedComponentsModule } from '../../../../shared/modules';
 
 @Component({
   selector: 'app-profile-selection',
   standalone: true,
-  imports: [MaterialModule, BackButtonComponent],
+  imports: [MaterialModule, SharedComponentsModule],
   templateUrl: './profile-selection.component.html',
   styleUrl: './profile-selection.component.scss'
 })

@@ -122,7 +122,6 @@ describe('RegisterComponent', () => {
 
   it('should display three registration buttons', () => {
     const buttons = debugElement.queryAll(By.css('button'));
-    // Hay 5 botones en total: app-back-button (1) + Google (1) + Facebook (1) + Email (1) + "Registrarse después" (1)
     expect(buttons.length).toBe(5);
   });
 
@@ -295,7 +294,6 @@ describe('RegisterComponent', () => {
       const spinner = debugElement.query(By.css('.animate-spin'));
       expect(spinner).toBeTruthy();
 
-      //const loadingText = debugElement.query(By.css('span'));
       const connectingSpan = Array.from(debugElement.queryAll(By.css('span'))).find(
         (span) => span?.nativeElement?.textContent?.trim() === 'Conectando...'
       );
@@ -306,7 +304,6 @@ describe('RegisterComponent', () => {
       component.isGoogleLoading = true;
       fixture.detectChanges();
 
-      // Los botones que deben deshabilitarse son todos los botones de acción (no el de back)
       const googleButton = debugElement.queryAll(By.css('button')).find((btn) => {
         const img = btn.query(By.css('img[alt="Google"]'));
         return img !== null;

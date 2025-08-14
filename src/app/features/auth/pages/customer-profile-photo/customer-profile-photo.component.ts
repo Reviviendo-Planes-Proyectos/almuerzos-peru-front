@@ -1,16 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { BackButtonComponent } from '../../../../shared/components/back-button/back-button.component';
-import { ButtonComponent } from '../../../../shared/components/button/button.component';
-import { FileUploadComponent } from '../../../../shared/components/file-upload/file-upload.component';
-import { WarningModalComponent } from '../../../../shared/components/warning-modal/warning-modal.component';
-import { BaseTranslatableComponent } from '../../../../shared/i18n';
-import { CoreModule } from '../../../../shared/modules';
+import { FileUploadComponent } from '../../../../shared/components';
+import { BaseTranslatableComponent, CoreModule, SharedComponentsModule } from '../../../../shared/modules';
 
 @Component({
   selector: 'app-customer-profile-photo',
   standalone: true,
-  imports: [CoreModule, BackButtonComponent, ButtonComponent, FileUploadComponent, WarningModalComponent],
+  imports: [CoreModule, SharedComponentsModule],
   templateUrl: './customer-profile-photo.component.html',
   styleUrl: './customer-profile-photo.component.scss'
 })
@@ -60,7 +56,6 @@ export class CustomerProfilePhotoComponent extends BaseTranslatableComponent imp
     this.selectedImage = null;
     this.selectedFile = null;
 
-    // Limpiar el input file
     if (this.fileUploadComponent?.fileInput?.nativeElement) {
       this.fileUploadComponent.fileInput.nativeElement.value = '';
     }

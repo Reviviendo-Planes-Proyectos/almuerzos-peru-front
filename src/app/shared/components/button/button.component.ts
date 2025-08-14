@@ -1,11 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { BaseTranslatableComponent } from '../../i18n';
-import { CoreModule, MaterialModule } from '../../modules';
+import { BaseTranslatableComponent, CoreModule } from '../../modules';
 
 @Component({
   selector: 'app-button',
   standalone: true,
-  imports: [CoreModule, MaterialModule],
+  imports: [CoreModule],
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.scss']
 })

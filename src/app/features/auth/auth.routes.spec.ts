@@ -106,7 +106,6 @@ describe('AUTH_ROUTES', () => {
 
       expect(nonEmailPaths).toHaveLength(uniqueNonEmailPaths.length);
 
-      // Verificar que tenemos exactamente 2 rutas de email-verification
       const emailPaths = paths.filter((path) => path.startsWith('email-verification'));
       expect(emailPaths).toHaveLength(2);
     });
@@ -174,10 +173,8 @@ describe('AUTH_ROUTES', () => {
     it('should follow Angular route path conventions', () => {
       for (const route of AUTH_ROUTES) {
         if (route.path) {
-          // Paths should not start with '/'
           expect(route.path.startsWith('/')).toBe(false);
 
-          // Paths should be kebab-case or contain parameters
           const isValidPath = /^[a-z0-9\-/:]+$/.test(route.path);
           expect(isValidPath).toBe(true);
         }

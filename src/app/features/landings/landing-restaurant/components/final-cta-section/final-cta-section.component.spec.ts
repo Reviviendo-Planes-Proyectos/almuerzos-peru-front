@@ -1,8 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { ButtonComponent } from '../../../../../shared/components/button/button.component';
-import { I18nService } from '../../../../../shared/i18n';
-import { MaterialModule } from '../../../../../shared/modules';
+import { I18nService, MaterialModule, SharedComponentsModule } from '../../../../../shared/modules';
 import { FinalCtaSectionComponent } from './final-cta-section.component';
 
 class MockI18nService {
@@ -27,7 +25,7 @@ describe('FinalCtaSectionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FinalCtaSectionComponent, MaterialModule, ButtonComponent, NoopAnimationsModule],
+      imports: [FinalCtaSectionComponent, MaterialModule, SharedComponentsModule, NoopAnimationsModule],
       providers: [{ provide: I18nService, useClass: MockI18nService }]
     }).compileComponents();
 

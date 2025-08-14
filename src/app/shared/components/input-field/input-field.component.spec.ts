@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { CoreModule } from '../../modules';
 import { InputFieldComponent } from './input-field.component';
 
 describe('InputFieldComponent', () => {
@@ -9,14 +10,14 @@ describe('InputFieldComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [InputFieldComponent, ReactiveFormsModule]
+      imports: [InputFieldComponent, CoreModule]
     }).compileComponents();
 
     fixture = TestBed.createComponent(InputFieldComponent);
     component = fixture.componentInstance;
 
     component.label = 'Test Label';
-    component.control = new FormControl('');
+    component.control = new FormControl('', [Validators.required]);
 
     fixture.detectChanges();
   });
@@ -347,7 +348,6 @@ describe('InputFieldComponent', () => {
       const mockFn = jest.fn();
       component.registerOnChange(mockFn);
 
-      // Trigger a change
       component.onInput({ target: { value: 'new value' } } as any);
 
       expect(mockFn).toHaveBeenCalledWith('new value');

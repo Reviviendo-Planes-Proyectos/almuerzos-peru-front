@@ -17,11 +17,10 @@ export class InputFieldComponent implements OnInit, ControlValueAccessor {
   @Input() required = false;
   @Input() controlName!: string;
 
-  // 👇 Nuevos inputs
   @Input() variant: 'input' | 'select' = 'input';
   @Input() options: { label: string; value: any }[] = [];
-  @Input() actionIcon = ''; // Icono de acción a la derecha
-  @Output() actionIconClick = new EventEmitter<void>(); // Evento cuando se clickea el icono de acción
+  @Input() actionIcon = '';
+  @Output() actionIconClick = new EventEmitter<void>();
 
   control!: FormControl;
   value: any = '';

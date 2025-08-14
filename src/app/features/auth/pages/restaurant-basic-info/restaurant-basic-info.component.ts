@@ -1,28 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { BackButtonComponent } from '../../../../shared/components/back-button/back-button.component';
-import { ButtonComponent } from '../../../../shared/components/button/button.component';
-import { InputFieldComponent } from '../../../../shared/components/input-field/input-field.component';
-import { LocationSelectorModalComponent } from '../../../../shared/components/location-selector-modal/location-selector-modal.component';
-import { SelectFieldComponent, SelectOption } from '../../../../shared/components/select-field/select-field.component';
-import { StepIndicatorComponent } from '../../../../shared/components/step-indicator/step-indicator.component';
-import { BaseTranslatableComponent } from '../../../../shared/i18n';
-import { CoreModule } from '../../../../shared/modules';
+import { SelectOption } from '../../../../shared/components';
+import { BaseTranslatableComponent, CoreModule, SharedComponentsModule } from '../../../../shared/modules';
 import { LoggerService } from '../../../../shared/services/logger/logger.service';
 
 @Component({
   selector: 'app-restaurant-basic-info',
   standalone: true,
-  imports: [
-    CoreModule,
-    InputFieldComponent,
-    SelectFieldComponent,
-    ButtonComponent,
-    StepIndicatorComponent,
-    BackButtonComponent,
-    LocationSelectorModalComponent
-  ],
+  imports: [CoreModule, SharedComponentsModule],
   templateUrl: './restaurant-basic-info.component.html',
   styleUrls: ['./restaurant-basic-info.component.scss']
 })

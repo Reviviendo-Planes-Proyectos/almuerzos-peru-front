@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ButtonComponent } from '../../../../../shared/components/button/button.component';
 import { I18nService } from '../../../../../shared/i18n';
-import { MaterialModule } from '../../../../../shared/modules';
+import { MaterialModule, SharedComponentsModule } from '../../../../../shared/modules';
 import { HeroSectionComponent } from './hero-section.component';
 
 // Mock del servicio de traducción
@@ -30,7 +29,7 @@ describe('HeroSectionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HeroSectionComponent, MaterialModule, ButtonComponent],
+      imports: [HeroSectionComponent, MaterialModule, SharedComponentsModule],
       providers: [{ provide: I18nService, useClass: MockI18nService }]
     }).compileComponents();
 

@@ -99,7 +99,6 @@ describe('WarningModalComponent', () => {
     expect(secondaryButton.nativeElement.textContent.trim()).toBe('Custom Secondary');
   });
 
-  // Removemos el test de backdrop click ya que ahora es un toast sin backdrop
   it('should not have backdrop in toast mode', () => {
     component.isVisible = true;
     fixture.detectChanges();

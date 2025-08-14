@@ -1,16 +1,17 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { BackButtonComponent } from '../../../../shared/components/back-button/back-button.component';
-import { ButtonComponent } from '../../../../shared/components/button/button.component';
-import { InputFieldComponent } from '../../../../shared/components/input-field/input-field.component';
-import { BaseTranslatableComponent } from '../../../../shared/i18n';
-import { CoreModule, MaterialModule } from '../../../../shared/modules';
+import {
+  BaseTranslatableComponent,
+  CoreModule,
+  MaterialModule,
+  SharedComponentsModule
+} from '../../../../shared/modules';
 
 @Component({
   selector: 'app-forgot-password',
   standalone: true,
-  imports: [CoreModule, MaterialModule, ButtonComponent, BackButtonComponent, InputFieldComponent],
+  imports: [CoreModule, MaterialModule, SharedComponentsModule],
   templateUrl: './forgot-password.component.html',
   styleUrls: ['./forgot-password.component.scss']
 })

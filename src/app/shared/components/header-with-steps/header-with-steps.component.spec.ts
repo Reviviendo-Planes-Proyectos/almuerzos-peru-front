@@ -9,7 +9,7 @@ describe('HeaderWithStepsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HeaderWithStepsComponent] // Componente standalone
+      imports: [HeaderWithStepsComponent]
     }).compileComponents();
 
     fixture = TestBed.createComponent(HeaderWithStepsComponent);
@@ -85,13 +85,12 @@ describe('HeaderWithStepsComponent', () => {
       const backButton = fixture.debugElement.query(By.css('button[aria-label="Volver atrás"]'));
       expect(backButton).toBeTruthy();
 
-      // Verificar que no existe el div spacer (que solo aparece cuando showBackButton es false)
       const allDivs = fixture.debugElement.queryAll(By.css('div'));
       const spacerDiv = allDivs.find(
         (div) =>
           div.nativeElement.classList.contains('w-10') &&
           div.nativeElement.classList.contains('h-10') &&
-          !div.nativeElement.classList.contains('bg-orange-500') // Excluir el step indicator
+          !div.nativeElement.classList.contains('bg-orange-500')
       );
       expect(spacerDiv).toBeFalsy();
     });
@@ -194,13 +193,11 @@ describe('HeaderWithStepsComponent', () => {
     });
 
     it('should update step indicator when currentStep changes', () => {
-      // Cambiar a paso 2
       component.currentStep = 2;
       fixture.detectChanges();
       let stepIndicator = fixture.debugElement.query(By.css('.bg-orange-500'));
       expect(stepIndicator.nativeElement.textContent.trim()).toBe('2');
 
-      // Cambiar a paso 10
       component.currentStep = 10;
       fixture.detectChanges();
       stepIndicator = fixture.debugElement.query(By.css('.bg-orange-500'));
@@ -232,7 +229,6 @@ describe('HeaderWithStepsComponent', () => {
 
   describe('Integration Tests', () => {
     it('should work correctly with different step values and back button states', () => {
-      // Test con paso 3 y botón visible
       component.currentStep = 3;
       component.showBackButton = true;
       fixture.detectChanges();
@@ -243,7 +239,6 @@ describe('HeaderWithStepsComponent', () => {
       expect(stepIndicator.nativeElement.textContent.trim()).toBe('3');
       expect(backButton).toBeTruthy();
 
-      // Test con paso 7 y botón oculto
       component.currentStep = 7;
       component.showBackButton = false;
       fixture.detectChanges();
@@ -267,13 +262,12 @@ describe('HeaderWithStepsComponent', () => {
       component.showBackButton = true;
       fixture.detectChanges();
 
-      // Click en el botón
       const backButton = fixture.debugElement.query(By.css('button'));
       backButton.nativeElement.click();
 
       expect(emittedEvents).toBe(1);
-      expect(component.currentStep).toBe(2); // No debería cambiar
-      expect(component.showBackButton).toBe(true); // No debería cambiar
+      expect(component.currentStep).toBe(2);
+      expect(component.showBackButton).toBe(true);
     });
   });
 });

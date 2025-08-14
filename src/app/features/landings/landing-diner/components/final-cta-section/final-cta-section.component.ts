@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { BaseTranslatableComponent } from '../../../../../shared/i18n';
-import { MaterialModule } from '../../../../../shared/modules';
+import { CoreModule, MaterialModule } from '../../../../../shared/modules';
 
 @Component({
   selector: 'app-final-cta-section',
   standalone: true,
-  imports: [MaterialModule, FormsModule],
+  imports: [MaterialModule, CoreModule],
   templateUrl: './final-cta-section.component.html',
   styleUrls: ['./final-cta-section.component.scss']
 })

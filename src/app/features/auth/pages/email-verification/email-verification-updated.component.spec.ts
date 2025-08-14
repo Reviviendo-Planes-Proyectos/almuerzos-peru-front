@@ -1,9 +1,9 @@
 import { ChangeDetectorRef, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
 import { I18nService } from '../../../../shared/i18n/services/translation.service';
+import { CoreModule } from '../../../../shared/modules';
 import { EmailVerificationComponent } from './email-verification.component';
 
 // Mocks
@@ -40,9 +40,9 @@ describe('EmailVerificationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EmailVerificationComponent, ReactiveFormsModule],
+      imports: [EmailVerificationComponent, CoreModule],
       providers: [
-        FormBuilder,
+        CoreModule,
         { provide: Router, useValue: mockRouter },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: I18nService, useValue: mockI18nService },
@@ -96,32 +96,23 @@ describe('EmailVerificationComponent', () => {
     });
 
     it('should reset component state when email changes', fakeAsync(() => {
-      // Set initial state different from default
       component.codeSent = true;
       component.canResendCode = true;
       component.countdownTimer = 30;
 
-      // Initialize the component which will trigger resetComponentState
       component.ngOnInit();
-      tick(1); // Allow initial setup
+      tick(1);
 
-      // resetComponentState sets codeSent to false, but the issue is that
-      // resetComponentState is only called when there's an email, and our mock
-      // doesn't trigger that path. Let's test the method directly instead.
-
-      // Reset to initial problematic state
       component.codeSent = true;
       component.canResendCode = true;
       component.countdownTimer = 30;
 
-      // Call resetComponentState directly
       (component as any).resetComponentState();
 
       expect(component.codeSent).toBe(false);
       expect(component.canResendCode).toBe(false);
       expect(component.countdownTimer).toBe(60);
 
-      // Clear all pending timers
       tick(60000);
     }));
   });
@@ -154,7 +145,6 @@ describe('EmailVerificationComponent', () => {
       tick(1000);
       expect(component.countdownTimer).toBe(59);
 
-      // Clear all pending timers
       tick(60000);
     }));
   });
@@ -207,7 +197,6 @@ describe('EmailVerificationComponent', () => {
       tick(1000);
       expect(component.countdownTimer).toBe(59);
 
-      // Clear all pending timers
       tick(60000);
     }));
 
@@ -231,7 +220,6 @@ describe('EmailVerificationComponent', () => {
       tick(1000);
       expect(component.countdownTimer).toBe(59);
 
-      // Clear all pending timers
       tick(60000);
     }));
   });
@@ -281,7 +269,6 @@ describe('EmailVerificationComponent', () => {
       expect(component.canResendCode).toBe(false);
       expect(component.countdownTimer).toBe(60);
 
-      // Simular 60 segundos
       tick(60000);
 
       expect(component.canResendCode).toBe(true);
@@ -291,15 +278,12 @@ describe('EmailVerificationComponent', () => {
     it('should clear previous interval when starting new countdown', fakeAsync(() => {
       const clearIntervalSpy = jest.spyOn(global, 'clearInterval');
 
-      // Iniciar primer countdown
       (component as any).startCountdown();
 
-      // Iniciar segundo countdown
       (component as any).startCountdown();
 
       expect(clearIntervalSpy).toHaveBeenCalled();
 
-      // Clear all pending timers
       tick(60000);
     }));
   });

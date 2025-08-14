@@ -9,7 +9,6 @@ interface BeforeInstallPromptEvent extends Event {
   userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
 }
 
-// Extensión global para evitar error de TS en `navigator.standalone`
 declare global {
   interface Navigator {
     standalone?: boolean;

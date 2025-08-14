@@ -18,7 +18,7 @@ describe('RestaurantProfilePhotoComponent', () => {
     await TestBed.configureTestingModule({
       imports: [RestaurantProfilePhotoComponent],
       providers: [{ provide: Router, useValue: routerSpy }],
-      schemas: [NO_ERRORS_SCHEMA] // This allows unknown elements (child components)
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 
     fixture = TestBed.createComponent(RestaurantProfilePhotoComponent);
@@ -44,7 +44,6 @@ describe('RestaurantProfilePhotoComponent', () => {
     });
 
     it('should render the warning modal by default', () => {
-      // Since we're using NO_ERRORS_SCHEMA, we'll test the property instead
       expect(component.showWarningModal).toBe(true);
     });
   });
@@ -57,7 +56,6 @@ describe('RestaurantProfilePhotoComponent', () => {
     });
 
     it('should handle restaurant photo selection', () => {
-      // Mock FileReader
       const mockFileReader = {
         onload: null as any,
         readAsDataURL: jest.fn(),
@@ -71,7 +69,6 @@ describe('RestaurantProfilePhotoComponent', () => {
       expect(component.hasRestaurantPhoto).toBe(true);
       expect(mockFileReader.readAsDataURL).toHaveBeenCalledWith(mockFile);
 
-      // Simulate FileReader onload
       mockFileReader.onload({ target: { result: 'data:image/jpeg;base64,mockbase64' } });
       expect(component.restaurantPhotoPreview).toBe('data:image/jpeg;base64,mockbase64');
     });
@@ -87,12 +84,10 @@ describe('RestaurantProfilePhotoComponent', () => {
     });
 
     it('should remove restaurant photo', () => {
-      // First set a photo
       component.restaurantPhoto = mockFile;
       component.restaurantPhotoPreview = 'mockpreview';
       component.hasRestaurantPhoto = true;
 
-      // Then remove it
       component.removeRestaurantPhoto();
 
       expect(component.restaurantPhoto).toBeNull();
@@ -145,7 +140,6 @@ describe('RestaurantProfilePhotoComponent', () => {
       expect(component.hasLogoPhoto).toBe(true);
       expect(mockFileReader.readAsDataURL).toHaveBeenCalledWith(mockFile);
 
-      // Simulate FileReader onload
       mockFileReader.onload({ target: { result: 'data:image/png;base64,mockbase64' } });
       expect(component.logoPhotoPreview).toBe('data:image/png;base64,mockbase64');
     });
@@ -161,12 +155,10 @@ describe('RestaurantProfilePhotoComponent', () => {
     });
 
     it('should remove logo', () => {
-      // First set a logo
       component.logoPhoto = mockFile;
       component.logoPhotoPreview = 'mockpreview';
       component.hasLogoPhoto = true;
 
-      // Then remove it
       component.removeLogo();
 
       expect(component.logoPhoto).toBeNull();
@@ -252,15 +244,12 @@ describe('RestaurantProfilePhotoComponent', () => {
     it('should properly transition from no photo to photo selected for restaurant', () => {
       const mockFile = new File(['test'], 'test.jpg', { type: 'image/jpeg' });
 
-      // Initial state
       expect(component.hasRestaurantPhoto).toBe(false);
       expect(component.restaurantPhoto).toBeNull();
       expect(component.restaurantPhotoPreview).toBeNull();
 
-      // Select photo
       component.onRestaurantPhotoSelected(mockFile);
 
-      // New state
       expect(component.hasRestaurantPhoto).toBe(true);
       expect(component.restaurantPhoto).toBe(mockFile);
     });
@@ -268,15 +257,12 @@ describe('RestaurantProfilePhotoComponent', () => {
     it('should properly transition from photo selected to no photo for restaurant', () => {
       const mockFile = new File(['test'], 'test.jpg', { type: 'image/jpeg' });
 
-      // Set initial state with photo
       component.restaurantPhoto = mockFile;
       component.restaurantPhotoPreview = 'mockpreview';
       component.hasRestaurantPhoto = true;
 
-      // Remove photo
       component.removeRestaurantPhoto();
 
-      // Should be back to initial state
       expect(component.hasRestaurantPhoto).toBe(false);
       expect(component.restaurantPhoto).toBeNull();
       expect(component.restaurantPhotoPreview).toBeNull();
@@ -285,15 +271,12 @@ describe('RestaurantProfilePhotoComponent', () => {
     it('should properly transition from no logo to logo selected', () => {
       const mockFile = new File(['test'], 'logo.png', { type: 'image/png' });
 
-      // Initial state
       expect(component.hasLogoPhoto).toBe(false);
       expect(component.logoPhoto).toBeNull();
       expect(component.logoPhotoPreview).toBeNull();
 
-      // Select logo
       component.onLogoPhotoSelected(mockFile);
 
-      // New state
       expect(component.hasLogoPhoto).toBe(true);
       expect(component.logoPhoto).toBe(mockFile);
     });
@@ -301,15 +284,12 @@ describe('RestaurantProfilePhotoComponent', () => {
     it('should properly transition from logo selected to no logo', () => {
       const mockFile = new File(['test'], 'logo.png', { type: 'image/png' });
 
-      // Set initial state with logo
       component.logoPhoto = mockFile;
       component.logoPhotoPreview = 'mockpreview';
       component.hasLogoPhoto = true;
 
-      // Remove logo
       component.removeLogo();
 
-      // Should be back to initial state
       expect(component.hasLogoPhoto).toBe(false);
       expect(component.logoPhoto).toBeNull();
       expect(component.logoPhotoPreview).toBeNull();
@@ -321,7 +301,6 @@ describe('RestaurantProfilePhotoComponent', () => {
       component.hasRestaurantPhoto = false;
       fixture.detectChanges();
 
-      // Since we're using NO_ERRORS_SCHEMA, we test the component state instead
       expect(component.hasRestaurantPhoto).toBe(false);
     });
 
@@ -346,14 +325,11 @@ describe('RestaurantProfilePhotoComponent', () => {
     });
 
     it('should display header with correct step', () => {
-      // Test component properties instead of DOM queries
       expect(component.currentStep).toBe(4);
     });
 
     it('should display step indicator with correct values', () => {
-      // Test component properties instead of DOM queries
       expect(component.currentStep).toBe(4);
-      // The total steps is hardcoded in the template as 6
     });
   });
 
@@ -454,12 +430,10 @@ describe('RestaurantProfilePhotoComponent', () => {
       expect(component.hasRestaurantPhoto).toBe(true);
       expect(mockFileReader.readAsDataURL).toHaveBeenCalledWith(mockFile);
 
-      // Simulate FileReader error
       if (mockFileReader.onerror) {
         mockFileReader.onerror(new Error('File read error'));
       }
 
-      // Component should still have the file reference
       expect(component.restaurantPhoto).toBe(mockFile);
     });
 
@@ -479,12 +453,10 @@ describe('RestaurantProfilePhotoComponent', () => {
       expect(component.hasLogoPhoto).toBe(true);
       expect(mockFileReader.readAsDataURL).toHaveBeenCalledWith(mockFile);
 
-      // Simulate FileReader error
       if (mockFileReader.onerror) {
         mockFileReader.onerror(new Error('File read error'));
       }
 
-      // Component should still have the file reference
       expect(component.logoPhoto).toBe(mockFile);
     });
   });

@@ -1,9 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
 import { I18nService } from '../../../shared/i18n/services/translation.service';
-import { MaterialModule } from '../../../shared/modules';
+import { CoreModule, MaterialModule } from '../../../shared/modules';
 import { LandingDinerComponent } from './landing-diner.component';
 
 class MockI18nService {
@@ -42,7 +41,7 @@ describe('LandingDinerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LandingDinerComponent, BrowserAnimationsModule, FormsModule, MaterialModule],
+      imports: [LandingDinerComponent, BrowserAnimationsModule, CoreModule, MaterialModule],
       providers: [provideRouter([]), { provide: I18nService, useClass: MockI18nService }]
     }).compileComponents();
 

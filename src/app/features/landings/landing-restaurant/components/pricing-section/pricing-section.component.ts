@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { BaseTranslatableComponent } from '../../../../../shared/i18n';
-import { CoreModule, MaterialModule } from '../../../../../shared/modules';
+import { BaseTranslatableComponent, CoreModule, MaterialModule } from '../../../../../shared/modules';
 
 enum PlanType {
   FREE = 'free',
@@ -297,7 +296,6 @@ export class PricingSectionComponent extends BaseTranslatableComponent implement
 
   private updatePrices() {
     // Los planes se regeneran automáticamente con el getter
-    // Solo necesitamos detectar cambios
   }
 
   showAllFeatures = false;
@@ -398,7 +396,6 @@ export class PricingSectionComponent extends BaseTranslatableComponent implement
     ];
   }
 
-  // Devuelve las filas a mostrar según el estado del botón
   get visibleComparisonFeatures(): ComparisonFeature[] {
     return this.showAllFeatures ? this.comparisonFeatures : this.comparisonFeatures.slice(0, this.defaultVisibleRows);
   }

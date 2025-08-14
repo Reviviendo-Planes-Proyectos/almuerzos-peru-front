@@ -5,7 +5,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
 import { I18nService, TranslatePipe } from '../../../../shared/i18n';
-import { MaterialModule } from '../../../../shared/modules';
+import { CoreModule, MaterialModule, SharedComponentsModule } from '../../../../shared/modules';
 import { LoggerService } from '../../../../shared/services/logger/logger.service';
 import { LoginComponent } from './login.component';
 
@@ -61,7 +61,14 @@ describe('LoginComponent', () => {
     mockI18nService = new MockI18nService();
 
     await TestBed.configureTestingModule({
-      imports: [LoginComponent, MaterialModule, NoopAnimationsModule, TranslatePipe],
+      imports: [
+        LoginComponent,
+        CoreModule,
+        MaterialModule,
+        SharedComponentsModule,
+        NoopAnimationsModule,
+        TranslatePipe
+      ],
       providers: [
         { provide: Router, useValue: routerSpyObj },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },

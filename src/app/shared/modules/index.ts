@@ -1,3 +1,4 @@
+export * from '../i18n';
 export { CoreModule } from './core.module';
 export { MaterialModule } from './material.module';
 export { SharedModule } from './shared.module';

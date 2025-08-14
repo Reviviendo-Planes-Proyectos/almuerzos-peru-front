@@ -1,15 +1,13 @@
 import { Location, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BackButtonComponent } from '../../../../shared/components/back-button/back-button.component';
-import { BaseTranslatableComponent } from '../../../../shared/i18n';
-import { MaterialModule } from '../../../../shared/modules';
+import { BaseTranslatableComponent, MaterialModule, SharedComponentsModule } from '../../../../shared/modules';
 import { LoggerService } from '../../../../shared/services/logger/logger.service';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [MaterialModule, NgIf, BackButtonComponent],
+  imports: [MaterialModule, NgIf, SharedComponentsModule],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })

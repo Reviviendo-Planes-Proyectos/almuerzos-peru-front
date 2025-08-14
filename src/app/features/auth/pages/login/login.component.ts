@@ -1,14 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BackButtonComponent } from '../../../../shared/components/back-button/back-button.component';
-import { BaseTranslatableComponent } from '../../../../shared/i18n';
-import { CoreModule, MaterialModule } from '../../../../shared/modules';
+import {
+  BaseTranslatableComponent,
+  CoreModule,
+  MaterialModule,
+  SharedComponentsModule
+} from '../../../../shared/modules';
 import { LoggerService } from '../../../../shared/services/logger/logger.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CoreModule, MaterialModule, BackButtonComponent],
+  imports: [CoreModule, MaterialModule, SharedComponentsModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })

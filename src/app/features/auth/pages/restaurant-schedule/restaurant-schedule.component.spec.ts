@@ -1,6 +1,5 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { CoreModule } from '../../../../shared/modules';
@@ -18,7 +17,7 @@ describe('RestaurantScheduleComponent', () => {
     };
 
     await TestBed.configureTestingModule({
-      imports: [RestaurantScheduleComponent, CoreModule, FormsModule],
+      imports: [RestaurantScheduleComponent, CoreModule],
       providers: [{ provide: Router, useValue: routerSpy }],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
@@ -92,10 +91,8 @@ describe('RestaurantScheduleComponent', () => {
     });
 
     it('should close time modal and reset values', () => {
-      // First open the modal
       component.configureDay(1);
 
-      // Then close it
       component.closeTimeModal();
 
       expect(component.showTimeModal).toBe(false);
@@ -158,12 +155,10 @@ describe('RestaurantScheduleComponent', () => {
     it('should select only weekdays', () => {
       component.selectOnlyWeekdays();
 
-      // Monday to Friday should be active (indices 0-4)
       for (let i = 0; i < 5; i++) {
         expect(component.schedule[i].isActive).toBe(true);
       }
 
-      // Saturday and Sunday should be inactive (indices 5-6)
       for (let i = 5; i < 7; i++) {
         expect(component.schedule[i].isActive).toBe(false);
       }
@@ -184,10 +179,8 @@ describe('RestaurantScheduleComponent', () => {
     });
 
     it('should show alert when continuing without active days', () => {
-      // Mock alert
       window.alert = jest.fn();
 
-      // Set all days to inactive
       for (const day of component.schedule) {
         day.isActive = false;
       }
@@ -201,10 +194,8 @@ describe('RestaurantScheduleComponent', () => {
     });
 
     it('should show alert when continuing without service type', () => {
-      // Mock alert
       window.alert = jest.fn();
 
-      // Set service types to false
       component.isLocalService = false;
       component.isDeliveryService = false;
 
@@ -217,9 +208,7 @@ describe('RestaurantScheduleComponent', () => {
     });
 
     it('should navigate to next step when all requirements are met', () => {
-      // Set at least one day active
       component.schedule[0].isActive = true;
-      // Local service is already true by default
 
       component.continue();
 
