@@ -1,8 +1,8 @@
 import { AUTH_ROUTES } from './auth.routes';
 
 describe('AUTH_ROUTES', () => {
-  it('should have correct number of routes', () => {
-    expect(AUTH_ROUTES).toHaveLength(13);
+  it('should have correct route count duplicated', () => {
+    expect(AUTH_ROUTES).toHaveLength(14);
   });
 
   describe('Route configuration', () => {
@@ -122,14 +122,16 @@ describe('AUTH_ROUTES', () => {
 
   describe('Lazy loading validation', () => {
     it('should have loadComponent function for all routes', () => {
-      for (const route of AUTH_ROUTES) {
+      const routesWithComponents = AUTH_ROUTES.filter((route) => !route.redirectTo);
+      for (const route of routesWithComponents) {
         expect(route.loadComponent).toBeDefined();
         expect(typeof route.loadComponent).toBe('function');
       }
     });
 
     it('should successfully load all components', async () => {
-      const loadPromises = AUTH_ROUTES.map(async (route) => {
+      const routesWithComponents = AUTH_ROUTES.filter((route) => !route.redirectTo);
+      const loadPromises = routesWithComponents.map(async (route) => {
         try {
           const loadedModule = await route.loadComponent?.();
           return { path: route.path, success: true, module: loadedModule };
@@ -147,7 +149,8 @@ describe('AUTH_ROUTES', () => {
     });
 
     it('should load components without throwing errors', async () => {
-      for (const route of AUTH_ROUTES) {
+      const routesWithComponents = AUTH_ROUTES.filter((route) => !route.redirectTo);
+      for (const route of routesWithComponents) {
         await expect(route.loadComponent?.()).resolves.toBeTruthy();
       }
     });
@@ -157,14 +160,18 @@ describe('AUTH_ROUTES', () => {
     it('should have valid route objects', () => {
       for (const route of AUTH_ROUTES) {
         expect(route).toHaveProperty('path');
-        expect(route).toHaveProperty('loadComponent');
         expect(typeof route.path).toBe('string');
-        expect(typeof route.loadComponent).toBe('function');
+
+        if (!route.redirectTo) {
+          expect(route).toHaveProperty('loadComponent');
+          expect(typeof route.loadComponent).toBe('function');
+        }
       }
     });
 
     it('should not have empty paths', () => {
-      for (const route of AUTH_ROUTES) {
+      const routesWithComponents = AUTH_ROUTES.filter((route) => !route.redirectTo);
+      for (const route of routesWithComponents) {
         expect(route.path).toBeTruthy();
         expect(route.path?.length).toBeGreaterThan(0);
       }
@@ -226,7 +233,7 @@ describe('AUTH_ROUTES', () => {
   });
 
   it('should have correct number of routes', () => {
-    expect(AUTH_ROUTES).toHaveLength(13);
+    expect(AUTH_ROUTES).toHaveLength(14);
   });
 
   it('should have all expected route paths', () => {

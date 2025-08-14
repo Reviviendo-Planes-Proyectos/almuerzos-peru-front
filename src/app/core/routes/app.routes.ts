@@ -3,18 +3,7 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'home-restaurant',
-    pathMatch: 'full'
-  },
-  {
-    path: 'home-restaurant',
-    loadComponent: () =>
-      import('../../features/landings/landing-restaurant/landing-restaurant.component').then((m) => m.LandingComponent)
-  },
-  {
-    path: 'home-diner',
-    loadComponent: () =>
-      import('../../features/landings/landing-diner/landing-diner.component').then((m) => m.LandingDinerComponent)
+    loadChildren: () => import('../../features/landings/landings.routes').then((m) => m.landingsRoutes)
   },
   {
     path: 'auth',
@@ -26,6 +15,6 @@ export const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'home-restaurant'
+    redirectTo: ''
   }
 ];
