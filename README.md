@@ -53,6 +53,23 @@ Antes de instalar y ejecutar el proyecto, asegúrate de tener instalado en tu co
 | **Biome**              | ^2.0.6         | Linter y formateador de código                 |
 | **Prettier**           | ^3.6.2         | Formateador adicional para HTML y SCSS         |
 
+### 🔌 Extensiones de VS Code Recomendadas
+
+| Extensión                    | ID                             | Categoría   | Descripción                                    |
+| ---------------------------- | ------------------------------ | ----------- | ---------------------------------------------- |
+| **Angular Language Service** | `angular.ng-template`          | 🅰️ Angular  | IntelliSense y soporte completo para Angular   |
+| **Biome**                    | `biomejs.biome`                | 🧹 Calidad  | Linter y formateador integrado (TypeScript/JS) |
+| **Prettier**                 | `esbenp.prettier-vscode`       | 🎨 Formato  | Formateador para HTML y SCSS                   |
+| **SonarLint**                | `sonarsource.sonarlint-vscode` | 🔍 Calidad  | Detección de problemas de calidad y seguridad  |
+| **Angular Snippets**         | `johnpapa.angular2`            | ⚡ Snippets | Fragmentos de código para Angular              |
+| **Jest**                     | `orta.vscode-jest`             | 🧪 Testing  | Soporte para pruebas unitarias                 |
+| **Playwright**               | `ms-playwright.playwright`     | 🎭 E2E      | Pruebas end-to-end                             |
+| **Tailwind CSS**             | `bradlc.vscode-tailwindcss`    | 🎨 CSS      | IntelliSense para Tailwind                     |
+| **GitLens**                  | `eamodio.gitlens`              | 🔧 Git      | Herramientas avanzadas de Git                  |
+| **TypeScript Importer**      | `pmneo.tsimporter`             | 📦 Import   | Auto-importación de módulos                    |
+
+> **� Instalación Automática**: Al abrir el proyecto, VS Code sugerirá instalar estas extensiones automáticamente.
+
 ### 🔍 Verificar Instalación
 
 Ejecuta estos comandos para verificar que tienes las versiones correctas:
@@ -112,6 +129,8 @@ npm run prepare
 npm start
 ```
 
+> **💡 Tip para VS Code**: Al abrir el proyecto, VS Code te sugerirá automáticamente instalar las extensiones recomendadas. Acepta la sugerencia para obtener la mejor experiencia de desarrollo.
+
 ### ⚙️ Configuración Adicional
 
 El proyecto incluye configuración preestablecida para:
@@ -126,6 +145,8 @@ El proyecto incluye configuración preestablecida para:
 - **Commitlint**: Validación de mensajes de commit
 - **PWA**: Service worker y manifest configurados
 - **SSR**: Server-Side Rendering con Express
+- **VS Code**: Configuración de workspace y extensiones recomendadas
+- **SonarLint**: Análisis de calidad de código integrado
 
 ### 🌐 Acceder a la Aplicación
 

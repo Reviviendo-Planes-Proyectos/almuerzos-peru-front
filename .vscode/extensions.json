@@ -1,4 +1,26 @@
 {
   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=827846
-  "recommendations": ["angular.ng-template"]
+  "recommendations": [
+    // Angular Development
+    "angular.ng-template",
+    "johnpapa.angular2",
+
+    // Code Quality & Formatting
+    "biomejs.biome",
+    "esbenp.prettier-vscode",
+    "sonarsource.sonarlint-vscode",
+
+    // TypeScript & JavaScript
+    "pmneo.tsimporter",
+
+    // Testing
+    "orta.vscode-jest",
+    "ms-playwright.playwright",
+
+    // Productivity & UI
+    "formulahendry.auto-rename-tag",
+    "bradlc.vscode-tailwindcss",
+    "eamodio.gitlens",
+    "pkief.material-icon-theme"
+  ]
 }
