@@ -223,7 +223,7 @@ describe('RestaurantScheduleComponent', () => {
 
       component.continue();
 
-      expect(router.navigate).toHaveBeenCalledWith(['/auth/next-step']);
+      expect(router.navigate).toHaveBeenCalledWith(['/auth/restaurant-social-networks']);
     });
   });
 

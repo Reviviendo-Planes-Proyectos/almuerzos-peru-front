@@ -2,7 +2,7 @@ import { AUTH_ROUTES } from './auth.routes';
 
 describe('AUTH_ROUTES', () => {
   it('should have correct number of routes', () => {
-    expect(AUTH_ROUTES).toHaveLength(13);
+    expect(AUTH_ROUTES).toHaveLength(14);
   });
 
   describe('Route configuration', () => {
@@ -75,6 +75,15 @@ describe('AUTH_ROUTES', () => {
       expect(customerProfilePhotoRoute?.loadComponent).toBeDefined();
 
       const loadedModule = await customerProfilePhotoRoute?.loadComponent?.();
+      expect(loadedModule).toBeTruthy();
+    });
+
+    it('should define restaurant-social-networks route correctly', async () => {
+      const restaurantSocialNetworksRoute = AUTH_ROUTES.find((route) => route.path === 'restaurant-social-networks');
+      expect(restaurantSocialNetworksRoute).toBeTruthy();
+      expect(restaurantSocialNetworksRoute?.loadComponent).toBeDefined();
+
+      const loadedModule = await restaurantSocialNetworksRoute?.loadComponent?.();
       expect(loadedModule).toBeTruthy();
     });
   });
@@ -229,7 +238,7 @@ describe('AUTH_ROUTES', () => {
   });
 
   it('should have correct number of routes', () => {
-    expect(AUTH_ROUTES).toHaveLength(13);
+    expect(AUTH_ROUTES).toHaveLength(14);
   });
 
   it('should have all expected route paths', () => {
@@ -246,7 +255,8 @@ describe('AUTH_ROUTES', () => {
       'restaurant-basic-info',
       'phone-verification',
       'restaurant-profile-photo',
-      'restaurant-schedule'
+      'restaurant-schedule',
+      'restaurant-social-networks'
     ];
 
     const actualPaths = AUTH_ROUTES.map((route) => route.path);

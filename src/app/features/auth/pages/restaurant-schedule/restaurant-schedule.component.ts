@@ -147,6 +147,6 @@ export class RestaurantScheduleComponent extends BaseTranslatableComponent {
 
     // Aquí guardarías la configuración en el servicio/estado
     // Navegar al siguiente paso
-    this.router.navigate(['/auth/next-step']);
+    this.router.navigate(['/auth/restaurant-social-networks']);
   }
 }

@@ -71,5 +71,12 @@ export const AUTH_ROUTES: Routes = [
     path: 'restaurant-schedule',
     loadComponent: () =>
       import('./pages/restaurant-schedule/restaurant-schedule.component').then((m) => m.RestaurantScheduleComponent)
+  },
+  {
+    path: 'restaurant-social-networks',
+    loadComponent: () =>
+      import('./pages/restaurant-social-networks/restaurant-social-networks.component').then(
+        (m) => m.RestaurantSocialNetworksComponent
+      )
   }
 ];
