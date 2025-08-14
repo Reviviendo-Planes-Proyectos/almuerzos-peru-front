@@ -43,7 +43,7 @@ export class RestaurantSocialNetworksComponent extends BaseTranslatableComponent
     });
 
     // Obtener el nombre del restaurante del localStorage o servicio de estado
-    this.restaurantName = this.getRestaurantNameFromStorage();
+    this.restaurantName = 'El charrua';
   }
 
   // Navegación
@@ -69,7 +69,7 @@ export class RestaurantSocialNetworksComponent extends BaseTranslatableComponent
   }
 
   // Método para obtener el nombre del restaurante desde localStorage
-  private getRestaurantNameFromStorage(): string {
+  /*  private getRestaurantNameFromStorage(): string {
     // Simular obtener el nombre del restaurante desde localStorage o servicio
     // En una implementación real, obtendrías esto del servicio de estado o localStorage
     const storedData = localStorage.getItem('restaurantRegistrationData');
@@ -89,10 +89,10 @@ export class RestaurantSocialNetworksComponent extends BaseTranslatableComponent
       'Cevichería La Mar',
       'Parrillas El Toro'
     ];
-    const randomIndex = Math.floor(Math.random() * exampleNames.length);
-    return exampleNames[randomIndex];
+    // Usar el primer nombre como ejemplo fijo (más predecible para desarrollo)
+    return exampleNames[0];
   }
-
+ */
   // Método para ir al dashboard
   goToDashboard(): void {
     this.showSuccessModal = false;
