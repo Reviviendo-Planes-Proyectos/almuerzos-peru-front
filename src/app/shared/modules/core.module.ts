@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
-const ANGULAR_MODULES = [CommonModule, ReactiveFormsModule];
+const ANGULAR_MODULES = [CommonModule, FormsModule, ReactiveFormsModule, RouterModule];
 
 @NgModule({
   imports: ANGULAR_MODULES,

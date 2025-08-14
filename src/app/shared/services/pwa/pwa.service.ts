@@ -1,5 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
-import { Inject, Injectable, isDevMode, PLATFORM_ID } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 import { BehaviorSubject } from 'rxjs';
 import { LoggerService } from '../logger/logger.service';
@@ -9,7 +9,6 @@ interface BeforeInstallPromptEvent extends Event {
   userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
 }
 
-// Extensión global para evitar error de TS en `navigator.standalone`
 declare global {
   interface Navigator {
     standalone?: boolean;
@@ -36,7 +35,9 @@ export class PwaService {
   }
 
   private initPwa(): void {
-    if (!this.isBrowser || isDevMode()) return;
+    if (!this.isBrowser) {
+      return;
+    }
 
     this.checkForUpdates();
     this.captureInstallPrompt();
@@ -69,17 +70,21 @@ export class PwaService {
 
   private checkIfAppIsInstalled(): void {
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+
     if (isStandalone) {
       this.isAppInstalled.next(true);
     }
   }
 
   public canInstallApp(): boolean {
-    return this.isBrowser && !!this.promptEvent && !this.isAppInstalled.value;
+    const canInstall = this.isBrowser && !!this.promptEvent && !this.isAppInstalled.value;
+    return canInstall;
   }
 
   public async installApp(): Promise<boolean> {
-    if (!this.promptEvent) return false;
+    if (!this.promptEvent) {
+      return false;
+    }
 
     try {
       await this.promptEvent.prompt();
@@ -91,8 +96,8 @@ export class PwaService {
 
       this.promptEvent = null;
       return result.outcome === 'accepted';
-    } catch {
-      this.logger.warn('PWA installation failed');
+    } catch (error) {
+      this.logger.warn('PWA installation failed', error);
       return false;
     }
   }
@@ -114,5 +119,26 @@ export class PwaService {
 
   public hasInstallPrompt(): boolean {
     return !!this.promptEvent;
+  }
+
+  public checkInstallability(): void {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations();
+    }
+
+    if (!this.promptEvent && window.location.hostname === 'localhost') {
+      this.simulateInstallPrompt();
+    }
+  }
+
+  private simulateInstallPrompt(): void {
+    if (window.location.hostname === 'localhost' && !this.promptEvent) {
+      this.promptEvent = {
+        prompt: async () => {
+          return Promise.resolve();
+        },
+        userChoice: Promise.resolve({ outcome: 'accepted' as 'accepted' | 'dismissed' })
+      } as BeforeInstallPromptEvent;
+    }
   }
 }

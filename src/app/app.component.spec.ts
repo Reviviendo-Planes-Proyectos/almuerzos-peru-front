@@ -23,6 +23,21 @@ describe('AppComponent', () => {
   let mockLogger: Partial<LoggerService>;
 
   beforeEach(async () => {
+    // Mock window.matchMedia
+    Object.defineProperty(window, 'matchMedia', {
+      writable: true,
+      value: jest.fn().mockImplementation((query) => ({
+        matches: false,
+        media: query,
+        onchange: null,
+        addListener: jest.fn(),
+        removeListener: jest.fn(),
+        addEventListener: jest.fn(),
+        removeEventListener: jest.fn(),
+        dispatchEvent: jest.fn()
+      }))
+    });
+
     mockApiService = {
       getHealth: jest.fn()
     } as unknown as jest.Mocked<ApiService>;
