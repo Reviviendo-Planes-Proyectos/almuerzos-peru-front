@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { PwaPromptComponent } from './shared/components/pwa-prompt/pwa-prompt.component';
-import { MaterialModule } from './shared/modules';
+import { MaterialModule, SharedComponentsModule } from './shared/modules';
 import { ApiService } from './shared/services/api/api.service';
 import { LoggerService } from './shared/services/logger/logger.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, MaterialModule, PwaPromptComponent],
+  imports: [RouterOutlet, MaterialModule, SharedComponentsModule],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })

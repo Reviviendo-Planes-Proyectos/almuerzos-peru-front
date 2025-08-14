@@ -187,7 +187,7 @@ describe('PwaService', () => {
 
     const installed = await service.installApp();
     expect(installed).toBe(false);
-    expect(loggerSpy).toHaveBeenCalledWith('PWA installation failed');
+    expect(loggerSpy).toHaveBeenCalledWith('PWA installation failed', expect.any(Error));
     loggerSpy.mockRestore();
   });
 

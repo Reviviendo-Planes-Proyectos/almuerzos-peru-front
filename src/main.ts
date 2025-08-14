@@ -2,9 +2,11 @@ import { provideHttpClient } from '@angular/common/http';
 import { APP_INITIALIZER } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideServiceWorker } from '@angular/service-worker';
 import { AppComponent } from './app/app.component';
 import { appConfig } from './app/core/config/app.config';
 import { ScrollService } from './app/shared/services/scroll/scroll.service';
+import { environment } from './environments/environment';
 
 function initializeScrollService(scrollService: ScrollService) {
   return () => {
@@ -23,6 +25,9 @@ bootstrapApplication(AppComponent, {
       useFactory: initializeScrollService,
       deps: [ScrollService],
       multi: true
-    }
+    },
+    provideServiceWorker('ngsw-worker.js', {
+      enabled: environment.production
+    })
   ]
 });
