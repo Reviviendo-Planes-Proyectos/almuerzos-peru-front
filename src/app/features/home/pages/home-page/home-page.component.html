@@ -27,14 +27,25 @@
     <div class="flex items-center space-x-3">
       <!-- Icono de notificación -->
       <button class="text-white relative p-1" (click)="openNotifications()">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M15 17h5l-5 5-5-5h5V7a3 3 0 016 0v10z"
-          ></path>
+        <!-- Campana (outline) -->
+        <!-- Campana (outline) -->
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+          role="img"
+        >
+          <path d="M14.5 18.5a2.5 2.5 0 1 1-5 0" />
+          <path d="M19 17.5H5c.9-1.1 1.5-3 1.5-5.5 0-3.6 2.5-6.5 5.5-6.5s5.5 2.9 5.5 6.5c0 2.5.6 4.4 1.5 5.5Z" />
         </svg>
+
         <!-- Badge de notificaciones (opcional) -->
         <span
           *ngIf="notificationCount > 0"
@@ -46,14 +57,25 @@
 
       <!-- Icono de carrito -->
       <button class="text-white relative p-1" (click)="openCart()">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5M17 13v6a2 2 0 01-2 2H9a2 2 0 01-2-2v-6m8 0V9a2 2 0 00-2-2H9a2 2 0 00-2 2v4.01"
-          ></path>
+        <!-- Carrito outline -->
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+          role="img"
+        >
+          <circle cx="9" cy="21" r="1" />
+          <circle cx="20" cy="21" r="1" />
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61l1.38-7.39H6" />
         </svg>
+
         <!-- Badge del carrito -->
         <span
           *ngIf="cartItemsCount > 0"

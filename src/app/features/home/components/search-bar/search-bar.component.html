@@ -1,8 +1,6 @@
-<!-- search-bar.component.html -->
 <div class="px-4 py-3 bg-gradient-to-r from-orange-400 via-yellow-400 to-orange-500">
   <div class="relative">
     <div class="flex items-center bg-white rounded-lg shadow-md overflow-hidden">
-      <!-- Icono de búsqueda (lupa) -->
       <div class="pl-4 pr-2 py-3">
         <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path
@@ -14,7 +12,6 @@
         </svg>
       </div>
 
-      <!-- Campo de input -->
       <input
         type="text"
         class="flex-1 py-3 px-2 text-gray-700 placeholder-gray-400 bg-transparent border-none outline-none focus:ring-0"
@@ -24,7 +21,6 @@
         (keyup.enter)="onSearch()"
       />
 
-      <!-- Botón de ubicación (GPS) -->
       <button
         class="px-4 py-3 border-l border-gray-200 hover:bg-gray-50 transition-colors duration-200"
         (click)="onLocationClick()"

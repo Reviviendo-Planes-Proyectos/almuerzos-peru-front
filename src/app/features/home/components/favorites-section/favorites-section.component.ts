@@ -146,14 +146,12 @@ export class FavoritesSectionComponent {
     this.logger.info('Toggle favorite for restaurant:', restaurant.name);
   }
 
-  // Método para scroll horizontal con rueda del mouse
   onWheel(event: WheelEvent): void {
     event.preventDefault();
     const container = this.favoritesContainer.nativeElement;
     container.scrollLeft += event.deltaY;
   }
 
-  // Métodos para drag scroll
   startDrag(event: MouseEvent): void {
     event.preventDefault();
     this.isDragging = true;
@@ -168,7 +166,7 @@ export class FavoritesSectionComponent {
     event.preventDefault();
     const container = this.favoritesContainer.nativeElement;
     const x = event.pageX - container.offsetLeft;
-    const walk = (x - this.startX) * 2; // Multiplicador para velocidad
+    const walk = (x - this.startX) * 2;
     container.scrollLeft = this.scrollLeft - walk;
   }
 

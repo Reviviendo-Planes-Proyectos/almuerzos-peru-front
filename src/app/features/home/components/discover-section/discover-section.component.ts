@@ -26,56 +26,46 @@ interface DiscoverRestaurant {
 export class DiscoverSectionComponent {
   private readonly logger = inject(LoggerService);
 
-  // Propiedades para paginación
   currentPage = 0;
   itemsPerPage = 20;
   isLoading = false;
   hasMoreItems = true;
 
-  // Propiedades para búsqueda
   private searchTerm = '';
   private filteredRestaurants: DiscoverRestaurant[] = [];
 
-  // Getter para saber si estamos en modo búsqueda
   get isSearching(): boolean {
     return this.searchTerm.length > 0;
   }
 
-  // Getter para el término de búsqueda actual
   get currentSearchTerm(): string {
     return this.searchTerm;
   }
 
-  // Getter para contar resultados
   get totalResults(): number {
     return this.isSearching ? this.filteredRestaurants.length : this.allRestaurants.length;
   }
 
-  // Lista completa de restaurantes (simulando API)
   private allRestaurants: DiscoverRestaurant[] = this.generateMockRestaurants();
 
-  // Lista visible actual
   discoverRestaurants: DiscoverRestaurant[] = [];
 
   constructor() {
     this.loadInitialRestaurants();
   }
 
-  // Cargar primeros 20 restaurantes
   private loadInitialRestaurants(): void {
     this.discoverRestaurants = this.allRestaurants.slice(0, this.itemsPerPage);
     this.currentPage = 1;
     this.logger.info('Initial restaurants loaded', this.discoverRestaurants.length);
   }
 
-  // Cargar más restaurantes (scroll infinito)
   loadMoreRestaurants(): void {
     if (this.isLoading || !this.hasMoreItems) return;
 
     this.isLoading = true;
     this.logger.info('Loading more restaurants...');
 
-    // Simular delay de API
     setTimeout(() => {
       const dataSource = this.searchTerm ? this.filteredRestaurants : this.allRestaurants;
       const startIndex = this.currentPage * this.itemsPerPage;
@@ -88,24 +78,20 @@ export class DiscoverSectionComponent {
         this.logger.info('More restaurants loaded', newRestaurants.length);
       }
 
-      // Verificar si hay más elementos
       this.hasMoreItems = endIndex < dataSource.length;
       this.isLoading = false;
-    }, 1000); // Simular 1 segundo de carga
+    }, 1000);
   }
 
-  // Filtrar restaurantes por término de búsqueda
   filterRestaurants(searchTerm: string): void {
     this.searchTerm = searchTerm.toLowerCase().trim();
     this.logger.info('Filtering restaurants with term:', this.searchTerm);
 
     if (!this.searchTerm) {
-      // Si no hay término de búsqueda, mostrar todos los restaurantes
       this.resetToAllRestaurants();
       return;
     }
 
-    // Filtrar restaurantes por nombre, categoría y ubicación
     this.filteredRestaurants = this.allRestaurants.filter(
       (restaurant) =>
         restaurant.name.toLowerCase().includes(this.searchTerm) ||
@@ -113,7 +99,6 @@ export class DiscoverSectionComponent {
         restaurant.location.toLowerCase().includes(this.searchTerm)
     );
 
-    // Resetear paginación y mostrar primeros resultados
     this.currentPage = 0;
     this.discoverRestaurants = this.filteredRestaurants.slice(0, this.itemsPerPage);
     this.currentPage = 1;
@@ -122,7 +107,6 @@ export class DiscoverSectionComponent {
     this.logger.info(`Found ${this.filteredRestaurants.length} restaurants matching "${searchTerm}"`);
   }
 
-  // Resetear a mostrar todos los restaurantes
   private resetToAllRestaurants(): void {
     this.filteredRestaurants = [];
     this.currentPage = 0;
@@ -131,7 +115,6 @@ export class DiscoverSectionComponent {
     this.hasMoreItems = this.allRestaurants.length > this.itemsPerPage;
   }
 
-  // Limpiar búsqueda (método público)
   clearSearch(): void {
     this.searchTerm = '';
     this.resetToAllRestaurants();
@@ -234,18 +217,14 @@ export class DiscoverSectionComponent {
     return restaurants;
   }
 
-  // Método para manejar click en restaurante
   onRestaurantClick(restaurant: DiscoverRestaurant): void {
     this.logger.info('Restaurant clicked:', restaurant.name);
-    // Aquí iría la navegación al detalle del restaurante
   }
 
-  // TrackBy para optimización de rendimiento
   trackByRestaurant(_index: number, restaurant: DiscoverRestaurant): number {
     return restaurant.id;
   }
 
-  // Manejo de errores de imagen
   onImageError(event: any): void {
     event.target.src = 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&h=300&fit=crop';
     this.logger.error('Error loading restaurant image');
