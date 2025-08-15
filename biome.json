@@ -19,11 +19,11 @@
     "attributePosition": "auto",
     "bracketSpacing": true,
     "bracketSameLine": true,
-    "includes": ["./src/**", "*.json", "*.ts", "*.js"]
+    "includes": ["./src/**", "*.json", "*.ts", "*.js", "./api/**"]
   },
   "linter": {
     "enabled": true,
-    "includes": ["./src/**", "next.config.ts"],
+    "includes": ["./src/**", "next.config.ts", "./api/**"],
     "rules": {
       "recommended": true,
       "style": {
