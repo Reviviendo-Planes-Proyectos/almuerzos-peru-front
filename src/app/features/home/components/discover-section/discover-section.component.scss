@@ -1,0 +1,64 @@
+/* discover-section.component.scss */
+
+.discover-section {
+  .restaurant-item {
+    transition: all 0.2s ease;
+
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      border-color: #fed7aa;
+
+      img {
+        transform: scale(1.05);
+      }
+    }
+
+    img {
+      transition: transform 0.3s ease;
+    }
+  }
+}
+
+/* Estilos para los badges de categoría */
+.bg-red-500 {
+  background-color: #ef4444;
+}
+
+.bg-purple-500 {
+  background-color: #8b5cf6;
+}
+
+.bg-blue-500 {
+  background-color: #3b82f6;
+}
+
+.bg-green-500 {
+  background-color: #10b981;
+}
+
+.bg-cyan-500 {
+  background-color: #06b6d4;
+}
+
+.bg-orange-500 {
+  background-color: #f97316;
+}
+
+/* Utility para truncar texto */
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Animación para el spinner */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}

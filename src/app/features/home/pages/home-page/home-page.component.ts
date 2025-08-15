@@ -6,11 +6,18 @@ import {
 } from '../../components/categories-section/categories-section.component';
 import { FavoritesSectionComponent } from '../../components/favorites-section/favorites-section.component';
 import { SearchBarComponent } from '../../components/search-bar/search-bar.component';
+import { DiscoverSectionComponent } from '../../components/discover-section/discover-section.component';
 
 @Component({
   selector: 'app-home-page',
   standalone: true,
-  imports: [CoreModule, SearchBarComponent, CategoriesSectionComponent, FavoritesSectionComponent],
+  imports: [
+    CoreModule,
+    SearchBarComponent,
+    CategoriesSectionComponent,
+    FavoritesSectionComponent,
+    DiscoverSectionComponent
+  ],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss'
 })

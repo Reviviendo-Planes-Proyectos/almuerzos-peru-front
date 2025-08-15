@@ -1,0 +1,111 @@
+<!-- discover-section.component.html -->
+<div class="discover-section px-4 py-6 bg-white">
+  <!-- Header de la sección -->
+  <div class="flex items-center justify-between mb-6">
+    <h2 class="text-xl font-bold text-gray-900">Descubre</h2>
+  </div>
+
+  <!-- Lista horizontal de restaurantes -->
+  <div class="space-y-4 mb-6">
+    <div
+      *ngFor="let restaurant of discoverRestaurants; trackBy: trackByRestaurant"
+      class="restaurant-item flex items-center gap-4 p-3 bg-white rounded-xl border border-gray-100 hover:border-orange-200 hover:shadow-md transition-all duration-200 cursor-pointer"
+      (click)="onRestaurantClick(restaurant)"
+    >
+      <!-- Imagen del restaurante -->
+      <div class="flex-shrink-0">
+        <div class="w-16 h-16 rounded-xl overflow-hidden shadow-sm">
+          <img
+            [src]="restaurant.image"
+            [alt]="restaurant.name"
+            class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+            loading="lazy"
+            (error)="onImageError($event)"
+          />
+        </div>
+      </div>
+
+      <!-- Información del restaurante -->
+      <div class="flex-1 min-w-0">
+        <!-- Nombre del restaurante -->
+        <h3 class="font-bold text-gray-900 text-base mb-2 truncate">
+          {{ restaurant.name }}
+        </h3>
+
+        <!-- Información adicional en línea horizontal -->
+        <div class="flex items-center gap-4 text-sm text-gray-600">
+          <!-- Tiempo de entrega -->
+          <div class="flex items-center gap-1">
+            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12,6 12,12 16,14"></polyline>
+            </svg>
+            <span>{{ restaurant.deliveryTime }}</span>
+          </div>
+
+          <!-- Rating -->
+          <div class="flex items-center gap-1">
+            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+              <path
+                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+              />
+            </svg>
+            <span class="font-bold text-gray-900">{{ restaurant.rating }}</span>
+          </div>
+
+          <!-- Distancia -->
+          <div class="flex items-center gap-1">
+            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+              ></path>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+              ></path>
+            </svg>
+            <span>{{ restaurant.distance }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Badge de categoría a la derecha -->
+      <div class="flex-shrink-0">
+        <span
+          class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium text-white shadow-sm"
+          [ngClass]="restaurant.categoryColor"
+        >
+          {{ restaurant.category }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Botón "Ver más" / Estado de carga -->
+  <div class="text-center">
+    <!-- Loading spinner -->
+    <div *ngIf="isLoading" class="flex items-center justify-center gap-3 py-4">
+      <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-orange-500"></div>
+      <span class="text-gray-600">Cargando más restaurantes...</span>
+    </div>
+
+    <!-- Botón Ver más -->
+    <button
+      *ngIf="!isLoading && hasMoreItems"
+      (click)="loadMoreRestaurants()"
+      class="text-orange-500 hover:text-orange-600 font-medium text-sm transition-colors duration-200 underline"
+    >
+      Ver más restaurantes
+    </button>
+
+    <!-- Mensaje final -->
+    <div *ngIf="!hasMoreItems && !isLoading" class="text-gray-500 text-sm py-4">
+      Has visto todos los restaurantes disponibles
+    </div>
+  </div>
+</div>

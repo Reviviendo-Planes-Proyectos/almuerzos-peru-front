@@ -38,7 +38,7 @@ export class FavoritesSectionComponent {
     {
       id: 2,
       name: 'Primos Chicken Bar',
-      image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=300&h=200&fit=crop',
+      image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300&h=200&fit=crop',
       rating: 4.6,
       deliveryTime: '5-30 min',
       isFavorite: true
