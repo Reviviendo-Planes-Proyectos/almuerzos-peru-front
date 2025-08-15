@@ -40,7 +40,8 @@ export class PhoneVerificationComponent extends BaseTranslatableComponent implem
     const phone = history.state.phone;
 
     if (phone) {
-      this.userPhone = this.maskPhone(phone);
+      //this.userPhone = this.maskPhone(phone);
+      this.userPhone = phone;
       this.resetComponentState();
     } else {
       // Fallback si no hay teléfono en el state
@@ -67,13 +68,13 @@ export class PhoneVerificationComponent extends BaseTranslatableComponent implem
     }
   }
 
-  private maskPhone(phone: string): string {
+  /*  private maskPhone(phone: string): string {
     // Ejemplo: 987654321 -> +51 9***
     if (phone.length >= 9) {
       return `+51 ${phone.substring(0, 1)}***`;
     }
     return phone;
-  }
+  } */
 
   private initializeForm(): void {
     this.verificationForm = this.fb.group({
