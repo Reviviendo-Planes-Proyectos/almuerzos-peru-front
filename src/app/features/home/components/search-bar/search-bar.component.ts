@@ -1,5 +1,5 @@
 // search-bar.component.ts
-import { Component, EventEmitter, Output, inject } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { CoreModule } from '../../../../shared/modules';
 import { LoggerService } from '../../../../shared/services/logger/logger.service';
 
