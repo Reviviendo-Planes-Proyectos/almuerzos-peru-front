@@ -1,7 +1,8 @@
 // search-bar.component.ts
-import { Component, EventEmitter, inject, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Output, OnDestroy } from '@angular/core';
 import { CoreModule } from '../../../../shared/modules';
 import { LoggerService } from '../../../../shared/services/logger/logger.service';
+import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
   selector: 'app-search-bar',
@@ -10,14 +11,31 @@ import { LoggerService } from '../../../../shared/services/logger/logger.service
   templateUrl: './search-bar.component.html',
   styleUrls: ['./search-bar.component.scss']
 })
-export class SearchBarComponent {
+export class SearchBarComponent implements OnDestroy {
   searchTerm = '';
   private readonly logger = inject(LoggerService);
+  private searchSubject = new Subject<string>();
 
   // Eventos para comunicar con el componente padre
   @Output() searchEvent = new EventEmitter<string>();
   @Output() locationEvent = new EventEmitter<void>();
   @Output() searchChangeEvent = new EventEmitter<string>();
+
+  constructor() {
+    // Configurar debounce para búsqueda en tiempo real
+    this.searchSubject
+      .pipe(
+        debounceTime(300), // Esperar 300ms después del último cambio
+        distinctUntilChanged() // Solo emitir si el valor cambió
+      )
+      .subscribe((searchTerm) => {
+        this.searchChangeEvent.emit(searchTerm);
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.searchSubject.complete();
+  }
 
   // Método para buscar (al presionar Enter o click)
   onSearch(): void {
@@ -29,7 +47,7 @@ export class SearchBarComponent {
   // Método para detectar cambios en tiempo real
   onSearchChange(event: any): void {
     this.searchTerm = event.target.value;
-    this.searchChangeEvent.emit(this.searchTerm);
+    this.searchSubject.next(this.searchTerm); // Enviar al subject con debounce
   }
 
   // Método para el botón de ubicación

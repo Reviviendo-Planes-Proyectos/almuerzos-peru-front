@@ -67,7 +67,11 @@
 </header>
 
 <!-- Search Bar separado del header -->
-<app-search-bar></app-search-bar>
+<app-search-bar
+  (searchEvent)="onSearch($event)"
+  (searchChangeEvent)="onSearchChange($event)"
+  (locationEvent)="onLocationUpdate()"
+></app-search-bar>
 
 <app-categories-section
   (categorySelected)="onCategorySelected($event)"
@@ -76,4 +80,4 @@
 
 <app-favorites-section></app-favorites-section>
 
-<app-discover-section></app-discover-section>
+<app-discover-section #discoverSection></app-discover-section>

@@ -32,6 +32,25 @@ export class DiscoverSectionComponent {
   isLoading = false;
   hasMoreItems = true;
 
+  // Propiedades para búsqueda
+  private searchTerm = '';
+  private filteredRestaurants: DiscoverRestaurant[] = [];
+
+  // Getter para saber si estamos en modo búsqueda
+  get isSearching(): boolean {
+    return this.searchTerm.length > 0;
+  }
+
+  // Getter para el término de búsqueda actual
+  get currentSearchTerm(): string {
+    return this.searchTerm;
+  }
+
+  // Getter para contar resultados
+  get totalResults(): number {
+    return this.isSearching ? this.filteredRestaurants.length : this.allRestaurants.length;
+  }
+
   // Lista completa de restaurantes (simulando API)
   private allRestaurants: DiscoverRestaurant[] = this.generateMockRestaurants();
 
@@ -58,9 +77,10 @@ export class DiscoverSectionComponent {
 
     // Simular delay de API
     setTimeout(() => {
+      const dataSource = this.searchTerm ? this.filteredRestaurants : this.allRestaurants;
       const startIndex = this.currentPage * this.itemsPerPage;
       const endIndex = startIndex + this.itemsPerPage;
-      const newRestaurants = this.allRestaurants.slice(startIndex, endIndex);
+      const newRestaurants = dataSource.slice(startIndex, endIndex);
 
       if (newRestaurants.length > 0) {
         this.discoverRestaurants = [...this.discoverRestaurants, ...newRestaurants];
@@ -69,9 +89,53 @@ export class DiscoverSectionComponent {
       }
 
       // Verificar si hay más elementos
-      this.hasMoreItems = endIndex < this.allRestaurants.length;
+      this.hasMoreItems = endIndex < dataSource.length;
       this.isLoading = false;
     }, 1000); // Simular 1 segundo de carga
+  }
+
+  // Filtrar restaurantes por término de búsqueda
+  filterRestaurants(searchTerm: string): void {
+    this.searchTerm = searchTerm.toLowerCase().trim();
+    this.logger.info('Filtering restaurants with term:', this.searchTerm);
+
+    if (!this.searchTerm) {
+      // Si no hay término de búsqueda, mostrar todos los restaurantes
+      this.resetToAllRestaurants();
+      return;
+    }
+
+    // Filtrar restaurantes por nombre, categoría y ubicación
+    this.filteredRestaurants = this.allRestaurants.filter(
+      (restaurant) =>
+        restaurant.name.toLowerCase().includes(this.searchTerm) ||
+        restaurant.category.toLowerCase().includes(this.searchTerm) ||
+        restaurant.location.toLowerCase().includes(this.searchTerm)
+    );
+
+    // Resetear paginación y mostrar primeros resultados
+    this.currentPage = 0;
+    this.discoverRestaurants = this.filteredRestaurants.slice(0, this.itemsPerPage);
+    this.currentPage = 1;
+    this.hasMoreItems = this.filteredRestaurants.length > this.itemsPerPage;
+
+    this.logger.info(`Found ${this.filteredRestaurants.length} restaurants matching "${searchTerm}"`);
+  }
+
+  // Resetear a mostrar todos los restaurantes
+  private resetToAllRestaurants(): void {
+    this.filteredRestaurants = [];
+    this.currentPage = 0;
+    this.discoverRestaurants = this.allRestaurants.slice(0, this.itemsPerPage);
+    this.currentPage = 1;
+    this.hasMoreItems = this.allRestaurants.length > this.itemsPerPage;
+  }
+
+  // Limpiar búsqueda (método público)
+  clearSearch(): void {
+    this.searchTerm = '';
+    this.resetToAllRestaurants();
+    this.logger.info('Search cleared, showing all restaurants');
   }
 
   // Generar datos mock de restaurantes
@@ -101,27 +165,59 @@ export class DiscoverSectionComponent {
       'Cala',
       'Barranco Beer Company',
       'El Mercado',
-      'Sáenz Briones'
+      'Sáenz Briones',
+      'Cevichería La Choza',
+      'Anticuchería Don Antioquio',
+      'Lomo Saltado Express',
+      'Pollería El Criollito',
+      'Parrillas del Sur',
+      'Ají de Gallina Mama Rosa',
+      'Causa Limeña',
+      'Tacu Tacu Tradicional',
+      'Arroz con Pollo Doña Carmen',
+      'Papa Rellena San Isidro',
+      'Chicharrón Colorado',
+      'Seco de Cabrito Norte',
+      'Tallarines Verdes Italia',
+      'Pollo a la Brasa Norky',
+      'Chifa Dragón Dorado'
     ];
 
-    const locations = ['Miraflores', 'San Isidro', 'Barranco', 'Jesús María', 'La Molina', 'Surco', 'Pueblo Libre'];
+    const locations = [
+      'Miraflores',
+      'San Isidro',
+      'Barranco',
+      'Jesús María',
+      'La Molina',
+      'Surco',
+      'Pueblo Libre',
+      'Lima Centro',
+      'Lince',
+      'Magdalena',
+      'San Miguel',
+      'Chorrillos'
+    ];
+
     const categories = [
       { name: 'Peruana', color: 'bg-red-500' },
       { name: 'Nikkei', color: 'bg-purple-500' },
       { name: 'Contemporánea', color: 'bg-blue-500' },
       { name: 'Gourmet', color: 'bg-green-500' },
       { name: 'Mariscos', color: 'bg-cyan-500' },
-      { name: 'Fusión', color: 'bg-orange-500' }
+      { name: 'Fusión', color: 'bg-orange-500' },
+      { name: 'Criolla', color: 'bg-yellow-500' },
+      { name: 'Chifa', color: 'bg-pink-500' },
+      { name: 'Parrillas', color: 'bg-indigo-500' },
+      { name: 'Pollerías', color: 'bg-gray-500' }
     ];
 
     const restaurants: DiscoverRestaurant[] = [];
 
     for (let i = 0; i < 100; i++) {
-      // Generar 100 restaurantes
       const category = categories[Math.floor(Math.random() * categories.length)];
       const restaurant: DiscoverRestaurant = {
         id: i + 1,
-        name: `${restaurantNames[i % restaurantNames.length]} ${i > 24 ? `(Sucursal ${Math.ceil(i / 25)})` : ''}`,
+        name: `${restaurantNames[i % restaurantNames.length]} ${i > 39 ? `(Sucursal ${Math.ceil(i / 40)})` : ''}`,
         location: locations[Math.floor(Math.random() * locations.length)],
         image: `https://images.unsplash.com/photo-${1517248135467 + i}?w=400&h=300&fit=crop&auto=format`,
         rating: +(3.5 + Math.random() * 1.5).toFixed(1),

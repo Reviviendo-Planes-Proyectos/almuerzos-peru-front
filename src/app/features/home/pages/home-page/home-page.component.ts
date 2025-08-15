@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild, inject } from '@angular/core';
 import { CoreModule } from '../../../../shared/modules';
 import {
   CategoriesSectionComponent,
@@ -7,6 +7,7 @@ import {
 import { DiscoverSectionComponent } from '../../components/discover-section/discover-section.component';
 import { FavoritesSectionComponent } from '../../components/favorites-section/favorites-section.component';
 import { SearchBarComponent } from '../../components/search-bar/search-bar.component';
+import { LoggerService } from '../../../../shared/services/logger/logger.service';
 
 @Component({
   selector: 'app-home-page',
@@ -22,6 +23,10 @@ import { SearchBarComponent } from '../../components/search-bar/search-bar.compo
   styleUrl: './home-page.component.scss'
 })
 export class HomePageComponent {
+  private readonly logger = inject(LoggerService);
+
+  @ViewChild(DiscoverSectionComponent) discoverSection!: DiscoverSectionComponent;
+
   notificationCount = 3; // Ejemplo con valor inicial
   cartItemsCount = 2; // Ejemplo con valor inicial
 
@@ -41,6 +46,28 @@ export class HomePageComponent {
 
   openCart(): void {
     this.cartOpened.emit();
+  }
+
+  // Manejar búsqueda en tiempo real
+  onSearchChange(searchTerm: string): void {
+    this.logger.info('Search term changed:', searchTerm);
+    if (this.discoverSection) {
+      this.discoverSection.filterRestaurants(searchTerm);
+    }
+  }
+
+  // Manejar búsqueda al presionar Enter
+  onSearch(searchTerm: string): void {
+    this.logger.info('Search executed:', searchTerm);
+    if (this.discoverSection) {
+      this.discoverSection.filterRestaurants(searchTerm);
+    }
+  }
+
+  // Manejar ubicación
+  onLocationUpdate(): void {
+    this.logger.info('Location update requested');
+    // Aquí puedes implementar lógica de filtrado por ubicación
   }
 
   onCategorySelected(_category: Category): void {
