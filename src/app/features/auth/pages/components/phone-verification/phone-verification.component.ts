@@ -1,7 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { BaseTranslatableComponent, CoreModule, SharedComponentsModule } from '../../../../../shared/modules';
+import { VerificationCountdownService } from '../../../../../shared/services/verification-countdown/verification-countdown.service';
 
 @Component({
   selector: 'app-phone-verification',
@@ -12,18 +14,17 @@ import { BaseTranslatableComponent, CoreModule, SharedComponentsModule } from '.
 })
 export class PhoneVerificationComponent extends BaseTranslatableComponent implements OnInit, OnDestroy {
   userPhone!: string;
-  canResendCode = false;
-  countdownTimer = 60;
   codeSent = false;
   verificationForm!: FormGroup;
   preferredMethod: 'sms' | 'whatsapp' = 'sms';
   isVerifying = false;
-  private intervalId?: number;
+  private countdownSubscription!: Subscription;
   currentStep = 2;
 
   constructor(
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    public countdownService: VerificationCountdownService
   ) {
     super();
   }
@@ -38,26 +39,26 @@ export class PhoneVerificationComponent extends BaseTranslatableComponent implem
       this.resetComponentState();
     } else {
       this.userPhone = '+51 9***';
-      this.startCountdown();
+      this.countdownService.startCountdown();
     }
   }
 
   private resetComponentState(): void {
     this.codeSent = false;
-    this.canResendCode = false;
-    this.countdownTimer = 60;
 
     if (this.verificationForm) {
       this.verificationForm.reset();
     }
 
-    this.startCountdown();
+    this.countdownService.resetCountdown();
+    this.countdownService.startCountdown();
   }
 
   ngOnDestroy(): void {
-    if (this.intervalId) {
-      clearInterval(this.intervalId);
+    if (this.countdownSubscription) {
+      this.countdownSubscription.unsubscribe();
     }
+    this.countdownService.clearInterval();
   }
 
   private maskPhone(phone: string): string {
@@ -109,8 +110,8 @@ export class PhoneVerificationComponent extends BaseTranslatableComponent implem
   }
 
   resendCode(): void {
-    if (this.canResendCode) {
-      this.startCountdown();
+    if (this.countdownService.canResendCode) {
+      this.countdownService.startCountdown();
     }
   }
 
@@ -124,25 +125,5 @@ export class PhoneVerificationComponent extends BaseTranslatableComponent implem
 
   onBackClick(): void {
     this.goBack();
-  }
-
-  private startCountdown(): void {
-    if (this.intervalId) {
-      clearInterval(this.intervalId);
-    }
-
-    this.canResendCode = false;
-    this.countdownTimer = 60;
-
-    this.intervalId = setInterval(() => {
-      this.countdownTimer--;
-      if (this.countdownTimer <= 0) {
-        this.canResendCode = true;
-        if (this.intervalId) {
-          clearInterval(this.intervalId);
-          this.intervalId = undefined;
-        }
-      }
-    }, 1000) as unknown as number;
   }
 }

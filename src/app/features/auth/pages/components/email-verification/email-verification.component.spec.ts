@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
 import { CoreModule, SharedComponentsModule } from '../../../../../shared/modules';
+import { VerificationCountdownService } from '../../../../../shared/services/verification-countdown/verification-countdown.service';
 import { EmailVerificationComponent } from './email-verification.component';
 
 describe('EmailVerificationComponent', () => {
@@ -12,6 +13,7 @@ describe('EmailVerificationComponent', () => {
   let debugElement: DebugElement;
   let mockRouter: jest.Mocked<Router>;
   let mockActivatedRoute: jest.Mocked<ActivatedRoute>;
+  let mockCountdownService: jest.Mocked<VerificationCountdownService>;
 
   beforeEach(async () => {
     mockRouter = {
@@ -25,11 +27,32 @@ describe('EmailVerificationComponent', () => {
       }
     } as any;
 
+    mockCountdownService = {
+      canResendCode$: of(false),
+      countdownTimer$: of(60),
+      startCountdown: jest.fn(),
+      resetCountdown: jest.fn(),
+      clearInterval: jest.fn()
+    } as any;
+
+    Object.defineProperty(mockCountdownService, 'canResendCode', {
+      value: false,
+      writable: true,
+      configurable: true
+    });
+
+    Object.defineProperty(mockCountdownService, 'countdownTimer', {
+      value: 60,
+      writable: true,
+      configurable: true
+    });
+
     await TestBed.configureTestingModule({
       imports: [EmailVerificationComponent, CoreModule, SharedComponentsModule],
       providers: [
         { provide: Router, useValue: mockRouter },
-        { provide: ActivatedRoute, useValue: mockActivatedRoute }
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        { provide: VerificationCountdownService, useValue: mockCountdownService }
       ]
     }).compileComponents();
 
@@ -139,23 +162,18 @@ describe('EmailVerificationComponent', () => {
   describe('Resend code functionality', () => {
     beforeEach(() => {
       component.codeSent = true;
-      component.canResendCode = true;
       fixture.detectChanges();
     });
 
-    it('should reset countdown when resendCodeFromVerificationView is called', () => {
+    it('should start countdown when resendCodeFromVerificationView is called', () => {
       component.resendCodeFromVerificationView();
-      expect(component.canResendCode).toBe(false);
-      expect(component.countdownTimer).toBe(60);
+      expect(mockCountdownService.startCountdown).toHaveBeenCalled();
     });
 
-    it('should show countdown timer when canResendCode is false', () => {
-      component.canResendCode = false;
-      component.countdownTimer = 30;
-      fixture.detectChanges();
-
-      expect(component.canResendCode).toBe(false);
-      expect(component.countdownTimer).toBe(30);
+    it('should use countdown service observables', () => {
+      expect(component.countdownService).toBeDefined();
+      expect(mockCountdownService.canResendCode$).toBeDefined();
+      expect(mockCountdownService.countdownTimer$).toBeDefined();
     });
   });
 
@@ -202,14 +220,16 @@ describe('EmailVerificationComponent', () => {
   });
 
   describe('Component lifecycle', () => {
-    it('should initialize countdown timer', () => {
-      expect(component.countdownTimer).toBe(60);
-      expect(component.canResendCode).toBe(false);
+    it('should initialize countdown service', () => {
+      expect(component.countdownService).toBeDefined();
+      expect(mockCountdownService.canResendCode$).toBeDefined();
+      expect(mockCountdownService.countdownTimer$).toBeDefined();
     });
 
     it('should set codeSent to true when sendVerificationCode is called', () => {
       component.sendVerificationCode();
       expect(component.codeSent).toBe(true);
+      expect(mockCountdownService.startCountdown).toHaveBeenCalled();
     });
   });
 });

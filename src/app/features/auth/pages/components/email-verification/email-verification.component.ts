@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { BaseTranslatableComponent, CoreModule, SharedComponentsModule } from '../../../../../shared/modules';
+import { VerificationCountdownService } from '../../../../../shared/services/verification-countdown/verification-countdown.service';
 
 @Component({
   selector: 'app-email-verification',
@@ -14,19 +15,18 @@ import { BaseTranslatableComponent, CoreModule, SharedComponentsModule } from '.
 export class EmailVerificationComponent extends BaseTranslatableComponent implements OnInit, OnDestroy {
   userEmail!: string;
   originalEmail: string | null = null;
-  canResendCode = false;
-  countdownTimer = 60;
   codeSent = false;
   verificationForm!: FormGroup;
   private paramsSubscription!: Subscription;
-  private intervalId?: number;
+  private countdownSubscription!: Subscription;
   currentStep = 2;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private fb: FormBuilder,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    public countdownService: VerificationCountdownService
   ) {
     super();
   }
@@ -51,30 +51,30 @@ export class EmailVerificationComponent extends BaseTranslatableComponent implem
         this.resetComponentState();
       } else {
         this.userEmail = 's***@gmail.com';
-        this.startCountdown();
+        this.countdownService.startCountdown();
       }
     });
   }
 
   private resetComponentState(): void {
     this.codeSent = false;
-    this.canResendCode = false;
-    this.countdownTimer = 60;
 
     if (this.verificationForm) {
       this.verificationForm.reset();
     }
 
-    this.startCountdown();
+    this.countdownService.resetCountdown();
+    this.countdownService.startCountdown();
   }
 
   ngOnDestroy(): void {
     if (this.paramsSubscription) {
       this.paramsSubscription.unsubscribe();
     }
-    if (this.intervalId) {
-      clearInterval(this.intervalId);
+    if (this.countdownSubscription) {
+      this.countdownSubscription.unsubscribe();
     }
+    this.countdownService.clearInterval();
   }
 
   private maskEmail(email: string): string {
@@ -94,7 +94,7 @@ export class EmailVerificationComponent extends BaseTranslatableComponent implem
 
   sendVerificationCode(): void {
     this.codeSent = true;
-    this.startCountdown();
+    this.countdownService.startCountdown();
   }
 
   verifyCode(): void {
@@ -112,13 +112,13 @@ export class EmailVerificationComponent extends BaseTranslatableComponent implem
   }
 
   resendCode(): void {
-    if (this.canResendCode) {
-      this.startCountdown();
+    if (this.countdownService.canResendCode) {
+      this.countdownService.startCountdown();
     }
   }
 
   resendCodeFromVerificationView(): void {
-    this.startCountdown();
+    this.countdownService.startCountdown();
   }
 
   doLater(): void {
@@ -137,25 +137,5 @@ export class EmailVerificationComponent extends BaseTranslatableComponent implem
 
   onBackClick(): void {
     this.goBack();
-  }
-
-  private startCountdown(): void {
-    if (this.intervalId) {
-      clearInterval(this.intervalId);
-    }
-
-    this.canResendCode = false;
-    this.countdownTimer = 60;
-
-    this.intervalId = setInterval(() => {
-      this.countdownTimer--;
-      if (this.countdownTimer <= 0) {
-        this.canResendCode = true;
-        if (this.intervalId) {
-          clearInterval(this.intervalId);
-          this.intervalId = undefined;
-        }
-      }
-    }, 1000) as unknown as number;
   }
 }

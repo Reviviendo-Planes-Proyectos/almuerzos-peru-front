@@ -1,9 +1,11 @@
 import { DebugElement } from '@angular/core';
-import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { of } from 'rxjs';
 import { CoreModule, I18nService, SharedComponentsModule } from '../../../../../shared/modules';
+import { VerificationCountdownService } from '../../../../../shared/services/verification-countdown/verification-countdown.service';
 import { PhoneVerificationComponent } from './phone-verification.component';
 
 // Mock del servicio de traducción
@@ -26,6 +28,7 @@ describe('PhoneVerificationComponent', () => {
   let router: jest.Mocked<Router>;
   let debugElement: DebugElement;
   let mockI18nService: MockI18nService;
+  let mockCountdownService: jest.Mocked<VerificationCountdownService>;
 
   const mockRouter = {
     navigate: jest.fn(),
@@ -35,12 +38,23 @@ describe('PhoneVerificationComponent', () => {
   beforeEach(async () => {
     mockI18nService = new MockI18nService();
 
+    mockCountdownService = {
+      canResendCode$: of(false),
+      countdownTimer$: of(60),
+      startCountdown: jest.fn(),
+      resetCountdown: jest.fn(),
+      clearInterval: jest.fn(),
+      canResendCode: false,
+      countdownTimer: 60
+    } as any;
+
     await TestBed.configureTestingModule({
       imports: [PhoneVerificationComponent, CoreModule, SharedComponentsModule],
       providers: [
         FormBuilder,
         { provide: Router, useValue: mockRouter },
-        { provide: I18nService, useValue: mockI18nService }
+        { provide: I18nService, useValue: mockI18nService },
+        { provide: VerificationCountdownService, useValue: mockCountdownService }
       ]
     }).compileComponents();
 
@@ -59,9 +73,6 @@ describe('PhoneVerificationComponent', () => {
 
   afterEach(() => {
     jest.clearAllMocks();
-    if ((component as any).intervalId) {
-      clearInterval((component as any).intervalId);
-    }
   });
 
   describe('Component Initialization', () => {
@@ -92,8 +103,8 @@ describe('PhoneVerificationComponent', () => {
 
     it('should start countdown on initialization', () => {
       component.ngOnInit();
-      expect(component.countdownTimer).toBe(60);
-      expect(component.canResendCode).toBe(false);
+      expect(mockCountdownService.startCountdown).toHaveBeenCalled();
+      expect(component.countdownService).toBeDefined();
     });
   });
 
@@ -199,37 +210,20 @@ describe('PhoneVerificationComponent', () => {
       fixture.detectChanges();
     });
 
-    it('should start countdown with 60 seconds', () => {
-      expect(component.countdownTimer).toBe(60);
-      expect(component.canResendCode).toBe(false);
+    it('should use countdown service', () => {
+      expect(component.countdownService).toBeDefined();
+      expect(mockCountdownService.canResendCode$).toBeDefined();
+      expect(mockCountdownService.countdownTimer$).toBeDefined();
     });
 
-    it('should decrement countdown timer', fakeAsync(() => {
-      (component as any).startCountdown();
-      tick(1000);
-      expect(component.countdownTimer).toBe(59);
-
-      // Limpiar el timer
-      if ((component as any).intervalId) {
-        clearInterval((component as any).intervalId);
-      }
-      flush();
-    }));
-
-    /*   it('should enable resend when countdown reaches 0', fakeAsync(() => {
-      component.countdownTimer = 1;
-      (component as any).startCountdown();
-      tick(1000);
-      expect(component.canResendCode).toBe(true);
-      expect(component.countdownTimer).toBe(0);
-      flush();
-    })); */
+    it('should start countdown service on initialization', () => {
+      expect(mockCountdownService.startCountdown).toHaveBeenCalled();
+    });
 
     it('should restart countdown when resending code', () => {
-      component.canResendCode = true;
+      Object.defineProperty(mockCountdownService, 'canResendCode', { value: true });
       component.resendCode();
-      expect(component.countdownTimer).toBe(60);
-      expect(component.canResendCode).toBe(false);
+      expect(mockCountdownService.startCountdown).toHaveBeenCalled();
     });
   });
 
@@ -278,7 +272,6 @@ describe('PhoneVerificationComponent', () => {
     });
 
     it('should display phone number', () => {
-      // Buscar específicamente el párrafo que contiene el teléfono
       const phoneElements = debugElement.queryAll(By.css('p'));
       const phoneElement = phoneElements.find(
         (p) => p.nativeElement.textContent.includes('+51') || p.nativeElement.textContent.includes('9***')
