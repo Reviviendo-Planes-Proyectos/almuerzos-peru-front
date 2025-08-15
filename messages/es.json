@@ -223,7 +223,7 @@
         },
         "realTimeUpdate": {
           "title": "Actualización en Tiempo Real",
-          "subtitle": "Si algo se acabó, retíralo fácilmente."
+          "subtitle": "Si algo se acabó, retíralo fácilmente y sin complicaciones."
         },
         "whatsappShare": {
           "title": "Comparte por WhatsApp",
@@ -231,7 +231,7 @@
         },
         "freeAdvertising": {
           "title": "Publicidad Gratis",
-          "subtitle": "Sube tu menú y listo. Tu restaurante será visible para más clientes sin esfuerzos."
+          "subtitle": "Sube tu menú y listo. Tu restaurante será visible para más clientes, sin esfuerzo."
         },
         "allInOnePlace": {
           "title": "Todo en un Solo Lugar",
@@ -243,7 +243,7 @@
         },
         "exclusivePromotions": {
           "title": "Promociones exclusivas",
-          "subtitle": "Accede a menús con descuentos,y promocionas solo para usuarios activos. ¡Usa la app, gana más y almuerza mejor!"
+          "subtitle": "Accede a menús con descuentos, y promociones solo para usuarios activos. ¡Usa la app y gana más!"
         }
       },
       "pricing": {

@@ -11,3 +11,4 @@ export { InputFieldComponent } from './ui/input-field/input-field.component';
 export { LangComponent } from './ui/language-selector/language-selector.component';
 export type { SelectOption } from './ui/select-field/select-field.component';
 export { SelectFieldComponent } from './ui/select-field/select-field.component';
+export { ToggleSwitchComponent } from './ui/toggle-switch/toggle-switch.component';

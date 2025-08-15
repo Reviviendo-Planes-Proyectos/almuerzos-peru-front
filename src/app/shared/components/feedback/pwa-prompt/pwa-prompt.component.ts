@@ -170,9 +170,7 @@ export class PwaPromptComponent implements OnInit, OnDestroy {
 
     setTimeout(() => {
       // Verificar nuevamente antes de mostrar
-      if (!this.wasPromptRecentlyDismissed() && 
-          this.pwaService.canInstallApp() && 
-          !this.pwaService.isInstalled()) {
+      if (!this.wasPromptRecentlyDismissed() && this.pwaService.canInstallApp() && !this.pwaService.isInstalled()) {
         this.showInstallPrompt = true;
       }
     }, 20000); // 20 segundos - balance entre rapidez y experiencia
@@ -238,11 +236,9 @@ export class PwaPromptComponent implements OnInit, OnDestroy {
     } else if (this.pwaService.canInstallApp()) {
       this.showPromptManually();
     } else {
-      this.snackBar.open(
-        'La aplicación no se puede instalar en este momento desde este navegador.',
-        'Cerrar',
-        { duration: 3000 }
-      );
+      this.snackBar.open('La aplicación no se puede instalar en este momento desde este navegador.', 'Cerrar', {
+        duration: 3000
+      });
     }
   }
 
@@ -328,9 +324,5 @@ export class PwaPromptComponent implements OnInit, OnDestroy {
       !userAgent.includes('crios') &&
       !userAgent.includes('fxios')
     );
-  }
-
-  private isAppInstalled(): boolean {
-    return this.pwaService.isInstalled();
   }
 }
