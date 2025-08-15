@@ -5,11 +5,12 @@ import {
   type Category
 } from '../../components/categories-section/categories-section.component';
 import { SearchBarComponent } from '../../components/search-bar/search-bar.component';
+import { FavoritesSectionComponent } from '../../components/favorites-section/favorites-section.component';
 
 @Component({
   selector: 'app-home-page',
   standalone: true,
-  imports: [CoreModule, SearchBarComponent, CategoriesSectionComponent],
+  imports: [CoreModule, SearchBarComponent, CategoriesSectionComponent, FavoritesSectionComponent],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss'
 })
