@@ -76,4 +76,8 @@ export class BenefitsSectionComponent extends BaseTranslatableComponent {
       }
     ];
   }
+
+  getBenefitsByAudience(audience: string): Benefit[] {
+    return this.benefits.filter((benefit) => benefit.audience === audience);
+  }
 }

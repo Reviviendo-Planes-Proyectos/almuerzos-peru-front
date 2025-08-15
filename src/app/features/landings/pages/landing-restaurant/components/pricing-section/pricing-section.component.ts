@@ -1,5 +1,10 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { BaseTranslatableComponent, CoreModule, MaterialModule } from '../../../../../../shared/modules';
+import {
+  BaseTranslatableComponent,
+  CoreModule,
+  MaterialModule,
+  SharedComponentsModule
+} from '../../../../../../shared/modules';
 
 enum PlanType {
   FREE = 'free',
@@ -36,7 +41,7 @@ interface ComparisonFeature {
   templateUrl: './pricing-section.component.html',
   styleUrls: ['./pricing-section.component.scss'],
   standalone: true,
-  imports: [CoreModule, MaterialModule]
+  imports: [CoreModule, MaterialModule, SharedComponentsModule]
 })
 export class PricingSectionComponent extends BaseTranslatableComponent implements AfterViewInit, OnDestroy, OnInit {
   isAnnual = false;
