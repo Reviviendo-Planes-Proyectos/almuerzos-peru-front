@@ -810,6 +810,11 @@
         "later": "Later"
       },
       "tooltip": "Install Lunches Peru"
+    },
+    "reminder": {
+      "title": "Like Lunches Peru?",
+      "description": "Install the app for quick access and exclusive deals",
+      "install": "Install"
     }
   },
   "modal": {
