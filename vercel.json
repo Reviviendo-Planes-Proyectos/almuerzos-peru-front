@@ -6,7 +6,7 @@
     }
   ],
   "buildCommand": "npm run build:ssr",
-  "outputDirectory": "dist/almuerzos-peru-front/browser",
+  "outputDirectory": "dist/almuerzos-peru-front",
   "cleanUrls": true,
   "trailingSlash": false,
   "headers": [

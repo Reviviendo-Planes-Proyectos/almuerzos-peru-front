@@ -16,7 +16,6 @@ import { PwaService } from '../../../services/pwa/pwa.service';
 export class PwaPromptComponent implements OnInit, OnDestroy {
   showInstallPrompt = false;
   canInstall = false;
-  updateAvailable = false;
   isMobile = false;
   showFabAfter30Seconds = false;
   public isBrowser: boolean;
@@ -47,10 +46,6 @@ export class PwaPromptComponent implements OnInit, OnDestroy {
     this.canInstallInterval = setInterval(() => {
       this.checkCanInstall();
     }, 5000);
-
-    this.pwaService.updateAvailable$.subscribe((available) => {
-      this.updateAvailable = available;
-    });
 
     if (this.isBrowser) {
       window.addEventListener('pwa-install-available', () => {
@@ -86,19 +81,23 @@ export class PwaPromptComponent implements OnInit, OnDestroy {
 
     const previousCanInstall = this.canInstall;
 
+    // Primero verificamos si la app está instalada
     if (this.pwaService.isInstalled()) {
       this.canInstall = false;
       this.showInstallPrompt = false;
+      this.logger.info('PWA is installed - hiding install prompt');
       return;
     }
 
+    // Luego verificamos si se puede instalar
     this.canInstall = this.pwaService.canInstallApp();
-    this.pwaService.checkInstallability();
 
+    // Para iOS Safari, permitimos instalación manual
     if (this.isIOSSafari() && !this.isAppInstalled()) {
       this.canInstall = true;
     }
 
+    // Para Android Chrome, verificamos con un delay adicional
     if (this.isAndroidChrome() && !this.pwaService.hasInstallPrompt()) {
       setTimeout(() => {
         this.canInstall = this.pwaService.canInstallApp();
@@ -111,7 +110,8 @@ export class PwaPromptComponent implements OnInit, OnDestroy {
         hasPrompt: this.pwaService.hasInstallPrompt(),
         isInstalled: this.pwaService.isInstalled(),
         isIOSSafari: this.isIOSSafari(),
-        isAndroidChrome: this.isAndroidChrome()
+        isAndroidChrome: this.isAndroidChrome(),
+        hostname: window.location.hostname
       });
     }
   }
@@ -147,7 +147,7 @@ export class PwaPromptComponent implements OnInit, OnDestroy {
 
     setTimeout(() => {
       this.showFabAfter30Seconds = true;
-    }, 30000);
+    }, 15000); // 15 segundos - más realista pero no muy largo
   }
 
   private scheduleInstallPrompt(): void {
@@ -163,7 +163,7 @@ export class PwaPromptComponent implements OnInit, OnDestroy {
       if (!this.wasPromptRecentlyDismissed() && this.pwaService.canInstallApp()) {
         this.showInstallPrompt = true;
       }
-    }, 45000);
+    }, 20000); // 20 segundos - balance entre rapidez y experiencia
   }
 
   private wasPromptRecentlyDismissed(): boolean {
@@ -202,6 +202,14 @@ export class PwaPromptComponent implements OnInit, OnDestroy {
 
   async installApp(): Promise<void> {
     try {
+      // Verificar primero si la app ya está instalada
+      if (this.pwaService.isInstalled()) {
+        this.logger.info('App is already installed - hiding install prompt');
+        this.canInstall = false;
+        this.showInstallPrompt = false;
+        return;
+      }
+
       if (this.isIOSSafari() && !this.pwaService.hasInstallPrompt()) {
         this.showIOSInstallInstructions();
         return;
@@ -226,14 +234,26 @@ export class PwaPromptComponent implements OnInit, OnDestroy {
       }
 
       this.logger.info('Attempting to install PWA with prompt available');
-      const installed = await this.pwaService.installApp();
+      const result = await this.pwaService.installApp();
 
-      if (installed) {
+      if (result.success) {
         this.showInstallPrompt = false;
         this.canInstall = false;
         this.snackBar.open('¡App instalada exitosamente!', 'Cerrar', { duration: 3000 });
       } else {
-        this.snackBar.open('Instalación cancelada por el usuario', 'Cerrar', { duration: 3000 });
+        switch (result.reason) {
+          case 'USER_DISMISSED':
+            this.snackBar.open('Instalación cancelada por el usuario', 'Cerrar', { duration: 3000 });
+            break;
+          case 'NO_PROMPT':
+            this.snackBar.open('Prompt de instalación no disponible', 'Cerrar', { duration: 3000 });
+            break;
+          case 'ERROR':
+            this.snackBar.open('Error durante la instalación', 'Cerrar', { duration: 3000 });
+            break;
+          default:
+            this.snackBar.open('No se pudo completar la instalación', 'Cerrar', { duration: 3000 });
+        }
       }
     } catch (error) {
       this.logger.error('Error al instalar la aplicación', error);
@@ -266,19 +286,5 @@ export class PwaPromptComponent implements OnInit, OnDestroy {
 
   private isAppInstalled(): boolean {
     return this.pwaService.isInstalled();
-  }
-
-  async updateApp(): Promise<void> {
-    try {
-      await this.pwaService.updateApp();
-    } catch {
-      this.snackBar.open('Error al actualizar la aplicación', 'Cerrar', {
-        duration: 3000
-      });
-    }
-  }
-
-  dismissUpdate(): void {
-    this.updateAvailable = false;
   }
 }
