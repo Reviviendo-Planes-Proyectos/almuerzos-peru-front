@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Output, ViewChild, inject } from '@angular/core';
+import { Component, EventEmitter, inject, Output, ViewChild } from '@angular/core';
 import { CoreModule } from '../../../../shared/modules';
+import { LoggerService } from '../../../../shared/services/logger/logger.service';
 import {
   CategoriesSectionComponent,
   type Category
@@ -7,7 +8,6 @@ import {
 import { DiscoverSectionComponent } from '../../components/discover-section/discover-section.component';
 import { FavoritesSectionComponent } from '../../components/favorites-section/favorites-section.component';
 import { SearchBarComponent } from '../../components/search-bar/search-bar.component';
-import { LoggerService } from '../../../../shared/services/logger/logger.service';
 
 @Component({
   selector: 'app-home-page',

@@ -1,8 +1,8 @@
 // search-bar.component.ts
-import { Component, EventEmitter, inject, Output, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, inject, OnDestroy, Output } from '@angular/core';
+import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { CoreModule } from '../../../../shared/modules';
 import { LoggerService } from '../../../../shared/services/logger/logger.service';
-import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
   selector: 'app-search-bar',
