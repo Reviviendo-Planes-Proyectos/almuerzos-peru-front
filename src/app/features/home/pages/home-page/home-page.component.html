@@ -1,0 +1,70 @@
+<!-- header.component.html -->
+<header class="bg-gradient-to-r from-orange-400 via-yellow-400 to-orange-500 px-4 py-3 shadow-lg">
+  <div class="flex items-center justify-between">
+    <!-- Menu hamburger (izquierda) -->
+    <button class="text-white p-1" (click)="toggleMenu()">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+    </button>
+
+    <!-- Logo y texto central -->
+    <div class="flex items-center space-x-2">
+      <!-- Icono del logo (shield) -->
+      <div class="w-8 h-8 bg-yellow-600 rounded-full flex items-center justify-center">
+        <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+          <path
+            fill-rule="evenodd"
+            d="M3 6a3 3 0 013-3h10a1 1 0 01.8 1.6L14.25 8l2.55 3.4A1 1 0 0116 13H6a1 1 0 00-1 1v3a1 1 0 11-2 0V6z"
+            clip-rule="evenodd"
+          ></path>
+        </svg>
+      </div>
+      <span class="text-white font-bold text-lg">ALMUERZOS PERÚ</span>
+    </div>
+
+    <!-- Iconos derecha (notificación y carrito) -->
+    <div class="flex items-center space-x-3">
+      <!-- Icono de notificación -->
+      <button class="text-white relative p-1" (click)="openNotifications()">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M15 17h5l-5 5-5-5h5V7a3 3 0 016 0v10z"
+          ></path>
+        </svg>
+        <!-- Badge de notificaciones (opcional) -->
+        <span
+          *ngIf="notificationCount > 0"
+          class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center"
+        >
+          {{ notificationCount }}
+        </span>
+      </button>
+
+      <!-- Icono de carrito -->
+      <button class="text-white relative p-1" (click)="openCart()">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5M17 13v6a2 2 0 01-2 2H9a2 2 0 01-2-2v-6m8 0V9a2 2 0 00-2-2H9a2 2 0 00-2 2v4.01"
+          ></path>
+        </svg>
+        <!-- Badge del carrito -->
+        <span
+          *ngIf="cartItemsCount > 0"
+          class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center"
+        >
+          {{ cartItemsCount }}
+        </span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Search Bar separado del header -->
+<app-search-bar></app-search-bar>
