@@ -8,7 +8,9 @@ describe('TranslatePipe', () => {
 
   beforeEach(() => {
     mockI18nService = {
-      t: jest.fn()
+      t: jest.fn(),
+      isReady: jest.fn().mockReturnValue(true),
+      currentLang: jest.fn().mockReturnValue('es')
     } as unknown as jest.Mocked<I18nService>;
 
     TestBed.configureTestingModule({
