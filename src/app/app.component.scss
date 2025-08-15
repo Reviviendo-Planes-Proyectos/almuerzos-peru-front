@@ -1,0 +1,41 @@
+// 📱 Estilos específicos para experiencia móvil
+:host {
+  display: block;
+  height: 100%;
+
+  // Prevenir overscroll en toda la app
+  overscroll-behavior: none;
+
+  // Safe area support
+  @supports (padding: max(0px)) {
+    padding-top: max(0px, env(safe-area-inset-top));
+    padding-bottom: max(0px, env(safe-area-inset-bottom));
+  }
+}
+
+// Mejoras para contenido scrolleable
+.scrollable-content {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: none;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+// Optimizaciones para iOS
+@media (-webkit-min-device-pixel-ratio: 2) {
+  // Retina displays
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+// Mejoras para Android
+@media (pointer: coarse) {
+  // Dispositivos táctiles
+  button,
+  [role='button'] {
+    min-height: 48px;
+    padding: 12px 16px;
+  }
+}
