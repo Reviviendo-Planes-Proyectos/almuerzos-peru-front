@@ -200,7 +200,7 @@ export class DiscoverSectionComponent {
       const category = categories[i % categories.length];
       const restaurant: DiscoverRestaurant = {
         id: i + 1,
-        name: `${restaurantNames[i % restaurantNames.length]} ${i > 39 ? `(Sucursal ${Math.ceil(i / 40)})` : ''}`,
+        name: `${restaurantNames[i % restaurantNames.length]} ${i > 39 ? `(Sucursal ${((i / 40) | 0) + 1})` : ''}`,
         location: locations[i % locations.length],
         image: `https://images.unsplash.com/photo-${1517248135467 + i}?w=400&h=300&fit=crop&auto=format`,
         rating: +(3.5 + (i % 15) * 0.1).toFixed(1), // Rating entre 3.5 y 5.0
