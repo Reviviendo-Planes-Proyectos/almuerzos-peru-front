@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:spa": "ng build --configuration spa",
     "build:ssr": "ng build --configuration production",
     "serve:ssr": "node dist/almuerzos-peru-front/server/server.mjs",
     "build:serve:ssr": "npm run build:ssr && npm run serve:ssr",
@@ -25,8 +26,8 @@
     "test:e2e": "playwright test"
   },
   "engines": {
-    "node": ">=18.18.0",
-    "npm": ">=9.0.0"
+    "node": ">=20.11.0",
+    "npm": ">=10.0.0"
   },
   "private": true,
   "dependencies": {
