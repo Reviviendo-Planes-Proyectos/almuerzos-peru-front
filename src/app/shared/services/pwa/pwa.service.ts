@@ -149,21 +149,29 @@ export class PwaService {
 
   public async installApp(): Promise<boolean> {
     if (!this.promptEvent) {
+      this.logger.warn('No install prompt available');
       return false;
     }
 
     try {
+      this.logger.info('Showing install prompt');
       await this.promptEvent.prompt();
       const result = await this.promptEvent.userChoice;
 
+      this.logger.info('Install prompt result:', result.outcome);
+
       if (result.outcome === 'accepted') {
         this.isAppInstalled.next(true);
+        this.logger.info('PWA installation accepted by user');
+      } else {
+        this.logger.info('PWA installation dismissed by user');
       }
 
       this.promptEvent = null;
       return result.outcome === 'accepted';
     } catch (error) {
       this.logger.warn('PWA installation failed', error);
+      this.promptEvent = null;
       return false;
     }
   }
@@ -185,6 +193,37 @@ export class PwaService {
 
   public hasInstallPrompt(): boolean {
     return !!this.promptEvent;
+  }
+
+  public getInstallStatus(): { canInstall: boolean; hasPrompt: boolean; reason?: string } {
+    if (!this.isBrowser) {
+      return { canInstall: false, hasPrompt: false, reason: 'Not in browser' };
+    }
+
+    if (this.isAppInstalled.value) {
+      return { canInstall: false, hasPrompt: false, reason: 'Already installed' };
+    }
+
+    const hasPrompt = !!this.promptEvent;
+
+    if (hasPrompt) {
+      return { canInstall: true, hasPrompt: true };
+    }
+
+    if (this.isIOSSafari()) {
+      return { canInstall: true, hasPrompt: false, reason: 'iOS Safari - manual installation' };
+    }
+
+    if (this.shouldSimulatePrompt()) {
+      return { canInstall: true, hasPrompt: false, reason: 'Development mode simulation' };
+    }
+
+    const canInstallManually = this.hasServiceWorker() && this.hasValidManifest();
+    return {
+      canInstall: canInstallManually,
+      hasPrompt: false,
+      reason: canInstallManually ? 'Manual installation available' : 'Not installable'
+    };
   }
 
   public getDebugInfo(): any {

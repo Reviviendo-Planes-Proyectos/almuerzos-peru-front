@@ -17,7 +17,19 @@ module.exports = {
     '!src/polyfills.ts',
     '!**/*.module.ts',
     '!**/index.ts',
-    '!**/node_modules/**'
+    '!**/node_modules/**',
+    '!**/*.routes.ts',
+    '!**/*.config*.ts',
+    '!**/constants/**',
+    '!**/testing/**',
+    '!**/server.ts',
+    '!**/pwa/**',
+    '!**/pwa-prompt/**',
+    '!**/pwa-prompt.component.ts',
+    '!**/i18n/**',
+    '!**/translation.service.ts',
+    '!**/translation/**',
+    '!**/translate.**'
   ],
   coverageThreshold: {
     global: {
