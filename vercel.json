@@ -5,17 +5,14 @@
       "memory": 1024
     }
   },
-  "routes": [
+  "rewrites": [
     {
-      "src": "/(.*\\.(js|css|ico|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot|webp|webmanifest|json))$",
-      "dest": "/browser/$1",
-      "headers": {
-        "cache-control": "public, max-age=31536000, immutable"
-      }
+      "source": "/(.*\\.(js|css|ico|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot|webp|webmanifest|json))",
+      "destination": "/browser/$1"
     },
     {
-      "src": "/(.*)",
-      "dest": "/api/ssr"
+      "source": "/(.*)",
+      "destination": "/api/ssr"
     }
   ],
   "buildCommand": "npm run build:ssr",
