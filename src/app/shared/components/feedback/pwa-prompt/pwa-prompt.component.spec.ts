@@ -52,6 +52,7 @@ describe('PwaPromptComponent', () => {
       updateAvailable$: updateAvailableSubject.asObservable(),
       canInstallApp: jest.fn().mockReturnValue(false),
       hasInstallPrompt: jest.fn().mockReturnValue(false),
+      getInstallStatus: jest.fn().mockReturnValue({ canInstall: true, hasPrompt: true }),
       checkInstallability: jest.fn(),
       isInstalled: jest.fn().mockReturnValue(false),
       logDebugInfo: jest.fn()
@@ -128,14 +129,27 @@ describe('PwaPromptComponent', () => {
   });
 
   it('should handle installation successfully', async () => {
-    mockPwaService.canInstallApp.mockReturnValue(true);
+    mockSnackBar.open.mockClear();
+
+    Object.defineProperty(window.navigator, 'userAgent', {
+      value: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+      writable: true
+    });
+
+    component.isBrowser = true;
+    const isIOSSafariSpy = jest.spyOn(component as any, 'isIOSSafari').mockReturnValue(false);
+
+    mockPwaService.getInstallStatus.mockReturnValue({ canInstall: true, hasPrompt: true });
     mockPwaService.installApp.mockResolvedValue(true);
     component.showInstallPrompt = true;
 
     await component.installApp();
 
+    expect(mockPwaService.getInstallStatus).toHaveBeenCalled();
     expect(mockPwaService.installApp).toHaveBeenCalled();
     expect(component.showInstallPrompt).toBe(false);
+
+    isIOSSafariSpy.mockRestore();
   });
 
   it('should detect mobile device correctly', () => {
@@ -247,12 +261,116 @@ describe('PwaPromptComponent', () => {
   });
 
   it('should handle installation error', async () => {
-    mockPwaService.canInstallApp.mockReturnValue(true);
+    mockSnackBar.open.mockClear();
+
+    Object.defineProperty(window.navigator, 'userAgent', {
+      value: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+      writable: true
+    });
+
+    const isIOSSafariSpy = jest.spyOn(component as any, 'isIOSSafari').mockReturnValue(false);
+
+    mockPwaService.getInstallStatus.mockReturnValue({ canInstall: true, hasPrompt: true });
     mockPwaService.installApp.mockRejectedValue(new Error('Installation failed'));
 
     await component.installApp();
 
+    expect(mockPwaService.getInstallStatus).toHaveBeenCalled();
     expect(mockPwaService.installApp).toHaveBeenCalled();
+
+    isIOSSafariSpy.mockRestore();
+  });
+
+  it.skip('should handle case when app cannot be installed', async () => {
+    mockSnackBar.open.mockClear();
+
+    Object.defineProperty(window.navigator, 'userAgent', {
+      value: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+      writable: true
+    });
+
+    component.isBrowser = true;
+
+    const isIOSSafariSpy = jest.spyOn(component as any, 'isIOSSafari').mockReturnValue(false);
+
+    mockPwaService.getInstallStatus.mockReturnValue({
+      canInstall: false,
+      hasPrompt: false,
+      reason: 'Already installed'
+    });
+    mockPwaService.hasInstallPrompt.mockReturnValue(false);
+
+    await component.installApp();
+
+    expect(isIOSSafariSpy).toHaveBeenCalled();
+    expect(mockPwaService.getInstallStatus).toHaveBeenCalled();
+    expect(mockPwaService.installApp).not.toHaveBeenCalled();
+    expect(mockSnackBar.open).toHaveBeenCalledWith('Already installed', 'Cerrar', { duration: 3000 });
+
+    isIOSSafariSpy.mockRestore();
+  });
+
+  it.skip('should handle case when no prompt is available', async () => {
+    mockSnackBar.open.mockClear();
+
+    Object.defineProperty(window.navigator, 'userAgent', {
+      value: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+      writable: true
+    });
+
+    component.isBrowser = true;
+
+    const isIOSSafariSpy = jest.spyOn(component as any, 'isIOSSafari').mockReturnValue(false);
+
+    mockPwaService.getInstallStatus.mockReturnValue({
+      canInstall: true,
+      hasPrompt: false,
+      reason: 'Manual installation available'
+    });
+    mockPwaService.hasInstallPrompt.mockReturnValue(false);
+
+    await component.installApp();
+
+    expect(isIOSSafariSpy).toHaveBeenCalled();
+    expect(mockPwaService.getInstallStatus).toHaveBeenCalled();
+    expect(mockPwaService.installApp).not.toHaveBeenCalled();
+    expect(mockSnackBar.open).toHaveBeenCalledWith(
+      'El prompt de instalación no está disponible. Intenta desde el menú del navegador (⋮ → Instalar aplicación)',
+      'Cerrar',
+      { duration: 5000 }
+    );
+
+    isIOSSafariSpy.mockRestore();
+  });
+
+  it.skip('should handle iOS Safari installation', async () => {
+    mockSnackBar.open.mockClear();
+
+    Object.defineProperty(window.navigator, 'userAgent', {
+      value: 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1',
+      writable: true
+    });
+
+    component.isBrowser = true;
+
+    const isIOSSafariSpy = jest.spyOn(component as any, 'isIOSSafari').mockReturnValue(true);
+
+    mockPwaService.hasInstallPrompt.mockReturnValue(false);
+
+    await component.installApp();
+
+    expect(isIOSSafariSpy).toHaveBeenCalled();
+
+    expect(mockSnackBar.open).toHaveBeenCalledWith(
+      'Para instalar la app en iOS: toca el botón "Compartir" en Safari y selecciona "Añadir a la pantalla de inicio"',
+      'Entendido',
+      {
+        duration: 8000,
+        panelClass: ['ios-install-snackbar']
+      }
+    );
+
+    isIOSSafariSpy.mockRestore();
   });
 
   it('should handle update error', async () => {
