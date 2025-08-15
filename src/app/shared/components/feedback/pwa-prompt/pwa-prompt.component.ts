@@ -44,18 +44,83 @@ export class PwaPromptComponent implements OnInit, OnDestroy {
     this.detectMobileDevice();
 
     this.checkCanInstall();
+    this.canInstallInterval = setInterval(() => {
+      this.checkCanInstall();
+    }, 5000);
 
     this.pwaService.updateAvailable$.subscribe((available) => {
       this.updateAvailable = available;
     });
 
+    if (this.isBrowser) {
+      window.addEventListener('pwa-install-available', () => {
+        this.logger.info('PWA install event received');
+        this.checkCanInstall();
+      });
+
+      window.addEventListener('pwa-installed', () => {
+        this.logger.info('PWA installed event received');
+        this.canInstall = false;
+        this.showInstallPrompt = false;
+      });
+    }
+
     this.scheduleInstallPrompt();
     this.scheduleFabDisplay();
+
+    setTimeout(() => {
+      this.pwaService.logDebugInfo();
+      this.logger.info('PWA Component state:', {
+        canInstall: this.canInstall,
+        showInstallPrompt: this.showInstallPrompt,
+        isMobile: this.isMobile,
+        isInstalled: this.pwaService.isInstalled()
+      });
+    }, 3000);
   }
 
   private checkCanInstall(): void {
+    if (!this.isBrowser) {
+      return;
+    }
+
+    const previousCanInstall = this.canInstall;
+
+    if (this.pwaService.isInstalled()) {
+      this.canInstall = false;
+      this.showInstallPrompt = false;
+      return;
+    }
+
     this.canInstall = this.pwaService.canInstallApp();
     this.pwaService.checkInstallability();
+
+    if (this.isIOSSafari() && !this.isAppInstalled()) {
+      this.canInstall = true;
+    }
+
+    if (this.isAndroidChrome() && !this.pwaService.hasInstallPrompt()) {
+      setTimeout(() => {
+        this.canInstall = this.pwaService.canInstallApp();
+      }, 2000);
+    }
+
+    if (previousCanInstall !== this.canInstall) {
+      this.logger.info('PWA install capability changed:', {
+        canInstall: this.canInstall,
+        hasPrompt: this.pwaService.hasInstallPrompt(),
+        isInstalled: this.pwaService.isInstalled(),
+        isIOSSafari: this.isIOSSafari(),
+        isAndroidChrome: this.isAndroidChrome()
+      });
+    }
+  }
+
+  private isAndroidChrome(): boolean {
+    if (!this.isBrowser) return false;
+
+    const userAgent = navigator.userAgent.toLowerCase();
+    return userAgent.includes('android') && userAgent.includes('chrome') && !userAgent.includes('edg');
   }
 
   ngOnDestroy(): void {
@@ -140,6 +205,11 @@ export class PwaPromptComponent implements OnInit, OnDestroy {
 
   async installApp(): Promise<void> {
     try {
+      if (this.isIOSSafari() && !this.pwaService.hasInstallPrompt()) {
+        this.showIOSInstallInstructions();
+        return;
+      }
+
       if (!this.pwaService.canInstallApp()) {
         this.snackBar.open('La aplicación no se puede instalar en este momento', 'Cerrar', { duration: 3000 });
         return;
@@ -157,6 +227,33 @@ export class PwaPromptComponent implements OnInit, OnDestroy {
       this.logger.error('Error al instalar la aplicación', error);
       this.snackBar.open('Error al instalar la aplicación', 'Cerrar', { duration: 3000 });
     }
+  }
+
+  private showIOSInstallInstructions(): void {
+    const message =
+      'Para instalar la app en iOS: toca el botón "Compartir" en Safari y selecciona "Añadir a la pantalla de inicio"';
+    this.snackBar.open(message, 'Entendido', {
+      duration: 8000,
+      panelClass: ['ios-install-snackbar']
+    });
+    this.dismissPrompt();
+  }
+
+  private isIOSSafari(): boolean {
+    if (!this.isBrowser) return false;
+
+    const userAgent = navigator.userAgent.toLowerCase();
+    return (
+      userAgent.includes('safari') &&
+      userAgent.includes('mobile') &&
+      !userAgent.includes('chrome') &&
+      !userAgent.includes('crios') &&
+      !userAgent.includes('fxios')
+    );
+  }
+
+  private isAppInstalled(): boolean {
+    return this.pwaService.isInstalled();
   }
 
   async updateApp(): Promise<void> {

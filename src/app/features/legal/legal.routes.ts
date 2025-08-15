@@ -4,13 +4,10 @@ export const LEGAL_ROUTES: Routes = [
   {
     path: 'terms-and-conditions',
     loadComponent: () =>
-      import('./components/terms-and-conditions/terms-and-conditions.component').then(
-        (m) => m.TermsAndConditionsComponent
-      )
+      import('./pages/terms-and-conditions/terms-and-conditions.component').then((m) => m.TermsAndConditionsComponent)
   },
   {
     path: 'privacy-policy',
-    loadComponent: () =>
-      import('./components/privacy-policy/privacy-policy.component').then((m) => m.PrivacyPolicyComponent)
+    loadComponent: () => import('./pages/privacy-policy/privacy-policy.component').then((m) => m.PrivacyPolicyComponent)
   }
 ];

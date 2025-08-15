@@ -55,20 +55,42 @@ describe('I18nService', () => {
       expect(localStorageMock.setItem).not.toHaveBeenCalled();
     });
 
-    it('should reload translations when already loaded', async () => {
+    it('should load new language when switching to unloaded language', async () => {
       (service as any).isLoaded.set(true);
+      (service as any).messages.set({ es: { 'test.key': 'Prueba' }, en: {} });
+
       expect(service.isTranslationsLoaded()).toBe(true);
 
       const currentLang = service.getLang();
       const newLang = currentLang === 'es' ? 'en' : 'es';
+      const mockData = { 'test.key': 'Test' };
 
-      service.setLang(newLang);
+      mockFetch.mockResolvedValueOnce({
+        json: () => Promise.resolve(mockData)
+      } as Response);
 
-      expect(service.isTranslationsLoaded()).toBe(false);
+      await service.setLang(newLang);
 
-      await new Promise((resolve) => requestAnimationFrame(resolve));
-
+      expect(service.getLang()).toBe(newLang);
       expect(service.isTranslationsLoaded()).toBe(true);
+      expect(mockFetch).toHaveBeenCalledWith(`/messages/${newLang}.json`);
+    });
+
+    it('should not fetch when switching to already loaded language', async () => {
+      (service as any).isLoaded.set(true);
+      (service as any).messages.set({
+        es: { 'test.key': 'Prueba' },
+        en: { 'test.key': 'Test' }
+      });
+
+      const currentLang = service.getLang();
+      const newLang = currentLang === 'es' ? 'en' : 'es';
+
+      await service.setLang(newLang);
+
+      expect(service.getLang()).toBe(newLang);
+      expect(service.isTranslationsLoaded()).toBe(true);
+      expect(mockFetch).not.toHaveBeenCalled();
     });
   });
 
@@ -97,7 +119,7 @@ describe('I18nService', () => {
       mockFetch.mockRejectedValue(new Error('Network error'));
 
       const newService = new I18nService();
-      await new Promise((resolve) => setTimeout(resolve, 100));
+      await newService.initializeTranslations();
 
       expect(newService.isTranslationsLoaded()).toBe(true);
     });
@@ -111,14 +133,64 @@ describe('I18nService', () => {
         .mockResolvedValueOnce({ json: () => Promise.resolve(mockEnData) } as Response);
 
       const newService = new I18nService();
-
-      await new Promise((resolve) => setTimeout(resolve, 100));
+      await newService.initializeTranslations();
 
       expect(newService.isTranslationsLoaded()).toBe(true);
     });
+
+    it('should handle first fetch failure with fallback', async () => {
+      mockFetch
+        .mockRejectedValueOnce(new Error('Primary fetch failed'))
+        .mockResolvedValueOnce({ json: () => Promise.resolve({}) } as Response);
+
+      const newService = new I18nService();
+      await newService.initializeTranslations();
+
+      expect(newService.isTranslationsLoaded()).toBe(true);
+    });
+
+    it('should handle non-ok response status', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: false,
+        status: 404
+      } as Response);
+
+      const newService = new I18nService();
+      await newService.initializeTranslations();
+
+      expect(newService.isTranslationsLoaded()).toBe(true);
+    });
+
+    it('should return resolved promise when already loaded', async () => {
+      const newService = new I18nService();
+
+      mockFetch.mockResolvedValue({
+        json: () => Promise.resolve({})
+      } as Response);
+
+      await newService.initializeTranslations();
+
+      (newService as any).isLoaded.set(true);
+      const result = await newService.initializeTranslations();
+
+      expect(result).toBeUndefined();
+    });
   });
 
-  describe('t method basic functionality', () => {
+  describe('setLang error handling', () => {
+    it('should handle fetch error when loading new language', async () => {
+      (service as any).isLoaded.set(true);
+      (service as any).messages.set({ es: { 'test.key': 'Prueba' }, en: {} });
+
+      mockFetch.mockRejectedValueOnce(new Error('Fetch failed'));
+
+      await service.setLang('en');
+
+      expect(service.getLang()).toBe('en');
+    });
+  });
+
+  describe('t method edge cases', () => {
     it('should return key when translations not loaded', () => {
       expect(service.t('test.key')).toBe('test.key');
     });

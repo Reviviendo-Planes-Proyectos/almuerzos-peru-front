@@ -10,16 +10,64 @@ export class I18nService {
   private lang = signal<'es' | 'en'>(this.DEFAULT_LANG);
   private messages = signal<Record<string, any>>({});
   private isLoaded = signal(false);
+  private loadPromise: Promise<void> | null = null;
 
   public readonly currentLang = this.lang.asReadonly();
   public readonly isReady = this.isLoaded.asReadonly();
 
   constructor() {
     this.initLanguage();
-    this.loadMessages();
   }
 
-  /**
+  async initializeTranslations(): Promise<void> {
+    if (this.isLoaded()) {
+      return Promise.resolve();
+    }
+
+    if (this.loadPromise) {
+      return this.loadPromise;
+    }
+
+    this.loadPromise = this.loadMessagesOptimized();
+    return this.loadPromise;
+  }
+
+  private async loadMessagesOptimized(): Promise<void> {
+    try {
+      const currentLang = this.lang();
+      const response = await fetch(`/messages/${currentLang}.json`);
+
+      if (!response.ok) {
+        throw new Error(`Failed to load ${currentLang} translations`);
+      }
+
+      const currentMessages = await response.json();
+      const otherLang = currentLang === 'es' ? 'en' : 'es';
+      const otherResponse = fetch(`/messages/${otherLang}.json`)
+        .then((r) => r.json())
+        .catch(() => ({}));
+
+      this.messages.set({
+        [currentLang]: currentMessages,
+        [otherLang]: {}
+      });
+
+      this.isLoaded.set(true);
+
+      const otherMessages = await otherResponse;
+      this.messages.update((current) => ({
+        ...current,
+        [otherLang]: otherMessages
+      }));
+    } catch (error) {
+      this.messages.set({ es: {}, en: {} });
+      this.isLoaded.set(true);
+
+      if (typeof window !== 'undefined' && window.location?.hostname === 'localhost') {
+        console.warn('Error loading translations:', error);
+      }
+    }
+  } /**
    * Traduce una clave de traducción
    */
   t(key: string): string {
@@ -42,16 +90,28 @@ export class I18nService {
   /**
    * Cambia el idioma
    */
-  setLang(newLang: 'es' | 'en'): void {
+  async setLang(newLang: 'es' | 'en'): Promise<void> {
     if (newLang === this.lang()) return;
 
     this.lang.set(newLang);
     this.saveLanguage(newLang);
 
-    // Trigger reactivity si ya está cargado
-    if (this.isLoaded()) {
-      this.isLoaded.set(false);
-      requestAnimationFrame(() => this.isLoaded.set(true));
+    // Si el idioma no está cargado, cargarlo
+    const messages = this.messages();
+    if (!messages[newLang] || Object.keys(messages[newLang]).length === 0) {
+      try {
+        const response = await fetch(`/messages/${newLang}.json`);
+        const newMessages = await response.json();
+
+        this.messages.update((current) => ({
+          ...current,
+          [newLang]: newMessages
+        }));
+      } catch (error) {
+        if (typeof window !== 'undefined' && window.location?.hostname === 'localhost') {
+          console.warn(`Error loading ${newLang} translations:`, error);
+        }
+      }
     }
   }
 
@@ -85,21 +145,6 @@ export class I18nService {
       localStorage.setItem(this.STORAGE_KEY, lang);
     } catch {
       // Ignorar errores de localStorage (SSR)
-    }
-  }
-
-  private async loadMessages(): Promise<void> {
-    try {
-      const [es, en] = await Promise.all([
-        fetch('/messages/es.json').then((r) => r.json()),
-        fetch('/messages/en.json').then((r) => r.json())
-      ]);
-
-      this.messages.set({ es, en });
-      this.isLoaded.set(true);
-    } catch (error) {
-      console.warn('Error loading translations:', error);
-      this.isLoaded.set(true);
     }
   }
 }

@@ -5,7 +5,11 @@
     class="absolute inset-0 w-full h-full object-cover opacity-100"
   />
 
-  <app-back-button position="top-left" (click)="onBackClick()"></app-back-button>
+  <app-back-button
+    position="top-left"
+    (click)="onBackClick()"
+    onkeypress="if(event.key === 'Enter'){ onBackClick(); }"
+  ></app-back-button>
 
   <div class="relative z-10 flex items-end sm:items-center justify-center min-h-[95vh]">
     <div
@@ -90,14 +94,18 @@
             <!-- Botón de reenvío con countdown -->
             <button
               (click)="resendCodeFromVerificationView()"
-              [disabled]="!canResendCode"
+              [disabled]="!(countdownService.canResendCode$ | async)"
               onkeypress="if(event.key === 'Enter'){ resendCodeFromVerificationView(); }"
               class="w-full flex items-center justify-center gap-2 border border-gray-300 text-gray-600 font-semibold py-3 px-4 rounded-lg hover:bg-gray-50 transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <span class="material-icons">refresh</span>
-              <span *ngIf="canResendCode">Reenviar Código</span>
-              <span *ngIf="!canResendCode">
-                Reenviar en 0:{{ countdownTimer < 10 ? '0' + countdownTimer : countdownTimer }}
+              <span *ngIf="countdownService.canResendCode$ | async">Reenviar Código</span>
+              <span *ngIf="!(countdownService.canResendCode$ | async)">
+                Reenviar en 0:{{
+                  ((countdownService.countdownTimer$ | async) || 0) < 10
+                    ? '0' + (countdownService.countdownTimer$ | async)
+                    : (countdownService.countdownTimer$ | async)
+                }}
               </span>
             </button>
 
