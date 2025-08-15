@@ -16,13 +16,14 @@ class MockI18nService {
       'landing.restaurant.benefits.restaurant.subtitle': 'Gestiona tu menú',
       'landing.restaurant.benefits.customer.subtitle': 'Descubre sabores increíbles',
       'landing.restaurant.benefits.realTimeUpdate.title': 'Actualización en Tiempo Real',
-      'landing.restaurant.benefits.realTimeUpdate.subtitle': 'Si algo se acabó, retíralo fácilmente.',
+      'landing.restaurant.benefits.realTimeUpdate.subtitle':
+        'Si algo se acabó, retíralo fácilmente y sin complicaciones.',
       'landing.restaurant.benefits.whatsappShare.title': 'Comparte por WhatsApp',
       'landing.restaurant.benefits.whatsappShare.subtitle':
         'Envía tu carta por WhatsApp y compártesela a tus contactos.',
       'landing.restaurant.benefits.freeAdvertising.title': 'Publicidad Gratis',
       'landing.restaurant.benefits.freeAdvertising.subtitle':
-        'Sube tu menú y listo. Tu restaurante será visible para más clientes sin esfuerzos.',
+        'Sube tu menú y listo. Tu restaurante será visible para más clientes, sin esfuerzo.',
       'landing.restaurant.benefits.allInOnePlace.title': 'Todo en un Solo Lugar',
       'landing.restaurant.benefits.allInOnePlace.subtitle':
         'Encuentra el menú diario de tu restaurante favorito en un solo lugar, fácil y rápido.',
@@ -31,7 +32,7 @@ class MockI18nService {
         'Encuentra opciones cercanas con el filtro de ubicación GPS. Descubre nuevos sabores.',
       'landing.restaurant.benefits.exclusivePromotions.title': 'Promociones exclusivas',
       'landing.restaurant.benefits.exclusivePromotions.subtitle':
-        'Accede a menús con descuentos,y promocionas solo para usuarios activos. ¡Usa la app, gana más y almuerza mejor!'
+        'Accede a menús con descuentos, y promociones solo para usuarios activos. ¡Usa la app y gana más!'
     };
     return translations[key] || key;
   }
@@ -69,7 +70,7 @@ describe('BenefitsSectionComponent', () => {
 
   it('should render all defined benefits', () => {
     const compiled = fixture.nativeElement as HTMLElement;
-    const cards = compiled.querySelectorAll('mat-card');
-    expect(cards.length).toBe(component.benefits.length);
+    const benefitCards = compiled.querySelectorAll('.bg-white.p-4.rounded-lg.shadow-lg');
+    expect(benefitCards.length).toBe(component.benefits.length);
   });
 });

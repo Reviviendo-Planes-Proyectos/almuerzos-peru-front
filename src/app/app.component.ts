@@ -109,6 +109,11 @@ export class AppComponent implements OnInit, OnDestroy {
       return;
     }
 
+    // No mostrar recordatorio si la app ya está instalada
+    if (this.pwaService.isInstalled()) {
+      return;
+    }
+
     try {
       const snackBar = this.injector.get(MatSnackBar);
       const snackBarRef = snackBar.open('¿Te gusta Almuerzos Perú? ¡Instálala!', 'Instalar', {
@@ -119,7 +124,10 @@ export class AppComponent implements OnInit, OnDestroy {
       });
 
       snackBarRef.onAction().subscribe(() => {
-        this.pwaService.forceShowInstallPrompt();
+        // Verificar nuevamente antes de mostrar el prompt
+        if (!this.pwaService.isInstalled()) {
+          this.pwaService.forceShowInstallPrompt();
+        }
         this.pwaService.dismissAppReminder();
       });
 
@@ -137,13 +145,32 @@ export class AppComponent implements OnInit, OnDestroy {
         forceShowUpdate: () => this.pwaService.forceShowUpdateBanner(),
         forceShowReminder: () => this.pwaService.forceShowReminder(),
         forceShowInstallPrompt: () => this.pwaService.forceShowInstallPrompt(),
+        simulateInstall: () => this.pwaService.simulateInstallation(),
+        simulateUninstall: () => this.pwaService.simulateUninstallation(),
+        clearData: () => this.pwaService.clearPwaData(),
         getAppStatus: () => ({
-          isInstalled: this.pwaService.isAppInstalled$,
+          isInstalled: this.pwaService.isInstalled(),
           canInstall: this.pwaService.canInstallApp(),
-          updateAvailable: this.pwaService.updateAvailable$
-        })
+          updateAvailable: this.pwaService.updateAvailable$,
+          installStatus: this.pwaService.getInstallStatus(),
+          debugInfo: this.pwaService.getDebugInfo()
+        }),
+        help: () => {
+          this.logger.info(`
+🐛 PWA Debug Commands:
+- pwaDebug.getAppStatus() - Ver estado actual
+- pwaDebug.simulateInstall() - Simular instalación
+- pwaDebug.simulateUninstall() - Simular desinstalación
+- pwaDebug.clearData() - Limpiar datos localStorage
+- pwaDebug.forceShowReminder() - Forzar recordatorio
+- pwaDebug.forceShowInstallPrompt() - Forzar prompt instalación
+- pwaDebug.forceShowUpdate() - Forzar banner actualización
+- pwaDebug.help() - Mostrar esta ayuda
+          `);
+        }
       };
       this.logger.info('🐛 PWA Debug methods exposed: window.pwaDebug');
+      this.logger.info('🐛 Type pwaDebug.help() for available commands');
     }
   }
 
