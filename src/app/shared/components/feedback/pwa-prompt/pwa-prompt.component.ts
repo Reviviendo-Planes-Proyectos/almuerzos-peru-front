@@ -180,7 +180,6 @@ export class PwaPromptComponent implements OnInit, OnDestroy {
     const timeDiff = now - parseInt(dismissedTime, 10);
     const hoursSinceDismissed = timeDiff / (1000 * 60 * 60);
 
-    // No mostrar el prompt si fue rechazado en las últimas 24 horas
     return hoursSinceDismissed < 24;
   }
 
@@ -192,13 +191,11 @@ export class PwaPromptComponent implements OnInit, OnDestroy {
 
   dismissPrompt(): void {
     this.showInstallPrompt = false;
-    // Guardar preferencia del usuario para no molestar por un tiempo
     if (this.isBrowser && typeof localStorage !== 'undefined') {
       localStorage.setItem('pwa-prompt-dismissed', Date.now().toString());
     }
   }
 
-  // Método público para mostrar el prompt manualmente
   showPromptManually(): void {
     this.showInstallPrompt = true;
   }
@@ -210,12 +207,27 @@ export class PwaPromptComponent implements OnInit, OnDestroy {
         return;
       }
 
-      if (!this.pwaService.canInstallApp()) {
-        this.snackBar.open('La aplicación no se puede instalar en este momento', 'Cerrar', { duration: 3000 });
+      const installStatus = this.pwaService.getInstallStatus();
+
+      if (!installStatus.canInstall) {
+        this.snackBar.open(installStatus.reason || 'La aplicación no se puede instalar en este momento', 'Cerrar', {
+          duration: 3000
+        });
         return;
       }
 
+      if (!installStatus.hasPrompt) {
+        this.snackBar.open(
+          'El prompt de instalación no está disponible. Intenta desde el menú del navegador (⋮ → Instalar aplicación)',
+          'Cerrar',
+          { duration: 5000 }
+        );
+        return;
+      }
+
+      this.logger.info('Attempting to install PWA with prompt available');
       const installed = await this.pwaService.installApp();
+
       if (installed) {
         this.showInstallPrompt = false;
         this.canInstall = false;

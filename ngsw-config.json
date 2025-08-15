@@ -49,13 +49,26 @@
         "maxSize": 100,
         "maxAge": "1h"
       }
+    },
+    {
+      "name": "navigation-fallback",
+      "urls": [
+        "/**"
+      ],
+      "cacheConfig": {
+        "strategy": "performance",
+        "maxSize": 50,
+        "maxAge": "1d"
+      }
     }
   ],
   "navigationUrls": [
     "/**",
     "!/**/*.*",
     "!/**/*__*",
-    "!/**/*__*/**"
+    "!/**/*__*/**",
+    "!/api/**",
+    "!/assets/**"
   ],
-  "navigationRequestStrategy": "freshness"
+  "navigationRequestStrategy": "performance"
 }

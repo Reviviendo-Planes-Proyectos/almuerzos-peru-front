@@ -1,6 +1,18 @@
 {
   "rewrites": [
     {
+      "source": "/api/(.*)",
+      "destination": "/api/$1"
+    },
+    {
+      "source": "/assets/(.*)",
+      "destination": "/assets/$1"
+    },
+    {
+      "source": "/(.*\\.(js|css|png|jpg|jpeg|gif|svg|ico|webp|woff|woff2|ttf|eot|otf|json))",
+      "destination": "/$1"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
@@ -10,6 +22,19 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "headers": [
+    {
+      "source": "/manifest.webmanifest",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/manifest+json"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    },
     {
       "source": "/ngsw-worker.js",
       "headers": [
