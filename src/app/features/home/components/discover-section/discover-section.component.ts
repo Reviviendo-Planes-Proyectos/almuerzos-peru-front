@@ -197,19 +197,19 @@ export class DiscoverSectionComponent {
     const restaurants: DiscoverRestaurant[] = [];
 
     for (let i = 0; i < 100; i++) {
-      const category = categories[Math.floor(Math.random() * categories.length)];
+      const category = categories[i % categories.length];
       const restaurant: DiscoverRestaurant = {
         id: i + 1,
         name: `${restaurantNames[i % restaurantNames.length]} ${i > 39 ? `(Sucursal ${Math.ceil(i / 40)})` : ''}`,
-        location: locations[Math.floor(Math.random() * locations.length)],
+        location: locations[i % locations.length],
         image: `https://images.unsplash.com/photo-${1517248135467 + i}?w=400&h=300&fit=crop&auto=format`,
-        rating: +(3.5 + Math.random() * 1.5).toFixed(1),
-        deliveryTime: `${15 + Math.floor(Math.random() * 30)}-${25 + Math.floor(Math.random() * 35)} min`,
-        distance: `${(1 + Math.random() * 12).toFixed(1)} km`,
+        rating: +(3.5 + (i % 15) * 0.1).toFixed(1), // Rating entre 3.5 y 5.0
+        deliveryTime: `${15 + (i % 30)}-${25 + (i % 35)} min`,
+        distance: `${(1 + (i % 120) * 0.1).toFixed(1)} km`, // Distancia entre 1.0 y 13.0 km
         category: category.name,
         categoryColor: category.color,
-        price: `S/ ${(15 + Math.random() * 85).toFixed(0)}`,
-        isPromoted: Math.random() > 0.8 // 20% de restaurantes promocionados
+        price: `S/ ${15 + (i % 85)}`, // Precio entre S/15 y S/100
+        isPromoted: (i + 1) % 5 === 0 // Cada 5to restaurante será promocionado
       };
       restaurants.push(restaurant);
     }
