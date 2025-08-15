@@ -1,5 +1,5 @@
 // categories-section.component.ts
-import { Component, EventEmitter, Output, ViewChild, ElementRef, AfterViewInit, inject } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, inject, Output, ViewChild } from '@angular/core';
 import { CoreModule } from '../../../../shared/modules';
 import { LoggerService } from '../../../../shared/services/logger/logger.service';
 
@@ -221,8 +221,6 @@ export class CategoriesSectionComponent implements AfterViewInit {
       count: 15
     }
   ];
-
-  constructor() {}
 
   ngAfterViewInit(): void {
     // Ya no necesitamos configurar listeners para botones de navegación

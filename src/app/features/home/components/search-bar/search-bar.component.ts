@@ -19,8 +19,6 @@ export class SearchBarComponent {
   @Output() locationEvent = new EventEmitter<void>();
   @Output() searchChangeEvent = new EventEmitter<string>();
 
-  constructor() {}
-
   // Método para buscar (al presionar Enter o click)
   onSearch(): void {
     if (this.searchTerm.trim()) {

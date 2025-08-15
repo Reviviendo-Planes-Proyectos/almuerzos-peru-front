@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CoreModule } from '../../../../shared/modules';
-import { SearchBarComponent } from '../../components/search-bar/search-bar.component';
 import {
   CategoriesSectionComponent,
   type Category
 } from '../../components/categories-section/categories-section.component';
+import { SearchBarComponent } from '../../components/search-bar/search-bar.component';
 
 @Component({
   selector: 'app-home-page',
@@ -21,8 +21,6 @@ export class HomePageComponent {
   @Output() menuToggled = new EventEmitter<void>();
   @Output() notificationsOpened = new EventEmitter<void>();
   @Output() cartOpened = new EventEmitter<void>();
-
-  constructor() {}
 
   // Métodos para manejar los clicks
   toggleMenu(): void {
