@@ -63,7 +63,20 @@ describe('AppComponent', () => {
       forceShowUpdateBanner: jest.fn(),
       forceShowReminder: jest.fn(),
       canInstallApp: jest.fn().mockReturnValue(false),
-      isInstalled: jest.fn().mockReturnValue(false)
+      isInstalled: jest.fn().mockReturnValue(false),
+      getInstallStatus: jest.fn().mockReturnValue({
+        canInstall: false,
+        hasPrompt: false,
+        reason: 'Test reason'
+      }),
+      getDebugInfo: jest.fn().mockReturnValue({
+        isBrowser: true,
+        isInstalled: false,
+        canInstall: false
+      }),
+      simulateInstallation: jest.fn(),
+      simulateUninstallation: jest.fn(),
+      clearPwaData: jest.fn()
     };
 
     await TestBed.configureTestingModule({
@@ -375,9 +388,19 @@ describe('AppComponent', () => {
         const appStatus = (window as any).pwaDebug.getAppStatus();
 
         expect(appStatus).toEqual({
-          isInstalled: mockPwaService.isAppInstalled$,
+          isInstalled: false,
           canInstall: false,
-          updateAvailable: mockPwaService.updateAvailable$
+          updateAvailable: mockPwaService.updateAvailable$,
+          installStatus: {
+            canInstall: false,
+            hasPrompt: false,
+            reason: 'Test reason'
+          },
+          debugInfo: {
+            isBrowser: true,
+            isInstalled: false,
+            canInstall: false
+          }
         });
       }
 
