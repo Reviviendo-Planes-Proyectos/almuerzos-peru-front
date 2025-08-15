@@ -121,12 +121,15 @@
                 <input type="checkbox" [checked]="day.isActive" (change)="toggleDay(i)" class="sr-only" />
                 <div
                   (click)="toggleDay(i)"
-                  class="w-5 h-5 rounded border-2 cursor-pointer transition-colors flex items-center justify-center"
+                  class="w-12 h-6 rounded-full cursor-pointer transition-colors"
                   [class.bg-green-500]="day.isActive"
-                  [class.border-green-500]="day.isActive"
-                  [class.border-gray-300]="!day.isActive"
+                  [class.bg-gray-300]="!day.isActive"
                 >
-                  <i *ngIf="day.isActive" class="material-icons text-white text-sm">check</i>
+                  <div
+                    class="w-5 h-5 bg-white rounded-full shadow transform transition-transform mt-0.5"
+                    [class.translate-x-6]="day.isActive"
+                    [class.translate-x-0.5]="!day.isActive"
+                  ></div>
                 </div>
               </div>
 
@@ -149,14 +152,24 @@
               >
                 {{ t('RESTAURANT_SCHEDULE.CONFIGURE_SCHEDULE') }}
               </span>
+              <span
+                *ngIf="!day.isActive && day.isConfigured"
+                (click)="configureDay(i)"
+                class="text-sm text-gray-400 cursor-pointer hover:text-gray-600"
+              >
+                {{ day.openTime }} - {{ day.closeTime }}
+              </span>
+              <span
+                *ngIf="!day.isActive && !day.isConfigured"
+                (click)="configureDay(i)"
+                class="text-sm text-gray-400 cursor-pointer hover:text-gray-600"
+              >
+                {{ t('RESTAURANT_SCHEDULE.CONFIGURE_SCHEDULE') }}
+              </span>
             </div>
 
             <!-- Botón configurar -->
-            <button
-              *ngIf="day.isActive"
-              (click)="configureDay(i)"
-              class="text-orange-500 hover:text-orange-600 text-sm font-medium"
-            >
+            <button (click)="configureDay(i)" class="text-orange-500 hover:text-orange-600 text-sm font-medium">
               <i class="material-icons text-lg">chevron_right</i>
             </button>
           </div>
@@ -192,9 +205,9 @@
           (click)="continue()"
         ></app-button>
 
-        <div class="text-center">
+        <!--  <div class="text-center">
           <app-button [label]="t('common.back')" [isActive]="true" [outlineGray]="true" (click)="goBack()"></app-button>
-        </div>
+        </div> -->
       </div>
     </div>
 
@@ -225,7 +238,6 @@
                 [(ngModel)]="tempOpenTime"
                 class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
               />
-              <i class="material-icons absolute right-3 top-3 text-gray-400">schedule</i>
             </div>
           </div>
 
@@ -240,7 +252,41 @@
                 [(ngModel)]="tempCloseTime"
                 class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
               />
-              <i class="material-icons absolute right-3 top-3 text-gray-400">schedule</i>
+            </div>
+          </div>
+
+          <!-- Aplicar a todos los días -->
+          <div class="bg-orange-50 rounded-xl p-4 mb-6">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">
+                  <i class="material-icons text-orange-600 text-sm">copy_all</i>
+                </div>
+                <div>
+                  <p class="font-medium text-gray-900 text-sm">Aplicar a todos los días</p>
+                  <p class="text-xs text-gray-600">Usar el mismo horario para toda la semana</p>
+                </div>
+              </div>
+              <div class="relative">
+                <input
+                  type="checkbox"
+                  [checked]="applyToAllDays"
+                  (change)="applyToAllDays = !applyToAllDays"
+                  class="sr-only"
+                />
+                <div
+                  (click)="applyToAllDays = !applyToAllDays"
+                  class="w-12 h-6 rounded-full cursor-pointer transition-colors"
+                  [class.bg-orange-500]="applyToAllDays"
+                  [class.bg-gray-300]="!applyToAllDays"
+                >
+                  <div
+                    class="w-5 h-5 bg-white rounded-full shadow transform transition-transform mt-0.5"
+                    [class.translate-x-6]="applyToAllDays"
+                    [class.translate-x-0.5]="!applyToAllDays"
+                  ></div>
+                </div>
+              </div>
             </div>
           </div>
 

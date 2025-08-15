@@ -47,6 +47,7 @@ export class RestaurantScheduleComponent extends BaseTranslatableComponent {
   tempOpenTime = '';
   tempCloseTime = '';
   timeValidationError = '';
+  applyToAllDays = false;
 
   constructor(private router: Router) {
     super();
@@ -75,6 +76,7 @@ export class RestaurantScheduleComponent extends BaseTranslatableComponent {
     this.tempOpenTime = '';
     this.tempCloseTime = '';
     this.timeValidationError = '';
+    this.applyToAllDays = false;
   }
 
   // Guardar configuración de horarios
@@ -92,10 +94,20 @@ export class RestaurantScheduleComponent extends BaseTranslatableComponent {
     }
 
     // Guardar los cambios
-    if (this.selectedDayIndex >= 0) {
-      this.schedule[this.selectedDayIndex].openTime = this.tempOpenTime;
-      this.schedule[this.selectedDayIndex].closeTime = this.tempCloseTime;
-      this.schedule[this.selectedDayIndex].isConfigured = true;
+    if (this.applyToAllDays) {
+      // Aplicar a todos los días
+      for (const day of this.schedule) {
+        day.openTime = this.tempOpenTime;
+        day.closeTime = this.tempCloseTime;
+        day.isConfigured = true;
+      }
+    } else {
+      // Aplicar solo al día seleccionado
+      if (this.selectedDayIndex >= 0) {
+        this.schedule[this.selectedDayIndex].openTime = this.tempOpenTime;
+        this.schedule[this.selectedDayIndex].closeTime = this.tempCloseTime;
+        this.schedule[this.selectedDayIndex].isConfigured = true;
+      }
     }
 
     // Cerrar modal
