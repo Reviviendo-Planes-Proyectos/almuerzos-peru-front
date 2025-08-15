@@ -111,14 +111,7 @@ export class PwaService {
       hostname: window.location.hostname
     });
 
-    // Solo en localhost forzamos como no instalada para testing
-    if (isDevelopment && window.location.hostname === 'localhost') {
-      this.isAppInstalled.next(false);
-      this.logger.info('Development mode (localhost) - forcing app as not installed for testing');
-      return;
-    }
-
-    // Lógica normal para producción y mobile
+    // Lógica normal para todos los entornos
     const isInstalled = isStandalone || isIOSStandalone || isInWebView || hasStandaloneParam;
 
     if (isInstalled) {
@@ -128,7 +121,7 @@ export class PwaService {
       this.isAppInstalled.next(false);
       this.logger.info('App is running in browser mode');
 
-      // Solo mostrar recordatorio si la app puede ser instalada y no está en localhost
+      // Solo programar recordatorio si no está instalada y no es localhost
       if (!isDevelopment || window.location.hostname !== 'localhost') {
         this.scheduleAppReminder();
       }
@@ -137,6 +130,12 @@ export class PwaService {
 
   private scheduleAppReminder(): void {
     if (!this.isBrowser || typeof localStorage === 'undefined') {
+      return;
+    }
+
+    // No mostrar recordatorio si la app ya está instalada
+    if (this.isAppInstalled.value) {
+      this.logger.info('App is installed - not scheduling reminder');
       return;
     }
 
@@ -159,8 +158,11 @@ export class PwaService {
     // Mostrar recordatorio después de 1 visita (para testing rápido)
     if (visitCount >= 1 && this.canInstallApp()) {
       setTimeout(() => {
-        this.showAppReminder.next(true);
-        this.logger.info('Showing app installation reminder');
+        // Verificar nuevamente si la app no está instalada antes de mostrar
+        if (!this.isAppInstalled.value) {
+          this.showAppReminder.next(true);
+          this.logger.info('Showing app installation reminder');
+        }
       }, 8000); // 8 segundos - balance entre inmediatez y paciencia
     }
   }
@@ -206,16 +208,16 @@ export class PwaService {
       return false;
     }
 
-    const isLocalDev = this.isLocalDevelopment();
-
-    // Solo en localhost forzamos como no instalada para testing
-    if (isLocalDev && window.location.hostname === 'localhost') {
-      this.isAppInstalled.next(false);
-      return true; // En localhost siempre permitimos instalar para testing
-    }
-
+    // Si la app ya está instalada, no se puede instalar
     if (this.isAppInstalled.value) {
       return false;
+    }
+
+    const isLocalDev = this.isLocalDevelopment();
+
+    // En localhost permitimos instalar para testing solo si no está ya instalada
+    if (isLocalDev && window.location.hostname === 'localhost') {
+      return !this.isAppInstalled.value; // Solo si no está instalada
     }
 
     if (this.promptEvent) {
@@ -296,18 +298,12 @@ export class PwaService {
       return { canInstall: false, hasPrompt: false, reason: 'Not in browser' };
     }
 
-    const isLocalDev = this.isLocalDevelopment();
-
-    // Solo en localhost forzamos como no instalada para testing
-    if (isLocalDev && window.location.hostname === 'localhost') {
-      this.logger.info('Development mode (localhost) - forcing app as not installed for testing');
-      this.isAppInstalled.next(false);
-    }
-
+    // Si la app ya está instalada, no se puede instalar
     if (this.isAppInstalled.value) {
       return { canInstall: false, hasPrompt: false, reason: 'Already installed' };
     }
 
+    const isLocalDev = this.isLocalDevelopment();
     const hasPrompt = !!this.promptEvent;
 
     if (hasPrompt) {

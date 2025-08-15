@@ -22,7 +22,7 @@ export class PwaPromptComponent implements OnInit, OnDestroy {
   private canInstallInterval?: ReturnType<typeof setInterval>;
 
   constructor(
-    private readonly pwaService: PwaService,
+    public readonly pwaService: PwaService,
     private readonly snackBar: MatSnackBar,
     private readonly i18n: I18nService,
     private readonly logger: LoggerService,
@@ -80,27 +80,30 @@ export class PwaPromptComponent implements OnInit, OnDestroy {
     }
 
     const previousCanInstall = this.canInstall;
+    const isInstalled = this.pwaService.isInstalled();
 
-    // Primero verificamos si la app está instalada
-    if (this.pwaService.isInstalled()) {
+    // Si la app está instalada, ocultar todo
+    if (isInstalled) {
       this.canInstall = false;
       this.showInstallPrompt = false;
       this.logger.info('PWA is installed - hiding install prompt');
       return;
     }
 
-    // Luego verificamos si se puede instalar
+    // Solo verificar si se puede instalar si NO está instalada
     this.canInstall = this.pwaService.canInstallApp();
 
-    // Para iOS Safari, permitimos instalación manual
-    if (this.isIOSSafari() && !this.isAppInstalled()) {
+    // Para iOS Safari, permitimos instalación manual solo si no está instalada
+    if (this.isIOSSafari() && !isInstalled) {
       this.canInstall = true;
     }
 
     // Para Android Chrome, verificamos con un delay adicional
-    if (this.isAndroidChrome() && !this.pwaService.hasInstallPrompt()) {
+    if (this.isAndroidChrome() && !this.pwaService.hasInstallPrompt() && !isInstalled) {
       setTimeout(() => {
-        this.canInstall = this.pwaService.canInstallApp();
+        if (!this.pwaService.isInstalled()) {
+          this.canInstall = this.pwaService.canInstallApp();
+        }
       }, 2000);
     }
 
@@ -151,6 +154,12 @@ export class PwaPromptComponent implements OnInit, OnDestroy {
   }
 
   private scheduleInstallPrompt(): void {
+    // No programar prompt si ya está instalada
+    if (this.pwaService.isInstalled()) {
+      this.logger.info('App is installed - not scheduling install prompt');
+      return;
+    }
+
     if (this.wasPromptRecentlyDismissed()) {
       return;
     }
@@ -160,7 +169,10 @@ export class PwaPromptComponent implements OnInit, OnDestroy {
     }
 
     setTimeout(() => {
-      if (!this.wasPromptRecentlyDismissed() && this.pwaService.canInstallApp()) {
+      // Verificar nuevamente antes de mostrar
+      if (!this.wasPromptRecentlyDismissed() && 
+          this.pwaService.canInstallApp() && 
+          !this.pwaService.isInstalled()) {
         this.showInstallPrompt = true;
       }
     }, 20000); // 20 segundos - balance entre rapidez y experiencia
@@ -184,8 +196,11 @@ export class PwaPromptComponent implements OnInit, OnDestroy {
   }
 
   showPrompt(): void {
-    if (this.pwaService.canInstallApp()) {
+    // Solo mostrar si no está instalada y se puede instalar
+    if (!this.pwaService.isInstalled() && this.pwaService.canInstallApp()) {
       this.showInstallPrompt = true;
+    } else {
+      this.logger.info('Cannot show prompt - app installed or not installable');
     }
   }
 
@@ -197,7 +212,38 @@ export class PwaPromptComponent implements OnInit, OnDestroy {
   }
 
   showPromptManually(): void {
-    this.showInstallPrompt = true;
+    // Solo mostrar si no está instalada
+    if (!this.pwaService.isInstalled()) {
+      this.showInstallPrompt = true;
+    } else {
+      this.showAlreadyInstalledMessage();
+    }
+  }
+
+  private showAlreadyInstalledMessage(): void {
+    this.logger.info('App is already installed - showing reminder message');
+    this.snackBar.open(
+      '¡La aplicación ya está instalada! Búscala en tu pantalla de inicio o en el menú de aplicaciones.',
+      'Entendido',
+      {
+        duration: 5000,
+        panelClass: ['app-installed-snackbar']
+      }
+    );
+  }
+
+  public checkInstallStatusAndNotify(): void {
+    if (this.pwaService.isInstalled()) {
+      this.showAlreadyInstalledMessage();
+    } else if (this.pwaService.canInstallApp()) {
+      this.showPromptManually();
+    } else {
+      this.snackBar.open(
+        'La aplicación no se puede instalar en este momento desde este navegador.',
+        'Cerrar',
+        { duration: 3000 }
+      );
+    }
   }
 
   async installApp(): Promise<void> {
