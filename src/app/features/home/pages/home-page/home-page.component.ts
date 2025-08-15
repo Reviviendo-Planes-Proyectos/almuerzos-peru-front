@@ -4,8 +4,8 @@ import {
   CategoriesSectionComponent,
   type Category
 } from '../../components/categories-section/categories-section.component';
-import { SearchBarComponent } from '../../components/search-bar/search-bar.component';
 import { FavoritesSectionComponent } from '../../components/favorites-section/favorites-section.component';
+import { SearchBarComponent } from '../../components/search-bar/search-bar.component';
 
 @Component({
   selector: 'app-home-page',
