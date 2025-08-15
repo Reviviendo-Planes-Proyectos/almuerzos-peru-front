@@ -68,3 +68,8 @@
 
 <!-- Search Bar separado del header -->
 <app-search-bar></app-search-bar>
+
+<app-categories-section
+  (categorySelected)="onCategorySelected($event)"
+  (viewAllClicked)="onViewAllCategories()"
+></app-categories-section>

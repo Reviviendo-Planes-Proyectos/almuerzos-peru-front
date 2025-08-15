@@ -1,11 +1,15 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CoreModule } from '../../../../shared/modules';
 import { SearchBarComponent } from '../../components/search-bar/search-bar.component';
+import {
+  CategoriesSectionComponent,
+  type Category
+} from '../../components/categories-section/categories-section.component';
 
 @Component({
   selector: 'app-home-page',
   standalone: true,
-  imports: [CoreModule, SearchBarComponent],
+  imports: [CoreModule, SearchBarComponent, CategoriesSectionComponent],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss'
 })
@@ -31,5 +35,16 @@ export class HomePageComponent {
 
   openCart(): void {
     this.cartOpened.emit();
+  }
+
+  onCategorySelected(_category: Category): void {
+    // Navegar a vista filtrada por categoría
+    // this.router.navigate(['/restaurants'], { queryParams: { category: category.id } });
+  }
+
+  // Manejar "ver todo"
+  onViewAllCategories(): void {
+    // Navegar a vista de todas las categorías
+    // this.router.navigate(['/categories']);
   }
 }
