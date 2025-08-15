@@ -1,4 +1,4 @@
-// Angular Universal SSR handler for dynamic routes (non-prerendered)
+// Angular Universal SSR handler for Vercel
 let expressApp = null;
 
 module.exports = async function handler(req, res) {
@@ -8,10 +8,6 @@ module.exports = async function handler(req, res) {
       const { app } = await import('../dist/almuerzos-peru-front/server/server.mjs');
       expressApp = app();
     }
-
-    // Add performance headers
-    res.setHeader('X-Powered-By', 'Angular Universal + Vercel');
-    res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=300');
 
     // Forward request to Angular Universal Express app
     expressApp(req, res);
