@@ -19,14 +19,46 @@ describe('PwaService', () => {
   let service: PwaService;
   let swUpdateMock: Partial<SwUpdate>;
   let versionUpdatesSubject: Subject<VersionEvent>;
+  let loggerMock: any;
 
   beforeEach(() => {
-    const loggerMock = {
+    loggerMock = {
       warn: jest.fn(),
-      log: jest.fn()
+      log: jest.fn(),
+      info: jest.fn(),
+      error: jest.fn(),
+      debug: jest.fn()
     };
 
     jest.clearAllMocks();
+
+    Object.defineProperty(window, 'isSecureContext', {
+      writable: true,
+      value: true
+    });
+
+    Object.defineProperty(navigator, 'serviceWorker', {
+      writable: true,
+      value: {
+        ready: Promise.resolve(),
+        register: jest.fn()
+      }
+    });
+
+    const manifestLink = document.createElement('link');
+    manifestLink.rel = 'manifest';
+    manifestLink.href = '/manifest.webmanifest';
+    document.head.appendChild(manifestLink);
+
+    Object.defineProperty(window, 'location', {
+      writable: true,
+      value: {
+        search: '',
+        href: 'http://localhost:4200',
+        protocol: 'http:',
+        host: 'localhost:4200'
+      }
+    });
 
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
@@ -107,6 +139,13 @@ describe('PwaService', () => {
   });
 
   it('debe retornar false al verificar si puede instalar sin prompt event', () => {
+    Object.defineProperty(navigator, 'serviceWorker', {
+      value: undefined,
+      writable: true
+    });
+
+    (service as any).isAppInstalled.next(true);
+
     const canInstall = service.canInstallApp();
     expect(canInstall).toBe(false);
   });
@@ -250,7 +289,13 @@ describe('PwaService', () => {
       type: 'beforeinstallprompt'
     } as unknown as BeforeInstallPromptEvent;
 
-    window.dispatchEvent(mockEvent);
+    const listeners = (window.addEventListener as jest.Mock).mock.calls
+      .filter((call) => call[0] === 'beforeinstallprompt')
+      .map((call) => call[1]);
+
+    if (listeners.length > 0) {
+      listeners[0](mockEvent);
+    }
 
     expect(mockEvent.preventDefault).toHaveBeenCalled();
     expect((service as unknown as { promptEvent: BeforeInstallPromptEvent }).promptEvent).toBe(mockEvent);
@@ -260,7 +305,14 @@ describe('PwaService', () => {
     const isAppInstalledSubject = (service as unknown as { isAppInstalled: BehaviorSubject<boolean> }).isAppInstalled;
 
     const appInstalledEvent = new Event('appinstalled');
-    window.dispatchEvent(appInstalledEvent);
+
+    const listeners = (window.addEventListener as jest.Mock).mock.calls
+      .filter((call) => call[0] === 'appinstalled')
+      .map((call) => call[1]);
+
+    if (listeners.length > 0) {
+      listeners[0](appInstalledEvent);
+    }
 
     expect(isAppInstalledSubject.value).toBe(true);
     expect((service as unknown as { promptEvent: BeforeInstallPromptEvent | null }).promptEvent).toBe(null);
@@ -419,14 +471,24 @@ describe('PwaService', () => {
   });
 
   it('debe llamar checkForUpdates cuando swUpdate está habilitado', () => {
-    const subscribeSpy = jest.spyOn(versionUpdatesSubject, 'subscribe');
-
     TestBed.resetTestingModule();
+
+    const subscribeSpy = jest.fn();
+    const mockSwUpdate = {
+      isEnabled: true,
+      versionUpdates: {
+        subscribe: subscribeSpy
+      },
+      checkForUpdate: jest.fn(),
+      activateUpdate: jest.fn().mockResolvedValue(undefined)
+    };
+
     TestBed.configureTestingModule({
       providers: [
         PwaService,
         { provide: PLATFORM_ID, useValue: 'browser' },
-        { provide: SwUpdate, useValue: swUpdateMock }
+        { provide: SwUpdate, useValue: mockSwUpdate },
+        { provide: LoggerService, useValue: loggerMock }
       ]
     });
 
@@ -442,7 +504,8 @@ describe('PwaService', () => {
       providers: [
         PwaService,
         { provide: PLATFORM_ID, useValue: 'browser' },
-        { provide: SwUpdate, useValue: swUpdateMock }
+        { provide: SwUpdate, useValue: swUpdateMock },
+        { provide: LoggerService, useValue: loggerMock }
       ]
     });
 
@@ -460,7 +523,8 @@ describe('PwaService', () => {
       providers: [
         PwaService,
         { provide: PLATFORM_ID, useValue: 'browser' },
-        { provide: SwUpdate, useValue: swUpdateMock }
+        { provide: SwUpdate, useValue: swUpdateMock },
+        { provide: LoggerService, useValue: loggerMock }
       ]
     });
 

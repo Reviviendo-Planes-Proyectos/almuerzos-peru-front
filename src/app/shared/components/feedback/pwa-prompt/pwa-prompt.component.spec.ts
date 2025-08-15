@@ -5,6 +5,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { BehaviorSubject, of } from 'rxjs';
 import { I18nService } from '../../../i18n/services/translation.service';
 import { MaterialModule } from '../../../modules';
+import { LoggerService } from '../../../services/logger/logger.service';
 import { PwaService } from '../../../services/pwa/pwa.service';
 import { PwaPromptComponent } from './pwa-prompt.component';
 
@@ -14,6 +15,7 @@ describe('PwaPromptComponent', () => {
   let mockPwaService: jest.Mocked<PwaService>;
   let mockSnackBar: jest.Mocked<MatSnackBar>;
   let mockI18nService: jest.Mocked<I18nService>;
+  let mockLoggerService: jest.Mocked<LoggerService>;
   let updateAvailableSubject: BehaviorSubject<boolean>;
 
   beforeEach(async () => {
@@ -50,7 +52,9 @@ describe('PwaPromptComponent', () => {
       updateAvailable$: updateAvailableSubject.asObservable(),
       canInstallApp: jest.fn().mockReturnValue(false),
       hasInstallPrompt: jest.fn().mockReturnValue(false),
-      checkInstallability: jest.fn()
+      checkInstallability: jest.fn(),
+      isInstalled: jest.fn().mockReturnValue(false),
+      logDebugInfo: jest.fn()
     } as unknown as jest.Mocked<PwaService>;
 
     mockI18nService = {
@@ -77,13 +81,21 @@ describe('PwaPromptComponent', () => {
       open: jest.fn().mockReturnValue(snackBarRef)
     } as unknown as jest.Mocked<MatSnackBar>;
 
+    mockLoggerService = {
+      info: jest.fn(),
+      warn: jest.fn(),
+      error: jest.fn(),
+      debug: jest.fn()
+    } as unknown as jest.Mocked<LoggerService>;
+
     await TestBed.configureTestingModule({
       imports: [PwaPromptComponent, NoopAnimationsModule, MaterialModule],
       providers: [
         { provide: PwaService, useValue: mockPwaService },
         { provide: MatSnackBar, useValue: mockSnackBar },
         { provide: PLATFORM_ID, useValue: 'browser' },
-        { provide: I18nService, useValue: mockI18nService }
+        { provide: I18nService, useValue: mockI18nService },
+        { provide: LoggerService, useValue: mockLoggerService }
       ]
     }).compileComponents();
 
