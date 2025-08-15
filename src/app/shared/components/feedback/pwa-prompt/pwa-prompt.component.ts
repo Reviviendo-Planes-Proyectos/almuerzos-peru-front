@@ -49,29 +49,18 @@ export class PwaPromptComponent implements OnInit, OnDestroy {
 
     if (this.isBrowser) {
       window.addEventListener('pwa-install-available', () => {
-        this.logger.info('PWA install event received');
         this.checkCanInstall();
       });
 
       window.addEventListener('pwa-installed', () => {
-        this.logger.info('PWA installed event received');
         this.canInstall = false;
         this.showInstallPrompt = false;
+        this.checkCanInstall();
       });
     }
 
     this.scheduleInstallPrompt();
     this.scheduleFabDisplay();
-
-    setTimeout(() => {
-      this.pwaService.logDebugInfo();
-      this.logger.info('PWA Component state:', {
-        canInstall: this.canInstall,
-        showInstallPrompt: this.showInstallPrompt,
-        isMobile: this.isMobile,
-        isInstalled: this.pwaService.isInstalled()
-      });
-    }, 3000);
   }
 
   private checkCanInstall(): void {
@@ -79,43 +68,33 @@ export class PwaPromptComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const previousCanInstall = this.canInstall;
     const isInstalled = this.pwaService.isInstalled();
 
     // Si la app está instalada, ocultar todo
     if (isInstalled) {
       this.canInstall = false;
       this.showInstallPrompt = false;
-      this.logger.info('PWA is installed - hiding install prompt');
       return;
     }
 
-    // Solo verificar si se puede instalar si NO está instalada
+    // Verificar si se puede instalar
     this.canInstall = this.pwaService.canInstallApp();
 
-    // Para iOS Safari, permitimos instalación manual solo si no está instalada
+    // Para iOS Safari, permitir instalación manual
     if (this.isIOSSafari() && !isInstalled) {
       this.canInstall = true;
     }
 
-    // Para Android Chrome, verificamos con un delay adicional
+    // Para Android Chrome, verificar con delay
     if (this.isAndroidChrome() && !this.pwaService.hasInstallPrompt() && !isInstalled) {
+      const isDevelopment = window.location.hostname === 'localhost';
+      const delay = isDevelopment ? 1000 : 3000;
+
       setTimeout(() => {
         if (!this.pwaService.isInstalled()) {
           this.canInstall = this.pwaService.canInstallApp();
         }
-      }, 2000);
-    }
-
-    if (previousCanInstall !== this.canInstall) {
-      this.logger.info('PWA install capability changed:', {
-        canInstall: this.canInstall,
-        hasPrompt: this.pwaService.hasInstallPrompt(),
-        isInstalled: this.pwaService.isInstalled(),
-        isIOSSafari: this.isIOSSafari(),
-        isAndroidChrome: this.isAndroidChrome(),
-        hostname: window.location.hostname
-      });
+      }, delay);
     }
   }
 
@@ -137,10 +116,16 @@ export class PwaPromptComponent implements OnInit, OnDestroy {
       return;
     }
 
+    this.isMobile = this.isMobileUserAgent() || window.innerWidth <= 768;
+  }
+
+  private isMobileUserAgent(): boolean {
+    if (!this.isBrowser) return false;
+
     const userAgent = window.navigator.userAgent.toLowerCase();
     const mobileKeywords = ['android', 'webos', 'iphone', 'ipad', 'ipod', 'blackberry', 'windows phone', 'mobile'];
 
-    this.isMobile = mobileKeywords.some((keyword) => userAgent.includes(keyword)) || window.innerWidth <= 768;
+    return mobileKeywords.some((keyword) => userAgent.includes(keyword));
   }
 
   private scheduleFabDisplay(): void {
@@ -148,15 +133,17 @@ export class PwaPromptComponent implements OnInit, OnDestroy {
       return;
     }
 
+    const isDevelopment = window.location.hostname === 'localhost';
+    const delay = isDevelopment ? 8000 : 30000; // 8 segundos en desarrollo, 30 en producción
+
     setTimeout(() => {
       this.showFabAfter30Seconds = true;
-    }, 15000); // 15 segundos - más realista pero no muy largo
+    }, delay);
   }
 
   private scheduleInstallPrompt(): void {
-    // No programar prompt si ya está instalada
-    if (this.pwaService.isInstalled()) {
-      this.logger.info('App is installed - not scheduling install prompt');
+    // No programar prompt si ya está instalada o no es móvil
+    if (this.pwaService.isInstalled() || !this.isMobile) {
       return;
     }
 
@@ -164,16 +151,15 @@ export class PwaPromptComponent implements OnInit, OnDestroy {
       return;
     }
 
-    if (!this.isMobile) {
-      return;
-    }
+    const isDevelopment = window.location.hostname === 'localhost';
+    const delay = isDevelopment ? 5000 : 20000;
 
     setTimeout(() => {
       // Verificar nuevamente antes de mostrar
       if (!this.wasPromptRecentlyDismissed() && this.pwaService.canInstallApp() && !this.pwaService.isInstalled()) {
         this.showInstallPrompt = true;
       }
-    }, 20000); // 20 segundos - balance entre rapidez y experiencia
+    }, delay);
   }
 
   private wasPromptRecentlyDismissed(): boolean {
@@ -197,8 +183,6 @@ export class PwaPromptComponent implements OnInit, OnDestroy {
     // Solo mostrar si no está instalada y se puede instalar
     if (!this.pwaService.isInstalled() && this.pwaService.canInstallApp()) {
       this.showInstallPrompt = true;
-    } else {
-      this.logger.info('Cannot show prompt - app installed or not installable');
     }
   }
 
@@ -220,14 +204,24 @@ export class PwaPromptComponent implements OnInit, OnDestroy {
 
   private showAlreadyInstalledMessage(): void {
     this.logger.info('App is already installed - showing reminder message');
-    this.snackBar.open(
-      '¡La aplicación ya está instalada! Búscala en tu pantalla de inicio o en el menú de aplicaciones.',
-      'Entendido',
-      {
-        duration: 5000,
-        panelClass: ['app-installed-snackbar']
-      }
-    );
+
+    const isDevelopment = window.location.hostname === 'localhost';
+    const message = isDevelopment
+      ? '¡La aplicación ya está instalada! Puedes usar pwaDebug.simulateUninstall() para simular la desinstalación.'
+      : '¡La aplicación ya está instalada! Búscala en tu pantalla de inicio o en el menú de aplicaciones.';
+
+    const actionText = isDevelopment ? 'Debug' : 'Entendido';
+
+    const snackBarRef = this.snackBar.open(message, actionText, {
+      duration: isDevelopment ? 8000 : 5000,
+      panelClass: ['app-installed-snackbar']
+    });
+
+    if (isDevelopment) {
+      snackBarRef.onAction().subscribe(() => {
+        // Debug hint for development - use pwaDebug.simulateUninstall()
+      });
+    }
   }
 
   public checkInstallStatusAndNotify(): void {
@@ -246,12 +240,12 @@ export class PwaPromptComponent implements OnInit, OnDestroy {
     try {
       // Verificar primero si la app ya está instalada
       if (this.pwaService.isInstalled()) {
-        this.logger.info('App is already installed - hiding install prompt');
-        this.canInstall = false;
-        this.showInstallPrompt = false;
+        this.showAlreadyInstalledMessage();
+        this.hideInstallUI();
         return;
       }
 
+      // Para iOS Safari sin prompt nativo
       if (this.isIOSSafari() && !this.pwaService.hasInstallPrompt()) {
         this.showIOSInstallInstructions();
         return;
@@ -260,6 +254,12 @@ export class PwaPromptComponent implements OnInit, OnDestroy {
       const installStatus = this.pwaService.getInstallStatus();
 
       if (!installStatus.canInstall) {
+        if (installStatus.reason?.includes('Already installed')) {
+          this.showAlreadyInstalledMessage();
+          this.hideInstallUI();
+          return;
+        }
+
         this.snackBar.open(installStatus.reason || 'La aplicación no se puede instalar en este momento', 'Cerrar', {
           duration: 3000
         });
@@ -275,31 +275,46 @@ export class PwaPromptComponent implements OnInit, OnDestroy {
         return;
       }
 
-      this.logger.info('Attempting to install PWA with prompt available');
+      // Intentar instalación
       const result = await this.pwaService.installApp();
 
       if (result.success) {
-        this.showInstallPrompt = false;
-        this.canInstall = false;
+        this.hideInstallUI();
         this.snackBar.open('¡App instalada exitosamente!', 'Cerrar', { duration: 3000 });
       } else {
-        switch (result.reason) {
-          case 'USER_DISMISSED':
-            this.snackBar.open('Instalación cancelada por el usuario', 'Cerrar', { duration: 3000 });
-            break;
-          case 'NO_PROMPT':
-            this.snackBar.open('Prompt de instalación no disponible', 'Cerrar', { duration: 3000 });
-            break;
-          case 'ERROR':
-            this.snackBar.open('Error durante la instalación', 'Cerrar', { duration: 3000 });
-            break;
-          default:
-            this.snackBar.open('No se pudo completar la instalación', 'Cerrar', { duration: 3000 });
-        }
+        this.handleInstallError(result.reason);
       }
     } catch (error) {
       this.logger.error('Error al instalar la aplicación', error);
       this.snackBar.open('Error al instalar la aplicación', 'Cerrar', { duration: 3000 });
+    }
+  }
+
+  private hideInstallUI(): void {
+    this.canInstall = false;
+    this.showInstallPrompt = false;
+  }
+
+  private handleInstallError(reason?: string): void {
+    switch (reason) {
+      case 'ALREADY_INSTALLED':
+        this.showAlreadyInstalledMessage();
+        this.hideInstallUI();
+        break;
+      case 'USER_DISMISSED':
+        this.snackBar.open('Instalación cancelada por el usuario', 'Cerrar', { duration: 3000 });
+        break;
+      case 'NO_PROMPT':
+        this.snackBar.open('Prompt de instalación no disponible', 'Cerrar', { duration: 3000 });
+        break;
+      case 'NOT_MOBILE':
+        this.snackBar.open('La instalación solo está disponible en dispositivos móviles', 'Cerrar', { duration: 3000 });
+        break;
+      case 'ERROR':
+        this.snackBar.open('Error durante la instalación', 'Cerrar', { duration: 3000 });
+        break;
+      default:
+        this.snackBar.open('No se pudo completar la instalación', 'Cerrar', { duration: 3000 });
     }
   }
 
