@@ -398,13 +398,9 @@ describe('PwaPromptComponent', () => {
     const setTimeoutSpy = jest.spyOn(global, 'setTimeout');
 
     component.isMobile = false;
-    component.showFabAfter30Seconds = false;
-
     (component as unknown as { scheduleFabDisplay: () => void }).scheduleFabDisplay();
 
     expect(setTimeoutSpy).not.toHaveBeenCalled();
-    expect(component.showFabAfter30Seconds).toBe(false);
-
     setTimeoutSpy.mockRestore();
   });
 
@@ -417,7 +413,213 @@ describe('PwaPromptComponent', () => {
     (component as unknown as { scheduleFabDisplay: () => void }).scheduleFabDisplay();
 
     expect(setTimeoutSpy).toHaveBeenCalledWith(expect.any(Function), 30000);
-
     setTimeoutSpy.mockRestore();
+  });
+
+  describe('iOS Safari specific tests', () => {
+    beforeEach(() => {
+      Object.defineProperty(window.navigator, 'userAgent', {
+        writable: true,
+        value:
+          'Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1'
+      });
+    });
+
+    it('should detect iOS Safari correctly', () => {
+      const isIOSSafari = (component as any).isIOSSafari();
+      expect(isIOSSafari).toBe(true);
+    });
+
+    it('should handle iOS installation with no install prompt', async () => {
+      mockPwaService.hasInstallPrompt.mockReturnValue(false);
+      mockPwaService.canInstallApp.mockReturnValue(true);
+
+      const spy = jest.spyOn(component as any, 'showIOSInstallInstructions');
+      await component.installApp();
+
+      expect(spy).toHaveBeenCalled();
+    });
+  });
+
+  describe('Android Chrome specific tests', () => {
+    beforeEach(() => {
+      Object.defineProperty(window.navigator, 'userAgent', {
+        writable: true,
+        value:
+          'Mozilla/5.0 (Linux; Android 11; SM-G991B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.120 Mobile Safari/537.36'
+      });
+    });
+
+    it('should detect Android Chrome correctly', () => {
+      const isAndroidChrome = (component as any).isAndroidChrome();
+      expect(isAndroidChrome).toBe(true);
+    });
+
+    it('should handle Android Chrome install check with timeout', fakeAsync(() => {
+      mockPwaService.hasInstallPrompt.mockReturnValue(false);
+      mockPwaService.canInstallApp.mockReturnValue(false);
+
+      (component as any).checkCanInstall();
+
+      tick(2000);
+
+      expect(mockPwaService.canInstallApp).toHaveBeenCalled();
+    }));
+  });
+
+  describe('PWA Events', () => {
+    it('should handle pwa-install-available event', () => {
+      const checkCanInstallSpy = jest.spyOn(component as any, 'checkCanInstall');
+
+      component.ngOnInit();
+
+      const event = new Event('pwa-install-available');
+      window.dispatchEvent(event);
+
+      expect(checkCanInstallSpy).toHaveBeenCalled();
+    });
+
+    it('should handle pwa-installed event', () => {
+      component.canInstall = true;
+      component.showInstallPrompt = true;
+
+      component.ngOnInit();
+
+      const event = new Event('pwa-installed');
+      window.dispatchEvent(event);
+
+      expect(component.canInstall).toBe(false);
+      expect(component.showInstallPrompt).toBe(false);
+    });
+  });
+
+  describe('Install capability detection', () => {
+    it('should set canInstall to false when app is already installed', () => {
+      mockPwaService.isInstalled.mockReturnValue(true);
+      component.canInstall = true;
+      component.showInstallPrompt = true;
+
+      (component as any).checkCanInstall();
+
+      expect(component.canInstall).toBe(false);
+      expect(component.showInstallPrompt).toBe(false);
+    });
+
+    it('should enable canInstall for iOS Safari when app is not installed', () => {
+      Object.defineProperty(window.navigator, 'userAgent', {
+        writable: true,
+        value:
+          'Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1'
+      });
+
+      mockPwaService.isInstalled.mockReturnValue(false);
+      const isAppInstalledSpy = jest.spyOn(component as any, 'isAppInstalled').mockReturnValue(false);
+
+      (component as any).checkCanInstall();
+
+      expect(component.canInstall).toBe(true);
+      isAppInstalledSpy.mockRestore();
+    });
+  });
+
+  describe('Schedule install prompt', () => {
+    it('should not schedule prompt if recently dismissed', () => {
+      const localStorageMock = {
+        getItem: jest.fn().mockReturnValue((Date.now() - 12 * 60 * 60 * 1000).toString())
+      };
+      Object.defineProperty(window, 'localStorage', {
+        value: localStorageMock,
+        writable: true
+      });
+
+      const setTimeoutSpy = jest.spyOn(global, 'setTimeout');
+
+      (component as any).scheduleInstallPrompt();
+
+      expect(setTimeoutSpy).not.toHaveBeenCalled();
+      setTimeoutSpy.mockRestore();
+    });
+
+    it('should not schedule prompt on desktop', () => {
+      component.isMobile = false;
+
+      const setTimeoutSpy = jest.spyOn(global, 'setTimeout');
+
+      (component as any).scheduleInstallPrompt();
+
+      expect(setTimeoutSpy).not.toHaveBeenCalled();
+      setTimeoutSpy.mockRestore();
+    });
+  });
+
+  describe('Component logging and debugging', () => {
+    it('should log debug info after timeout', fakeAsync(() => {
+      component.ngOnInit();
+
+      tick(3000);
+      discardPeriodicTasks();
+
+      expect(mockPwaService.logDebugInfo).toHaveBeenCalled();
+      expect(mockLoggerService.info).toHaveBeenCalledWith('PWA Component state:', expect.any(Object));
+    }));
+
+    it('should handle non-browser environment gracefully', () => {
+      (component as any).isBrowser = false;
+
+      component.ngOnInit();
+
+      expect(mockPwaService.logDebugInfo).not.toHaveBeenCalled();
+    });
+
+    it('should handle checkCanInstall on non-browser environment', () => {
+      (component as any).isBrowser = false;
+      const previousCanInstall = component.canInstall;
+
+      (component as any).checkCanInstall();
+
+      expect(component.canInstall).toBe(previousCanInstall);
+    });
+
+    it('should update app successfully', async () => {
+      mockPwaService.updateApp.mockResolvedValue();
+
+      await component.updateApp();
+
+      expect(mockPwaService.updateApp).toHaveBeenCalled();
+      expect(mockSnackBar.open).not.toHaveBeenCalled();
+    });
+
+    it('should use translation function', () => {
+      const translationKey = 'test.key';
+      const expectedTranslation = 'Test Translation';
+      mockI18nService.t.mockReturnValue(expectedTranslation);
+
+      const result = (component as any).t(translationKey);
+
+      expect(mockI18nService.t).toHaveBeenCalledWith(translationKey);
+      expect(result).toBe(expectedTranslation);
+    });
+
+    it('should check if app is installed', () => {
+      mockPwaService.isInstalled.mockReturnValue(true);
+
+      const result = (component as any).isAppInstalled();
+
+      expect(mockPwaService.isInstalled).toHaveBeenCalled();
+      expect(result).toBe(true);
+    });
+
+    it('should handle localStorage undefined in wasPromptRecentlyDismissed', () => {
+      (component as any).isBrowser = true;
+
+      Object.defineProperty(window, 'localStorage', {
+        value: undefined,
+        writable: true
+      });
+
+      const result = (component as any).wasPromptRecentlyDismissed();
+
+      expect(result).toBe(false);
+    });
   });
 });

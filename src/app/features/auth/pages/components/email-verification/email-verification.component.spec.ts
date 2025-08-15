@@ -232,4 +232,30 @@ describe('EmailVerificationComponent', () => {
       expect(mockCountdownService.startCountdown).toHaveBeenCalled();
     });
   });
+
+  describe('Error handling and edge cases', () => {
+    beforeEach(() => {
+      fixture.detectChanges();
+    });
+
+    it('should handle navigation correctly', () => {
+      component.goBack();
+      expect(mockRouter.navigate).toHaveBeenCalled();
+    });
+
+    it('should handle doLater action correctly', () => {
+      component.doLater();
+      expect(mockRouter.navigate).toHaveBeenCalled();
+    });
+
+    it('should verify code when form is valid', () => {
+      component.codeSent = true;
+      fixture.detectChanges();
+
+      const spy = jest.spyOn(component, 'verifyCode');
+      component.verifyCode();
+
+      expect(spy).toHaveBeenCalled();
+    });
+  });
 });

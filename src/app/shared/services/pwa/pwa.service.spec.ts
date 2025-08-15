@@ -534,4 +534,376 @@ describe('PwaService', () => {
 
     setIntervalSpy.mockRestore();
   });
+
+  it('debe retornar false y mostrar warning cuando no es secure context', () => {
+    Object.defineProperty(window, 'isSecureContext', {
+      writable: true,
+      value: false
+    });
+
+    Object.defineProperty(window, 'location', {
+      writable: true,
+      value: {
+        hostname: 'example.com',
+        protocol: 'http:',
+        search: '',
+        href: 'http://example.com'
+      }
+    });
+
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({
+      providers: [
+        PwaService,
+        { provide: PLATFORM_ID, useValue: 'browser' },
+        { provide: SwUpdate, useValue: swUpdateMock },
+        { provide: LoggerService, useValue: loggerMock }
+      ]
+    });
+
+    TestBed.inject(PwaService);
+    expect(loggerMock.warn).toHaveBeenCalledWith('PWA requires HTTPS to work properly');
+  });
+
+  it('debe retornar true cuando shouldSimulatePrompt es true', () => {
+    Object.defineProperty(window, 'location', {
+      writable: true,
+      value: {
+        hostname: 'localhost',
+        protocol: 'http:',
+        href: 'http://localhost:4200',
+        search: ''
+      }
+    });
+
+    Object.defineProperty(navigator, 'serviceWorker', {
+      writable: true,
+      value: { ready: Promise.resolve() }
+    });
+
+    const manifestLink = document.createElement('link');
+    manifestLink.rel = 'manifest';
+    manifestLink.href = '/manifest.webmanifest';
+    document.head.appendChild(manifestLink);
+
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({
+      providers: [
+        PwaService,
+        { provide: PLATFORM_ID, useValue: 'browser' },
+        { provide: SwUpdate, useValue: swUpdateMock },
+        { provide: LoggerService, useValue: loggerMock }
+      ]
+    });
+
+    const newService = TestBed.inject(PwaService);
+    const canInstall = newService.canInstallApp();
+    expect(canInstall).toBe(true);
+  });
+
+  it('debe detectar iOS Safari y verificar instalabilidad', () => {
+    Object.defineProperty(navigator, 'userAgent', {
+      writable: true,
+      value:
+        'Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1'
+    });
+
+    Object.defineProperty(navigator, 'standalone', {
+      writable: true,
+      value: false
+    });
+
+    Object.defineProperty(navigator, 'serviceWorker', {
+      writable: true,
+      value: { ready: Promise.resolve() }
+    });
+
+    const manifestLink = document.createElement('link');
+    manifestLink.rel = 'manifest';
+    manifestLink.href = '/manifest.webmanifest';
+    document.head.appendChild(manifestLink);
+
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({
+      providers: [
+        PwaService,
+        { provide: PLATFORM_ID, useValue: 'browser' },
+        { provide: SwUpdate, useValue: swUpdateMock },
+        { provide: LoggerService, useValue: loggerMock }
+      ]
+    });
+
+    const newService = TestBed.inject(PwaService);
+    const debugInfo = newService.getDebugInfo();
+    expect(debugInfo.isIOSSafari).toBe(true);
+  });
+
+  it('debe retornar false para iOS Safari cuando está en standalone', () => {
+    Object.defineProperty(navigator, 'userAgent', {
+      writable: true,
+      value:
+        'Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1'
+    });
+
+    Object.defineProperty(navigator, 'standalone', {
+      writable: true,
+      value: true
+    });
+
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({
+      providers: [
+        PwaService,
+        { provide: PLATFORM_ID, useValue: 'browser' },
+        { provide: SwUpdate, useValue: swUpdateMock },
+        { provide: LoggerService, useValue: loggerMock }
+      ]
+    });
+
+    const newService = TestBed.inject(PwaService);
+    const canInstall = newService.canInstallApp();
+    expect(canInstall).toBe(false);
+  });
+
+  it('debe verificar shouldSimulatePrompt en localhost con manifest', () => {
+    Object.defineProperty(window, 'location', {
+      writable: true,
+      value: {
+        hostname: 'localhost',
+        protocol: 'http:',
+        href: 'http://localhost:4200',
+        search: ''
+      }
+    });
+
+    Object.defineProperty(navigator, 'serviceWorker', {
+      writable: true,
+      value: { ready: Promise.resolve() }
+    });
+
+    const manifestLink = document.createElement('link');
+    manifestLink.rel = 'manifest';
+    manifestLink.href = '/manifest.webmanifest';
+    document.head.appendChild(manifestLink);
+
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({
+      providers: [
+        PwaService,
+        { provide: PLATFORM_ID, useValue: 'browser' },
+        { provide: SwUpdate, useValue: swUpdateMock },
+        { provide: LoggerService, useValue: loggerMock }
+      ]
+    });
+
+    const newService = TestBed.inject(PwaService);
+    const debugInfo = newService.getDebugInfo();
+    expect(debugInfo.hasServiceWorker).toBe(true);
+    expect(debugInfo.hasValidManifest).toBe(true);
+  });
+
+  it('debe retornar información de debug completa', () => {
+    const debugInfo = service.getDebugInfo();
+
+    expect(debugInfo).toBeDefined();
+    expect(debugInfo.isBrowser).toBe(true);
+    expect(debugInfo.isSecureContext).toBeDefined();
+    expect(debugInfo.hasPromptEvent).toBe(false);
+    expect(debugInfo.canInstallApp).toBeDefined();
+    expect(debugInfo.userAgent).toBeDefined();
+    expect(debugInfo.displayMode).toBeDefined();
+    expect(debugInfo.swUpdateEnabled).toBe(true);
+  });
+
+  it('debe ejecutar logDebugInfo correctamente', () => {
+    service.logDebugInfo();
+    expect(loggerMock.info).toHaveBeenCalledWith('PWA Debug Info:', expect.any(Object));
+  });
+
+  it('debe obtener registros de service worker exitosamente', async () => {
+    const mockRegistrations = [{ scope: '/' }];
+
+    Object.defineProperty(navigator, 'serviceWorker', {
+      writable: true,
+      value: {
+        getRegistrations: jest.fn().mockResolvedValue(mockRegistrations)
+      }
+    });
+
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({
+      providers: [
+        PwaService,
+        { provide: PLATFORM_ID, useValue: 'browser' },
+        { provide: SwUpdate, useValue: swUpdateMock },
+        { provide: LoggerService, useValue: loggerMock }
+      ]
+    });
+
+    const newService = TestBed.inject(PwaService);
+    newService.checkInstallability();
+
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    expect(loggerMock.info).toHaveBeenCalledWith('Found 1 service worker registrations');
+  });
+
+  it('debe manejar errores al obtener registros de service worker', async () => {
+    Object.defineProperty(navigator, 'serviceWorker', {
+      writable: true,
+      value: {
+        getRegistrations: jest.fn().mockRejectedValue(new Error('Failed'))
+      }
+    });
+
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({
+      providers: [
+        PwaService,
+        { provide: PLATFORM_ID, useValue: 'browser' },
+        { provide: SwUpdate, useValue: swUpdateMock },
+        { provide: LoggerService, useValue: loggerMock }
+      ]
+    });
+
+    const newService = TestBed.inject(PwaService);
+    newService.checkInstallability();
+
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    expect(loggerMock.warn).toHaveBeenCalledWith('Failed to get service worker registrations');
+  });
+
+  it('debe mostrar mensaje para iOS Safari cuando no está en standalone', () => {
+    Object.defineProperty(navigator, 'userAgent', {
+      writable: true,
+      value:
+        'Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1'
+    });
+
+    Object.defineProperty(navigator, 'standalone', {
+      writable: true,
+      value: false
+    });
+
+    Object.defineProperty(navigator, 'serviceWorker', {
+      writable: true,
+      value: {
+        getRegistrations: jest.fn().mockResolvedValue([])
+      }
+    });
+
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({
+      providers: [
+        PwaService,
+        { provide: PLATFORM_ID, useValue: 'browser' },
+        { provide: SwUpdate, useValue: swUpdateMock },
+        { provide: LoggerService, useValue: loggerMock }
+      ]
+    });
+
+    const newService = TestBed.inject(PwaService);
+    newService.checkInstallability();
+
+    expect(loggerMock.info).toHaveBeenCalledWith('iOS Safari detected - manual installation instructions available');
+  });
+
+  it('debe detectar isInWebView correctamente', () => {
+    Object.defineProperty(navigator, 'userAgent', {
+      writable: true,
+      value:
+        'Mozilla/5.0 (Linux; Android 10; SM-G975F) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/88.0.4324.181 Mobile Safari/537.36; wv'
+    });
+
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({
+      providers: [
+        PwaService,
+        { provide: PLATFORM_ID, useValue: 'browser' },
+        { provide: SwUpdate, useValue: swUpdateMock },
+        { provide: LoggerService, useValue: loggerMock }
+      ]
+    });
+
+    const newService = TestBed.inject(PwaService);
+    const debugInfo = newService.getDebugInfo();
+    expect(debugInfo.isInWebView).toBe(true);
+  });
+
+  it('debe detectar iOS Safari correctamente', () => {
+    Object.defineProperty(navigator, 'userAgent', {
+      writable: true,
+      value:
+        'Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1'
+    });
+
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({
+      providers: [
+        PwaService,
+        { provide: PLATFORM_ID, useValue: 'browser' },
+        { provide: SwUpdate, useValue: swUpdateMock },
+        { provide: LoggerService, useValue: loggerMock }
+      ]
+    });
+
+    const newService = TestBed.inject(PwaService);
+    const debugInfo = newService.getDebugInfo();
+    expect(debugInfo.isIOSSafari).toBe(true);
+  });
+
+  it('debe detectar Chrome en iOS correctamente', () => {
+    Object.defineProperty(navigator, 'userAgent', {
+      writable: true,
+      value:
+        'Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/94.0.4606.76 Mobile/15E148 Safari/604.1'
+    });
+
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({
+      providers: [
+        PwaService,
+        { provide: PLATFORM_ID, useValue: 'browser' },
+        { provide: SwUpdate, useValue: swUpdateMock },
+        { provide: LoggerService, useValue: loggerMock }
+      ]
+    });
+
+    const newService = TestBed.inject(PwaService);
+    const debugInfo = newService.getDebugInfo();
+    expect(debugInfo.isIOSSafari).toBe(false);
+  });
+
+  it('debe simular install prompt en desarrollo', () => {
+    Object.defineProperty(window, 'location', {
+      writable: true,
+      value: {
+        hostname: 'localhost',
+        protocol: 'http:',
+        href: 'http://localhost:4200',
+        search: ''
+      }
+    });
+
+    Object.defineProperty(navigator, 'serviceWorker', {
+      writable: true,
+      value: {
+        getRegistrations: jest.fn().mockResolvedValue([])
+      }
+    });
+
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({
+      providers: [
+        PwaService,
+        { provide: PLATFORM_ID, useValue: 'browser' },
+        { provide: SwUpdate, useValue: swUpdateMock },
+        { provide: LoggerService, useValue: loggerMock }
+      ]
+    });
+
+    const newService = TestBed.inject(PwaService);
+    newService.checkInstallability();
+
+    expect(loggerMock.info).toHaveBeenCalledWith('Simulating install prompt for development');
+  });
 });

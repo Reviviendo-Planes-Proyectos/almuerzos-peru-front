@@ -4,7 +4,7 @@ import { I18nService } from '../services/translation.service';
 @Pipe({
   name: 't',
   standalone: true,
-  pure: false // Necesario para reactividad con signals
+  pure: false
 })
 export class TranslatePipe implements PipeTransform {
   private readonly i18n = inject(I18nService);

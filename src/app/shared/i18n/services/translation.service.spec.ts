@@ -137,9 +137,60 @@ describe('I18nService', () => {
 
       expect(newService.isTranslationsLoaded()).toBe(true);
     });
+
+    it('should handle first fetch failure with fallback', async () => {
+      mockFetch
+        .mockRejectedValueOnce(new Error('Primary fetch failed'))
+        .mockResolvedValueOnce({ json: () => Promise.resolve({}) } as Response);
+
+      const newService = new I18nService();
+      await newService.initializeTranslations();
+
+      expect(newService.isTranslationsLoaded()).toBe(true);
+    });
+
+    it('should handle non-ok response status', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: false,
+        status: 404
+      } as Response);
+
+      const newService = new I18nService();
+      await newService.initializeTranslations();
+
+      expect(newService.isTranslationsLoaded()).toBe(true);
+    });
+
+    it('should return resolved promise when already loaded', async () => {
+      const newService = new I18nService();
+
+      mockFetch.mockResolvedValue({
+        json: () => Promise.resolve({})
+      } as Response);
+
+      await newService.initializeTranslations();
+
+      (newService as any).isLoaded.set(true);
+      const result = await newService.initializeTranslations();
+
+      expect(result).toBeUndefined();
+    });
   });
 
-  describe('t method basic functionality', () => {
+  describe('setLang error handling', () => {
+    it('should handle fetch error when loading new language', async () => {
+      (service as any).isLoaded.set(true);
+      (service as any).messages.set({ es: { 'test.key': 'Prueba' }, en: {} });
+
+      mockFetch.mockRejectedValueOnce(new Error('Fetch failed'));
+
+      await service.setLang('en');
+
+      expect(service.getLang()).toBe('en');
+    });
+  });
+
+  describe('t method edge cases', () => {
     it('should return key when translations not loaded', () => {
       expect(service.t('test.key')).toBe('test.key');
     });

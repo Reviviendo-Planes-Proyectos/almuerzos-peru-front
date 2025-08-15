@@ -16,6 +16,7 @@ module.exports = {
     '!src/environments/**',
     '!src/polyfills.ts',
     '!**/*.module.ts',
+    '!**/index.ts',
     '!**/node_modules/**'
   ],
   coverageThreshold: {

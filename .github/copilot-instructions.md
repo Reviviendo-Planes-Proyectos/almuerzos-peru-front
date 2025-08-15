@@ -267,6 +267,7 @@ console[level](message, ...params);
 7. **Logging** - Never use console.\* directly, always inject and use `LoggerService`
 8. **Commits** - English only, conventional format, no Spanish/gerunds allowed
 9. **Branches** - Only `feature/name-example` format accepted by pre-push hook
+10. **NO COMMENTS** - Code must be self-documenting, avoid comments unless absolutely necessary
 
 ## 💻 Angular Development Standards
 
@@ -319,10 +320,11 @@ export class FeatureComponent extends BaseTranslatableComponent {
 
 **Clean Code Principles:**
 
-- No comments in code - code should be self-documenting
+- **No comments in code** - Code should be self-documenting through descriptive names and clear structure
+- **Comments only when absolutely necessary** - Use only for complex business logic, workarounds, or external API constraints
 - Single Responsibility Principle for all classes/methods
 - Explicit return types for all public methods
-- Descriptive variable and method names
+- Descriptive variable and method names that eliminate need for comments
 
 **SOLID Implementation:**
 
@@ -402,11 +404,13 @@ export class FeatureService {
 
 ## 🔧 Development Workflow
 
-**Code Generation:**
+**Code Generation Principles:**
 
+- **NO COMMENTS RULE**: Generate clean code without comments unless absolutely critical
+- **Exceptions for comments**: Only use when documenting complex business rules, external API constraints, or workarounds
 - Provide only necessary code for requirements
 - No example code or unnecessary fragments
-- Focus on solving specific problems
+- Focus on solving specific problems with self-documenting code
 - Minimal viable implementation approach
 
 **Dependency Management:**
