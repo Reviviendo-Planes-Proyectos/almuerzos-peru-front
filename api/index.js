@@ -1,21 +1,34 @@
 // Angular Universal SSR handler for Vercel
-let app = null;
+let expressApp = null;
 
-module.exports = async (req, res) => {
+module.exports = async function handler(req, res) {
   try {
-    // Initialize app on first request (cold start)
-    if (!app) {
-      const { app: createApp } = await import('../dist/almuerzos-peru-front/server/server.mjs');
-      app = createApp();
+    // Initialize Express app on first request (cold start optimization)
+    if (!expressApp) {
+      const { app } = await import('../dist/almuerzos-peru-front/server/server.mjs');
+      expressApp = app();
+    }
+
+    // Set security headers
+    res.setHeader('X-Frame-Options', 'DENY');
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+
+    // Handle preflight requests
+    if (req.method === 'OPTIONS') {
+      res.status(200).end();
+      return;
     }
 
     // Forward request to Angular Universal Express app
-    app(req, res);
+    expressApp(req, res);
+
   } catch (error) {
     console.error('SSR Error:', error);
     res.status(500).json({
-      error: 'Server rendering failed',
-      message: error.message
+      error: 'Server Side Rendering failed',
+      message: error.message,
+      timestamp: new Date().toISOString()
     });
   }
 };
