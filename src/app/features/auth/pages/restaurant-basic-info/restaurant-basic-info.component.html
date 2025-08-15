@@ -44,6 +44,22 @@
         ></app-input-field>
 
         <app-input-field
+          label="Nombres del Propietario"
+          icon="person"
+          placeholder="Nombres según RENIEC"
+          formControlName="ownerFirstName"
+          [disabled]="true"
+        ></app-input-field>
+
+        <app-input-field
+          label="Apellidos del Propietario"
+          icon="person_outline"
+          placeholder="Apellidos según RENIEC"
+          formControlName="ownerLastName"
+          [disabled]="true"
+        ></app-input-field>
+
+        <app-input-field
           label="Número de Celular*"
           icon="phone"
           placeholder="987654321"
@@ -85,9 +101,9 @@
         <app-input-field
           label="Razón Social / Propietario"
           icon="person"
-          placeholder="Ingresa la razón social o nombre del propietario"
+          placeholder="Razón social según SUNAT"
           formControlName="razonSocial"
-          [disabled]="!isRazonSocialEnabled"
+          [disabled]="true"
         ></app-input-field>
 
         <div class="pt-4">
