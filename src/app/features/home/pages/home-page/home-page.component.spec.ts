@@ -1,13 +1,13 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { CoreModule } from '../../../../shared/modules';
 import { LoggerService } from '../../../../shared/services/logger/logger.service';
-import { HomePageComponent } from './home-page.component';
 import { CategoriesSectionComponent } from '../../components/categories-section/categories-section.component';
 import { DiscoverSectionComponent } from '../../components/discover-section/discover-section.component';
 import { FavoritesSectionComponent } from '../../components/favorites-section/favorites-section.component';
 import { SearchBarComponent } from '../../components/search-bar/search-bar.component';
+import { HomePageComponent } from './home-page.component';
 
 describe('HomePageComponent', () => {
   let component: HomePageComponent;
