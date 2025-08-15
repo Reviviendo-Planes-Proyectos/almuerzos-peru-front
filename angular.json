@@ -59,6 +59,22 @@
               "outputHashing": "all",
               "serviceWorker": "ngsw-config.json"
             },
+            "spa": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "800kB",
+                  "maximumError": "1.2MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
+                }
+              ],
+              "outputHashing": "all",
+              "serviceWorker": "ngsw-config.json"
+            },
             "static": {
               "budgets": [
                 {
