@@ -226,7 +226,9 @@ export class DiscoverSectionComponent {
   }
 
   onImageError(event: any): void {
-    event.target.src = 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&h=300&fit=crop';
-    this.logger.error('Error loading restaurant image');
+    if (event?.target) {
+      event.target.src = 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&h=300&fit=crop';
+      this.logger.error('Error loading restaurant image');
+    }
   }
 }
