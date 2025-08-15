@@ -1,11 +1,16 @@
 {
+  "functions": {
+    "app/server.ts": {
+      "runtime": "nodejs18.x"
+    }
+  },
   "rewrites": [
     {
       "source": "/(.*)",
       "destination": "/index.html"
     }
   ],
-  "buildCommand": "npm run build",
+  "buildCommand": "npm run build:ssr",
   "outputDirectory": "dist/almuerzos-peru-front/browser",
   "cleanUrls": true,
   "trailingSlash": false,
