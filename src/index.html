@@ -6,7 +6,10 @@
     <base href="/" />
 
     <!-- Meta accesibilidad & responsive -->
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no, shrink-to-fit=no"
+    />
 
     <!-- SEO básico -->
     <meta
@@ -24,6 +27,13 @@
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="es_PE" />
 
+    <!-- Mejoras adicionales para móvil -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fdc94c" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#e6b43a" />
+
     <!-- Favicon & PWA -->
     <link
       rel="icon"
@@ -31,6 +41,29 @@
       href="https://almuerzos-peru-public.s3.us-east-1.amazonaws.com/favicon_almuerza_peru.svg"
     />
     <link rel="manifest" href="manifest.webmanifest" />
+
+    <!-- PWA Meta Tags -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="Almuerzos Perú" />
+
+    <!-- iOS Safari PWA -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Almuerzos Perú" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Almuerzos Perú" />
+    <link
+      rel="apple-touch-icon"
+      href="https://almuerzos-peru-public.s3.us-east-1.amazonaws.com/icons/icon-192x192.png"
+    />
+
+    <!-- MS Windows PWA -->
+    <meta
+      name="msapplication-TileImage"
+      content="https://almuerzos-peru-public.s3.us-east-1.amazonaws.com/icons/icon-144x144.png"
+    />
+    <meta name="msapplication-TileColor" content="#fdc94c" />
+    <meta name="theme-color" content="#fdc94c" />
 
     <!-- Fuentes -->
     <link

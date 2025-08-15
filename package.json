@@ -24,6 +24,10 @@
     "test:e2e:report": "playwright show-report",
     "test:e2e": "playwright test"
   },
+  "engines": {
+    "node": ">=18.18.0",
+    "npm": ">=9.0.0"
+  },
   "private": true,
   "dependencies": {
     "@angular/animations": "^18.2.13",
