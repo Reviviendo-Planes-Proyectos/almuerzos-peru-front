@@ -10,7 +10,6 @@ test-results
 playwright-report
 
 # Development files
-src
 *.spec.ts
 *.test.ts
 e2e
@@ -26,7 +25,7 @@ docs
 biome.json
 jest.config.js
 playwright.config.ts
-tsconfig.*
+tsconfig.spec.json
 
 # Environment files
 .env
