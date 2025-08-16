@@ -1,0 +1,49 @@
+<!-- categories-section.component.html -->
+<div class="px-4 py-4 bg-gray-50">
+  <!-- Header de la sección -->
+  <div class="flex items-center justify-between mb-4">
+    <h2 class="text-lg font-semibold text-gray-800">Categorías</h2>
+    <button class="text-orange-500 text-sm font-medium hover:text-orange-600" (click)="onViewAll()">Ver todo</button>
+  </div>
+
+  <!-- Lista horizontal deslizable -->
+  <div class="relative">
+    <div
+      class="flex space-x-4 overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-orange-300 scrollbar-track-gray-100 scroll-smooth cursor-grab active:cursor-grabbing"
+      #categoriesContainer
+      (wheel)="onWheel($event)"
+      (mousedown)="startDrag($event)"
+      (mousemove)="onDrag($event)"
+      (mouseup)="endDrag()"
+      (mouseleave)="endDrag()"
+    >
+      <div
+        *ngFor="let category of categories; trackBy: trackByCategory"
+        class="flex-shrink-0 cursor-pointer transform transition-transform duration-200 hover:scale-105 select-none"
+        (click)="onCategoryClick(category)"
+      >
+        <!-- Tarjeta de categoría -->
+        <div class="flex flex-col items-center space-y-2 w-20">
+          <!-- Imagen de la categoría -->
+          <div class="w-16 h-16 rounded-xl overflow-hidden shadow-md bg-white">
+            <img
+              [src]="category.image"
+              [alt]="category.name"
+              class="w-full h-full object-cover pointer-events-none"
+              (error)="onImageError($event, category)"
+              loading="lazy"
+            />
+          </div>
+
+          <!-- Nombre de la categoría -->
+          <span class="text-xs text-center text-gray-700 font-medium leading-tight">
+            {{ category.name }}
+          </span>
+
+          <!-- Contador de opciones (opcional) -->
+          <span class="text-xs text-gray-400">{{ category.count }} opciones</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

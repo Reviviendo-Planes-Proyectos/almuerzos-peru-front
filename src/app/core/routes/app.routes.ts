@@ -14,6 +14,10 @@ export const routes: Routes = [
     loadChildren: () => import('../../features/legal/legal.routes').then((m) => m.LEGAL_ROUTES)
   },
   {
+    path: 'home',
+    loadChildren: () => import('../../features/home/home.routes').then((m) => m.HOME_ROUTES)
+  },
+  {
     path: '**',
     redirectTo: ''
   }
