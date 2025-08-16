@@ -56,6 +56,22 @@ export function app(): express.Express {
     })
   );
 
+  // Serve translation files
+  server.get('/messages/:lang.json', (req: Request, res: Response) => {
+    const lang = req.params['lang'];
+    const filePath = join(browserDistFolder, 'messages', `${lang}.json`);
+
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Cache-Control', 'public, max-age=3600');
+
+    res.sendFile(filePath, (err) => {
+      if (err) {
+        console.error(`Translation file not found: ${filePath}`);
+        res.status(404).json({ error: 'Translation file not found' });
+      }
+    });
+  });
+
   // Serve static files from /browser
   server.get(
     '**',
