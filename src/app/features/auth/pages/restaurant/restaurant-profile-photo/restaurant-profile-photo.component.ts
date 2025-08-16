@@ -1,5 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { ASSET_URLS } from '../../../../../shared/constants';
 import { BaseTranslatableComponent, CoreModule, SharedComponentsModule } from '../../../../../shared/modules';
 
 @Component({
@@ -12,6 +13,8 @@ import { BaseTranslatableComponent, CoreModule, SharedComponentsModule } from '.
 export class RestaurantProfilePhotoComponent extends BaseTranslatableComponent {
   @ViewChild('restaurantFileInput') restaurantFileInput!: ElementRef<HTMLInputElement>;
   @ViewChild('logoFileInput') logoFileInput!: ElementRef<HTMLInputElement>;
+
+  assetUrls = ASSET_URLS;
 
   currentStep = 4;
 

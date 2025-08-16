@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ASSET_URLS } from '../../../../../shared/constants';
 import { BaseTranslatableComponent, CoreModule, SharedComponentsModule } from '../../../../../shared/modules';
 
 interface DaySchedule {
@@ -19,6 +20,8 @@ interface DaySchedule {
   styleUrl: './restaurant-schedule.component.scss'
 })
 export class RestaurantScheduleComponent extends BaseTranslatableComponent {
+  readonly assetUrls = ASSET_URLS;
+
   currentStep = 5;
 
   // Configuración de días

@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ASSET_URLS } from '../../../../../shared/constants';
 import { BaseTranslatableComponent, CoreModule, SharedComponentsModule } from '../../../../../shared/modules';
 
 @Component({
@@ -11,6 +12,7 @@ import { BaseTranslatableComponent, CoreModule, SharedComponentsModule } from '.
   styleUrl: './phone-verification.component.scss'
 })
 export class PhoneVerificationComponent extends BaseTranslatableComponent implements OnInit, OnDestroy {
+  assetUrls = ASSET_URLS;
   userPhone!: string;
   canResendCode = false;
   countdownTimer = 60;
