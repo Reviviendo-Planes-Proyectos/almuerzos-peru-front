@@ -410,7 +410,7 @@ describe('RegisterComponent', () => {
       const titleElement = debugElement.query(By.css('h1'));
       const subtitleElement = debugElement.query(By.css('p'));
       const separatorElement = debugElement.query(By.css('.mx-4'));
-      const linkElement = debugElement.query(By.css('button.text-purple-700'));
+      const linkElement = debugElement.query(By.css('app-text-link-button'));
 
       expect(titleElement.nativeElement.textContent.trim()).toBe('ALMUERZOS PERU');
       expect(subtitleElement.nativeElement.textContent.trim()).toBe('¿Cómo deseas registrarte?');
