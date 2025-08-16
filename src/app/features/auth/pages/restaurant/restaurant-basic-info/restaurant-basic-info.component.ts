@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SelectOption } from '../../../../../shared/components';
+import { ASSET_URLS } from '../../../../../shared/constants';
 import { DISTRITO_OPTIONS, PROVINCIA_OPTIONS } from '../../../../../shared/constants/location-options';
 import { BaseTranslatableComponent, CoreModule, SharedComponentsModule } from '../../../../../shared/modules';
 import { LoggerService } from '../../../../../shared/services/logger/logger.service';
@@ -14,6 +15,8 @@ import { LoggerService } from '../../../../../shared/services/logger/logger.serv
   styleUrls: ['./restaurant-basic-info.component.scss']
 })
 export class RestaurantBasicInfoComponent extends BaseTranslatableComponent implements OnInit {
+  assetUrls = ASSET_URLS;
+
   restaurantForm!: FormGroup;
   isRazonSocialEnabled = false;
   isLocationModalVisible = false;

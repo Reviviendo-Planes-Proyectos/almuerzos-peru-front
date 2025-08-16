@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SelectOption } from '../../../../../shared/components/ui/select-field/select-field.component';
+import { ASSET_URLS } from '../../../../../shared/constants';
 import { DISTRITO_OPTIONS, PROVINCIA_OPTIONS } from '../../../../../shared/constants/location-options';
 import { BaseTranslatableComponent, CoreModule, SharedComponentsModule } from '../../../../../shared/modules';
 import { LoggerService } from '../../../../../shared/services/logger/logger.service';
@@ -14,6 +15,7 @@ import { LoggerService } from '../../../../../shared/services/logger/logger.serv
   styleUrls: ['./customer-basic-info.component.scss']
 })
 export class CustomerBasicInfoComponent extends BaseTranslatableComponent implements OnInit {
+  assetUrls = ASSET_URLS;
   customerForm!: FormGroup;
 
   provinciaOptions: SelectOption[] = PROVINCIA_OPTIONS;

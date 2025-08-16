@@ -1,6 +1,7 @@
 import { Location, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ASSET_URLS } from '../../../../../shared/constants';
 import { BaseTranslatableComponent, MaterialModule, SharedComponentsModule } from '../../../../../shared/modules';
 import { LoggerService } from '../../../../../shared/services/logger/logger.service';
 
@@ -12,6 +13,7 @@ import { LoggerService } from '../../../../../shared/services/logger/logger.serv
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent extends BaseTranslatableComponent implements OnInit {
+  assetUrls = ASSET_URLS;
   isGoogleLoading = false;
   isFacebookLoading = false;
   isEmailLoading = false;
