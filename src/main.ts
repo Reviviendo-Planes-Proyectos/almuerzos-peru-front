@@ -7,10 +7,8 @@ import { AppComponent } from './app/app.component';
 import { appConfig } from './app/core/config/app.config';
 import { I18nService, initializeTranslations } from './app/shared/i18n';
 
-// Función para manejar errores de bootstrap
 async function startApp(): Promise<void> {
   try {
-    // Verificar que Zone.js esté disponible antes de hacer bootstrap
     if (typeof (window as any).Zone === 'undefined') {
       console.error('Zone.js not loaded properly');
       throw new Error('Zone.js initialization failed');
