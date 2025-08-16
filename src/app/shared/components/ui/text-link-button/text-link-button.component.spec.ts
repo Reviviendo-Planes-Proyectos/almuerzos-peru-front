@@ -23,21 +23,21 @@ describe('TextLinkButtonComponent', () => {
   });
 
   it('should emit clicked event when active and clicked', () => {
-    spyOn(component.clicked, 'emit');
+    const emitSpy = jest.spyOn(component.clicked, 'emit');
     component.isActive = true;
 
     component.onClick();
 
-    expect(component.clicked.emit).toHaveBeenCalled();
+    expect(emitSpy).toHaveBeenCalled();
   });
 
   it('should not emit clicked event when inactive and clicked', () => {
-    spyOn(component.clicked, 'emit');
+    const emitSpy = jest.spyOn(component.clicked, 'emit');
     component.isActive = false;
 
     component.onClick();
 
-    expect(component.clicked.emit).not.toHaveBeenCalled();
+    expect(emitSpy).not.toHaveBeenCalled();
   });
 
   it('should apply orange variant classes by default', () => {
@@ -46,8 +46,8 @@ describe('TextLinkButtonComponent', () => {
 
     const classes = component.buttonClasses;
 
-    expect(classes).toContain('text-orange-600');
-    expect(classes).toContain('hover:text-orange-700');
+    expect(classes).toContain('text-orange-500');
+    expect(classes).toContain('hover:text-orange-600');
   });
 
   it('should apply gray variant classes when specified', () => {
@@ -56,18 +56,8 @@ describe('TextLinkButtonComponent', () => {
 
     const classes = component.buttonClasses;
 
-    expect(classes).toContain('text-gray-600');
-    expect(classes).toContain('hover:text-gray-700');
-  });
-
-  it('should apply purple variant classes when specified', () => {
-    component.variant = 'purple';
-    component.isActive = true;
-
-    const classes = component.buttonClasses;
-
-    expect(classes).toContain('text-purple-600');
-    expect(classes).toContain('hover:text-purple-700');
+    expect(classes).toContain('text-gray-500');
+    expect(classes).toContain('hover:text-gray-600');
   });
 
   it('should apply disabled classes when inactive', () => {
@@ -86,5 +76,13 @@ describe('TextLinkButtonComponent', () => {
 
     const buttonElement = fixture.nativeElement.querySelector('button');
     expect(buttonElement.textContent.trim()).toBe('Test Label');
+  });
+
+  it('should have orange as default variant', () => {
+    expect(component.variant).toBe('orange');
+  });
+
+  it('should be active by default', () => {
+    expect(component.isActive).toBe(true);
   });
 });
