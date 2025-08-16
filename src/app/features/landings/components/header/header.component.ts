@@ -1,11 +1,12 @@
 import { Component, HostListener } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ASSET_URLS } from '../../../../shared/constants';
 import {
   BaseTranslatableComponent,
   CoreModule,
   MaterialModule,
   SharedComponentsModule
-} from '../../../../../../shared/modules';
+} from '../../../../shared/modules';
 
 @Component({
   selector: 'app-header',
@@ -16,6 +17,7 @@ import {
 })
 export class HeaderComponent extends BaseTranslatableComponent {
   isScrolled = false;
+  readonly assetUrls = ASSET_URLS;
 
   constructor(
     public router: Router,

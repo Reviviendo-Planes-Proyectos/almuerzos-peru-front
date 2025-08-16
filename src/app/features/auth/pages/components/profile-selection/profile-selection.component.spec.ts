@@ -91,7 +91,7 @@ describe('ProfileSelectionComponent', () => {
   });
 
   it('should display client option', () => {
-    const clientCards = debugElement.queryAll(By.css('.grid > div'));
+    const clientCards = debugElement.queryAll(By.css('.grid > button'));
     const clientCard = clientCards[0];
     const clientTitle = clientCard.query(By.css('h3'));
     const clientDescription = clientCard.query(By.css('p'));
@@ -101,7 +101,7 @@ describe('ProfileSelectionComponent', () => {
   });
 
   it('should display restaurant owner option', () => {
-    const ownerCards = debugElement.queryAll(By.css('.grid > div'));
+    const ownerCards = debugElement.queryAll(By.css('.grid > button'));
     const ownerCard = ownerCards[1];
     const ownerTitle = ownerCard.query(By.css('h3'));
     const ownerDescription = ownerCard.query(By.css('p'));
@@ -116,7 +116,7 @@ describe('ProfileSelectionComponent', () => {
   });
 
   it('should select comensal type when clicked', () => {
-    const comensalCard = debugElement.queryAll(By.css('.grid > div'))[0];
+    const comensalCard = debugElement.queryAll(By.css('.grid > button'))[0];
     comensalCard.nativeElement.click();
 
     expect(component.selectedType).toBe('comensal');
@@ -124,7 +124,7 @@ describe('ProfileSelectionComponent', () => {
   });
 
   it('should select restaurante type when clicked', () => {
-    const restauranteCard = debugElement.queryAll(By.css('.grid > div'))[1];
+    const restauranteCard = debugElement.queryAll(By.css('.grid > button'))[1];
     restauranteCard.nativeElement.click();
 
     expect(component.selectedType).toBe('restaurante');

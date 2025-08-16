@@ -156,7 +156,7 @@
           "efficiency": "+300% Efficiency",
           "salesDescription": "Average increase"
         },
-        "imageAlt": "Modern digital restaurant showing menu on mobile device"
+        "alt": "Modern digital restaurant showing menu on mobile device"
       },
       "testimonials": {
         "title": "What Our",

@@ -1,4 +1,5 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { AfterViewInit, Component, ElementRef, Inject, OnDestroy, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
 import {
   BaseTranslatableComponent,
   CoreModule,
@@ -157,8 +158,12 @@ export class PricingSectionComponent extends BaseTranslatableComponent implement
   private intersectionObserver?: IntersectionObserver;
   private resizeListener?: () => void;
 
+  constructor(@Inject(PLATFORM_ID) private platformId: string) {
+    super();
+  }
+
   ngOnInit() {
-    if (typeof window !== 'undefined') {
+    if (isPlatformBrowser(this.platformId)) {
       if (document.readyState === 'complete') {
         this.scheduleInitialCentering();
       } else {
@@ -174,7 +179,7 @@ export class PricingSectionComponent extends BaseTranslatableComponent implement
   }
 
   private scheduleInitialCentering() {
-    if (window.innerWidth < 768) {
+    if (isPlatformBrowser(this.platformId) && window.innerWidth < 768) {
       setTimeout(() => {
         this.centerViewOnMobileImmediate();
       }, 50);
@@ -190,24 +195,26 @@ export class PricingSectionComponent extends BaseTranslatableComponent implement
 
     this.centerViewOnMobileImmediate();
 
-    this.resizeListener = () => {
-      setTimeout(() => {
-        this.centerViewOnMobile();
-        this.centerComparisonOnMobile();
-      }, 100);
-    };
-    window.addEventListener('resize', this.resizeListener);
+    if (isPlatformBrowser(this.platformId)) {
+      this.resizeListener = () => {
+        setTimeout(() => {
+          this.centerViewOnMobile();
+          this.centerComparisonOnMobile();
+        }, 100);
+      };
+      window.addEventListener('resize', this.resizeListener);
+    }
   }
 
   private centerViewOnMobileImmediate() {
-    if (window.innerWidth < 768) {
+    if (isPlatformBrowser(this.platformId) && window.innerWidth < 768) {
       this.isFirstLoad = true;
 
       const attempts = [0, 50, 100, 200, 300, 500, 1000];
 
       for (const delay of attempts) {
         setTimeout(() => {
-          if (window.innerWidth < 768) {
+          if (isPlatformBrowser(this.platformId) && window.innerWidth < 768) {
             this.centerViewOnMobile();
             this.centerComparisonOnMobile();
           }
@@ -220,17 +227,17 @@ export class PricingSectionComponent extends BaseTranslatableComponent implement
     if (this.intersectionObserver) {
       this.intersectionObserver.disconnect();
     }
-    if (this.resizeListener) {
+    if (this.resizeListener && isPlatformBrowser(this.platformId)) {
       window.removeEventListener('resize', this.resizeListener);
     }
   }
 
   private setupIntersectionObserver() {
-    if (typeof window !== 'undefined' && this.pricingSection) {
+    if (isPlatformBrowser(this.platformId) && this.pricingSection) {
       this.intersectionObserver = new IntersectionObserver(
         (entries) => {
           for (const entry of entries) {
-            if (entry.isIntersecting && window.innerWidth < 768) {
+            if (entry.isIntersecting && isPlatformBrowser(this.platformId) && window.innerWidth < 768) {
               setTimeout(() => {
                 this.centerViewOnMobile();
               }, 200);
@@ -251,7 +258,7 @@ export class PricingSectionComponent extends BaseTranslatableComponent implement
     }
   }
   private centerViewOnMobile() {
-    if (this.pricingContainer && window.innerWidth < 768) {
+    if (this.pricingContainer && isPlatformBrowser(this.platformId) && window.innerWidth < 768) {
       const container = this.pricingContainer.nativeElement;
       const premiumCard = container.querySelector('[data-plan="premium"]') as HTMLElement;
 
@@ -280,7 +287,7 @@ export class PricingSectionComponent extends BaseTranslatableComponent implement
   }
 
   private centerComparisonOnMobile() {
-    if (this.comparisonContainer && window.innerWidth < 768) {
+    if (this.comparisonContainer && isPlatformBrowser(this.platformId) && window.innerWidth < 768) {
       const container = this.comparisonContainer.nativeElement;
       const premiumCard = container.querySelector('[data-comparison-plan="premium"]') as HTMLElement;
 

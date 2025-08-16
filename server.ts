@@ -18,31 +18,43 @@ export function app(): express.Express {
   server.set('views', browserDistFolder);
 
   // Serve PWA files with correct headers
-  server.get('/ngsw-worker.js', express.static(browserDistFolder, {
-    maxAge: 0, // No cache para el service worker
-    setHeaders: (res) => {
-      res.setHeader('Service-Worker-Allowed', '/');
-      res.setHeader('Content-Type', 'application/javascript');
-    }
-  }));
+  server.get(
+    '/ngsw-worker.js',
+    express.static(browserDistFolder, {
+      maxAge: 0, // No cache para el service worker
+      setHeaders: (res) => {
+        res.setHeader('Service-Worker-Allowed', '/');
+        res.setHeader('Content-Type', 'application/javascript');
+      }
+    })
+  );
 
-  server.get('/ngsw.json', express.static(browserDistFolder, {
-    maxAge: 0 // No cache para la configuración
-  }));
+  server.get(
+    '/ngsw.json',
+    express.static(browserDistFolder, {
+      maxAge: 0 // No cache para la configuración
+    })
+  );
 
-  server.get('/safety-worker.js', express.static(browserDistFolder, {
-    maxAge: 0,
-    setHeaders: (res) => {
-      res.setHeader('Content-Type', 'application/javascript');
-    }
-  }));
+  server.get(
+    '/safety-worker.js',
+    express.static(browserDistFolder, {
+      maxAge: 0,
+      setHeaders: (res) => {
+        res.setHeader('Content-Type', 'application/javascript');
+      }
+    })
+  );
 
-  server.get('/manifest.webmanifest', express.static(browserDistFolder, {
-    maxAge: '1y',
-    setHeaders: (res) => {
-      res.setHeader('Content-Type', 'application/manifest+json');
-    }
-  }));
+  server.get(
+    '/manifest.webmanifest',
+    express.static(browserDistFolder, {
+      maxAge: '1y',
+      setHeaders: (res) => {
+        res.setHeader('Content-Type', 'application/manifest+json');
+      }
+    })
+  );
 
   // Serve static files from /browser
   server.get(
@@ -82,4 +94,10 @@ function run(): void {
   });
 }
 
-run();
+// Solo ejecutar el servidor si no estamos en Vercel
+if (process.env['VERCEL'] !== '1') {
+  run();
+}
+
+// Export para Vercel
+export default app();
