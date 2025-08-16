@@ -1,13 +1,12 @@
 {
   "version": 2,
-  "buildCommand": "npm run build:ssr",
   "framework": null,
   "builds": [
     {
-      "src": "dist/almuerzos-peru-front/server/server.mjs",
+      "src": "api/index.ts",
       "use": "@vercel/node",
       "config": {
-        "includeFiles": ["dist/almuerzos-peru-front/browser/**"]
+        "includeFiles": ["dist/almuerzos-peru-front/**"]
       }
     }
   ],
@@ -46,7 +45,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/dist/almuerzos-peru-front/server/server.mjs"
+      "dest": "/api/index.ts"
     }
   ],
   "installCommand": "npm ci"

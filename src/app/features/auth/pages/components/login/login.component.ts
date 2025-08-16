@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ASSET_URLS } from '../../../../../shared/constants';
 import {
   BaseTranslatableComponent,
   CoreModule,
@@ -16,6 +17,7 @@ import { LoggerService } from '../../../../../shared/services/logger/logger.serv
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent extends BaseTranslatableComponent implements OnInit {
+  assetUrls = ASSET_URLS;
   isGoogleLoading = false;
   isFacebookLoading = false;
   isEmailLoading = false;

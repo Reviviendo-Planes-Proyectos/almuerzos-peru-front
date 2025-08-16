@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { FileUploadComponent } from '../../../../../shared/components';
+import { ASSET_URLS } from '../../../../../shared/constants';
 import { BaseTranslatableComponent, CoreModule, SharedComponentsModule } from '../../../../../shared/modules';
+import { FileUploadComponent } from '../../../../../shared/components';
 
 @Component({
   selector: 'app-customer-profile-photo',
@@ -13,6 +14,7 @@ import { BaseTranslatableComponent, CoreModule, SharedComponentsModule } from '.
 export class CustomerProfilePhotoComponent extends BaseTranslatableComponent implements OnInit {
   @ViewChild(FileUploadComponent) fileUploadComponent!: FileUploadComponent;
 
+  assetUrls = ASSET_URLS;
   selectedImage: string | null = null;
   selectedFile: File | null = null;
   showWarningModal = true;

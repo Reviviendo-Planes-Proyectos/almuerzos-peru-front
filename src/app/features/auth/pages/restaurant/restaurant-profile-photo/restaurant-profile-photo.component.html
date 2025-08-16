@@ -1,6 +1,6 @@
 <div class="relative min-h-screen">
   <img
-    src="https://almuerzos-peru-public.s3.us-east-1.amazonaws.com/auth/background_almuerza_peru.png"
+    [src]="assetUrls.AUTH_BACKGROUND"
     [attr.alt]="t('common.background')"
     class="absolute inset-0 w-full h-full object-cover opacity-100"
   />
@@ -54,7 +54,7 @@
         <!-- Sección Foto del Local o Portada -->
         <div class="space-y-4">
           <div class="text-left">
-            <h3 class="text-lg font-semibold text-gray-900 mb-1">Foto del Local o Portada</h3>
+            <h3 class="text-lg font-semibold text-gray-900 mb-1">Foto del Local o Portada(Opcional)</h3>
             <p class="text-gray-600 text-sm">Una foto atractiva de tu restaurante que será la imagen principal</p>
           </div>
 
@@ -81,7 +81,7 @@
               <i class="material-icons text-sm">close</i>
             </button>
           </div>
-
+          <br />
           <app-button
             *ngIf="hasRestaurantPhoto"
             [label]="'Seleccionar archivo'"
@@ -96,7 +96,7 @@
         <!-- Sección Logo del Restaurante -->
         <div class="space-y-4">
           <div class="text-left">
-            <h3 class="text-lg font-semibold text-gray-900 mb-1">Logo del Restaurante</h3>
+            <h3 class="text-lg font-semibold text-gray-900 mb-1">Logo del Restaurante(Opcional)</h3>
             <p class="text-gray-600 text-sm">Tu logo aparecerá en el perfil y pedidos</p>
           </div>
 
@@ -119,7 +119,7 @@
               <i class="material-icons text-sm">close</i>
             </button>
           </div>
-
+          <br />
           <app-button
             *ngIf="hasLogoPhoto"
             [label]="'Seleccionar archivo'"

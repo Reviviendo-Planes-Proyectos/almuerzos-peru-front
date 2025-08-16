@@ -1,0 +1,134 @@
+<div class="relative min-h-screen">
+  <!-- Header con pasos -->
+  <!--   <app-header-with-steps [currentStep]="currentStep" [showBackButton]="true"
+    (backClick)="onBackClick()"></app-header-with-steps>
+ -->
+  <img
+    [src]="assetUrls.AUTH_BACKGROUND"
+    [attr.alt]="t('common.background')"
+    class="absolute inset-0 w-full h-full object-cover opacity-100"
+  />
+
+  <app-back-button position="top-left" (click)="onBackClick()"></app-back-button>
+
+  <div class="relative z-10 flex items-end sm:items-center justify-center min-h-[95vh]">
+    <div
+      class="bg-white bg-opacity-90 rounded-xl shadow-lg p-6 w-full max-w-md max-h-[85vh] flex flex-col items-center overflow-y-auto"
+    >
+      <!-- Paso del formulario -->
+      <div class="mb-6 flex justify-center">
+        <app-step-indicator [step]="currentStep" [total]="6"></app-step-indicator>
+      </div>
+      <!-- Icono grande centrado -->
+      <div class="flex justify-center mb-4">
+        <div class="w-16 h-16 bg-green-500 rounded-2xl flex items-center justify-center">
+          <i class="material-icons text-white text-3xl">link</i>
+        </div>
+      </div>
+
+      <!-- Título -->
+      <div class="text-center mb-6">
+        <h2 class="text-xl font-semibold text-gray-900 mb-2">Datos de contacto</h2>
+        <p class="text-gray-600 text-sm">Conecta con tus clientes (opcional)</p>
+      </div>
+
+      <!-- Formulario de contacto -->
+      <form [formGroup]="socialNetworksForm" class="w-full space-y-6">
+        <!-- Teléfono de Contacto -->
+        <app-input-field
+          [label]="'Teléfono de Contacto'"
+          [icon]="'phone'"
+          [type]="'tel'"
+          [controlName]="'contactPhone'"
+          formControlName="contactPhone"
+          placeholder="+51   987 654 321"
+        ></app-input-field>
+
+        <!-- WhatsApp de Contacto -->
+        <app-input-field
+          [label]="'WhatsApp para pedidos'"
+          [icon]="'chat'"
+          [type]="'tel'"
+          [controlName]="'whatsappPhone'"
+          formControlName="whatsappPhone"
+          placeholder="+51   987 654 321"
+        ></app-input-field>
+
+        <!-- Número para recibir Yapes -->
+        <app-input-field
+          [label]="'Número para recibir Yapes'"
+          [icon]="'account_balance_wallet'"
+          [type]="'tel'"
+          [controlName]="'yapesPhone'"
+          formControlName="yapesPhone"
+          placeholder="+51   987 654 321"
+        ></app-input-field>
+      </form>
+
+      <!-- Botones de navegación -->
+      <div class="w-full space-y-3 mt-6">
+        <app-button
+          [label]="'Finalizar Registro'"
+          [isActive]="true"
+          [iconName]="'check_circle'"
+          [isOutline]="false"
+          (click)="finishRegistration()"
+        ></app-button>
+
+        <!-- <div class="text-center">
+          <app-button [label]="'Atrás'" [isActive]="true" [outlineGray]="true" (click)="goBack()"></app-button>
+        </div> -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Registro Exitoso -->
+  <div *ngIf="showSuccessModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl w-full max-w-md mx-4 overflow-hidden">
+      <!-- Contenido del modal -->
+      <div class="bg-green-500 text-white text-center py-8 px-6">
+        <!-- Ícono de éxito -->
+        <div class="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+          <i class="material-icons text-white text-3xl">check_circle</i>
+        </div>
+
+        <!-- Título -->
+        <h2 class="text-xl font-bold mb-2">¡Registro Exitoso!</h2>
+        <p class="text-green-100">Tu restaurante ha sido registrado correctamente</p>
+      </div>
+
+      <!-- Información del restaurante -->
+      <div class="p-6 text-center">
+        <!-- Avatar o inicial -->
+        <div class="w-16 h-16 bg-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
+          <span class="text-white text-2xl font-bold">{{ getRestaurantInitial() }}</span>
+        </div>
+
+        <!-- Nombre del restaurante -->
+        <h3 class="text-lg font-semibold text-gray-900 mb-2">{{ restaurantName }}</h3>
+        <p class="text-gray-600 text-sm mb-6">Ya está listo para recibir pedidos</p>
+
+        <!-- Próximos pasos -->
+        <div class="bg-orange-50 rounded-lg p-4 mb-6">
+          <h4 class="text-sm font-semibold text-orange-800 mb-2">
+            <i class="material-icons text-sm mr-1">star</i>
+            Próximos pasos:
+          </h4>
+          <ul class="text-xs text-orange-700 space-y-1 text-left">
+            <li>• Configura tu menú y precios</li>
+            <li>• Completa tu perfil con reportes</li>
+          </ul>
+        </div>
+
+        <!-- Botón de continuar -->
+        <button
+          (click)="goToDashboard()"
+          class="w-full bg-orange-500 text-white py-3 px-6 rounded-xl font-medium hover:bg-orange-600 transition-colors flex items-center justify-center gap-2"
+        >
+          Ir al Panel de Control
+          <i class="material-icons text-lg">arrow_forward</i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

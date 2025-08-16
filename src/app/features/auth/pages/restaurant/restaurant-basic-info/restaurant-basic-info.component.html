@@ -1,6 +1,6 @@
 <div class="relative min-h-screen">
   <img
-    src="https://almuerzos-peru-public.s3.us-east-1.amazonaws.com/auth/background_almuerza_peru.png"
+    [src]="assetUrls.AUTH_BACKGROUND"
     [attr.alt]="t('common.background')"
     class="absolute inset-0 w-full h-full object-cover opacity-100"
   />
@@ -41,6 +41,22 @@
           icon="badge"
           placeholder="12345678"
           formControlName="ownerDni"
+        ></app-input-field>
+
+        <app-input-field
+          label="Nombres del Propietario"
+          icon="person"
+          placeholder="Nombres según RENIEC"
+          formControlName="ownerFirstName"
+          [disabled]="true"
+        ></app-input-field>
+
+        <app-input-field
+          label="Apellidos del Propietario"
+          icon="person_outline"
+          placeholder="Apellidos según RENIEC"
+          formControlName="ownerLastName"
+          [disabled]="true"
         ></app-input-field>
 
         <app-input-field
@@ -85,9 +101,9 @@
         <app-input-field
           label="Razón Social / Propietario"
           icon="person"
-          placeholder="Ingresa la razón social o nombre del propietario"
+          placeholder="Razón social según SUNAT"
           formControlName="razonSocial"
-          [disabled]="!isRazonSocialEnabled"
+          [disabled]="true"
         ></app-input-field>
 
         <div class="pt-4">

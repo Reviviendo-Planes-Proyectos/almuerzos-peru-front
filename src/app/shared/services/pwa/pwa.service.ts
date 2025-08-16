@@ -134,22 +134,6 @@ export class PwaService {
       isFullscreen ||
       isWebAPK;
 
-    // Logging para debugging
-    if (isDevelopment) {
-      this.logger.info('PWA Installation Detection:', {
-        isStandalone,
-        isIOSStandalone,
-        isInWebView,
-        hasStandaloneParam,
-        isInstalledInDev,
-        hasMinimalUI,
-        isFullscreen,
-        isWebAPK,
-        finalResult: isInstalled,
-        userAgent: navigator.userAgent
-      });
-    }
-
     // Solo actualizar si hay cambio de estado
     if (this.isAppInstalled.value !== isInstalled) {
       this.isAppInstalled.next(isInstalled);

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ASSET_URLS } from '../../../../../shared/constants';
 import {
   BaseTranslatableComponent,
   CoreModule,
@@ -16,6 +17,7 @@ import {
   styleUrls: ['./forgot-password.component.scss']
 })
 export class ForgotPasswordComponent extends BaseTranslatableComponent {
+  assetUrls = ASSET_URLS;
   forgotPasswordForm: FormGroup;
   isLoading = false;
 
