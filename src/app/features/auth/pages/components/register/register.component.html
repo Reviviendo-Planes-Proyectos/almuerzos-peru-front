@@ -26,7 +26,14 @@
         <!-- Spinner de carga -->
         <div *ngIf="isGoogleLoading" class="animate-spin rounded-full h-5 w-5 border-b-2 border-yellow-500"></div>
         <!-- Icono normal -->
-        <img *ngIf="!isGoogleLoading" src="img/google.png" [attr.alt]="t('common.google')" class="w-5 h-5" />
+        <img
+          *ngIf="!isGoogleLoading"
+          src="img/google.png"
+          [attr.alt]="t('common.google')"
+          class="w-5 h-5"
+          width="20"
+          height="20"
+        />
 
         <span *ngIf="!isGoogleLoading">{{ t('auth.register.withGoogle') }}</span>
         <span *ngIf="isGoogleLoading">{{ t('auth.register.connecting') }}</span>
@@ -40,7 +47,14 @@
         <!-- Spinner de carga -->
         <div *ngIf="isFacebookLoading" class="animate-spin rounded-full h-5 w-5 border-b-2 border-yellow-500"></div>
         <!-- Icono normal -->
-        <img *ngIf="!isFacebookLoading" src="img/facebook.png" [attr.alt]="t('common.facebook')" class="w-5 h-5" />
+        <img
+          *ngIf="!isFacebookLoading"
+          src="img/facebook.png"
+          [attr.alt]="t('common.facebook')"
+          class="w-5 h-5"
+          width="20"
+          height="20"
+        />
 
         <span *ngIf="!isFacebookLoading">{{ t('auth.register.withFacebook') }}</span>
         <span *ngIf="isFacebookLoading">{{ t('auth.register.connecting') }}</span>

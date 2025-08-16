@@ -5,6 +5,10 @@
     [src]="assetUrls.AUTH_BACKGROUND"
     [attr.alt]="t('common.background')"
     class="absolute inset-0 w-full h-full object-cover opacity-100"
+    width="1920"
+    height="1080"
+    loading="eager"
+    fetchpriority="high"
   />
 
   <!-- Botón volver -->
@@ -40,6 +44,7 @@
             alt="Comensal"
             class="transition-transform duration-300"
             [class.animate-bounce]="selectedType === 'comensal'"
+            loading="eager"
           />
           <br />
           <h3
@@ -69,6 +74,7 @@
             alt="Restaurante"
             class="transition-transform duration-300"
             [class.animate-bounce]="selectedType === 'restaurante'"
+            loading="eager"
           />
           <br />
           <h3

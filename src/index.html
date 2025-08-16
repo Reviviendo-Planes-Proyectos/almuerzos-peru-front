@@ -8,7 +8,7 @@
     <!-- Meta accesibilidad & responsive -->
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no, shrink-to-fit=no"
+      content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=5, shrink-to-fit=no"
     />
 
     <!-- SEO básico -->
@@ -37,6 +37,38 @@
     <!-- Favicon & PWA -->
     <link rel="icon" type="image/svg+xml" href="https://almuerzos-peru-public.s3.us-east-1.amazonaws.com/favicon.ico" />
     <link rel="manifest" href="manifest.webmanifest" />
+
+    <!-- Critical Image Preloading -->
+    <link
+      rel="preload"
+      as="image"
+      href="https://almuerzos-peru-public.s3.us-east-1.amazonaws.com/auth/background_almuerza_peru.png"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="https://almuerzos-peru-public.s3.us-east-1.amazonaws.com/logo-almuerzos-peru.png"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="https://almuerzos-peru-public.s3.us-east-1.amazonaws.com/auth/perfil_comensal.png"
+    />
+
+    <!-- Critical Font Preloading -->
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="https://fonts.gstatic.com/s/quicksand/v30/6xK-dSZaM9iE8KbpRA_LJ3z8mH9BOJvgkP8o58a-wg.woff2"
+      crossorigin="anonymous"
+    />
+
+    <link
+      rel="preload"
+      as="image"
+      href="https://almuerzos-peru-public.s3.us-east-1.amazonaws.com/auth/perfil_restaurante.png"
+    />
 
     <!-- PWA Meta Tags -->
     <meta name="mobile-web-app-capable" content="yes" />

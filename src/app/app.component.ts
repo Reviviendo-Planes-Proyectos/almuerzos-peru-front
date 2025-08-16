@@ -5,6 +5,7 @@ import { RouterOutlet } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { MaterialModule, SharedComponentsModule } from './shared/modules';
 import { ApiService } from './shared/services/api/api.service';
+import { ImagePreloadService } from './shared/services/image-preload/image-preload.service';
 import { LoggerService } from './shared/services/logger/logger.service';
 import { PwaService } from './shared/services/pwa/pwa.service';
 
@@ -24,6 +25,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private readonly apiService: ApiService,
     public readonly logger: LoggerService,
     private readonly pwaService: PwaService,
+    private readonly imagePreloadService: ImagePreloadService,
     private readonly injector: Injector,
     @Inject(PLATFORM_ID) private platformId: string
   ) {}
@@ -39,6 +41,11 @@ export class AppComponent implements OnInit, OnDestroy {
         this.logger.error('Error fetching API status:', this.apiStatus);
       }
     });
+
+    // Preload critical images
+    if (isPlatformBrowser(this.platformId)) {
+      this.imagePreloadService.preloadCriticalImages();
+    }
 
     this.initCustomScrollIndicator();
     this.setupUpdateNotifications();

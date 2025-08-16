@@ -1,7 +1,7 @@
 <!-- Hero Section - Full Screen with Background -->
 <section class="hero-section relative min-h-screen md:min-h-screen flex items-center justify-center overflow-hidden">
-  <!-- Background Image with Parallax Effect -->
-  <div class="hero-background absolute inset-0 z-0" [style.transform]="'translateY(' + scrollY * 0.5 + 'px)'">
+  <!-- Background Image - Static for LCP optimization -->
+  <div class="hero-background absolute inset-0 z-0">
     <div class="hero-image w-full h-120vh bg-cover bg-center bg-no-repeat brightness-110 md:h-screen"></div>
     <div class="hero-overlay absolute inset-0"></div>
     <div class="hero-gradient absolute inset-0 bg-black bg-opacity-30"></div>
@@ -14,7 +14,13 @@
       <div
         class="food-circle w-32 h-32 rounded-full overflow-hidden shadow-3xl border-4 border-white border-opacity-80"
       >
-        <img src="/img/landing/delicious-ceviche.png" alt="Ceviche" class="food-img w-full h-full object-cover" />
+        <img
+          src="/img/landing/delicious-ceviche.png"
+          alt="Ceviche"
+          class="food-img w-full h-full object-cover"
+          width="128"
+          height="128"
+        />
       </div>
     </div>
 
@@ -22,7 +28,13 @@
       <div
         class="food-circle w-28 h-28 rounded-full overflow-hidden shadow-3xl border-4 border-white border-opacity-80"
       >
-        <img src="/img/landing/lomo-saltado.png" alt="Lomo Saltado" class="food-img w-full h-full object-cover" />
+        <img
+          src="/img/landing/lomo-saltado.png"
+          alt="Lomo Saltado"
+          class="food-img w-full h-full object-cover"
+          width="112"
+          height="112"
+        />
       </div>
     </div>
 
@@ -30,7 +42,13 @@
       <div
         class="food-circle w-28 h-28 rounded-full overflow-hidden shadow-3xl border-4 border-white border-opacity-80"
       >
-        <img src="/img/landing/aji-de-gallina.png" alt="Ají de Gallina" class="food-img w-full h-full object-cover" />
+        <img
+          src="/img/landing/aji-de-gallina.png"
+          alt="Ají de Gallina"
+          class="food-img w-full h-full object-cover"
+          width="112"
+          height="112"
+        />
       </div>
     </div>
 
@@ -38,7 +56,13 @@
       <div
         class="food-circle w-32 h-32 rounded-full overflow-hidden shadow-3xl border-4 border-white border-opacity-80"
       >
-        <img src="/img/landing/anticuchos-skewers.png" alt="Anticuchos" class="food-img w-full h-full object-cover" />
+        <img
+          src="/img/landing/anticuchos-skewers.png"
+          alt="Anticuchos"
+          class="food-img w-full h-full object-cover"
+          width="128"
+          height="128"
+        />
       </div>
     </div>
   </div>
@@ -46,7 +70,7 @@
   <!-- Main Content -->
   <div class="hero-content relative z-20 mt-40">
     <div class="container max-w-6xl mx-auto px-4 md:px-8 text-center">
-      <div class="content-wrapper transition-all duration-1000 ease-out" [@fadeInUp]="isVisible ? 'visible' : ''">
+      <div class="content-wrapper">
         <h1
           class="hero-title text-4xl sm:text-5xl md:text-5xl lg:text-7xl font-black text-white mb-10 md:mb-12 leading-tight"
         >

@@ -39,25 +39,4 @@ describe('DinerHeroSectionComponent', () => {
 
     expect(() => component.scrollToSection('non-existent-section')).not.toThrow();
   });
-
-  it('should initialize isVisible to false', () => {
-    expect(component.isVisible).toBe(false);
-  });
-
-  it('should set isVisible to true after ngOnInit', (done) => {
-    component.ngOnInit();
-
-    setTimeout(() => {
-      expect(component.isVisible).toBe(true);
-      done();
-    }, 150);
-  });
-
-  it('should update scrollY on window scroll', () => {
-    Object.defineProperty(window, 'scrollY', { value: 100, writable: true });
-
-    component.onWindowScroll();
-
-    expect(component.scrollY).toBe(100);
-  });
 });
