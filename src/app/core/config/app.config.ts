@@ -1,7 +1,8 @@
 import { provideHttpClient, withFetch } from '@angular/common/http';
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, isDevMode, provideZoneChangeDetection } from '@angular/core';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
+import { provideServiceWorker } from '@angular/service-worker';
 import { routes } from '../routes/app.routes';
 
 export const appConfig: ApplicationConfig = {
@@ -9,6 +10,10 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideClientHydration(),
-    provideHttpClient(withFetch())
+    provideHttpClient(withFetch()),
+    provideServiceWorker('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000'
+    })
   ]
 };
