@@ -6,43 +6,17 @@ import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
-import { I18nService, TranslatePipe } from '../../../../../shared/i18n';
+import { TranslatePipe } from '../../../../../shared/i18n';
 import { CoreModule, MaterialModule, SharedComponentsModule } from '../../../../../shared/modules';
 import { LoggerService } from '../../../../../shared/services/logger/logger.service';
+import { I18N_TEST_PROVIDERS } from '../../../../../testing/pwa-mocks';
 import { LoginComponent } from './login.component';
-
-class MockI18nService {
-  t(key: string): string {
-    const translations: Record<string, string> = {
-      'app.name': 'ALMUERZOS PERU',
-      'app.tagline': '¡Encuentra tu menú diario, sin perder tiempo!',
-      'auth.login.title': 'Iniciar Sesión',
-      'auth.login.button': 'Iniciar Sesión',
-      'auth.login.email': 'Correo',
-      'auth.login.noAccount': '¿No tienes cuenta? Regístrate',
-      'auth.login.withGoogle': 'Iniciar Sesión con Google',
-      'auth.login.withFacebook': 'Iniciar Sesión con Facebook',
-      'auth.login.withEmail': 'Iniciar Sesión con Correo',
-      'auth.register.button': 'Continuar',
-      'auth.forgot.title': 'Olvidé mi Contraseña',
-      'common.back': 'Volver',
-      'common.or': 'O',
-      'common.with': 'con',
-      'common.background': 'Fondo',
-      'common.google': 'Google',
-      'common.facebook': 'Facebook',
-      'messages.welcome': '¡Bienvenido a Almuerzos Peru!'
-    };
-    return translations[key] || key;
-  }
-}
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
   let debugElement: DebugElement;
   let routerSpy: Router;
-  let mockI18nService: MockI18nService;
 
   beforeEach(async () => {
     const routerSpyObj = {
@@ -60,8 +34,6 @@ describe('LoginComponent', () => {
       debug: jest.fn()
     };
 
-    mockI18nService = new MockI18nService();
-
     await TestBed.configureTestingModule({
       imports: [
         LoginComponent,
@@ -77,7 +49,7 @@ describe('LoginComponent', () => {
         { provide: Router, useValue: routerSpyObj },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: LoggerService, useValue: mockLoggerService },
-        { provide: I18nService, useValue: mockI18nService }
+        ...I18N_TEST_PROVIDERS
       ]
     }).compileComponents();
 

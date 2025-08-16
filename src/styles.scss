@@ -4,6 +4,55 @@
 @tailwind components;
 @tailwind utilities;
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family:
+    'Quicksand',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
+  line-height: 1.5;
+  color: #333;
+  background-color: #fff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling: touch;
+  touch-action: manipulation;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Prevenir flash de contenido sin traducir */
+app-root {
+  display: block;
+  min-height: 100vh;
+}
+
+/* Optimización de visibilidad durante carga */
+[style*='opacity: 0'] {
+  visibility: hidden;
+  transition:
+    opacity 0.3s ease-in,
+    visibility 0.3s ease-in;
+}
+
+[style*='opacity: 1'] {
+  visibility: visible;
+}
+
 // 🎨 Variables globales CSS
 :root {
   --font-primary: 'Quicksand', 'Helvetica Neue', sans-serif;
@@ -43,22 +92,6 @@
   --card-foreground: #1f2937;
   --popover: #ffffff;
   --popover-foreground: #1f2937;
-}
-
-html,
-body {
-  height: 100%;
-  margin: 0;
-  font-family: var(--font-primary) !important;
-  background-color: var(--color-brand-beige);
-  color: var(--color-foreground);
-  line-height: 1.6;
-
-  overscroll-behavior: none;
-  -webkit-overflow-scrolling: touch;
-  touch-action: manipulation;
-  -webkit-touch-callout: none;
-  -webkit-tap-highlight-color: transparent;
 }
 
 * {

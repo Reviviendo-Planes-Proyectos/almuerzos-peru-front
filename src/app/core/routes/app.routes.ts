@@ -14,6 +14,10 @@ export const routes: Routes = [
     loadChildren: () => import('../../features/legal/legal.routes').then((m) => m.LEGAL_ROUTES)
   },
   {
+    path: 'pwa-debug',
+    loadComponent: () => import('../../shared/components/debug/pwa-debug.component').then((c) => c.PwaDebugComponent)
+  },
+  {
     path: '**',
     redirectTo: ''
   }

@@ -37,6 +37,69 @@ export class I18nService {
     return this.loadPromise;
   }
 
+  /**
+   * Versión optimizada que solo carga el idioma actual al inicio
+   * El otro idioma se carga en background después
+   */
+  async initializeTranslationsOptimized(): Promise<void> {
+    if (this.isLoaded()) {
+      return Promise.resolve();
+    }
+
+    if (this.loadPromise) {
+      return this.loadPromise;
+    }
+
+    this.loadPromise = this.loadCurrentLanguageOnly();
+    return this.loadPromise;
+  }
+
+  private async loadCurrentLanguageOnly(): Promise<void> {
+    try {
+      const currentLang = this.lang();
+
+      // Solo carga el idioma actual para acelerar el inicio
+      const currentMessages = await firstValueFrom(this.http.get<any>(`/messages/${currentLang}.json`));
+
+      this.messages.set({
+        [currentLang]: currentMessages,
+        [currentLang === 'es' ? 'en' : 'es']: {}
+      });
+
+      this.isLoaded.set(true);
+
+      // Cargar el otro idioma en background (sin bloquear)
+      this.loadOtherLanguageInBackground();
+    } catch (error) {
+      // En caso de error, crear mensajes vacíos para evitar fallos
+      this.messages.set({ es: {}, en: {} });
+      this.isLoaded.set(true);
+
+      if (isPlatformBrowser(this.platformId) && window.location?.hostname === 'localhost') {
+        console.warn('Error loading translations:', error);
+      }
+    }
+  }
+
+  private async loadOtherLanguageInBackground(): Promise<void> {
+    try {
+      const currentLang = this.lang();
+      const otherLang = currentLang === 'es' ? 'en' : 'es';
+
+      const otherMessages = await firstValueFrom(this.http.get<any>(`/messages/${otherLang}.json`));
+
+      this.messages.update((current) => ({
+        ...current,
+        [otherLang]: otherMessages
+      }));
+    } catch (error) {
+      // Silenciar errores del idioma secundario
+      if (isPlatformBrowser(this.platformId) && window.location?.hostname === 'localhost') {
+        console.warn('Error loading secondary language:', error);
+      }
+    }
+  }
+
   private async loadMessagesOptimized(): Promise<void> {
     try {
       const currentLang = this.lang();

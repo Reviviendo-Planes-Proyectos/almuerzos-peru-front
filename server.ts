@@ -23,6 +23,18 @@ export function app(): express.Express {
     res.setHeader('X-Content-Type-Options', 'nosniff');
     res.setHeader('X-Frame-Options', 'DENY');
     res.setHeader('X-XSS-Protection', '1; mode=block');
+
+    // IMPORTANTE: Configurar MIME types para archivos JavaScript
+    if (req.url.endsWith('.js')) {
+      res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
+    } else if (req.url.endsWith('.mjs')) {
+      res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
+    } else if (req.url.endsWith('.css')) {
+      res.setHeader('Content-Type', 'text/css; charset=utf-8');
+    } else if (req.url.endsWith('.json')) {
+      res.setHeader('Content-Type', 'application/json; charset=utf-8');
+    }
+
     next();
   });
 
@@ -101,9 +113,42 @@ export function app(): express.Express {
     });
   });
 
+  // Ruta específica para diagnóstico de Zone.js
+  server.get('/zone-diagnostic', (req, res) => {
+    res.sendFile(join(serverDistFolder, '../../src', 'zone-diagnostic.html'));
+  });
+
+  // Ruta específica para pruebas de módulos
+  server.get('/test-modules', (req, res) => {
+    res.sendFile(join(serverDistFolder, '../../src', 'test-modules.html'));
+  });
+
   // Serve static files from /browser - ORDEN IMPORTANTE
+  // CRÍTICO: Configurar Express para servir archivos JS con MIME correcto
   server.get(
-    '*.*', // Solo archivos con extensión
+    '*.js', // Archivos JavaScript
+    express.static(browserDistFolder, {
+      maxAge: '1y',
+      index: false,
+      setHeaders: (res) => {
+        res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
+      }
+    })
+  );
+
+  server.get(
+    '*.css', // Archivos CSS
+    express.static(browserDistFolder, {
+      maxAge: '1y',
+      index: false,
+      setHeaders: (res) => {
+        res.setHeader('Content-Type', 'text/css; charset=utf-8');
+      }
+    })
+  );
+
+  server.get(
+    '*.*', // Otros archivos con extensión
     express.static(browserDistFolder, {
       maxAge: '1y',
       index: false
@@ -140,16 +185,34 @@ export function app(): express.Express {
 
 function run(): void {
   const port = process.env['PORT'] || 4000;
+  const nodeEnv = process.env['NODE_ENV'] || 'development';
+  const isProduction = nodeEnv === 'production';
 
   // Start up the Node server
   const server = app();
+  const serverDistFolder = dirname(fileURLToPath(import.meta.url));
+  const browserDistFolder = resolve(serverDistFolder, '../browser');
+
+  // Configuraciones específicas para Render en producción
+  if (isProduction) {
+    // Optimizaciones para Render
+    server.set('trust proxy', 1);
+
+    // Headers adicionales para mejor rendimiento en Render
+    server.use((req: Request, res: Response, next: NextFunction) => {
+      res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+      if (req.url.includes('/api/') || req.url.includes('.html')) {
+        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+      }
+      next();
+    });
+  }
 
   server.listen(port, () => {
     console.log(`🚀 Node Express server listening on http://localhost:${port}`);
-    console.log(
-      `📁 Serving from: ${resolve(dirname(fileURLToPath(import.meta.url)), '../almuerzos-peru-front/browser')}`
-    );
-    console.log(`🌍 Environment: ${process.env['NODE_ENV'] || 'development'}`);
+    console.log(`📁 Serving from: ${browserDistFolder}`);
+    console.log(`🌍 Environment: ${nodeEnv}`);
+    console.log(`⚡ Production optimizations: ${isProduction ? 'enabled' : 'disabled'}`);
   });
 
   // Manejo de errores del servidor

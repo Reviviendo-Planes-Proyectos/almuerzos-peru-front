@@ -5,31 +5,14 @@ import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
-import { I18nService } from '../../../../../shared/i18n';
 import { CoreModule, MaterialModule, SharedComponentsModule } from '../../../../../shared/modules';
+import { I18N_TEST_PROVIDERS } from '../../../../../testing/pwa-mocks';
 import { EmailSentConfirmationComponent } from './email-sent-confirmation.component';
-
-class MockI18nService {
-  t(key: string): string {
-    const translations: Record<string, string> = {
-      'app.name': 'ALMUERZOS PERU',
-      'auth.forgot.emailSent.title': 'Email Enviado',
-      'auth.forgot.emailSent.description': 'Te hemos enviado un enlace de recuperación',
-      'auth.forgot.emailSent.checkSpam': 'Revisa tu carpeta de spam',
-      'auth.forgot.resendButton': 'Reenviar Email',
-      'auth.forgot.backToLogin': 'Volver al Login',
-      'auth.forgot.sending': 'Enviando...',
-      'common.background': 'Fondo'
-    };
-    return translations[key] || key;
-  }
-}
 
 describe('EmailSentConfirmationComponent', () => {
   let component: EmailSentConfirmationComponent;
   let fixture: ComponentFixture<EmailSentConfirmationComponent>;
   let mockRouter: any;
-  let mockI18nService: MockI18nService;
 
   beforeEach(async () => {
     mockRouter = {
@@ -41,8 +24,6 @@ describe('EmailSentConfirmationComponent', () => {
       queryParams: of({}),
       snapshot: { params: {}, queryParams: {} }
     };
-
-    mockI18nService = new MockI18nService();
 
     await TestBed.configureTestingModule({
       imports: [
@@ -57,7 +38,7 @@ describe('EmailSentConfirmationComponent', () => {
         provideHttpClientTesting(),
         { provide: Router, useValue: mockRouter },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
-        { provide: I18nService, useValue: mockI18nService }
+        ...I18N_TEST_PROVIDERS
       ]
     }).compileComponents();
 

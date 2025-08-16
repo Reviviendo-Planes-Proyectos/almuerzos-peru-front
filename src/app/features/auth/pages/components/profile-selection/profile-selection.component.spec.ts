@@ -3,24 +3,11 @@ import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testin
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, Router } from '@angular/router';
-import { I18nService, TranslatePipe } from '../../../../../shared/i18n';
+import { TranslatePipe } from '../../../../../shared/i18n';
 import { MaterialModule } from '../../../../../shared/modules';
 import { LoggerService } from '../../../../../shared/services/logger/logger.service';
+import { I18N_TEST_PROVIDERS } from '../../../../../testing/pwa-mocks';
 import { ProfileSelectionComponent } from './profile-selection.component';
-
-// Mock del servicio de traducción
-class MockI18nService {
-  t(key: string): string {
-    const translations: Record<string, string> = {
-      'app.name': 'ALMUERZOS PERU',
-      'common.back': 'Volver',
-      'common.background': 'Fondo',
-      'auth.profileSelection.question': '¿Cómo deseas ingresar?',
-      'auth.profileSelection.registerLater': 'Registrarme luego'
-    };
-    return translations[key] || key;
-  }
-}
 
 // Mock del LoggerService
 class MockLoggerService {
@@ -35,7 +22,6 @@ describe('ProfileSelectionComponent', () => {
   let fixture: ComponentFixture<ProfileSelectionComponent>;
   let debugElement: DebugElement;
   let mockRouter: jest.Mocked<Router>;
-  let mockI18nService: MockI18nService;
   let mockLoggerService: MockLoggerService;
 
   beforeEach(async () => {
@@ -49,7 +35,6 @@ describe('ProfileSelectionComponent', () => {
       }
     };
 
-    mockI18nService = new MockI18nService();
     mockLoggerService = new MockLoggerService();
 
     await TestBed.configureTestingModule({
@@ -57,8 +42,8 @@ describe('ProfileSelectionComponent', () => {
       providers: [
         { provide: Router, useValue: routerSpy },
         { provide: ActivatedRoute, useValue: activatedRouteSpy },
-        { provide: I18nService, useValue: mockI18nService },
-        { provide: LoggerService, useValue: mockLoggerService }
+        { provide: LoggerService, useValue: mockLoggerService },
+        ...I18N_TEST_PROVIDERS
       ]
     }).compileComponents();
 

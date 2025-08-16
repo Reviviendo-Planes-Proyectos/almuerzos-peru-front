@@ -1,49 +1,26 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nService, TranslatePipe } from '../../../i18n';
+import { I18N_TEST_PROVIDERS, mockI18nService } from '../../../../testing/pwa-mocks';
+import { TranslatePipe } from '../../../i18n';
 import { LangComponent } from './language-selector.component';
-
-class MockI18nService {
-  private lang = signal<'es' | 'en'>('es');
-  private translations = signal<Record<string, any>>({
-    'common.language.select': 'Seleccionar idioma'
-  });
-  private loaded = signal(true);
-
-  getLang() {
-    return this.lang();
-  }
-
-  setLang(lang: 'es' | 'en') {
-    this.lang.set(lang);
-  }
-
-  t(key: string): string {
-    return this.translations()[key] || key;
-  }
-
-  isTranslationsLoaded() {
-    return this.loaded();
-  }
-}
 
 describe('LangComponent', () => {
   let component: LangComponent;
   let fixture: ComponentFixture<LangComponent>;
-  let mockI18nService: MockI18nService;
 
   beforeEach(async () => {
-    mockI18nService = new MockI18nService();
-
     await TestBed.configureTestingModule({
       imports: [LangComponent, TranslatePipe],
-      providers: [provideHttpClient(), provideHttpClientTesting(), { provide: I18nService, useValue: mockI18nService }]
+      providers: [provideHttpClient(), provideHttpClientTesting(), ...I18N_TEST_PROVIDERS]
     }).compileComponents();
 
     fixture = TestBed.createComponent(LangComponent);
     component = fixture.componentInstance;
+
+    // Reset mock to default state
+    mockI18nService.setLang('es');
+
     fixture.detectChanges();
   });
 
