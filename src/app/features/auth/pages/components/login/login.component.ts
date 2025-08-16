@@ -69,7 +69,7 @@ export class LoginComponent extends BaseTranslatableComponent implements OnInit 
     }, 1000);
   }
 
-  forgotPassword(): void {
+  goToForgotPassword(): void {
     this.router.navigate(['auth/forgot-password']);
   }
 

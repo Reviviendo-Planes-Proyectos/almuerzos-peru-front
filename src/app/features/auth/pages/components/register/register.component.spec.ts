@@ -19,7 +19,7 @@ class MockI18nService {
       'auth.register.title': '¿Cómo deseas registrarte?',
       'auth.register.button': 'Continuar',
       'auth.register.email': 'Correo',
-      'auth.register.later': 'Registrarse después',
+      'auth.register.later': 'Registrarme después',
       'auth.register.withGoogle': 'Continuar con Google',
       'auth.register.withFacebook': 'Continuar con Facebook',
       'auth.register.withEmail': 'Continuar con Correo',
@@ -130,9 +130,9 @@ describe('RegisterComponent', () => {
     expect(separatorElement.nativeElement.textContent.trim()).toBe('O');
   });
 
-  it('should display "Registrarse después" link', () => {
+  it('should display "Registrarme después" link', () => {
     const linkElement = debugElement.query(By.css('button[type="button"]'));
-    expect(linkElement.nativeElement.textContent.trim()).toBe('Registrarse después');
+    expect(linkElement.nativeElement.textContent.trim()).toBe('Registrarme después');
   });
 
   describe('UI Elements', () => {
@@ -207,7 +207,7 @@ describe('RegisterComponent', () => {
 
     it('should display "Registrarme luego" link', () => {
       const laterButton = debugElement.query(By.css('button[type="button"]'));
-      expect(laterButton.nativeElement.textContent.trim()).toBe('Registrarse después');
+      expect(laterButton.nativeElement.textContent.trim()).toBe('Registrarme después');
     });
   });
 
@@ -415,7 +415,7 @@ describe('RegisterComponent', () => {
       expect(titleElement.nativeElement.textContent.trim()).toBe('ALMUERZOS PERU');
       expect(subtitleElement.nativeElement.textContent.trim()).toBe('¿Cómo deseas registrarte?');
       expect(separatorElement.nativeElement.textContent.trim()).toBe('O');
-      expect(linkElement.nativeElement.textContent.trim()).toBe('Registrarse después');
+      expect(linkElement.nativeElement.textContent.trim()).toBe('Registrarme después');
     });
 
     it('should have proper aria-label for back button with translation', () => {
