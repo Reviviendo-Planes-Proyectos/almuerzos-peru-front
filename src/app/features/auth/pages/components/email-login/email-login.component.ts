@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ASSET_URLS } from '../../../../../shared/constants';
 import {
@@ -10,73 +11,60 @@ import {
 import { LoggerService } from '../../../../../shared/services/logger/logger.service';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-email-login',
   standalone: true,
   imports: [CoreModule, MaterialModule, SharedComponentsModule],
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  templateUrl: './email-login.component.html',
+  styleUrls: ['./email-login.component.scss']
 })
-export class LoginComponent extends BaseTranslatableComponent implements OnInit {
+export class EmailLoginComponent extends BaseTranslatableComponent implements OnInit {
   assetUrls = ASSET_URLS;
-  isGoogleLoading = false;
-  isFacebookLoading = false;
-  isEmailLoading = false;
+  loginForm: FormGroup;
+  showPassword = false;
+  isLoading = false;
   tipo!: string | null;
 
   constructor(
     public router: Router,
     private route: ActivatedRoute,
-    private loggerService: LoggerService
+    private loggerService: LoggerService,
+    private formBuilder: FormBuilder
   ) {
     super();
-  }
-
-  ngOnInit() {
-    this.route.queryParams.subscribe((params) => {
-      // biome-ignore lint/complexity/useLiteralKeys: accessing query params
-      this.tipo = params['userType'] || null;
-      this.loggerService.info('Tipo de usuario en login:', this.tipo || 'No definido');
+    this.loginForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 
-  loginWithGoogle(): void {
-    if (this.isGoogleLoading) return;
-
-    this.isGoogleLoading = true;
-    setTimeout(() => {
-      this.navigateToBasicInfo();
-      this.isGoogleLoading = false;
-    }, 2000);
+  ngOnInit(): void {
+    this.route.queryParams.subscribe((params) => {
+      // biome-ignore lint/complexity/useLiteralKeys: accessing query params
+      this.tipo = params['userType'] || null;
+      this.loggerService.info('Tipo de usuario en email login:', this.tipo || 'No definido');
+    });
   }
 
-  loginWithFacebook(): void {
-    if (this.isFacebookLoading) return;
-
-    this.isFacebookLoading = true;
-    setTimeout(() => {
-      this.navigateToBasicInfo();
-      this.isFacebookLoading = false;
-    }, 2000);
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
   }
 
-  async iniciarConEmail(): Promise<void> {
-    if (this.isEmailLoading) return;
-
-    this.isEmailLoading = true;
-    this.loggerService.info('Navegando a login con email');
-
-    try {
-      await this.router.navigate(['/auth/email-login'], {
-        queryParams: { userType: this.tipo }
-      });
-
-      setTimeout(() => {
-        this.isEmailLoading = false;
-      }, 100);
-    } catch (error) {
-      this.loggerService.error('Error navegando a email-login:', error);
-      this.isEmailLoading = false;
+  onSubmit(): void {
+    if (this.loginForm.invalid) {
+      this.markFormGroupTouched();
+      return;
     }
+
+    this.isLoading = true;
+    const { email } = this.loginForm.value;
+
+    this.loggerService.info('Iniciando sesión con email:', email);
+
+    // Simulación de login
+    setTimeout(() => {
+      this.navigateToBasicInfo();
+      this.isLoading = false;
+    }, 2000);
   }
 
   goToForgotPassword(): void {
@@ -89,6 +77,21 @@ export class LoginComponent extends BaseTranslatableComponent implements OnInit 
     this.router.navigate(['/auth/register'], {
       queryParams: { userType: this.tipo }
     });
+  }
+
+  goBack(): void {
+    this.router.navigate(['/auth/login'], {
+      queryParams: { userType: this.tipo }
+    });
+  }
+
+  private markFormGroupTouched(): void {
+    for (const key of Object.keys(this.loginForm.controls)) {
+      const control = this.loginForm.get(key);
+      if (control) {
+        control.markAsTouched();
+      }
+    }
   }
 
   private navigateToBasicInfo(): void {
