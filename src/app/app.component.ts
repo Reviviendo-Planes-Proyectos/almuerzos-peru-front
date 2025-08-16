@@ -32,8 +32,6 @@ export class AppComponent implements OnInit, OnDestroy {
   private scrollTimeout: ReturnType<typeof setTimeout> | null = null;
   private readonly destroy$ = new Subject<void>();
   private readonly i18n = inject(I18nService);
-
-  // Computed signal para verificar si las traducciones están listas
   protected readonly isTranslationsReady = computed(() => this.i18n.isReady());
 
   constructor(
@@ -46,7 +44,6 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    // Health check opcional - no bloquea la aplicación
     this.apiService.getHealth().subscribe({
       next: (data) => {
         this.apiStatus = data;
@@ -58,7 +55,6 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     });
 
-    // Preload critical images
     if (isPlatformBrowser(this.platformId)) {
       this.imagePreloadService.preloadCriticalImages();
     }
@@ -92,7 +88,6 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     this.pwaService.showAppReminder$.pipe(takeUntil(this.destroy$)).subscribe((showReminder) => {
-      // Validación adicional: solo mostrar si cumple TODAS las condiciones
       if (showReminder && this.pwaService.shouldShowReminder()) {
         this.showReminderNotification();
       }
@@ -133,13 +128,11 @@ export class AppComponent implements OnInit, OnDestroy {
       return;
     }
 
-    // VALIDACIÓN TRIPLE: No mostrar si ya está instalada O no es móvil
     if (this.pwaService.isInstalled()) {
       this.pwaService.dismissAppReminder();
       return;
     }
 
-    // Verificar si es dispositivo móvil (usando el método del servicio PWA)
     const debugInfo = this.pwaService.getDebugInfo();
     const isMobile =
       debugInfo.userAgent?.toLowerCase().includes('mobile') ||
@@ -163,7 +156,6 @@ export class AppComponent implements OnInit, OnDestroy {
       });
 
       snackBarRef.onAction().subscribe(() => {
-        // Verificar nuevamente antes de mostrar el prompt
         if (!this.pwaService.isInstalled() && isMobile) {
           this.pwaService.forceShowInstallPrompt();
         }

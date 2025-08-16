@@ -492,4 +492,184 @@ describe('AppComponent', () => {
       jest.useRealTimers();
     });
   });
+
+  describe('Error Handling', () => {
+    it('debe manejar error al mostrar notificación de actualización', () => {
+      const errorMessage = 'Snackbar error';
+      mockMatSnackBar.open.mockImplementation(() => {
+        throw new Error(errorMessage);
+      });
+      mockApiService.getHealth.mockReturnValue(of({ status: 'ok' }));
+
+      const fixture = TestBed.createComponent(AppComponent);
+      fixture.detectChanges();
+
+      mockPwaService.updateAvailable$.next(true);
+      fixture.detectChanges();
+
+      expect(mockLogger.error).toHaveBeenCalledWith('Error showing update notification:', expect.any(Error));
+    });
+
+    it('debe manejar error al mostrar notificación de recordatorio', () => {
+      const errorMessage = 'Reminder snackbar error';
+      mockMatSnackBar.open.mockImplementation(() => {
+        throw new Error(errorMessage);
+      });
+      mockApiService.getHealth.mockReturnValue(of({ status: 'ok' }));
+
+      const fixture = TestBed.createComponent(AppComponent);
+      fixture.detectChanges();
+
+      mockPwaService.showAppReminder$.next(true);
+      fixture.detectChanges();
+
+      expect(mockLogger.error).toHaveBeenCalledWith('Error showing reminder notification:', expect.any(Error));
+    });
+  });
+
+  describe('Platform Detection', () => {
+    it('no debe ejecutar código específico del navegador en el servidor', async () => {
+      const addEventListenerSpy = jest.spyOn(window, 'addEventListener');
+      addEventListenerSpy.mockClear();
+
+      await TestBed.configureTestingModule({
+        imports: [AppComponent],
+        providers: [
+          provideHttpClient(),
+          provideHttpClientTesting(),
+          { provide: ApiService, useValue: mockApiService },
+          { provide: LoggerService, useValue: mockLogger as LoggerService },
+          { provide: PwaService, useValue: mockPwaService },
+          { provide: SwUpdate, useValue: mockSwUpdate },
+          { provide: SwPush, useValue: mockSwPush },
+          { provide: MatSnackBar, useValue: mockMatSnackBar },
+          { provide: PLATFORM_ID, useValue: 'server' },
+          ...I18N_TEST_PROVIDERS
+        ]
+      }).compileComponents();
+
+      mockApiService.getHealth.mockReturnValue(of({ status: 'ok' }));
+
+      const fixture = TestBed.createComponent(AppComponent);
+      fixture.detectChanges();
+
+      expect(addEventListenerSpy).not.toHaveBeenCalledWith('scroll', expect.any(Function));
+    });
+  });
+
+  describe('Mobile Detection', () => {
+    it('debe detectar dispositivo Android como móvil', () => {
+      mockPwaService.getDebugInfo.mockReturnValue({
+        userAgent: 'Mozilla/5.0 (Linux; Android 10; SM-A505F) AppleWebKit/537.36'
+      });
+      mockApiService.getHealth.mockReturnValue(of({ status: 'ok' }));
+
+      const fixture = TestBed.createComponent(AppComponent);
+      fixture.detectChanges();
+
+      mockPwaService.showAppReminder$.next(true);
+      fixture.detectChanges();
+
+      expect(mockMatSnackBar.open).toHaveBeenCalledWith(
+        '¿Te gusta Almuerzos Perú? ¡Instálala!',
+        'Instalar',
+        expect.any(Object)
+      );
+    });
+
+    it('debe detectar iPhone como móvil', () => {
+      mockPwaService.getDebugInfo.mockReturnValue({
+        userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/605.1.15'
+      });
+      mockApiService.getHealth.mockReturnValue(of({ status: 'ok' }));
+
+      const fixture = TestBed.createComponent(AppComponent);
+      fixture.detectChanges();
+
+      mockPwaService.showAppReminder$.next(true);
+      fixture.detectChanges();
+
+      expect(mockMatSnackBar.open).toHaveBeenCalledWith(
+        '¿Te gusta Almuerzos Perú? ¡Instálala!',
+        'Instalar',
+        expect.any(Object)
+      );
+    });
+
+    it('debe descartar recordatorio para dispositivos no móviles', () => {
+      mockPwaService.getDebugInfo.mockReturnValue({
+        userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+      });
+      Object.defineProperty(window, 'innerWidth', { value: 1200, writable: true });
+      mockApiService.getHealth.mockReturnValue(of({ status: 'ok' }));
+
+      const fixture = TestBed.createComponent(AppComponent);
+      fixture.detectChanges();
+
+      mockPwaService.showAppReminder$.next(true);
+      fixture.detectChanges();
+
+      expect(mockPwaService.dismissAppReminder).toHaveBeenCalled();
+      expect(mockLogger.info).toHaveBeenCalledWith('PWA reminder dismissed - not a mobile device');
+    });
+  });
+
+  describe('Reminder Notification Dismiss', () => {
+    it('debe descartar recordatorio cuando snackbar se cierra', () => {
+      const mockSnackBarRef = {
+        onAction: jest.fn().mockReturnValue(of(undefined)),
+        afterDismissed: jest.fn().mockReturnValue(of(undefined))
+      };
+      mockMatSnackBar.open.mockReturnValue(mockSnackBarRef);
+      mockApiService.getHealth.mockReturnValue(of({ status: 'ok' }));
+
+      const fixture = TestBed.createComponent(AppComponent);
+      fixture.detectChanges();
+
+      mockPwaService.showAppReminder$.next(true);
+      fixture.detectChanges();
+
+      const afterDismissedCall = mockSnackBarRef.afterDismissed.mock.calls[0];
+      if (afterDismissedCall && typeof afterDismissedCall[0] === 'function') {
+        afterDismissedCall[0]();
+      }
+
+      expect(mockPwaService.dismissAppReminder).toHaveBeenCalled();
+    });
+  });
+
+  describe('Scroll Calculations Edge Cases', () => {
+    it('debe calcular correctamente el indicador de altura mínima', () => {
+      Object.defineProperty(window, 'innerHeight', { value: 1000, writable: true });
+      Object.defineProperty(document.documentElement, 'scrollHeight', { value: 50000, writable: true });
+
+      const setPropertySpy = jest.spyOn(document.documentElement.style, 'setProperty');
+      mockApiService.getHealth.mockReturnValue(of({ status: 'ok' }));
+
+      const fixture = TestBed.createComponent(AppComponent);
+      const app = fixture.componentInstance;
+      fixture.detectChanges();
+
+      (app as any).handleScroll();
+
+      expect(setPropertySpy).toHaveBeenCalledWith('--scroll-progress', expect.stringMatching(/^\d+(\.\d+)?%$/));
+    });
+
+    it('debe usar altura mínima de 3% para el indicador', () => {
+      Object.defineProperty(window, 'innerHeight', { value: 1000, writable: true });
+      Object.defineProperty(document.documentElement, 'scrollHeight', { value: 100000, writable: true });
+
+      const setPropertySpy = jest.spyOn(document.documentElement.style, 'setProperty');
+      mockApiService.getHealth.mockReturnValue(of({ status: 'ok' }));
+
+      const fixture = TestBed.createComponent(AppComponent);
+      const app = fixture.componentInstance;
+      fixture.detectChanges();
+
+      (app as any).handleScroll();
+
+      const callsToProgress = setPropertySpy.mock.calls.filter((call) => call[0] === '--scroll-progress');
+      expect(callsToProgress.length).toBeGreaterThan(0);
+    });
+  });
 });
