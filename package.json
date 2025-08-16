@@ -7,7 +7,6 @@
     "build": "ng build",
     "build:spa": "ng build --configuration spa",
     "build:ssr": "ng build --configuration production",
-    "vercel-build": "npm run build:ssr",
     "serve:ssr": "node dist/almuerzos-peru-front/server/server.mjs",
     "build:serve:ssr": "npm run build:ssr && npm run serve:ssr",
     "watch": "ng build --watch --configuration development",

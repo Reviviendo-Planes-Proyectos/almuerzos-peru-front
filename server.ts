@@ -110,10 +110,5 @@ function run(): void {
   });
 }
 
-// Solo ejecutar el servidor si no estamos en Vercel
-if (process.env['VERCEL'] !== '1') {
-  run();
-}
-
-// Export para Vercel
-export default app();
+// Ejecutar el servidor
+run();
