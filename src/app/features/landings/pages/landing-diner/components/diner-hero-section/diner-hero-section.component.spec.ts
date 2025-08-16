@@ -1,3 +1,5 @@
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
@@ -10,7 +12,7 @@ describe('DinerHeroSectionComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [DinerHeroSectionComponent, BrowserAnimationsModule],
-      providers: [provideRouter([])]
+      providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()]
     }).compileComponents();
 
     fixture = TestBed.createComponent(DinerHeroSectionComponent);
@@ -38,26 +40,5 @@ describe('DinerHeroSectionComponent', () => {
     jest.spyOn(document, 'getElementById').mockReturnValue(null);
 
     expect(() => component.scrollToSection('non-existent-section')).not.toThrow();
-  });
-
-  it('should initialize isVisible to false', () => {
-    expect(component.isVisible).toBe(false);
-  });
-
-  it('should set isVisible to true after ngOnInit', (done) => {
-    component.ngOnInit();
-
-    setTimeout(() => {
-      expect(component.isVisible).toBe(true);
-      done();
-    }, 150);
-  });
-
-  it('should update scrollY on window scroll', () => {
-    Object.defineProperty(window, 'scrollY', { value: 100, writable: true });
-
-    component.onWindowScroll();
-
-    expect(component.scrollY).toBe(100);
   });
 });

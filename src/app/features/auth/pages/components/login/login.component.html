@@ -1,7 +1,7 @@
 <!-- Fondo -->
 <div class="relative min-h-screen">
   <img
-    src="img/background_almuerza_peru.png"
+    [src]="assetUrls.AUTH_BACKGROUND"
     [attr.alt]="t('common.background')"
     class="absolute inset-0 w-full h-full object-cover opacity-100"
   />
@@ -20,14 +20,21 @@
 
       <button
         (click)="loginWithGoogle()"
-        [disabled]="isGoogleLoading || isFacebookLoading || isEmailLoading"
+        [disabled]="isGoogleLoading"
         onkeypress="if(event.key === 'Enter'){ loginWithGoogle(); }"
         class="w-full flex items-center justify-center gap-2 border border-yellow-500 text-red-600 font-semibold py-2 px-4 rounded-lg hover:bg-red-100 transition mb-3 disabled:opacity-50 disabled:hover:bg-transparent"
       >
         <!-- Spinner de carga -->
         <div *ngIf="isGoogleLoading" class="animate-spin rounded-full h-5 w-5 border-b-2 border-yellow-500"></div>
         <!-- Icono normal -->
-        <img *ngIf="!isGoogleLoading" src="img/google.png" [attr.alt]="t('common.google')" class="w-5 h-5" />
+        <img
+          *ngIf="!isGoogleLoading"
+          src="img/google.png"
+          [attr.alt]="t('common.google')"
+          class="w-5 h-5"
+          width="20"
+          height="20"
+        />
 
         <span *ngIf="!isGoogleLoading">{{ t('auth.login.withGoogle') }}</span>
         <span *ngIf="isGoogleLoading">{{ t('auth.register.connecting') }}</span>
@@ -35,14 +42,21 @@
 
       <button
         (click)="loginWithFacebook()"
-        [disabled]="isGoogleLoading || isFacebookLoading || isEmailLoading"
+        [disabled]="isFacebookLoading"
         onkeypress="if(event.key === 'Enter'){ loginWithFacebook(); }"
         class="w-full flex items-center justify-center gap-2 border border-yellow-500 text-blue-600 font-semibold py-2 px-4 rounded-lg hover:bg-blue-100 transition mb-3 disabled:opacity-50 disabled:hover:bg-transparent"
       >
         <!-- Spinner de carga -->
         <div *ngIf="isFacebookLoading" class="animate-spin rounded-full h-5 w-5 border-b-2 border-yellow-500"></div>
         <!-- Icono normal -->
-        <img *ngIf="!isFacebookLoading" src="img/facebook.png" [attr.alt]="t('common.facebook')" class="w-5 h-5" />
+        <img
+          *ngIf="!isFacebookLoading"
+          src="img/facebook.png"
+          [attr.alt]="t('common.facebook')"
+          class="w-5 h-5"
+          width="20"
+          height="20"
+        />
 
         <span *ngIf="!isFacebookLoading">{{ t('auth.login.withFacebook') }}</span>
         <span *ngIf="isFacebookLoading">{{ t('auth.register.connecting') }}</span>
@@ -56,32 +70,31 @@
 
       <button
         (click)="iniciarConEmail()"
-        [disabled]="isGoogleLoading || isFacebookLoading || isEmailLoading"
+        [disabled]="isEmailLoading"
         onkeypress="if(event.key === 'Enter'){ iniciarConEmail(); }"
         class="w-full flex items-center justify-center gap-2 border border-yellow-500 text-gray-800 font-semibold py-2 px-4 rounded-lg hover:bg-gray-100 transition mb-3 disabled:opacity-50 disabled:hover:bg-transparent"
       >
-        <!-- Icono siempre visible (sin spinner) -->
-        <mat-icon>mail</mat-icon>
-        {{ t('auth.login.withEmail') }}
+        <!-- Spinner de carga para email -->
+        <div *ngIf="isEmailLoading" class="animate-spin rounded-full h-5 w-5 border-b-2 border-yellow-500"></div>
+        <!-- Icono normal -->
+        <mat-icon *ngIf="!isEmailLoading">mail</mat-icon>
+        <span *ngIf="!isEmailLoading">{{ t('auth.login.withEmail') }}</span>
+        <span *ngIf="isEmailLoading">{{ t('auth.register.connecting') }}</span>
       </button>
 
-      <button
-        type="button"
-        (click)="forgotPassword()"
-        onkeypress="if(event.key === 'Enter'){ forgotPassword(); }"
-        class="mt-2 text-purple-700 hover:underline font-medium bg-transparent border-none cursor-pointer"
-      >
-        {{ t('auth.forgot.title') }}
-      </button>
+      <app-text-link-button
+        translateKey="auth.forgot.title"
+        variant="orange"
+        (clicked)="goToForgotPassword()"
+        onkeypress="if(event.key === 'Enter'){ goToForgotPassword(); }"
+      />
 
-      <button
-        type="button"
-        (click)="goToRegister()"
+      <app-text-link-button
+        translateKey="auth.login.noAccount"
+        variant="orange"
+        (clicked)="goToRegister()"
         onkeypress="if(event.key === 'Enter'){ goToRegister(); }"
-        class="mt-4 text-purple-700 hover:underline font-medium bg-transparent border-none cursor-pointer"
-      >
-        {{ t('auth.login.noAccount') }}
-      </button>
+      />
     </div>
   </div>
 </div>

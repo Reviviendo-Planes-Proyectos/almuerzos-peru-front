@@ -1,3 +1,5 @@
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -63,12 +65,27 @@ describe('AppComponent', () => {
       forceShowUpdateBanner: jest.fn(),
       forceShowReminder: jest.fn(),
       canInstallApp: jest.fn().mockReturnValue(false),
-      isInstalled: jest.fn().mockReturnValue(false)
+      isInstalled: jest.fn().mockReturnValue(false),
+      getInstallStatus: jest.fn().mockReturnValue({
+        canInstall: false,
+        hasPrompt: false,
+        reason: 'Test reason'
+      }),
+      getDebugInfo: jest.fn().mockReturnValue({
+        isBrowser: true,
+        isInstalled: false,
+        canInstall: false
+      }),
+      simulateInstallation: jest.fn(),
+      simulateUninstallation: jest.fn(),
+      clearPwaData: jest.fn()
     };
 
     await TestBed.configureTestingModule({
       imports: [AppComponent],
       providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
         { provide: ApiService, useValue: mockApiService },
         { provide: LoggerService, useValue: mockLogger as LoggerService },
         { provide: PwaService, useValue: mockPwaService },
@@ -96,19 +113,20 @@ describe('AppComponent', () => {
 
     const app = fixture.componentInstance;
     expect(app.apiStatus).toEqual(mockResponse);
-    expect(mockLogger.info).toHaveBeenCalledWith('API status fetched successfully:', mockResponse);
+    expect(mockLogger.info).toHaveBeenCalledWith('API status fetched successfully');
   });
 
   it('debe manejar error del API y registrar error', () => {
     const mockError = { status: 0, message: 'Error en API' };
+    const expectedErrorStatus = { error: 'API not available', offline: true };
     mockApiService.getHealth.mockReturnValue(throwError(() => mockError));
 
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
 
     const app = fixture.componentInstance;
-    expect(app.apiStatus).toEqual(mockError);
-    expect(mockLogger.error).toHaveBeenCalledWith('Error fetching API status:', mockError);
+    expect(app.apiStatus).toEqual(expectedErrorStatus);
+    expect(mockLogger.warn).toHaveBeenCalledWith('API health check failed - running in offline mode');
   });
 
   it('debe inicializar el indicador de scroll al cargar', () => {
@@ -375,9 +393,19 @@ describe('AppComponent', () => {
         const appStatus = (window as any).pwaDebug.getAppStatus();
 
         expect(appStatus).toEqual({
-          isInstalled: mockPwaService.isAppInstalled$,
+          isInstalled: false,
           canInstall: false,
-          updateAvailable: mockPwaService.updateAvailable$
+          updateAvailable: mockPwaService.updateAvailable$,
+          installStatus: {
+            canInstall: false,
+            hasPrompt: false,
+            reason: 'Test reason'
+          },
+          debugInfo: {
+            isBrowser: true,
+            isInstalled: false,
+            canInstall: false
+          }
         });
       }
 

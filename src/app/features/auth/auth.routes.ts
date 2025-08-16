@@ -6,6 +6,11 @@ export const AUTH_ROUTES: Routes = [
     loadComponent: () => import('./pages/components/login/login.component').then((m) => m.LoginComponent)
   },
   {
+    path: 'email-login',
+    loadComponent: () =>
+      import('./pages/components/email-login/email-login.component').then((m) => m.EmailLoginComponent)
+  },
+  {
     path: 'register',
     loadComponent: () => import('./pages/components/register/register.component').then((m) => m.RegisterComponent)
   },
@@ -85,8 +90,10 @@ export const AUTH_ROUTES: Routes = [
       )
   },
   {
-    path: '',
-    redirectTo: 'login',
-    pathMatch: 'full'
+    path: 'restaurant-social-networks',
+    loadComponent: () =>
+      import('./pages/restaurant/restaurant-social-networks/restaurant-social-networks.component').then(
+        (m) => m.RestaurantSocialNetworksComponent
+      )
   }
 ];

@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { ASSET_URLS } from '../../../../../shared/constants';
 import { BaseTranslatableComponent, CoreModule, SharedComponentsModule } from '../../../../../shared/modules';
 import { VerificationCountdownService } from '../../../../../shared/services/verification-countdown/verification-countdown.service';
 
@@ -13,6 +14,7 @@ import { VerificationCountdownService } from '../../../../../shared/services/ver
   styleUrl: './email-verification.component.scss'
 })
 export class EmailVerificationComponent extends BaseTranslatableComponent implements OnInit, OnDestroy {
+  assetUrls = ASSET_URLS;
   userEmail!: string;
   originalEmail: string | null = null;
   codeSent = false;

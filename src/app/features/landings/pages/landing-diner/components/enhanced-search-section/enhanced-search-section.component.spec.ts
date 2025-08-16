@@ -1,3 +1,5 @@
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { I18nService } from '../../../../../../shared/i18n/services/translation.service';
@@ -30,7 +32,7 @@ describe('EnhancedSearchSectionComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [EnhancedSearchSectionComponent, BrowserAnimationsModule, CoreModule, MaterialModule],
-      providers: [{ provide: I18nService, useClass: MockI18nService }]
+      providers: [provideHttpClient(), provideHttpClientTesting(), { provide: I18nService, useClass: MockI18nService }]
     }).compileComponents();
 
     fixture = TestBed.createComponent(EnhancedSearchSectionComponent);

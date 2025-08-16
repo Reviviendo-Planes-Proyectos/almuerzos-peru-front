@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { ASSET_URLS } from '../../../../../shared/constants';
 import {
   BaseTranslatableComponent,
   CoreModule,
@@ -15,6 +16,7 @@ import {
   styleUrls: ['./email-sent-confirmation.component.scss']
 })
 export class EmailSentConfirmationComponent extends BaseTranslatableComponent {
+  assetUrls = ASSET_URLS;
   isLoading = false;
 
   constructor(private router: Router) {

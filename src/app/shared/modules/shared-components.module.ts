@@ -11,6 +11,8 @@ import {
   SectionTitleComponent,
   SelectFieldComponent,
   StepIndicatorComponent,
+  TextLinkButtonComponent,
+  ToggleSwitchComponent,
   WarningModalComponent
 } from '../components';
 
@@ -26,6 +28,8 @@ const SHARED_COMPONENTS = [
   SectionTitleComponent,
   SelectFieldComponent,
   StepIndicatorComponent,
+  TextLinkButtonComponent,
+  ToggleSwitchComponent,
   WarningModalComponent
 ];
 

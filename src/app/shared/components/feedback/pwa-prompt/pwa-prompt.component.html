@@ -61,8 +61,8 @@
 
 <button
   mat-fab
-  *ngIf="!showInstallPrompt && isMobile && showFabAfter30Seconds && canInstall"
-  (click)="showPrompt()"
+  *ngIf="!showInstallPrompt && isMobile && showFabAfter30Seconds && canInstall && !pwaService.isInstalled()"
+  (click)="checkInstallStatusAndNotify()"
   [matTooltip]="t('pwa.install.tooltip')"
   matTooltipPosition="left"
   class="!fixed !bottom-4 !right-4 !z-[1000] !bg-gradient-to-r !from-orange-500 !to-red-600 hover:!scale-105 !transition-transform !duration-200 !shadow-lg"

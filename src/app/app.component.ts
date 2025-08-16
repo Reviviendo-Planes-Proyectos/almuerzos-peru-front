@@ -5,6 +5,7 @@ import { RouterOutlet } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { MaterialModule, SharedComponentsModule } from './shared/modules';
 import { ApiService } from './shared/services/api/api.service';
+import { ImagePreloadService } from './shared/services/image-preload/image-preload.service';
 import { LoggerService } from './shared/services/logger/logger.service';
 import { PwaService } from './shared/services/pwa/pwa.service';
 
@@ -24,21 +25,28 @@ export class AppComponent implements OnInit, OnDestroy {
     private readonly apiService: ApiService,
     public readonly logger: LoggerService,
     private readonly pwaService: PwaService,
+    private readonly imagePreloadService: ImagePreloadService,
     private readonly injector: Injector,
-    @Inject(PLATFORM_ID) private platformId: string
+    @Inject(PLATFORM_ID) private readonly platformId: string
   ) {}
 
   ngOnInit(): void {
+    // Health check opcional - no bloquea la aplicación
     this.apiService.getHealth().subscribe({
       next: (data) => {
         this.apiStatus = data;
-        this.logger.info('API status fetched successfully:', this.apiStatus);
+        this.logger.info('API status fetched successfully');
       },
-      error: (err) => {
-        this.apiStatus = err;
-        this.logger.error('Error fetching API status:', this.apiStatus);
+      error: () => {
+        this.apiStatus = { error: 'API not available', offline: true };
+        this.logger.warn('API health check failed - running in offline mode');
       }
     });
+
+    // Preload critical images
+    if (isPlatformBrowser(this.platformId)) {
+      this.imagePreloadService.preloadCriticalImages();
+    }
 
     this.initCustomScrollIndicator();
     this.setupUpdateNotifications();
@@ -109,6 +117,11 @@ export class AppComponent implements OnInit, OnDestroy {
       return;
     }
 
+    // No mostrar recordatorio si la app ya está instalada
+    if (this.pwaService.isInstalled()) {
+      return;
+    }
+
     try {
       const snackBar = this.injector.get(MatSnackBar);
       const snackBarRef = snackBar.open('¿Te gusta Almuerzos Perú? ¡Instálala!', 'Instalar', {
@@ -119,7 +132,10 @@ export class AppComponent implements OnInit, OnDestroy {
       });
 
       snackBarRef.onAction().subscribe(() => {
-        this.pwaService.forceShowInstallPrompt();
+        // Verificar nuevamente antes de mostrar el prompt
+        if (!this.pwaService.isInstalled()) {
+          this.pwaService.forceShowInstallPrompt();
+        }
         this.pwaService.dismissAppReminder();
       });
 
@@ -137,43 +153,66 @@ export class AppComponent implements OnInit, OnDestroy {
         forceShowUpdate: () => this.pwaService.forceShowUpdateBanner(),
         forceShowReminder: () => this.pwaService.forceShowReminder(),
         forceShowInstallPrompt: () => this.pwaService.forceShowInstallPrompt(),
+        simulateInstall: () => this.pwaService.simulateInstallation(),
+        simulateUninstall: () => this.pwaService.simulateUninstallation(),
+        clearData: () => this.pwaService.clearPwaData(),
         getAppStatus: () => ({
-          isInstalled: this.pwaService.isAppInstalled$,
+          isInstalled: this.pwaService.isInstalled(),
           canInstall: this.pwaService.canInstallApp(),
-          updateAvailable: this.pwaService.updateAvailable$
-        })
+          updateAvailable: this.pwaService.updateAvailable$,
+          installStatus: this.pwaService.getInstallStatus(),
+          debugInfo: this.pwaService.getDebugInfo()
+        }),
+        help: () => {
+          this.logger.info(`
+🐛 PWA Debug Commands:
+- pwaDebug.getAppStatus() - Ver estado actual
+- pwaDebug.simulateInstall() - Simular instalación
+- pwaDebug.simulateUninstall() - Simular desinstalación
+- pwaDebug.clearData() - Limpiar datos localStorage
+- pwaDebug.forceShowReminder() - Forzar recordatorio
+- pwaDebug.forceShowInstallPrompt() - Forzar prompt instalación
+- pwaDebug.forceShowUpdate() - Forzar banner actualización
+- pwaDebug.help() - Mostrar esta ayuda
+          `);
+        }
       };
       this.logger.info('🐛 PWA Debug methods exposed: window.pwaDebug');
+      this.logger.info('🐛 Type pwaDebug.help() for available commands');
     }
   }
 
   private initCustomScrollIndicator(): void {
-    window.addEventListener('scroll', this.handleScroll.bind(this));
+    if (this.platformId && isPlatformBrowser(this.platformId)) {
+      window.addEventListener('scroll', this.handleScroll.bind(this));
+    }
   }
 
   private handleScroll(): void {
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+    if (this.platformId && isPlatformBrowser(this.platformId)) {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
 
-    if (scrollHeight > 0) {
-      const viewportHeight = window.innerHeight;
-      const documentHeight = document.documentElement.scrollHeight;
-      const indicatorHeight = Math.max((viewportHeight / documentHeight) * 100, 3);
+      if (scrollHeight > 0) {
+        const viewportHeight = window.innerHeight;
+        const documentHeight = document.documentElement.scrollHeight;
+        const indicatorHeight = Math.max((viewportHeight / documentHeight) * 100, 3);
 
-      const scrollProgress = (scrollTop / scrollHeight) * (100 - indicatorHeight);
+        const scrollProgress = (scrollTop / scrollHeight) * (100 - indicatorHeight);
 
-      document.documentElement.style.setProperty('--scroll-progress', `${indicatorHeight}%`);
-      document.documentElement.style.setProperty('--scroll-position', `${scrollProgress}%`);
+        document.documentElement.style.setProperty('--scroll-progress', `${indicatorHeight}%`);
+        document.documentElement.style.setProperty('--scroll-position', `${scrollProgress}%`);
+      }
+
+      document.body.classList.add('scrolling');
+
+      if (this.scrollTimeout) {
+        clearTimeout(this.scrollTimeout);
+      }
+
+      this.scrollTimeout = setTimeout(() => {
+        document.body.classList.remove('scrolling');
+      }, 1500);
     }
-
-    document.body.classList.add('scrolling');
-
-    if (this.scrollTimeout) {
-      clearTimeout(this.scrollTimeout);
-    }
-
-    this.scrollTimeout = setTimeout(() => {
-      document.body.classList.remove('scrolling');
-    }, 1500);
   }
 }

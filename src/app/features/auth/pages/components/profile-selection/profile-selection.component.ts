@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ASSET_URLS } from '../../../../../shared/constants';
 import { BaseTranslatableComponent, MaterialModule, SharedComponentsModule } from '../../../../../shared/modules';
 
 @Component({
@@ -12,6 +13,8 @@ import { BaseTranslatableComponent, MaterialModule, SharedComponentsModule } fro
 export class ProfileSelectionComponent extends BaseTranslatableComponent {
   selectedType: 'restaurante' | 'comensal' | null = null;
   isNavigating = false;
+
+  readonly assetUrls = ASSET_URLS;
 
   constructor(
     public router: Router,
@@ -27,7 +30,7 @@ export class ProfileSelectionComponent extends BaseTranslatableComponent {
     this.isNavigating = true;
 
     setTimeout(() => {
-      this.router.navigate(['auth/login'], {
+      this.router.navigate(['/auth/login'], {
         queryParams: { userType: tipo }
       });
     }, 800);
@@ -43,5 +46,9 @@ export class ProfileSelectionComponent extends BaseTranslatableComponent {
     } else {
       this.router.navigate(['/home-restaurant']);
     }
+  }
+
+  goToLogin(): void {
+    this.router.navigate(['/auth/login'], { queryParams: {} });
   }
 }

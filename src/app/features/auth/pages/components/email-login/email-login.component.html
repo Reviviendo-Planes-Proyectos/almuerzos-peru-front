@@ -1,0 +1,84 @@
+<!-- Fondo -->
+<div class="relative min-h-screen">
+  <img
+    [src]="assetUrls.AUTH_BACKGROUND"
+    [attr.alt]="t('common.background')"
+    class="absolute inset-0 w-full h-full object-cover opacity-100"
+  />
+
+  <app-back-button position="top-left" (backClick)="goBack()" [ariaLabel]="t('common.back')"></app-back-button>
+
+  <div class="relative z-10 flex items-end sm:items-center justify-center min-h-[95vh]">
+    <div
+      class="bg-white bg-opacity-90 rounded-xl shadow-lg p-6 w-full max-w-md max-h-[85vh] flex flex-col overflow-y-auto"
+    >
+      <!-- Header -->
+      <div class="text-center mb-6">
+        <h1 class="text-3xl font-bold text-gray-800 uppercase mb-2">
+          {{ t('app.name') }}
+        </h1>
+        <p class="text-gray-600">{{ t('auth.login.emailTitle') }}</p>
+      </div>
+
+      <!-- Formulario de Login -->
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-4">
+        <!-- Campo Email -->
+        <app-input-field
+          [label]="t('auth.common.email')"
+          type="email"
+          icon="email"
+          [required]="true"
+          controlName="email"
+          formControlName="email"
+        ></app-input-field>
+
+        <!-- Campo Contraseña -->
+        <div class="relative">
+          <app-input-field
+            [label]="t('auth.common.password')"
+            [type]="showPassword ? 'text' : 'password'"
+            icon="lock"
+            [required]="true"
+            controlName="password"
+            [actionIcon]="showPassword ? 'visibility_off' : 'visibility'"
+            (actionIconClick)="togglePasswordVisibility()"
+            formControlName="password"
+          ></app-input-field>
+        </div>
+
+        <!-- Botón de Iniciar Sesión -->
+        <div class="pt-4">
+          <app-button
+            [label]="t('auth.login.signIn')"
+            [translateKey]="'auth.login.signIn'"
+            [isActive]="!isLoading && loginForm.valid"
+            (clicked)="onSubmit()"
+            [iconName]="isLoading ? '' : 'login'"
+          >
+            <div *ngIf="isLoading" class="flex items-center justify-center">
+              <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+              {{ t('auth.common.loading') }}
+            </div>
+          </app-button>
+        </div>
+      </form>
+
+      <!-- Separador -->
+      <div class="flex items-center w-full my-6">
+        <hr class="flex-grow border-t border-gray-300" />
+        <span class="mx-4 text-gray-500 font-medium text-sm">{{ t('common.options') }}</span>
+        <hr class="flex-grow border-t border-gray-300" />
+      </div>
+
+      <!-- Enlaces adicionales -->
+      <div class="space-y-3 text-center">
+        <app-text-link-button [translateKey]="'auth.forgot.title'" variant="orange" (clicked)="goToForgotPassword()" />
+
+        <div class="text-sm text-gray-600">
+          {{ t('auth.login.noAccount') }}
+          <app-text-link-button [translateKey]="'auth.register.title'" variant="orange" (clicked)="goToRegister()" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { MaterialModule } from '../../../../shared/modules';
+import { FooterComponent } from '../../components/footer/footer.component';
+import { HeaderComponent } from '../../components/header/header.component';
 import { BenefitsSectionComponent } from './components/benefits-section/benefits-section.component';
 import { FinalCtaSectionComponent } from './components/final-cta-section/final-cta-section.component';
-import { FooterComponent } from './components/footer/footer.component';
-import { HeaderComponent } from './components/header/header.component';
 import { HeroSectionComponent } from './components/hero-section/hero-section.component';
 import { HowItWorksSectionComponent } from './components/how-it-works-section/how-it-works-section.component';
 import { PricingSectionComponent } from './components/pricing-section/pricing-section.component';

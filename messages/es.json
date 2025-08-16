@@ -13,14 +13,23 @@
     "with": "con",
     "background": "Fondo",
     "google": "Google",
-    "facebook": "Facebook"
+    "facebook": "Facebook",
+    "options": "Opciones",
+    "loading": "Cargando..."
   },
   "auth": {
+    "common": {
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "loading": "Cargando..."
+    },
     "login": {
       "title": "Iniciar Sesión",
+      "emailTitle": "Inicia sesión con tu correo",
       "button": "Iniciar Sesión",
+      "signIn": "Iniciar Sesión",
       "email": "Correo",
-      "noAccount": "¿No tienes cuenta? Regístrate",
+      "noAccount": "¿No tienes cuenta?",
       "withGoogle": "Iniciar Sesión con Google",
       "withFacebook": "Iniciar Sesión con Facebook",
       "withEmail": "Iniciar Sesión con Correo"
@@ -29,7 +38,7 @@
       "title": "¿Cómo deseas registrarte?",
       "button": "Continuar",
       "email": "Correo",
-      "later": "Registrarse después",
+      "later": "Registrarme después",
       "withGoogle": "Continuar con Google",
       "withFacebook": "Continuar con Facebook",
       "withEmail": "Continuar con Correo",
@@ -156,7 +165,7 @@
           "efficiency": "+300% Eficiencia",
           "salesDescription": "Incremento promedio"
         },
-        "imageAlt": "Restaurante digital moderno mostrando menú en dispositivo móvil"
+        "alt": "Restaurante digital moderno mostrando menú en dispositivo móvil"
       },
       "testimonials": {
         "title": "Lo que Dicen Nuestros",
@@ -223,15 +232,15 @@
         },
         "realTimeUpdate": {
           "title": "Actualización en Tiempo Real",
-          "subtitle": "Si algo se acabó, retíralo fácilmente."
+          "subtitle": "Cambia tu menú al instante, retira platillos agotados fácil y sin problemas."
         },
         "whatsappShare": {
           "title": "Comparte por WhatsApp",
-          "subtitle": "Envía tu carta por WhatsApp y compártesela a tus contactos."
+          "subtitle": "Envía tu carta en un clic y compártela con todos tus clientes al momento."
         },
         "freeAdvertising": {
           "title": "Publicidad Gratis",
-          "subtitle": "Sube tu menú y listo. Tu restaurante será visible para más clientes sin esfuerzos."
+          "subtitle": "Sube tu menú y listo. Tu restaurante será visible para más clientes, sin esfuerzo."
         },
         "allInOnePlace": {
           "title": "Todo en un Solo Lugar",
@@ -243,7 +252,7 @@
         },
         "exclusivePromotions": {
           "title": "Promociones exclusivas",
-          "subtitle": "Accede a menús con descuentos,y promocionas solo para usuarios activos. ¡Usa la app, gana más y almuerza mejor!"
+          "subtitle": "Accede a menús con descuentos, y promociones solo para usuarios activos. ¡Usa la app y gana más!"
         }
       },
       "pricing": {

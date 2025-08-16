@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { I18nService } from '../../../../shared/i18n';
 import { MaterialModule } from '../../../../shared/modules';
-import { HeaderComponent } from '../../../landings/pages/landing-restaurant/components/header/header.component';
+import { HeaderComponent } from '../../../landings/components/header/header.component';
 
 @Component({
   selector: 'app-privacy-policy',

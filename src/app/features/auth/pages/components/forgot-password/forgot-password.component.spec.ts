@@ -1,3 +1,5 @@
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -23,6 +25,8 @@ describe('ForgotPasswordComponent', () => {
     await TestBed.configureTestingModule({
       imports: [ForgotPasswordComponent, NoopAnimationsModule],
       providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
         { provide: Router, useValue: mockRouter },
         { provide: I18nService, useValue: mockI18nService }
       ]

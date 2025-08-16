@@ -1,0 +1,86 @@
+// Estilos específicos para el componente de login con email
+.email-login-container {
+  min-height: 100vh;
+  position: relative;
+}
+
+.form-container {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
+
+// Animaciones para el loading
+.loading-spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Efectos de hover para los inputs
+.input-field {
+  transition: all 0.3s ease;
+}
+
+.input-field:focus-within {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(234, 179, 8, 0.3);
+}
+
+// Estilo para el botón de mostrar/ocultar contraseña
+.password-toggle {
+  transition: color 0.2s ease;
+}
+
+.password-toggle:hover {
+  color: #f59e0b;
+}
+
+// Responsive design
+@media (max-width: 640px) {
+  .form-container {
+    margin: 1rem;
+    max-height: 90vh;
+  }
+}
+
+// Efectos de foco mejorados
+.form-field:focus-within {
+  .input-label {
+    color: #f59e0b;
+  }
+
+  .input-border {
+    border-color: #f59e0b;
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+  }
+}
+
+// Estados de validación
+.field-error {
+  .input-border {
+    border-color: #ef4444;
+  }
+
+  .input-label {
+    color: #ef4444;
+  }
+}
+
+.field-success {
+  .input-border {
+    border-color: #10b981;
+  }
+
+  .input-label {
+    color: #10b981;
+  }
+}

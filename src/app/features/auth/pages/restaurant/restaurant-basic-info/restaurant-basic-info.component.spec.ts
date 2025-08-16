@@ -1,3 +1,5 @@
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
@@ -26,6 +28,8 @@ describe('RestaurantBasicInfoComponent', () => {
     await TestBed.configureTestingModule({
       imports: [CoreModule, RestaurantBasicInfoComponent],
       providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
         CoreModule,
         { provide: Router, useValue: mockRouter },
         { provide: LoggerService, useValue: mockLoggerService }
@@ -48,6 +52,8 @@ describe('RestaurantBasicInfoComponent', () => {
       expect(component.restaurantForm.get('restaurantName')).toBeTruthy();
       expect(component.restaurantForm.get('email')).toBeTruthy();
       expect(component.restaurantForm.get('ownerDni')).toBeTruthy();
+      expect(component.restaurantForm.get('ownerFirstName')).toBeTruthy();
+      expect(component.restaurantForm.get('ownerLastName')).toBeTruthy();
       expect(component.restaurantForm.get('phoneNumber')).toBeTruthy();
       expect(component.restaurantForm.get('address')).toBeTruthy();
       expect(component.restaurantForm.get('provincia')).toBeTruthy();
@@ -60,11 +66,19 @@ describe('RestaurantBasicInfoComponent', () => {
       expect(component.isRazonSocialEnabled).toBe(false);
       expect(component.isLocationModalVisible).toBe(false);
       expect(component.locationSearchQuery).toBe('');
+      expect(component.isRucValid).toBe(false);
     });
 
     it('should have razonSocial field disabled initially', () => {
       const razonSocialControl = component.restaurantForm.get('razonSocial');
       expect(razonSocialControl?.disabled).toBe(true);
+    });
+
+    it('should have ownerFirstName and ownerLastName fields disabled initially', () => {
+      const firstNameControl = component.restaurantForm.get('ownerFirstName');
+      const lastNameControl = component.restaurantForm.get('ownerLastName');
+      expect(firstNameControl?.disabled).toBe(true);
+      expect(lastNameControl?.disabled).toBe(true);
     });
 
     it('should have provincia options defined', () => {
@@ -164,42 +178,102 @@ describe('RestaurantBasicInfoComponent', () => {
   });
 
   describe('RUC Functionality', () => {
-    it('should enable razonSocial when valid RUC is entered', () => {
+    it('should set isRucValid to true when valid RUC is entered', () => {
       const rucControl = component.restaurantForm.get('ruc');
-      const razonSocialControl = component.restaurantForm.get('razonSocial');
+      jest.spyOn(component as any, 'fetchCompanyDataFromSunat');
 
       rucControl?.setValue('20123456789');
 
-      expect(component.isRazonSocialEnabled).toBe(true);
-      expect(razonSocialControl?.disabled).toBe(false);
+      expect(component.isRucValid).toBe(true);
+      expect((component as any).fetchCompanyDataFromSunat).toHaveBeenCalledWith('20123456789');
     });
 
-    it('should disable and clear razonSocial when invalid RUC is entered', () => {
+    it('should set isRucValid to false and clear razonSocial when invalid RUC is entered', () => {
       const rucControl = component.restaurantForm.get('ruc');
       const razonSocialControl = component.restaurantForm.get('razonSocial');
 
-      rucControl?.setValue('20123456789');
+      // First set a value
       razonSocialControl?.setValue('Test Company');
 
+      // Then enter invalid RUC
       rucControl?.setValue('123');
 
-      expect(component.isRazonSocialEnabled).toBe(false);
-      expect(razonSocialControl?.disabled).toBe(true);
+      expect(component.isRucValid).toBe(false);
       expect(razonSocialControl?.value).toBe('');
     });
 
-    it('should disable razonSocial when RUC is cleared', () => {
+    it('should clear razonSocial when RUC is cleared', () => {
       const rucControl = component.restaurantForm.get('ruc');
       const razonSocialControl = component.restaurantForm.get('razonSocial');
 
-      rucControl?.setValue('20123456789');
+      // Set a value first
       razonSocialControl?.setValue('Test Company');
 
       rucControl?.setValue('');
 
-      expect(component.isRazonSocialEnabled).toBe(false);
-      expect(razonSocialControl?.disabled).toBe(true);
+      expect(component.isRucValid).toBe(false);
       expect(razonSocialControl?.value).toBe('');
+    });
+
+    it('should call fetchCompanyDataFromSunat with valid RUC', () => {
+      jest.spyOn(component as any, 'fetchCompanyDataFromSunat');
+      const rucControl = component.restaurantForm.get('ruc');
+
+      rucControl?.setValue('20123456789');
+
+      expect((component as any).fetchCompanyDataFromSunat).toHaveBeenCalledWith('20123456789');
+    });
+  });
+
+  describe('DNI Functionality', () => {
+    it('should call fetchOwnerDataFromReniec when valid DNI is entered', () => {
+      jest.spyOn(component as any, 'fetchOwnerDataFromReniec');
+      const dniControl = component.restaurantForm.get('ownerDni');
+
+      dniControl?.setValue('12345678');
+
+      expect((component as any).fetchOwnerDataFromReniec).toHaveBeenCalledWith('12345678');
+    });
+
+    it('should clear owner names when invalid DNI is entered', () => {
+      const dniControl = component.restaurantForm.get('ownerDni');
+      const firstNameControl = component.restaurantForm.get('ownerFirstName');
+      const lastNameControl = component.restaurantForm.get('ownerLastName');
+
+      // First set some values
+      firstNameControl?.setValue('Juan Carlos');
+      lastNameControl?.setValue('Pérez García');
+
+      // Then enter invalid DNI
+      dniControl?.setValue('123');
+
+      expect(firstNameControl?.value).toBe('');
+      expect(lastNameControl?.value).toBe('');
+    });
+
+    it('should clear owner names when DNI is cleared', () => {
+      const dniControl = component.restaurantForm.get('ownerDni');
+      const firstNameControl = component.restaurantForm.get('ownerFirstName');
+      const lastNameControl = component.restaurantForm.get('ownerLastName');
+
+      // Set values first
+      firstNameControl?.setValue('Juan Carlos');
+      lastNameControl?.setValue('Pérez García');
+
+      // Clear DNI
+      dniControl?.setValue('');
+
+      expect(firstNameControl?.value).toBe('');
+      expect(lastNameControl?.value).toBe('');
+    });
+
+    it('should not call fetchOwnerDataFromReniec with invalid DNI', () => {
+      jest.spyOn(component as any, 'fetchOwnerDataFromReniec');
+      const dniControl = component.restaurantForm.get('ownerDni');
+
+      dniControl?.setValue('123');
+
+      expect((component as any).fetchOwnerDataFromReniec).not.toHaveBeenCalled();
     });
   });
 
@@ -303,15 +377,90 @@ describe('RestaurantBasicInfoComponent', () => {
     it('should handle empty RUC value', () => {
       component.onRucChange('');
 
-      expect(component.isRazonSocialEnabled).toBe(false);
-      expect(component.restaurantForm.get('razonSocial')?.disabled).toBe(true);
+      expect(component.isRucValid).toBe(false);
+      expect(component.restaurantForm.get('razonSocial')?.value).toBe('');
     });
 
     it('should handle invalid RUC format', () => {
       component.onRucChange('123abc');
 
-      expect(component.isRazonSocialEnabled).toBe(false);
-      expect(component.restaurantForm.get('razonSocial')?.disabled).toBe(true);
+      expect(component.isRucValid).toBe(false);
+      expect(component.restaurantForm.get('razonSocial')?.value).toBe('');
+    });
+  });
+
+  describe('API Mock Functions', () => {
+    beforeEach(() => {
+      jest.useFakeTimers();
+    });
+
+    afterEach(() => {
+      jest.useRealTimers();
+    });
+
+    it('should simulate RENIEC API call and update owner names', () => {
+      const firstNameControl = component.restaurantForm.get('ownerFirstName');
+      const lastNameControl = component.restaurantForm.get('ownerLastName');
+
+      (component as any).fetchOwnerDataFromReniec('12345678');
+
+      // Fast-forward time to trigger setTimeout
+      jest.advanceTimersByTime(1000);
+
+      expect(mockLoggerService.info).toHaveBeenCalledWith('Consultando DNI en RENIEC:', '12345678');
+      expect(firstNameControl?.value).toBe('Juan Carlos');
+      expect(lastNameControl?.value).toBe('Pérez García');
+    });
+
+    it('should simulate SUNAT API call and update razon social', () => {
+      const razonSocialControl = component.restaurantForm.get('razonSocial');
+
+      (component as any).fetchCompanyDataFromSunat('20123456789');
+
+      // Fast-forward time to trigger setTimeout
+      jest.advanceTimersByTime(1000);
+
+      expect(mockLoggerService.info).toHaveBeenCalledWith('Consultando RUC en SUNAT:', '20123456789');
+      expect(razonSocialControl?.value).toBe('RESTAURANTE EL SABOR CRIOLLO S.A.C.');
+    });
+  });
+
+  describe('DNI Change Handler', () => {
+    it('should call onDniChange when DNI value changes', () => {
+      jest.spyOn(component, 'onDniChange');
+
+      const dniControl = component.restaurantForm.get('ownerDni');
+      dniControl?.setValue('12345678');
+
+      expect(component.onDniChange).toHaveBeenCalledWith('12345678');
+    });
+
+    it('should handle empty DNI value', () => {
+      const firstNameControl = component.restaurantForm.get('ownerFirstName');
+      const lastNameControl = component.restaurantForm.get('ownerLastName');
+
+      // Set values first
+      firstNameControl?.setValue('Juan');
+      lastNameControl?.setValue('Pérez');
+
+      component.onDniChange('');
+
+      expect(firstNameControl?.value).toBe('');
+      expect(lastNameControl?.value).toBe('');
+    });
+
+    it('should handle invalid DNI format', () => {
+      const firstNameControl = component.restaurantForm.get('ownerFirstName');
+      const lastNameControl = component.restaurantForm.get('ownerLastName');
+
+      // Set values first
+      firstNameControl?.setValue('Juan');
+      lastNameControl?.setValue('Pérez');
+
+      component.onDniChange('123abc');
+
+      expect(firstNameControl?.value).toBe('');
+      expect(lastNameControl?.value).toBe('');
     });
   });
 });

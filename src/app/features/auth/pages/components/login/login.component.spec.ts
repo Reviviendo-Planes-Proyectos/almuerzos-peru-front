@@ -1,3 +1,5 @@
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -44,7 +46,7 @@ describe('LoginComponent', () => {
 
   beforeEach(async () => {
     const routerSpyObj = {
-      navigate: jest.fn()
+      navigate: jest.fn().mockResolvedValue(true)
     };
 
     const mockActivatedRoute = {
@@ -70,6 +72,8 @@ describe('LoginComponent', () => {
         TranslatePipe
       ],
       providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
         { provide: Router, useValue: routerSpyObj },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: LoggerService, useValue: mockLoggerService },
@@ -142,7 +146,9 @@ describe('LoginComponent', () => {
 
   it('should have background image', () => {
     const imageElement = debugElement.query(By.css('img'));
-    expect(imageElement.nativeElement.getAttribute('src')).toBe('img/background_almuerza_peru.png');
+    expect(imageElement.nativeElement.getAttribute('src')).toBe(
+      'https://almuerzos-peru-public.s3.us-east-1.amazonaws.com/auth/background_almuerza_peru.png'
+    );
     expect(imageElement.nativeElement.getAttribute('alt')).toBe('Fondo');
   });
 
@@ -173,8 +179,8 @@ describe('LoginComponent', () => {
     expect(emailSpy).toHaveBeenCalled();
   });
 
-  it('should call forgotPassword when forgot password link is clicked', () => {
-    const forgotSpy = jest.spyOn(component, 'forgotPassword');
+  it('should call goToForgotPassword when forgot password link is clicked', () => {
+    const forgotSpy = jest.spyOn(component, 'goToForgotPassword');
     const buttons = debugElement.queryAll(By.css('button'));
     const forgotButton = buttons.find((button) => button.nativeElement.textContent.includes('Olvidé mi Contraseña'));
     expect(forgotButton).toBeTruthy();
@@ -199,7 +205,7 @@ describe('LoginComponent', () => {
 
   it('should navigate to register when goToRegister is called', () => {
     component.goToRegister();
-    expect(routerSpy.navigate).toHaveBeenCalledWith(['auth/register'], {
+    expect(routerSpy.navigate).toHaveBeenCalledWith(['/auth/register'], {
       queryParams: { userType: null }
     });
   });
@@ -221,7 +227,9 @@ describe('LoginComponent', () => {
       jest.advanceTimersByTime(2000);
 
       expect(component.isFacebookLoading).toBe(false);
-      expect(routerSpy.navigate).toHaveBeenCalledWith(['/auth/customer-basic-info']);
+      expect(routerSpy.navigate).toHaveBeenCalledWith(['/auth/customer-basic-info'], {
+        queryParams: { userType: null }
+      });
     });
 
     it('should not trigger Facebook login when already loading', () => {
@@ -233,15 +241,17 @@ describe('LoginComponent', () => {
       expect(component.isFacebookLoading).toBe(initialState);
     });
 
-    it('should handle email login correctly', () => {
-      component.iniciarConEmail();
+    it('should handle email login correctly', async () => {
+      await component.iniciarConEmail();
 
       expect(component.isEmailLoading).toBe(true);
 
-      jest.advanceTimersByTime(1000);
+      jest.advanceTimersByTime(100);
 
       expect(component.isEmailLoading).toBe(false);
-      expect(routerSpy.navigate).toHaveBeenCalledWith(['/auth/customer-basic-info']);
+      expect(routerSpy.navigate).toHaveBeenCalledWith(['/auth/email-login'], {
+        queryParams: { userType: null }
+      });
     });
 
     it('should not trigger email login when already loading', () => {
@@ -253,13 +263,15 @@ describe('LoginComponent', () => {
       expect(component.isEmailLoading).toBe(initialState);
     });
 
-    it('should navigate to restaurant basic info for restaurant type', () => {
+    it('should navigate to restaurant basic info for restaurant type', async () => {
       component.tipo = 'restaurante';
-      component.iniciarConEmail();
+      await component.iniciarConEmail();
 
-      jest.advanceTimersByTime(1000);
+      jest.advanceTimersByTime(100);
 
-      expect(routerSpy.navigate).toHaveBeenCalledWith(['/auth/restaurant-basic-info']);
+      expect(routerSpy.navigate).toHaveBeenCalledWith(['/auth/email-login'], {
+        queryParams: { userType: 'restaurante' }
+      });
     });
   });
 
@@ -279,7 +291,7 @@ describe('LoginComponent', () => {
 
       expect(googleButton.nativeElement.textContent.trim()).toBe('Iniciar Sesión con Google');
       expect(facebookButton.nativeElement.textContent.trim()).toBe('Iniciar Sesión con Facebook');
-      expect(emailButton.nativeElement.textContent.trim()).toBe('mail Iniciar Sesión con Correo');
+      expect(emailButton.nativeElement.textContent.trim()).toBe('mailIniciar Sesión con Correo');
     });
 
     it('should translate "O" separator correctly', () => {

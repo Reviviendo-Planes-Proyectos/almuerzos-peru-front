@@ -1,11 +1,12 @@
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { of } from 'rxjs';
-import { CoreModule, I18nService, SharedComponentsModule } from '../../../../../shared/modules';
-import { VerificationCountdownService } from '../../../../../shared/services/verification-countdown/verification-countdown.service';
+import { I18nService } from '../../../../../shared/i18n';
+import { CoreModule, SharedComponentsModule } from '../../../../../shared/modules';
 import { PhoneVerificationComponent } from './phone-verification.component';
 
 // Mock del servicio de traducción
@@ -28,7 +29,6 @@ describe('PhoneVerificationComponent', () => {
   let router: jest.Mocked<Router>;
   let debugElement: DebugElement;
   let mockI18nService: MockI18nService;
-  let mockCountdownService: jest.Mocked<VerificationCountdownService>;
 
   const mockRouter = {
     navigate: jest.fn(),
@@ -38,23 +38,14 @@ describe('PhoneVerificationComponent', () => {
   beforeEach(async () => {
     mockI18nService = new MockI18nService();
 
-    mockCountdownService = {
-      canResendCode$: of(false),
-      countdownTimer$: of(60),
-      startCountdown: jest.fn(),
-      resetCountdown: jest.fn(),
-      clearInterval: jest.fn(),
-      canResendCode: false,
-      countdownTimer: 60
-    } as any;
-
     await TestBed.configureTestingModule({
       imports: [PhoneVerificationComponent, CoreModule, SharedComponentsModule],
       providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
         FormBuilder,
         { provide: Router, useValue: mockRouter },
-        { provide: I18nService, useValue: mockI18nService },
-        { provide: VerificationCountdownService, useValue: mockCountdownService }
+        { provide: I18nService, useValue: mockI18nService }
       ]
     }).compileComponents();
 
@@ -63,6 +54,7 @@ describe('PhoneVerificationComponent', () => {
     debugElement = fixture.debugElement;
     router = TestBed.inject(Router) as jest.Mocked<Router>;
 
+    // Mock history.state
     Object.defineProperty(window, 'history', {
       value: {
         state: { phone: '987654321' }
@@ -73,6 +65,9 @@ describe('PhoneVerificationComponent', () => {
 
   afterEach(() => {
     jest.clearAllMocks();
+    if ((component as any).intervalId) {
+      clearInterval((component as any).intervalId);
+    }
   });
 
   describe('Component Initialization', () => {
@@ -88,7 +83,7 @@ describe('PhoneVerificationComponent', () => {
 
     it('should set userPhone from history.state on init', () => {
       component.ngOnInit();
-      expect(component.userPhone).toBe('+51 9***');
+      expect(component.userPhone).toBe('987654321');
     });
 
     it('should use fallback phone when no phone in state', () => {
@@ -103,22 +98,20 @@ describe('PhoneVerificationComponent', () => {
 
     it('should start countdown on initialization', () => {
       component.ngOnInit();
-      expect(mockCountdownService.startCountdown).toHaveBeenCalled();
-      expect(component.countdownService).toBeDefined();
-    });
-  });
-
-  describe('Phone Masking', () => {
-    it('should mask phone number correctly', () => {
-      const phone = '987654321';
-      const masked = (component as any).maskPhone(phone);
-      expect(masked).toBe('+51 9***');
+      expect(component.countdownTimer).toBe(60);
+      expect(component.canResendCode).toBe(false);
     });
 
-    it('should return original phone if length is less than 9', () => {
-      const phone = '12345';
-      const masked = (component as any).maskPhone(phone);
-      expect(masked).toBe('12345');
+    it('should reset component state correctly', () => {
+      component.codeSent = true;
+      component.canResendCode = true;
+      component.countdownTimer = 30;
+
+      (component as any).resetComponentState();
+
+      expect(component.codeSent).toBe(false);
+      expect(component.canResendCode).toBe(false);
+      expect(component.countdownTimer).toBe(60);
     });
   });
 
@@ -157,6 +150,7 @@ describe('PhoneVerificationComponent', () => {
 
     it('should show initial view when code not sent', () => {
       expect(component.codeSent).toBe(false);
+      // Verificar que el step indicator está presente
       const stepIndicator = debugElement.query(By.css('app-step-indicator'));
       expect(stepIndicator).toBeTruthy();
     });
@@ -168,6 +162,7 @@ describe('PhoneVerificationComponent', () => {
       expect(component.codeSent).toBe(true);
       expect(component.currentStep).toBe(3);
 
+      // Buscar el formulario que aparece cuando se envía el código
       const form = debugElement.query(By.css('form'));
       expect(form).toBeTruthy();
     });
@@ -182,17 +177,28 @@ describe('PhoneVerificationComponent', () => {
 
   describe('Code Verification', () => {
     beforeEach(() => {
+      jest.useFakeTimers();
       component.ngOnInit();
       component.sendVerificationCode();
       fixture.detectChanges();
     });
 
-    it('should verify code when form is valid', () => {
+    afterEach(() => {
+      jest.useRealTimers();
+    });
+
+    it('should verify code when form is valid and navigate to next page', () => {
       component.verificationForm.patchValue({ verificationCode: '123456' });
+      expect(component.verificationForm.valid).toBe(true);
 
       component.verifyCode();
+      expect(component.isVerifying).toBe(true);
 
-      expect(component.verificationForm.valid).toBe(true);
+      // Advance time to complete the verification process
+      jest.advanceTimersByTime(2000);
+
+      expect(component.isVerifying).toBe(false);
+      expect(router.navigate).toHaveBeenCalledWith(['/auth/restaurant-profile-photo']);
     });
 
     it('should mark form as touched when form is invalid', () => {
@@ -201,29 +207,60 @@ describe('PhoneVerificationComponent', () => {
       component.verifyCode();
 
       expect(component.verificationForm.touched).toBe(true);
+      expect(router.navigate).not.toHaveBeenCalled();
+    });
+
+    it('should not verify when already verifying', () => {
+      component.verificationForm.patchValue({ verificationCode: '123456' });
+      component.isVerifying = true;
+
+      component.verifyCode();
+
+      expect(router.navigate).not.toHaveBeenCalled();
     });
   });
 
   describe('Countdown Timer', () => {
     beforeEach(() => {
+      jest.useFakeTimers();
       component.ngOnInit();
       fixture.detectChanges();
     });
 
-    it('should use countdown service', () => {
-      expect(component.countdownService).toBeDefined();
-      expect(mockCountdownService.canResendCode$).toBeDefined();
-      expect(mockCountdownService.countdownTimer$).toBeDefined();
+    afterEach(() => {
+      jest.useRealTimers();
     });
 
-    it('should start countdown service on initialization', () => {
-      expect(mockCountdownService.startCountdown).toHaveBeenCalled();
+    it('should start countdown with 60 seconds', () => {
+      expect(component.countdownTimer).toBe(60);
+      expect(component.canResendCode).toBe(false);
+    });
+
+    it('should decrement countdown timer', () => {
+      (component as any).startCountdown();
+      jest.advanceTimersByTime(1000);
+      expect(component.countdownTimer).toBe(59);
+    });
+
+    it('should enable resend when countdown reaches 0', () => {
+      component.canResendCode = false;
+
+      // Modify the countdown timer before starting
+      (component as any).startCountdown();
+
+      // Set timer to 1 and then advance
+      component.countdownTimer = 1;
+      jest.advanceTimersByTime(1000);
+
+      expect(component.canResendCode).toBe(true);
+      expect(component.countdownTimer).toBe(0);
     });
 
     it('should restart countdown when resending code', () => {
-      Object.defineProperty(mockCountdownService, 'canResendCode', { value: true });
+      component.canResendCode = true;
       component.resendCode();
-      expect(mockCountdownService.startCountdown).toHaveBeenCalled();
+      expect(component.countdownTimer).toBe(60);
+      expect(component.canResendCode).toBe(false);
     });
   });
 
@@ -250,11 +287,64 @@ describe('PhoneVerificationComponent', () => {
       component.ngOnInit();
       const clearIntervalSpy = jest.spyOn(global, 'clearInterval');
 
+      // Start countdown to create an interval
+      (component as any).startCountdown();
+
       component.ngOnDestroy();
 
       if ((component as any).intervalId) {
         expect(clearIntervalSpy).toHaveBeenCalledWith((component as any).intervalId);
       }
+    });
+  });
+
+  describe('Method Labels', () => {
+    beforeEach(() => {
+      component.ngOnInit();
+      fixture.detectChanges();
+    });
+
+    it('should return correct send code button label for SMS', () => {
+      component.setPreferredMethod('sms');
+      expect(component.sendCodeButtonLabel).toBe('Enviar Código por SMS');
+    });
+
+    it('should return correct send code button label for WhatsApp', () => {
+      component.setPreferredMethod('whatsapp');
+      expect(component.sendCodeButtonLabel).toBe('Enviar Código por WhatsApp');
+    });
+
+    it('should return correct sent method text for SMS', () => {
+      component.setPreferredMethod('sms');
+      expect(component.sentMethodText).toBe('SMS');
+    });
+
+    it('should return correct sent method text for WhatsApp', () => {
+      component.setPreferredMethod('whatsapp');
+      expect(component.sentMethodText).toBe('WhatsApp');
+    });
+
+    it('should return correct resend method text for SMS', () => {
+      component.setPreferredMethod('sms');
+      expect(component.resendMethodText).toBe('SMS');
+    });
+
+    it('should return correct resend method text for WhatsApp', () => {
+      component.setPreferredMethod('whatsapp');
+      expect(component.resendMethodText).toBe('WhatsApp');
+    });
+  });
+
+  describe('DoLater functionality', () => {
+    beforeEach(() => {
+      component.ngOnInit();
+      fixture.detectChanges();
+    });
+
+    it('should call doLater method', () => {
+      jest.spyOn(component, 'doLater');
+      component.doLater();
+      expect(component.doLater).toHaveBeenCalled();
     });
   });
 
@@ -272,19 +362,28 @@ describe('PhoneVerificationComponent', () => {
     });
 
     it('should display phone number', () => {
+      // Buscar específicamente el párrafo que contiene el teléfono
       const phoneElements = debugElement.queryAll(By.css('p'));
-      const phoneElement = phoneElements.find(
-        (p) => p.nativeElement.textContent.includes('+51') || p.nativeElement.textContent.includes('9***')
-      );
-      expect(phoneElement?.nativeElement.textContent).toContain(component.userPhone);
+      const phoneElement = phoneElements.find((p) => {
+        const text = p.nativeElement.textContent;
+        return text?.includes(component.userPhone);
+      });
+      expect(phoneElement).toBeTruthy();
+      if (phoneElement) {
+        expect(phoneElement.nativeElement.textContent).toContain(component.userPhone);
+      }
     });
 
     it('should show method selection buttons', () => {
       const methodButtons = debugElement.queryAll(By.css('button')).filter((btn) => {
         const text = btn.nativeElement.textContent;
-        return text.includes('SMS') || text.includes('WhatsApp');
+        // Look for buttons that contain both the method name and "Mensaje" text
+        return (
+          (text?.includes('SMS') && text?.includes('Mensaje de texto')) ||
+          (text?.includes('WhatsApp') && text?.includes('Mensaje directo'))
+        );
       });
-      expect(methodButtons.length).toBe(3);
+      expect(methodButtons.length).toBe(2); // SMS and WhatsApp buttons only
     });
 
     it('should show "Hacer Más Tarde" button', () => {

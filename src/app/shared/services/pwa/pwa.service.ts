@@ -50,6 +50,12 @@ export class PwaService {
     this.captureInstallPrompt();
     this.checkIfAppIsInstalled();
 
+    // Verificar periódicamente el estado de instalación (especialmente útil en móviles)
+    const checkInterval = this.isLocalDevelopment() ? 5000 : 30000;
+    setInterval(() => {
+      this.checkIfAppIsInstalled();
+    }, checkInterval);
+
     setTimeout(() => {
       this.checkInstallability();
       this.logDebugInfo();
@@ -82,54 +88,63 @@ export class PwaService {
     window.addEventListener('beforeinstallprompt', (event: Event) => {
       event.preventDefault();
       this.promptEvent = event as BeforeInstallPromptEvent;
-      this.logger.info('Install prompt captured - PWA can be installed');
       window.dispatchEvent(new CustomEvent('pwa-install-available'));
     });
 
     window.addEventListener('appinstalled', () => {
       this.isAppInstalled.next(true);
+      this.showAppReminder.next(false);
       this.promptEvent = null;
-      this.logger.info('App was installed successfully');
-
       window.dispatchEvent(new CustomEvent('pwa-installed'));
     });
   }
 
   private checkIfAppIsInstalled(): void {
+    // Múltiples métodos de detección para mejor cobertura
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
     const isIOSStandalone = navigator.standalone === true;
     const isInWebView = this.isInWebView();
     const hasStandaloneParam = window.location.search.includes('standalone=true');
     const isDevelopment = this.isLocalDevelopment();
 
-    this.logger.info('Checking if app is installed:', {
-      isStandalone,
-      isIOSStandalone,
-      isInWebView,
-      hasStandaloneParam,
-      isDevelopment,
-      hostname: window.location.hostname
-    });
+    // Detección adicional para Android Chrome
+    const isAndroidChrome = this.isAndroidChrome();
+    const hasMinimalUI = window.matchMedia('(display-mode: minimal-ui)').matches;
 
-    // Solo en localhost forzamos como no instalada para testing
-    if (isDevelopment && window.location.hostname === 'localhost') {
-      this.isAppInstalled.next(false);
-      this.logger.info('Development mode (localhost) - forcing app as not installed for testing');
-      return;
+    // Verificar si está en fullscreen (indicativo de PWA en algunos dispositivos)
+    const isFullscreen = window.matchMedia('(display-mode: fullscreen)').matches;
+
+    // Verificar user-agent para detectar WebAPK (Android)
+    const isWebAPK = navigator.userAgent.includes('wv') && isAndroidChrome;
+
+    // En desarrollo, verificar localStorage para persistir el estado
+    let isInstalledInDev = false;
+    if (isDevelopment && typeof localStorage !== 'undefined') {
+      isInstalledInDev = localStorage.getItem('pwa-dev-installed') === 'true';
     }
 
-    // Lógica normal para producción y mobile
-    const isInstalled = isStandalone || isIOSStandalone || isInWebView || hasStandaloneParam;
+    // Lógica unificada para detectar instalación (más exhaustiva)
+    const isInstalled =
+      isStandalone ||
+      isIOSStandalone ||
+      isInWebView ||
+      hasStandaloneParam ||
+      isInstalledInDev ||
+      hasMinimalUI ||
+      isFullscreen ||
+      isWebAPK;
 
-    if (isInstalled) {
-      this.isAppInstalled.next(true);
-      this.logger.info('App is running in standalone mode or installed');
-    } else {
-      this.isAppInstalled.next(false);
-      this.logger.info('App is running in browser mode');
+    // Solo actualizar si hay cambio de estado
+    if (this.isAppInstalled.value !== isInstalled) {
+      this.isAppInstalled.next(isInstalled);
 
-      // Solo mostrar recordatorio si la app puede ser instalada y no está en localhost
-      if (!isDevelopment || window.location.hostname !== 'localhost') {
+      if (isDevelopment) {
+        this.logger.info(`PWA Installation status changed to: ${isInstalled}`);
+      }
+
+      if (isInstalled) {
+        this.showAppReminder.next(false);
+      } else {
         this.scheduleAppReminder();
       }
     }
@@ -140,28 +155,48 @@ export class PwaService {
       return;
     }
 
+    // No mostrar recordatorio si la app ya está instalada
+    if (this.isAppInstalled.value) {
+      return;
+    }
+
+    const isDevelopment = this.isLocalDevelopment();
+
     // Verificar si ya se mostró un recordatorio recientemente
     const lastReminderTime = localStorage.getItem('pwa-reminder-shown');
     if (lastReminderTime) {
       const timeSinceLastReminder = Date.now() - parseInt(lastReminderTime, 10);
-      const secondsSinceLastReminder = timeSinceLastReminder / 1000;
+      const cooldownTime = isDevelopment ? 5000 : 24 * 60 * 60 * 1000; // 5 seg dev, 24h prod
 
-      // Solo mostrar recordatorio si han pasado más de 10 segundos (para testing rápido)
-      if (secondsSinceLastReminder < 10) {
+      if (timeSinceLastReminder < cooldownTime) {
         return;
       }
     }
 
-    // Verificar si el usuario ha visitado varias veces
+    // En desarrollo, mostrar más rápido
+    if (isDevelopment) {
+      setTimeout(() => {
+        if (!this.isAppInstalled.value) {
+          this.showAppReminder.next(true);
+        }
+      }, 3000);
+      return;
+    }
+
+    // En producción, solo mostrar en móviles después de varias visitas
+    if (!this.isMobileDevice()) {
+      return;
+    }
+
     const visitCount = parseInt(localStorage.getItem('pwa-visit-count') || '0', 10) + 1;
     localStorage.setItem('pwa-visit-count', visitCount.toString());
 
-    // Mostrar recordatorio después de 1 visita (para testing rápido)
-    if (visitCount >= 1 && this.canInstallApp()) {
+    if (visitCount >= 2 && this.canInstallApp()) {
       setTimeout(() => {
-        this.showAppReminder.next(true);
-        this.logger.info('Showing app installation reminder');
-      }, 8000); // 8 segundos - balance entre inmediatez y paciencia
+        if (!this.isAppInstalled.value && this.isMobileDevice()) {
+          this.showAppReminder.next(true);
+        }
+      }, 15000);
     }
   }
 
@@ -181,24 +216,52 @@ export class PwaService {
       localStorage.removeItem('pwa-prompt-dismissed');
       localStorage.removeItem('pwa-reminder-shown');
       localStorage.removeItem('pwa-visit-count');
-      this.logger.info('PWA localStorage data cleared for testing');
+      localStorage.removeItem('pwa-dev-installed');
+
+      // Reinicializar estado
+      this.isAppInstalled.next(false);
+      this.showAppReminder.next(false);
+      this.checkIfAppIsInstalled();
+    }
+  }
+
+  public simulateInstallation(): void {
+    if (this.isBrowser && typeof localStorage !== 'undefined') {
+      localStorage.setItem('pwa-dev-installed', 'true');
+      this.isAppInstalled.next(true);
+      this.showAppReminder.next(false);
+      this.promptEvent = null;
+      window.dispatchEvent(new CustomEvent('pwa-installed'));
+    }
+  }
+
+  public simulateUninstallation(): void {
+    if (this.isBrowser && typeof localStorage !== 'undefined') {
+      localStorage.removeItem('pwa-dev-installed');
+      this.isAppInstalled.next(false);
+      this.checkIfAppIsInstalled();
     }
   }
 
   public forceShowReminder(): void {
-    this.logger.info('🐛 DEBUG: Forcing reminder banner to show');
-    this.showAppReminder.next(true);
+    if (this.isLocalDevelopment()) {
+      this.logger.info('🐛 DEBUG: Forcing reminder banner to show');
+      this.showAppReminder.next(true);
+    }
   }
 
   public forceShowInstallPrompt(): void {
-    this.logger.info('🐛 DEBUG: Forcing install prompt to show');
-    // Simular que no está instalada y que puede instalarse
-    this.isAppInstalled.next(false);
+    if (this.isLocalDevelopment()) {
+      this.logger.info('🐛 DEBUG: Forcing install prompt to show');
+      this.isAppInstalled.next(false);
+    }
   }
 
   public forceShowUpdateBanner(): void {
-    this.logger.info('🐛 DEBUG: Forcing update banner to show');
-    this.updateAvailable.next(true);
+    if (this.isLocalDevelopment()) {
+      this.logger.info('🐛 DEBUG: Forcing update banner to show');
+      this.updateAvailable.next(true);
+    }
   }
 
   public canInstallApp(): boolean {
@@ -206,63 +269,98 @@ export class PwaService {
       return false;
     }
 
-    const isLocalDev = this.isLocalDevelopment();
-
-    // Solo en localhost forzamos como no instalada para testing
-    if (isLocalDev && window.location.hostname === 'localhost') {
-      this.isAppInstalled.next(false);
-      return true; // En localhost siempre permitimos instalar para testing
-    }
-
+    // Si la app ya está instalada, no se puede instalar
     if (this.isAppInstalled.value) {
       return false;
     }
 
-    if (this.promptEvent) {
+    const isLocalDev = this.isLocalDevelopment();
+
+    // En desarrollo, permitir instalación siempre
+    if (isLocalDev) {
+      if (typeof localStorage !== 'undefined') {
+        const isInstalledInDev = localStorage.getItem('pwa-dev-installed') === 'true';
+        if (isInstalledInDev) {
+          return false;
+        }
+      }
       return true;
     }
 
-    if (this.isIOSSafari()) {
-      return !navigator.standalone && this.hasServiceWorker();
+    // Para móviles en producción
+    if (this.isMobileDevice()) {
+      // Si tenemos el prompt nativo, usarlo
+      if (this.promptEvent) {
+        return true;
+      }
+
+      // Para iOS Safari, verificar si puede instalarse manualmente
+      if (this.isIOSSafari()) {
+        return !navigator.standalone && this.hasServiceWorker();
+      }
+
+      // Para Android Chrome y otros navegadores móviles
+      if (this.isAndroidChrome()) {
+        // Verificar requirements básicos para PWA
+        return this.hasServiceWorker() && this.hasValidManifest();
+      }
+
+      // Para otros navegadores móviles
+      return this.hasServiceWorker() && this.hasValidManifest();
     }
 
-    const canInstallManually = this.hasServiceWorker() && this.hasValidManifest();
-
-    this.logger.info('canInstallApp check:', {
-      hasPrompt: !!this.promptEvent,
-      isInstalled: this.isAppInstalled.value,
-      isIOSSafari: this.isIOSSafari(),
-      hasServiceWorker: this.hasServiceWorker(),
-      hasValidManifest: this.hasValidManifest(),
-      canInstallManually,
-      isLocalDev,
-      hostname: window.location.hostname,
-      isBrowser: this.isBrowser
-    });
-
-    return canInstallManually;
+    // Para desktop, también permitir si cumple requisitos
+    return this.hasServiceWorker() && this.hasValidManifest() && !!this.promptEvent;
   }
 
   public async installApp(): Promise<{ success: boolean; reason?: string }> {
+    if (!this.isBrowser) {
+      return { success: false, reason: 'NOT_BROWSER' };
+    }
+
+    // Verificar si ya está instalada
+    if (this.isAppInstalled.value) {
+      return { success: false, reason: 'ALREADY_INSTALLED' };
+    }
+
+    const isLocalDev = this.isLocalDevelopment();
+
+    // En desarrollo, simular instalación
+    if (isLocalDev) {
+      // Marcar como instalada en localStorage para desarrollo
+      if (typeof localStorage !== 'undefined') {
+        localStorage.setItem('pwa-dev-installed', 'true');
+      }
+
+      this.isAppInstalled.next(true);
+      this.showAppReminder.next(false);
+      this.promptEvent = null;
+
+      // Disparar evento de instalación
+      window.dispatchEvent(new CustomEvent('pwa-installed'));
+
+      return { success: true };
+    }
+
+    // En producción, verificar si es móvil
+    if (!this.isMobileDevice()) {
+      return { success: false, reason: 'NOT_MOBILE' };
+    }
+
     if (!this.promptEvent) {
-      this.logger.warn('No install prompt available');
       return { success: false, reason: 'NO_PROMPT' };
     }
 
     try {
-      this.logger.info('Showing install prompt');
       await this.promptEvent.prompt();
       const result = await this.promptEvent.userChoice;
 
-      this.logger.info('Install prompt result:', result.outcome);
-
       if (result.outcome === 'accepted') {
         this.isAppInstalled.next(true);
-        this.logger.info('PWA installation accepted by user');
+        this.showAppReminder.next(false);
         this.promptEvent = null;
         return { success: true };
       }
-      this.logger.info('PWA installation dismissed by user');
       this.promptEvent = null;
       return { success: false, reason: 'USER_DISMISSED' };
     } catch (error) {
@@ -296,19 +394,21 @@ export class PwaService {
       return { canInstall: false, hasPrompt: false, reason: 'Not in browser' };
     }
 
-    const isLocalDev = this.isLocalDevelopment();
-
-    // Solo en localhost forzamos como no instalada para testing
-    if (isLocalDev && window.location.hostname === 'localhost') {
-      this.logger.info('Development mode (localhost) - forcing app as not installed for testing');
-      this.isAppInstalled.next(false);
-    }
-
+    // Si la app ya está instalada, no se puede instalar
     if (this.isAppInstalled.value) {
       return { canInstall: false, hasPrompt: false, reason: 'Already installed' };
     }
 
+    const isLocalDev = this.isLocalDevelopment();
     const hasPrompt = !!this.promptEvent;
+
+    // En desarrollo, verificar localStorage
+    if (isLocalDev && typeof localStorage !== 'undefined') {
+      const isInstalledInDev = localStorage.getItem('pwa-dev-installed') === 'true';
+      if (isInstalledInDev) {
+        return { canInstall: false, hasPrompt: false, reason: 'Already installed in development' };
+      }
+    }
 
     if (hasPrompt) {
       return { canInstall: true, hasPrompt: true };
@@ -355,7 +455,8 @@ export class PwaService {
   }
 
   public logDebugInfo(): void {
-    this.logger.info('PWA Debug Info:', this.getDebugInfo());
+    const debugInfo = this.getDebugInfo();
+    this.logger.info('PWA Debug Info:', debugInfo);
   }
 
   public checkInstallability(): void {
@@ -363,23 +464,8 @@ export class PwaService {
       return;
     }
 
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker
-        .getRegistrations()
-        .then((registrations) => {
-          this.logger.info(`Found ${registrations.length} service worker registrations`);
-        })
-        .catch(() => {
-          this.logger.warn('Failed to get service worker registrations');
-        });
-    }
-
     if (this.shouldSimulatePrompt()) {
       this.simulateInstallPrompt();
-    }
-
-    if (this.isIOSSafari() && !navigator.standalone) {
-      this.logger.info('iOS Safari detected - manual installation instructions available');
     }
   }
 
@@ -393,15 +479,6 @@ export class PwaService {
 
   private shouldSimulatePrompt(): boolean {
     const isDevelopment = this.isLocalDevelopment();
-
-    this.logger.info('shouldSimulatePrompt check:', {
-      isDevelopment,
-      hostname: window.location.hostname,
-      protocol: window.location.protocol,
-      port: window.location.port,
-      hasPromptEvent: !!this.promptEvent
-    });
-
     return isDevelopment;
   }
 
@@ -430,6 +507,26 @@ export class PwaService {
     );
   }
 
+  private isMobileDevice(): boolean {
+    if (!this.isBrowser) return false;
+
+    const userAgent = navigator.userAgent.toLowerCase();
+    const mobileKeywords = ['android', 'webos', 'iphone', 'ipad', 'ipod', 'blackberry', 'windows phone', 'mobile'];
+
+    return (
+      mobileKeywords.some((keyword) => userAgent.includes(keyword)) ||
+      window.innerWidth <= 768 ||
+      'ontouchstart' in window
+    );
+  }
+
+  private isAndroidChrome(): boolean {
+    if (!this.isBrowser) return false;
+
+    const userAgent = navigator.userAgent.toLowerCase();
+    return userAgent.includes('android') && userAgent.includes('chrome') && !userAgent.includes('edg');
+  }
+
   private hasServiceWorker(): boolean {
     return 'serviceWorker' in navigator;
   }
@@ -441,29 +538,27 @@ export class PwaService {
 
   private simulateInstallPrompt(): void {
     if (this.shouldSimulatePrompt() && !this.promptEvent) {
-      this.logger.info('Simulating install prompt for development');
-
-      // Simulamos un prompt más realista que permite tanto aceptar como rechazar
+      // Simulamos un prompt más realista para desarrollo
       this.promptEvent = {
         prompt: async () => {
-          this.logger.info('Simulated prompt shown');
+          this.logger.info('PWA Install prompt triggered (simulated)');
           return Promise.resolve();
         },
         userChoice: new Promise((resolve) => {
-          // Simulamos una decisión del usuario después de un breve delay
-          setTimeout(() => {
-            // En desarrollo, simulamos que el usuario acepta la instalación
-            const outcome = Math.random() > 0.2 ? 'accepted' : 'dismissed'; // 80% probabilidad de aceptar
-            this.logger.info(`Simulated user choice: ${outcome}`);
-            resolve({ outcome: outcome as 'accepted' | 'dismissed' });
-          }, 500);
-        })
+          // En desarrollo, siempre permitimos la instalación
+          resolve({ outcome: 'accepted' as const });
+        }),
+        preventDefault: () => {},
+        type: 'beforeinstallprompt'
       } as BeforeInstallPromptEvent;
 
-      // Notificamos que el prompt está disponible
+      // Notificamos inmediatamente que el prompt está disponible
+      this.logger.info('PWA Install prompt simulated and available');
+
+      // Disparar el evento después de un pequeño delay
       setTimeout(() => {
         window.dispatchEvent(new CustomEvent('pwa-install-available'));
-        this.logger.info('Simulated install prompt event dispatched');
+        this.logger.info('PWA install-available event dispatched');
       }, 100);
     }
   }

@@ -1,3 +1,5 @@
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
@@ -41,7 +43,12 @@ describe('LandingDinerComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [LandingDinerComponent, BrowserAnimationsModule, CoreModule, MaterialModule],
-      providers: [provideRouter([]), { provide: I18nService, useClass: MockI18nService }]
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        provideRouter([]),
+        { provide: I18nService, useClass: MockI18nService }
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(LandingDinerComponent);

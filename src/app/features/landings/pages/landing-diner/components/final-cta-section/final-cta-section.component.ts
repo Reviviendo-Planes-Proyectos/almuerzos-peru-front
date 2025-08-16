@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ASSET_URLS } from '../../../../../../shared/constants';
 import { BaseTranslatableComponent, CoreModule, MaterialModule } from '../../../../../../shared/modules';
 
 @Component({
@@ -9,6 +10,8 @@ import { BaseTranslatableComponent, CoreModule, MaterialModule } from '../../../
   styleUrls: ['./final-cta-section.component.scss']
 })
 export class FinalCtaSectionComponent extends BaseTranslatableComponent {
+  readonly assetUrls = ASSET_URLS;
+
   onStartFree() {
     // Implementar lógica para comenzar gratis
   }

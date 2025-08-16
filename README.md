@@ -55,18 +55,20 @@ Antes de instalar y ejecutar el proyecto, asegúrate de tener instalado en tu co
 
 ### 🔌 Extensiones de VS Code Recomendadas
 
-| Extensión                    | ID                             | Categoría   | Descripción                                    |
-| ---------------------------- | ------------------------------ | ----------- | ---------------------------------------------- |
-| **Angular Language Service** | `angular.ng-template`          | 🅰️ Angular  | IntelliSense y soporte completo para Angular   |
-| **Biome**                    | `biomejs.biome`                | 🧹 Calidad  | Linter y formateador integrado (TypeScript/JS) |
-| **Prettier**                 | `esbenp.prettier-vscode`       | 🎨 Formato  | Formateador para HTML y SCSS                   |
-| **SonarLint**                | `sonarsource.sonarlint-vscode` | 🔍 Calidad  | Detección de problemas de calidad y seguridad  |
-| **Angular Snippets**         | `johnpapa.angular2`            | ⚡ Snippets | Fragmentos de código para Angular              |
-| **Jest**                     | `orta.vscode-jest`             | 🧪 Testing  | Soporte para pruebas unitarias                 |
-| **Playwright**               | `ms-playwright.playwright`     | 🎭 E2E      | Pruebas end-to-end                             |
-| **Tailwind CSS**             | `bradlc.vscode-tailwindcss`    | 🎨 CSS      | IntelliSense para Tailwind                     |
-| **GitLens**                  | `eamodio.gitlens`              | 🔧 Git      | Herramientas avanzadas de Git                  |
-| **TypeScript Importer**      | `pmneo.tsimporter`             | 📦 Import   | Auto-importación de módulos                    |
+| Extensión                    | ID                                 | Categoría   | Descripción                                      |
+| ---------------------------- | ---------------------------------- | ----------- | ------------------------------------------------ |
+| **Angular Language Service** | `angular.ng-template`              | 🅰️ Angular  | IntelliSense y soporte completo para Angular     |
+| **Biome**                    | `biomejs.biome`                    | 🧹 Calidad  | Linter y formateador integrado (TypeScript/JS)   |
+| **Prettier**                 | `esbenp.prettier-vscode`           | 🎨 Formato  | Formateador para HTML y SCSS                     |
+| **SonarLint**                | `sonarsource.sonarlint-vscode`     | 🔍 Calidad  | Detección de problemas de calidad y seguridad    |
+| **axe Accessibility Linter** | `deque-systems.vscode-axe-linter`  | ♿ A11y     | Linting de accesibilidad (WCAG, ARIA, semántica) |
+| **Web Accessibility**        | `maxvanderschee.web-accessibility` | ♿ A11y     | Auditoría de accesibilidad web                   |
+| **Angular Snippets**         | `johnpapa.angular2`                | ⚡ Snippets | Fragmentos de código para Angular                |
+| **Jest**                     | `orta.vscode-jest`                 | 🧪 Testing  | Soporte para pruebas unitarias                   |
+| **Playwright**               | `ms-playwright.playwright`         | 🎭 E2E      | Pruebas end-to-end                               |
+| **Tailwind CSS**             | `bradlc.vscode-tailwindcss`        | 🎨 CSS      | IntelliSense para Tailwind                       |
+| **GitLens**                  | `eamodio.gitlens`                  | 🔧 Git      | Herramientas avanzadas de Git                    |
+| **TypeScript Importer**      | `pmneo.tsimporter`                 | 📦 Import   | Auto-importación de módulos                      |
 
 > **� Instalación Automática**: Al abrir el proyecto, VS Code sugerirá instalar estas extensiones automáticamente.
 
@@ -307,6 +309,57 @@ El proyecto incluye configuración preestablecida para:
 
 - [📱 Configuración PWA](docs/pwa-application.md) — Progressive Web App setup y características
 - [🔄 PWA Prompt Automático](docs/pwa-auto-prompt.md) — Configuración y personalización del prompt de instalación
+
+### 🖼️ Optimización de Imágenes
+
+#### 🚀 Sistema de Precarga Implementado
+
+El proyecto incluye un sistema avanzado de optimización de carga de imágenes para mejorar el rendimiento:
+
+**1. Preload HTML Crítico** (automático en `index.html`):
+
+```html
+<link rel="preload" as="image" href="S3_URL/auth/background.png" />
+```
+
+**2. Uso del Servicio ImagePreloadService**:
+
+```typescript
+// En cualquier componente
+import { ImagePreloadService } from 'shared/services/image-preload';
+
+constructor(private imagePreload: ImagePreloadService) {}
+
+// Precargar imagen específica
+await this.imagePreload.preloadImage('url-imagen');
+
+// Verificar si está precargada
+if (this.imagePreload.isPreloaded('url')) { /* ... */ }
+```
+
+**3. Atributos de Carga Optimizada**:
+
+```html
+<!-- Críticas (above the fold) -->
+<img src="..." loading="eager" fetchpriority="high" />
+
+<!-- No críticas (lazy loading) -->
+<img src="..." loading="lazy" />
+```
+
+**4. Assets Centralizados**:
+
+```typescript
+import { ASSET_URLS } from 'shared/constants';
+// Usar: assetUrls.AUTH_BACKGROUND, etc.
+```
+
+#### ⚡ Beneficios de Rendimiento
+
+- ✅ **LCP mejorado**: Imágenes críticas precargan antes de necesitarse
+- ✅ **Bandwidth optimizado**: Lazy loading para imágenes no críticas
+- ✅ **UX sin interrupciones**: Sin "flashes" de carga
+- ✅ **Mobile optimized**: Estrategia adaptada para conexiones lentas
 
 ### 🚀 Características Principales
 

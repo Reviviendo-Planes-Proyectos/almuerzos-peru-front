@@ -1,3 +1,5 @@
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -50,6 +52,8 @@ describe('EmailVerificationComponent', () => {
     await TestBed.configureTestingModule({
       imports: [EmailVerificationComponent, CoreModule, SharedComponentsModule],
       providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
         { provide: Router, useValue: mockRouter },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: VerificationCountdownService, useValue: mockCountdownService }

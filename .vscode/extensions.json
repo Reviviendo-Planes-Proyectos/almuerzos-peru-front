@@ -10,6 +10,10 @@
     "esbenp.prettier-vscode",
     "sonarsource.sonarlint-vscode",
 
+    // Accessibility
+    "deque-systems.vscode-axe-linter",
+    "maxvanderschee.web-accessibility",
+
     // TypeScript & JavaScript
     "pmneo.tsimporter",
 
