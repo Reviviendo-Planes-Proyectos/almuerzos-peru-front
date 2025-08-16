@@ -1,11 +1,11 @@
 <div class="relative min-h-screen">
   <img
-    src="https://almuerzos-peru-public.s3.us-east-1.amazonaws.com/auth/background_almuerza_peru.png"
+    src="img/background_almuerza_peru.png"
     [attr.alt]="t('common.background')"
     class="absolute inset-0 w-full h-full object-cover opacity-100"
   />
 
-  <app-back-button position="top-left" (click)="onBackClick()" (keypress)="onBackClick()"></app-back-button>
+  <app-back-button position="top-left" (click)="onBackClick()"></app-back-button>
 
   <div class="relative z-10 flex items-end sm:items-center justify-center min-h-[95vh]">
     <div
@@ -53,17 +53,10 @@
             </div>
           </div>
           <div class="relative">
-            <input
-              type="checkbox"
-              [id]="'local-service-toggle'"
-              [checked]="isLocalService"
-              (change)="toggleLocalService()"
-              [attr.aria-label]="t('RESTAURANT_SCHEDULE.LOCAL_SERVICE')"
-              class="sr-only"
-            />
-            <label
-              [for]="'local-service-toggle'"
-              class="w-12 h-6 rounded-full cursor-pointer transition-colors block"
+            <input type="checkbox" [checked]="isLocalService" (change)="toggleLocalService()" class="sr-only" />
+            <div
+              (click)="toggleLocalService()"
+              class="w-12 h-6 rounded-full cursor-pointer transition-colors"
               [class.bg-orange-500]="isLocalService"
               [class.bg-gray-300]="!isLocalService"
             >
@@ -72,7 +65,7 @@
                 [class.translate-x-6]="isLocalService"
                 [class.translate-x-0.5]="!isLocalService"
               ></div>
-            </label>
+            </div>
           </div>
         </div>
 
@@ -92,17 +85,10 @@
             </div>
           </div>
           <div class="relative">
-            <input
-              type="checkbox"
-              [id]="'delivery-service-toggle'"
-              [checked]="isDeliveryService"
-              (change)="toggleDeliveryService()"
-              [attr.aria-label]="t('RESTAURANT_SCHEDULE.DELIVERY_SERVICE')"
-              class="sr-only"
-            />
-            <label
-              [for]="'delivery-service-toggle'"
-              class="w-12 h-6 rounded-full cursor-pointer transition-colors block"
+            <input type="checkbox" [checked]="isDeliveryService" (change)="toggleDeliveryService()" class="sr-only" />
+            <div
+              (click)="toggleDeliveryService()"
+              class="w-12 h-6 rounded-full cursor-pointer transition-colors"
               [class.bg-orange-500]="isDeliveryService"
               [class.bg-gray-300]="!isDeliveryService"
             >
@@ -111,7 +97,7 @@
                 [class.translate-x-6]="isDeliveryService"
                 [class.translate-x-0.5]="!isDeliveryService"
               ></div>
-            </label>
+            </div>
           </div>
         </div>
       </div>
@@ -132,23 +118,19 @@
             <div class="flex items-center gap-3">
               <!-- Toggle día -->
               <div class="relative">
-                <input
-                  type="checkbox"
-                  [checked]="day.isActive"
-                  (change)="toggleDay(i)"
-                  [id]="'day-toggle-' + i"
-                  [attr.aria-label]="'Toggle ' + day.day"
-                  class="w-5 h-5 rounded border-2 cursor-pointer transition-colors appearance-none"
+                <input type="checkbox" [checked]="day.isActive" (change)="toggleDay(i)" class="sr-only" />
+                <div
+                  (click)="toggleDay(i)"
+                  class="w-12 h-6 rounded-full cursor-pointer transition-colors"
                   [class.bg-green-500]="day.isActive"
-                  [class.border-green-500]="day.isActive"
-                  [class.border-gray-300]="!day.isActive"
-                />
-                <i
-                  *ngIf="day.isActive"
-                  class="material-icons text-white text-sm absolute inset-0 flex items-center justify-center pointer-events-none"
+                  [class.bg-gray-300]="!day.isActive"
                 >
-                  check
-                </i>
+                  <div
+                    class="w-5 h-5 bg-white rounded-full shadow transform transition-transform mt-0.5"
+                    [class.translate-x-6]="day.isActive"
+                    [class.translate-x-0.5]="!day.isActive"
+                  ></div>
+                </div>
               </div>
 
               <!-- Nombre del día -->
@@ -156,30 +138,38 @@
 
               <!-- Estado -->
               <span *ngIf="!day.isActive" class="text-sm text-red-500">{{ t('RESTAURANT_SCHEDULE.CLOSED') }}</span>
-              <button
+              <span
                 *ngIf="day.isActive && day.isConfigured"
                 (click)="configureDay(i)"
-                [attr.aria-label]="'Configure schedule for ' + day.day"
-                class="text-sm text-green-600 cursor-pointer hover:text-green-700 bg-transparent border-none p-0"
+                class="text-sm text-green-600 cursor-pointer hover:text-green-700"
               >
                 {{ day.openTime }} - {{ day.closeTime }}
-              </button>
-              <button
+              </span>
+              <span
                 *ngIf="day.isActive && !day.isConfigured"
                 (click)="configureDay(i)"
-                [attr.aria-label]="'Configure schedule for ' + day.day"
-                class="text-sm text-gray-500 cursor-pointer hover:text-gray-700 bg-transparent border-none p-0"
+                class="text-sm text-gray-500 cursor-pointer hover:text-gray-700"
               >
                 {{ t('RESTAURANT_SCHEDULE.CONFIGURE_SCHEDULE') }}
-              </button>
+              </span>
+              <span
+                *ngIf="!day.isActive && day.isConfigured"
+                (click)="configureDay(i)"
+                class="text-sm text-gray-400 cursor-pointer hover:text-gray-600"
+              >
+                {{ day.openTime }} - {{ day.closeTime }}
+              </span>
+              <span
+                *ngIf="!day.isActive && !day.isConfigured"
+                (click)="configureDay(i)"
+                class="text-sm text-gray-400 cursor-pointer hover:text-gray-600"
+              >
+                {{ t('RESTAURANT_SCHEDULE.CONFIGURE_SCHEDULE') }}
+              </span>
             </div>
 
             <!-- Botón configurar -->
-            <button
-              *ngIf="day.isActive"
-              (click)="configureDay(i)"
-              class="text-orange-500 hover:text-orange-600 text-sm font-medium"
-            >
+            <button (click)="configureDay(i)" class="text-orange-500 hover:text-orange-600 text-sm font-medium">
               <i class="material-icons text-lg">chevron_right</i>
             </button>
           </div>
@@ -213,107 +203,115 @@
           [iconName]="'arrow_forward'"
           [isOutline]="false"
           (click)="continue()"
-          (keydown.enter)="continue()"
-          (keydown.space)="continue()"
         ></app-button>
 
-        <div class="text-center">
-          <app-button
-            [label]="t('common.back')"
-            [isActive]="true"
-            [outlineGray]="true"
-            (click)="goBack()"
-            (keydown.enter)="goBack()"
-            (keydown.space)="goBack()"
-            class="w-full"
-          ></app-button>
-        </div>
+        <!--  <div class="text-center">
+          <app-button [label]="t('common.back')" [isActive]="true" [outlineGray]="true" (click)="goBack()"></app-button>
+        </div> -->
       </div>
     </div>
 
     <!-- Modal de configuración de horarios -->
-    <dialog
-      *ngIf="showTimeModal"
-      [open]="showTimeModal"
-      class="fixed inset-0 bg-transparent z-50 w-full h-full max-w-none max-h-none p-4 m-0 overflow-hidden"
-      [attr.aria-labelledby]="'modal-title'"
-    >
-      <!-- Overlay de fondo -->
-      <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl w-full max-w-md">
-          <!-- Header del modal -->
-          <div class="flex items-center justify-between p-6 border-b border-gray-200">
-            <h3 id="modal-title" class="text-lg font-semibold text-gray-900">
-              {{ t('RESTAURANT_SCHEDULE.CONFIGURE') }} {{ selectedDay?.day }}
-            </h3>
-            <button
-              (click)="closeTimeModal()"
-              [attr.aria-label]="t('common.close')"
-              class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
-            >
-              <i class="material-icons text-gray-500" aria-hidden="true">close</i>
-            </button>
-          </div>
+    <div *ngIf="showTimeModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+      <div class="bg-white rounded-2xl w-full max-w-md">
+        <!-- Header del modal -->
+        <div class="flex items-center justify-between p-6 border-b border-gray-200">
+          <h3 class="text-lg font-semibold text-gray-900">
+            {{ t('RESTAURANT_SCHEDULE.CONFIGURE') }} {{ selectedDay?.day }}
+          </h3>
+          <button
+            (click)="closeTimeModal()"
+            class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
+          >
+            <i class="material-icons text-gray-500">close</i>
+          </button>
+        </div>
 
-          <!-- Contenido del modal -->
-          <div class="p-6">
-            <!-- Horario de apertura -->
-            <div class="mb-6">
-              <label for="openTime" class="block text-sm font-medium text-gray-700 mb-2">
-                {{ t('RESTAURANT_SCHEDULE.OPEN_TIME') }}
-              </label>
-              <div class="relative">
-                <input
-                  id="openTime"
-                  type="time"
-                  [(ngModel)]="tempOpenTime"
-                  [attr.aria-label]="t('RESTAURANT_SCHEDULE.OPEN_TIME')"
-                  class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                />
-                <i class="material-icons absolute right-3 top-3 text-gray-400" aria-hidden="true">schedule</i>
-              </div>
-            </div>
-
-            <!-- Horario de cierre -->
-            <div class="mb-6">
-              <label for="closeTime" class="block text-sm font-medium text-gray-700 mb-2">
-                {{ t('RESTAURANT_SCHEDULE.CLOSE_TIME') }}
-              </label>
-              <div class="relative">
-                <input
-                  id="closeTime"
-                  type="time"
-                  [(ngModel)]="tempCloseTime"
-                  [attr.aria-label]="t('RESTAURANT_SCHEDULE.CLOSE_TIME')"
-                  class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                />
-                <i class="material-icons absolute right-3 top-3 text-gray-400" aria-hidden="true">schedule</i>
-              </div>
-            </div>
-
-            <!-- Validación de horarios -->
-            <div *ngIf="timeValidationError" class="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
-              <p class="text-sm text-red-600">{{ timeValidationError }}</p>
+        <!-- Contenido del modal -->
+        <div class="p-6">
+          <!-- Horario de apertura -->
+          <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-700 mb-2">{{ t('RESTAURANT_SCHEDULE.OPEN_TIME') }}</label>
+            <div class="relative">
+              <input
+                type="time"
+                [(ngModel)]="tempOpenTime"
+                class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+              />
             </div>
           </div>
 
-          <!-- Footer del modal -->
-          <div class="flex gap-3 p-6 border-t border-gray-200">
-            <button
-              (click)="closeTimeModal()"
-              class="flex-1 px-4 py-3 text-gray-700 border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors"
-            >
-              {{ t('common.cancel') }}
-            </button>
-            <button
-              (click)="saveTimeConfiguration()"
-              class="flex-1 px-4 py-3 bg-orange-500 text-white rounded-xl hover:bg-orange-600 transition-colors"
-            >
-              {{ t('common.save') }}
-            </button>
+          <!-- Horario de cierre -->
+          <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+              {{ t('RESTAURANT_SCHEDULE.CLOSE_TIME') }}
+            </label>
+            <div class="relative">
+              <input
+                type="time"
+                [(ngModel)]="tempCloseTime"
+                class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+              />
+            </div>
+          </div>
+
+          <!-- Aplicar a todos los días -->
+          <div class="bg-orange-50 rounded-xl p-4 mb-6">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">
+                  <i class="material-icons text-orange-600 text-sm">copy_all</i>
+                </div>
+                <div>
+                  <p class="font-medium text-gray-900 text-sm">Aplicar a todos los días</p>
+                  <p class="text-xs text-gray-600">Usar el mismo horario para toda la semana</p>
+                </div>
+              </div>
+              <div class="relative">
+                <input
+                  type="checkbox"
+                  [checked]="applyToAllDays"
+                  (change)="applyToAllDays = !applyToAllDays"
+                  class="sr-only"
+                />
+                <div
+                  (click)="applyToAllDays = !applyToAllDays"
+                  class="w-12 h-6 rounded-full cursor-pointer transition-colors"
+                  [class.bg-orange-500]="applyToAllDays"
+                  [class.bg-gray-300]="!applyToAllDays"
+                >
+                  <div
+                    class="w-5 h-5 bg-white rounded-full shadow transform transition-transform mt-0.5"
+                    [class.translate-x-6]="applyToAllDays"
+                    [class.translate-x-0.5]="!applyToAllDays"
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Validación de horarios -->
+          <div *ngIf="timeValidationError" class="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+            <p class="text-sm text-red-600">{{ timeValidationError }}</p>
           </div>
         </div>
+
+        <!-- Footer del modal -->
+        <div class="flex gap-3 p-6 border-t border-gray-200">
+          <button
+            (click)="closeTimeModal()"
+            class="flex-1 px-4 py-3 text-gray-700 border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors"
+          >
+            {{ t('common.cancel') }}
+          </button>
+          <button
+            (click)="saveTimeConfiguration()"
+            class="flex-1 px-4 py-3 bg-orange-500 text-white rounded-xl hover:bg-orange-600 transition-colors"
+          >
+            {{ t('common.save') }}
+          </button>
+        </div>
       </div>
-    </dialog>
+    </div>
   </div>
 </div>

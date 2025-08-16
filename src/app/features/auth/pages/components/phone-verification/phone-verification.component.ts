@@ -1,9 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
 import { BaseTranslatableComponent, CoreModule, SharedComponentsModule } from '../../../../../shared/modules';
-import { VerificationCountdownService } from '../../../../../shared/services/verification-countdown/verification-countdown.service';
 
 @Component({
   selector: 'app-phone-verification',
@@ -14,17 +12,18 @@ import { VerificationCountdownService } from '../../../../../shared/services/ver
 })
 export class PhoneVerificationComponent extends BaseTranslatableComponent implements OnInit, OnDestroy {
   userPhone!: string;
+  canResendCode = false;
+  countdownTimer = 60;
   codeSent = false;
   verificationForm!: FormGroup;
   preferredMethod: 'sms' | 'whatsapp' = 'sms';
   isVerifying = false;
-  private countdownSubscription!: Subscription;
+  private intervalId?: number;
   currentStep = 2;
 
   constructor(
     private router: Router,
-    private fb: FormBuilder,
-    public countdownService: VerificationCountdownService
+    private fb: FormBuilder
   ) {
     super();
   }
@@ -32,42 +31,45 @@ export class PhoneVerificationComponent extends BaseTranslatableComponent implem
   ngOnInit(): void {
     this.initializeForm();
 
+    // Obtener el teléfono desde el state de la navegación
     const phone = history.state.phone;
 
     if (phone) {
-      this.userPhone = this.maskPhone(phone);
+      //this.userPhone = this.maskPhone(phone);
+      this.userPhone = phone;
       this.resetComponentState();
     } else {
+      // Fallback si no hay teléfono en el state
       this.userPhone = '+51 9***';
-      this.countdownService.startCountdown();
+      this.startCountdown();
     }
   }
 
   private resetComponentState(): void {
     this.codeSent = false;
+    this.canResendCode = false;
+    this.countdownTimer = 60;
 
     if (this.verificationForm) {
       this.verificationForm.reset();
     }
 
-    this.countdownService.resetCountdown();
-    this.countdownService.startCountdown();
+    this.startCountdown();
   }
 
   ngOnDestroy(): void {
-    if (this.countdownSubscription) {
-      this.countdownSubscription.unsubscribe();
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
     }
-    this.countdownService.clearInterval();
   }
 
-  private maskPhone(phone: string): string {
+  /*  private maskPhone(phone: string): string {
     // Ejemplo: 987654321 -> +51 9***
     if (phone.length >= 9) {
       return `+51 ${phone.substring(0, 1)}***`;
     }
     return phone;
-  }
+  } */
 
   private initializeForm(): void {
     this.verificationForm = this.fb.group({
@@ -100,18 +102,20 @@ export class PhoneVerificationComponent extends BaseTranslatableComponent implem
     if (this.verificationForm.valid && !this.isVerifying) {
       this.isVerifying = true;
 
+      // Simular proceso de verificación (reemplazar con llamada real al API)
       setTimeout(() => {
         this.isVerifying = false;
+        // Navegar al siguiente paso - restaurant-profile-photo
         this.router.navigate(['/auth/restaurant-profile-photo']);
-      }, 2000);
+      }, 2000); // 2 segundos de simulación
     } else {
       this.verificationForm.markAllAsTouched();
     }
   }
 
   resendCode(): void {
-    if (this.countdownService.canResendCode) {
-      this.countdownService.startCountdown();
+    if (this.canResendCode) {
+      this.startCountdown();
     }
   }
 
@@ -125,5 +129,25 @@ export class PhoneVerificationComponent extends BaseTranslatableComponent implem
 
   onBackClick(): void {
     this.goBack();
+  }
+
+  private startCountdown(): void {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
+
+    this.canResendCode = false;
+    this.countdownTimer = 60;
+
+    this.intervalId = setInterval(() => {
+      this.countdownTimer--;
+      if (this.countdownTimer <= 0) {
+        this.canResendCode = true;
+        if (this.intervalId) {
+          clearInterval(this.intervalId);
+          this.intervalId = undefined;
+        }
+      }
+    }, 1000) as unknown as number;
   }
 }

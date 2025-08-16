@@ -85,8 +85,10 @@ export const AUTH_ROUTES: Routes = [
       )
   },
   {
-    path: '',
-    redirectTo: 'login',
-    pathMatch: 'full'
+    path: 'restaurant-social-networks',
+    loadComponent: () =>
+      import('./pages/restaurant-social-networks/restaurant-social-networks.component').then(
+        (m) => m.RestaurantSocialNetworksComponent
+      )
   }
 ];
