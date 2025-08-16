@@ -14,8 +14,17 @@ export class TranslatePipe implements PipeTransform {
     return this.i18n.currentLang();
   });
 
-  transform(key: string): string {
+  /**
+   * Optimizado para evitar mostrar claves durante la carga inicial
+   */
+  transform(key: string, placeholder?: string): string {
     this.translation();
+
+    // Si las traducciones no están listas, mostrar placeholder o cadena vacía
+    if (!this.i18n.isReady()) {
+      return placeholder || '';
+    }
+
     return this.i18n.t(key);
   }
 }

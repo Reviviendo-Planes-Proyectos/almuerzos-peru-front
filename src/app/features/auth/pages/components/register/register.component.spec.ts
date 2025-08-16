@@ -7,34 +7,11 @@ import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
-import { I18nService, TranslatePipe } from '../../../../../shared/i18n';
+import { TranslatePipe } from '../../../../../shared/i18n';
 import { MaterialModule } from '../../../../../shared/modules';
 import { LoggerService } from '../../../../../shared/services/logger/logger.service';
+import { I18N_TEST_PROVIDERS } from '../../../../../testing/pwa-mocks';
 import { RegisterComponent } from './register.component';
-
-// Mock del servicio de traducción
-class MockI18nService {
-  t(key: string): string {
-    const translations: Record<string, string> = {
-      'app.name': 'ALMUERZOS PERU',
-      'messages.welcome': '¡Bienvenido a Almuerzos Peru!',
-      'auth.register.title': '¿Cómo deseas registrarte?',
-      'auth.register.button': 'Continuar',
-      'auth.register.email': 'Correo',
-      'auth.register.later': 'Registrarme después',
-      'auth.register.withGoogle': 'Continuar con Google',
-      'auth.register.withFacebook': 'Continuar con Facebook',
-      'auth.register.withEmail': 'Continuar con Correo',
-      'auth.register.connecting': 'Conectando...',
-      'common.back': 'Volver',
-      'common.or': 'O',
-      'common.background': 'Fondo',
-      'common.google': 'Google',
-      'common.facebook': 'Facebook'
-    };
-    return translations[key] || key;
-  }
-}
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
@@ -42,7 +19,6 @@ describe('RegisterComponent', () => {
   let router: Router;
   let location: Location;
   let debugElement: DebugElement;
-  let mockI18nService: MockI18nService;
 
   beforeEach(async () => {
     const routerSpy = {
@@ -74,8 +50,6 @@ describe('RegisterComponent', () => {
       debug: jest.fn()
     };
 
-    mockI18nService = new MockI18nService();
-
     await TestBed.configureTestingModule({
       imports: [RegisterComponent, MaterialModule, NoopAnimationsModule, TranslatePipe],
       providers: [
@@ -85,7 +59,7 @@ describe('RegisterComponent', () => {
         { provide: Location, useValue: locationSpy },
         { provide: ActivatedRoute, useValue: activatedRouteSpy },
         { provide: LoggerService, useValue: loggerServiceSpy },
-        { provide: I18nService, useValue: mockI18nService }
+        ...I18N_TEST_PROVIDERS
       ]
     }).compileComponents();
 

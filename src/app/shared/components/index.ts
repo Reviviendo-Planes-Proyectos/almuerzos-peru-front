@@ -1,3 +1,4 @@
+export { PwaDebugComponent } from './debug/pwa-debug.component';
 export { PwaPromptComponent } from './feedback/pwa-prompt/pwa-prompt.component';
 export { WarningModalComponent } from './feedback/warning-modal/warning-modal.component';
 export { FileUploadComponent } from './forms/file-upload/file-upload.component';

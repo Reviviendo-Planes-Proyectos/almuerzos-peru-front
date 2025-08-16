@@ -5,6 +5,11 @@
     <title>Almuerzos Perú | Menús del Día Cercanos y Caseros</title>
     <base href="/" />
 
+    <!-- Optimizaciones de carga crítica -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="https://almuerzos-peru.fly.dev" />
+
     <!-- Meta accesibilidad & responsive -->
     <meta
       name="viewport"
@@ -44,31 +49,6 @@
       as="image"
       href="https://almuerzos-peru-public.s3.us-east-1.amazonaws.com/auth/background_almuerza_peru.png"
     />
-    <link
-      rel="preload"
-      as="image"
-      href="https://almuerzos-peru-public.s3.us-east-1.amazonaws.com/logo-almuerzos-peru.png"
-    />
-    <link
-      rel="preload"
-      as="image"
-      href="https://almuerzos-peru-public.s3.us-east-1.amazonaws.com/auth/perfil_comensal.png"
-    />
-
-    <!-- Critical Font Preloading -->
-    <link
-      rel="preload"
-      as="font"
-      type="font/woff2"
-      href="https://fonts.gstatic.com/s/quicksand/v30/6xK-dSZaM9iE8KbpRA_LJ3z8mH9BOJvgkP8o58a-wg.woff2"
-      crossorigin="anonymous"
-    />
-
-    <link
-      rel="preload"
-      as="image"
-      href="https://almuerzos-peru-public.s3.us-east-1.amazonaws.com/auth/perfil_restaurante.png"
-    />
 
     <!-- PWA Meta Tags -->
     <meta name="mobile-web-app-capable" content="yes" />
@@ -104,6 +84,23 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
+    <!-- CSS absolutamente crítico (solo anti-FOUC) -->
+    <style>
+      app-root {
+        display: block;
+        min-height: 100vh;
+        font-family: 'Quicksand', sans-serif;
+      }
+
+      [style*='opacity: 0'] {
+        visibility: hidden;
+      }
+
+      [style*='opacity: 1'] {
+        visibility: visible;
+      }
+    </style>
   </head>
 
   <body>

@@ -2,24 +2,9 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { I18nService, MaterialModule, SharedComponentsModule } from '../../../../../../shared/modules';
+import { MaterialModule, SharedComponentsModule } from '../../../../../../shared/modules';
+import { I18N_TEST_PROVIDERS } from '../../../../../../testing/pwa-mocks';
 import { FinalCtaSectionComponent } from './final-cta-section.component';
-
-class MockI18nService {
-  t(key: string): string {
-    const translations: Record<string, string> = {
-      'landing.restaurant.finalCta.title': '¿Todavía usas menús impresos? Tus clientes ya no.',
-      'landing.restaurant.finalCta.titleHighlight': 'Únete al cambio.',
-      'landing.restaurant.finalCta.subtitle':
-        '¡Regístrate ahora y comienza a disfrutar de los beneficios de tener un menú digital!',
-      'landing.restaurant.finalCta.primaryBtn': 'Comienza Gratis Ahora',
-      'landing.restaurant.finalCta.features.free': 'Configuración gratuita',
-      'landing.restaurant.finalCta.features.noCommitment': 'Sin compromisos',
-      'landing.restaurant.finalCta.features.support': 'Soporte incluido'
-    };
-    return translations[key] || key;
-  }
-}
 
 describe('FinalCtaSectionComponent', () => {
   let component: FinalCtaSectionComponent;
@@ -28,7 +13,7 @@ describe('FinalCtaSectionComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [FinalCtaSectionComponent, MaterialModule, SharedComponentsModule, NoopAnimationsModule],
-      providers: [provideHttpClient(), provideHttpClientTesting(), { provide: I18nService, useClass: MockI18nService }]
+      providers: [provideHttpClient(), provideHttpClientTesting(), ...I18N_TEST_PROVIDERS]
     }).compileComponents();
 
     fixture = TestBed.createComponent(FinalCtaSectionComponent);

@@ -50,10 +50,14 @@ export class PwaService {
     this.captureInstallPrompt();
     this.checkIfAppIsInstalled();
 
+    // Validar lógica de recordatorios inmediatamente
+    setTimeout(() => this.validateReminderLogic(), 1000);
+
     // Verificar periódicamente el estado de instalación (especialmente útil en móviles)
     const checkInterval = this.isLocalDevelopment() ? 5000 : 30000;
     setInterval(() => {
       this.checkIfAppIsInstalled();
+      this.validateReminderLogic(); // Validar en cada intervalo
     }, checkInterval);
 
     setTimeout(() => {
@@ -123,16 +127,21 @@ export class PwaService {
       isInstalledInDev = localStorage.getItem('pwa-dev-installed') === 'true';
     }
 
-    // Lógica unificada para detectar instalación (más exhaustiva)
-    const isInstalled =
-      isStandalone ||
-      isIOSStandalone ||
-      isInWebView ||
-      hasStandaloneParam ||
-      isInstalledInDev ||
-      hasMinimalUI ||
-      isFullscreen ||
-      isWebAPK;
+    // LÓGICA MEJORADA: Ser más estricto con la detección
+    // En desarrollo, solo confiar en localStorage
+    let isInstalled = false;
+
+    if (isDevelopment) {
+      isInstalled = isInstalledInDev;
+    } else {
+      // En producción, usar detección más conservadora
+      isInstalled = isStandalone || isIOSStandalone || isFullscreen || (hasMinimalUI && !isInWebView);
+
+      // Excluir WebViews a menos que sean claramente PWA instaladas
+      if (isInWebView && !isStandalone && !isFullscreen) {
+        isInstalled = false;
+      }
+    }
 
     // Solo actualizar si hay cambio de estado
     if (this.isAppInstalled.value !== isInstalled) {
@@ -140,12 +149,26 @@ export class PwaService {
 
       if (isDevelopment) {
         this.logger.info(`PWA Installation status changed to: ${isInstalled}`);
+        this.logger.info('Detection details:', {
+          isStandalone,
+          isIOSStandalone,
+          isInWebView,
+          hasStandaloneParam,
+          isInstalledInDev,
+          hasMinimalUI,
+          isFullscreen,
+          isWebAPK
+        });
       }
 
+      // Manejar recordatorios basado en estado de instalación
       if (isInstalled) {
         this.showAppReminder.next(false);
       } else {
-        this.scheduleAppReminder();
+        // Solo programar recordatorio si es móvil
+        if (this.isMobileDevice()) {
+          this.scheduleAppReminder();
+        }
       }
     }
   }
@@ -155,8 +178,15 @@ export class PwaService {
       return;
     }
 
-    // No mostrar recordatorio si la app ya está instalada
+    // REGLA 1: No mostrar recordatorio si la app ya está instalada
     if (this.isAppInstalled.value) {
+      this.showAppReminder.next(false);
+      return;
+    }
+
+    // REGLA 2: Solo mostrar en dispositivos móviles
+    if (!this.isMobileDevice()) {
+      this.showAppReminder.next(false);
       return;
     }
 
@@ -173,28 +203,28 @@ export class PwaService {
       }
     }
 
-    // En desarrollo, mostrar más rápido
+    // En desarrollo, mostrar más rápido SOLO SI ES MÓVIL Y NO ESTÁ INSTALADO
     if (isDevelopment) {
       setTimeout(() => {
-        if (!this.isAppInstalled.value) {
+        if (!this.isAppInstalled.value && this.isMobileDevice()) {
           this.showAppReminder.next(true);
+          this.logger.info('PWA reminder shown in development mode');
         }
       }, 3000);
       return;
     }
 
     // En producción, solo mostrar en móviles después de varias visitas
-    if (!this.isMobileDevice()) {
-      return;
-    }
-
     const visitCount = parseInt(localStorage.getItem('pwa-visit-count') || '0', 10) + 1;
     localStorage.setItem('pwa-visit-count', visitCount.toString());
 
+    // REGLA 3: Solo después de múltiples visitas Y si puede instalarse
     if (visitCount >= 2 && this.canInstallApp()) {
       setTimeout(() => {
-        if (!this.isAppInstalled.value && this.isMobileDevice()) {
+        // TRIPLE VERIFICACIÓN: móvil + no instalado + puede instalar
+        if (!this.isAppInstalled.value && this.isMobileDevice() && this.canInstallApp()) {
           this.showAppReminder.next(true);
+          this.logger.info('PWA reminder shown in production mode');
         }
       }, 15000);
     }
@@ -208,7 +238,8 @@ export class PwaService {
   }
 
   public shouldShowReminder(): boolean {
-    return this.showAppReminder.value;
+    // Triple verificación: debe ser móvil, no instalado, y recordatorio activo
+    return this.showAppReminder.value && this.isMobileDevice() && !this.isAppInstalled.value;
   }
 
   public clearPwaData(): void {
@@ -222,6 +253,14 @@ export class PwaService {
       this.isAppInstalled.next(false);
       this.showAppReminder.next(false);
       this.checkIfAppIsInstalled();
+    }
+  }
+
+  public validateReminderLogic(): void {
+    // Método para verificar y corregir la lógica de recordatorios
+    if (!this.isMobileDevice() || this.isAppInstalled.value) {
+      this.showAppReminder.next(false);
+      this.logger.info('PWA reminder hidden - not mobile or already installed');
     }
   }
 
@@ -327,47 +366,84 @@ export class PwaService {
 
     // En desarrollo, simular instalación
     if (isLocalDev) {
-      // Marcar como instalada en localStorage para desarrollo
-      if (typeof localStorage !== 'undefined') {
-        localStorage.setItem('pwa-dev-installed', 'true');
-      }
+      try {
+        // Marcar como instalada en localStorage para desarrollo
+        if (typeof localStorage !== 'undefined') {
+          localStorage.setItem('pwa-dev-installed', 'true');
+        }
 
-      this.isAppInstalled.next(true);
-      this.showAppReminder.next(false);
-      this.promptEvent = null;
-
-      // Disparar evento de instalación
-      window.dispatchEvent(new CustomEvent('pwa-installed'));
-
-      return { success: true };
-    }
-
-    // En producción, verificar si es móvil
-    if (!this.isMobileDevice()) {
-      return { success: false, reason: 'NOT_MOBILE' };
-    }
-
-    if (!this.promptEvent) {
-      return { success: false, reason: 'NO_PROMPT' };
-    }
-
-    try {
-      await this.promptEvent.prompt();
-      const result = await this.promptEvent.userChoice;
-
-      if (result.outcome === 'accepted') {
         this.isAppInstalled.next(true);
         this.showAppReminder.next(false);
         this.promptEvent = null;
+
+        // Disparar evento de instalación
+        window.dispatchEvent(new CustomEvent('pwa-installed'));
+
+        this.logger.info('PWA installed successfully in development mode');
         return { success: true };
+      } catch (error) {
+        this.logger.warn('Development installation failed', error);
+        return { success: false, reason: 'DEV_INSTALL_ERROR' };
       }
-      this.promptEvent = null;
-      return { success: false, reason: 'USER_DISMISSED' };
-    } catch (error) {
-      this.logger.warn('PWA installation failed', error);
-      this.promptEvent = null;
-      return { success: false, reason: 'ERROR' };
     }
+
+    // En producción, verificar requisitos
+    if (!this.isSecureContext()) {
+      return { success: false, reason: 'NOT_SECURE_CONTEXT' };
+    }
+
+    if (!this.hasServiceWorker()) {
+      return { success: false, reason: 'NO_SERVICE_WORKER' };
+    }
+
+    if (!this.hasValidManifest()) {
+      return { success: false, reason: 'NO_VALID_MANIFEST' };
+    }
+
+    // Verificar si es móvil
+    if (!this.isMobileDevice() && !this.promptEvent) {
+      // Para desktop, verificar si hay prompt
+      return { success: false, reason: 'NO_PROMPT_DESKTOP' };
+    }
+
+    // Para iOS Safari, intentar instalación manual
+    if (this.isIOSSafari()) {
+      this.logger.info('iOS Safari detected - manual installation required');
+      return { success: false, reason: 'IOS_MANUAL_REQUIRED' };
+    }
+
+    // Para Android y otros móviles con prompt
+    if (this.promptEvent) {
+      try {
+        this.logger.info('Attempting PWA installation with prompt');
+        await this.promptEvent.prompt();
+        const result = await this.promptEvent.userChoice;
+
+        if (result.outcome === 'accepted') {
+          this.isAppInstalled.next(true);
+          this.showAppReminder.next(false);
+          this.promptEvent = null;
+          this.logger.info('PWA installation accepted by user');
+          return { success: true };
+        }
+        this.promptEvent = null;
+        this.logger.info('PWA installation dismissed by user');
+        return { success: false, reason: 'USER_DISMISSED' };
+      } catch (error) {
+        this.logger.warn('PWA installation prompt failed', error);
+        this.promptEvent = null;
+        return { success: false, reason: 'PROMPT_ERROR' };
+      }
+    }
+
+    // Instalación manual para dispositivos sin prompt
+    if (this.isMobileDevice()) {
+      this.logger.info('Mobile device without prompt - manual installation available');
+      return { success: false, reason: 'MANUAL_INSTALL_AVAILABLE' };
+    }
+
+    // Fallback
+    return { success: false, reason: 'INSTALLATION_NOT_SUPPORTED' };
   }
 
   public async updateApp(): Promise<void> {

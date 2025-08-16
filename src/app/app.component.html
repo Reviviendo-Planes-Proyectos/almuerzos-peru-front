@@ -1,5 +1,7 @@
 <!-- Contenido principal de la aplicación -->
-<router-outlet />
+<div [style.opacity]="isTranslationsReady() ? 1 : 0" [style.transition]="'opacity 0.3s ease-in'">
+  <router-outlet />
 
-<!-- Componente PWA para instalación y actualizaciones -->
-<app-pwa-prompt></app-pwa-prompt>
+  <!-- Componente PWA para instalación y actualizaciones -->
+  <app-pwa-prompt></app-pwa-prompt>
+</div>

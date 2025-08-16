@@ -1,19 +1,12 @@
 import { Location } from '@angular/common';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
-import { I18nService } from '../../../i18n';
+import { I18N_TEST_PROVIDERS } from '../../../../testing/pwa-mocks';
 import { MaterialModule } from '../../../modules';
 import { BackButtonComponent } from './back-button.component';
-
-class MockI18nService {
-  t(key: string): string {
-    const translations: Record<string, string> = {
-      'common.back': 'Volver'
-    };
-    return translations[key] || key;
-  }
-}
 
 class MockLocation {
   back = jest.fn();
@@ -28,19 +21,19 @@ describe('BackButtonComponent', () => {
   let fixture: ComponentFixture<BackButtonComponent>;
   let mockLocation: MockLocation;
   let mockRouter: MockRouter;
-  let mockI18nService: MockI18nService;
 
   beforeEach(async () => {
     mockLocation = new MockLocation();
     mockRouter = new MockRouter();
-    mockI18nService = new MockI18nService();
 
     await TestBed.configureTestingModule({
       imports: [BackButtonComponent, MaterialModule, NoopAnimationsModule],
       providers: [
         { provide: Location, useValue: mockLocation },
         { provide: Router, useValue: mockRouter },
-        { provide: I18nService, useValue: mockI18nService }
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        ...I18N_TEST_PROVIDERS
       ]
     }).compileComponents();
 
