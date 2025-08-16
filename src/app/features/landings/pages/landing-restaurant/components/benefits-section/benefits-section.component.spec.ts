@@ -17,10 +17,10 @@ class MockI18nService {
       'landing.restaurant.benefits.customer.subtitle': 'Descubre sabores increíbles',
       'landing.restaurant.benefits.realTimeUpdate.title': 'Actualización en Tiempo Real',
       'landing.restaurant.benefits.realTimeUpdate.subtitle':
-        'Si algo se acabó, retíralo fácilmente y sin complicaciones.',
+        'Cambia tu menú al instante, retira platillos agotados fácil y sin problemas.',
       'landing.restaurant.benefits.whatsappShare.title': 'Comparte por WhatsApp',
       'landing.restaurant.benefits.whatsappShare.subtitle':
-        'Envía tu carta por WhatsApp y compártesela a tus contactos.',
+        'Envía tu carta en un clic y compártela con todos tus clientes al momento.',
       'landing.restaurant.benefits.freeAdvertising.title': 'Publicidad Gratis',
       'landing.restaurant.benefits.freeAdvertising.subtitle':
         'Sube tu menú y listo. Tu restaurante será visible para más clientes, sin esfuerzo.',
