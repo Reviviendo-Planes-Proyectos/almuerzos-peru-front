@@ -1,3 +1,5 @@
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -41,6 +43,8 @@ describe('LandingComponent', () => {
     await TestBed.configureTestingModule({
       imports: [LandingComponent, MaterialModule],
       providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
         provideAnimations(),
         { provide: SwUpdate, useValue: mockSwUpdate },
         { provide: SwPush, useValue: mockSwPush },

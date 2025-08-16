@@ -1,3 +1,5 @@
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { I18nService, MaterialModule, SharedComponentsModule } from '../../../../../../shared/modules';
@@ -26,7 +28,7 @@ describe('FinalCtaSectionComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [FinalCtaSectionComponent, MaterialModule, SharedComponentsModule, NoopAnimationsModule],
-      providers: [{ provide: I18nService, useClass: MockI18nService }]
+      providers: [provideHttpClient(), provideHttpClientTesting(), { provide: I18nService, useClass: MockI18nService }]
     }).compileComponents();
 
     fixture = TestBed.createComponent(FinalCtaSectionComponent);

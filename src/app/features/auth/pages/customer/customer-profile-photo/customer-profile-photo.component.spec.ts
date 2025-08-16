@@ -1,3 +1,5 @@
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -38,6 +40,8 @@ describe('CustomerProfilePhotoComponent', () => {
     await TestBed.configureTestingModule({
       imports: [CustomerProfilePhotoComponent, CoreModule, SharedComponentsModule],
       providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
         { provide: Router, useValue: mockRouter },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: I18nService, useClass: MockI18nService }

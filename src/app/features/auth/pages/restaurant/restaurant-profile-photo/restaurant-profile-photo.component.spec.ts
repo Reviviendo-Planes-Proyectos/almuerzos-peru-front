@@ -1,3 +1,5 @@
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -17,7 +19,7 @@ describe('RestaurantProfilePhotoComponent', () => {
 
     await TestBed.configureTestingModule({
       imports: [RestaurantProfilePhotoComponent],
-      providers: [{ provide: Router, useValue: routerSpy }],
+      providers: [provideHttpClient(), provideHttpClientTesting(), { provide: Router, useValue: routerSpy }],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 

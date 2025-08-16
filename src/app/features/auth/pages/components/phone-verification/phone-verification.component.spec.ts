@@ -1,3 +1,5 @@
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder } from '@angular/forms';
@@ -39,6 +41,8 @@ describe('PhoneVerificationComponent', () => {
     await TestBed.configureTestingModule({
       imports: [PhoneVerificationComponent, CoreModule, SharedComponentsModule],
       providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
         FormBuilder,
         { provide: Router, useValue: mockRouter },
         { provide: I18nService, useValue: mockI18nService }

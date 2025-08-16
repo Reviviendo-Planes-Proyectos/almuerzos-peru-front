@@ -1,4 +1,6 @@
 import { Location } from '@angular/common';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -77,6 +79,8 @@ describe('RegisterComponent', () => {
     await TestBed.configureTestingModule({
       imports: [RegisterComponent, MaterialModule, NoopAnimationsModule, TranslatePipe],
       providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
         { provide: Router, useValue: routerSpy },
         { provide: Location, useValue: locationSpy },
         { provide: ActivatedRoute, useValue: activatedRouteSpy },

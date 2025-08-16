@@ -1,3 +1,5 @@
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nService } from '../../../../../../shared/i18n';
@@ -52,7 +54,7 @@ describe('PricingSectionComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [PricingSectionComponent],
-      providers: [{ provide: I18nService, useClass: MockI18nService }]
+      providers: [provideHttpClient(), provideHttpClientTesting(), { provide: I18nService, useClass: MockI18nService }]
     }).compileComponents();
 
     fixture = TestBed.createComponent(PricingSectionComponent);

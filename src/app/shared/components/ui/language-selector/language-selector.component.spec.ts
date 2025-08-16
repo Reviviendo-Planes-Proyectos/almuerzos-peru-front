@@ -1,3 +1,5 @@
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nService, TranslatePipe } from '../../../i18n';
@@ -37,7 +39,7 @@ describe('LangComponent', () => {
 
     await TestBed.configureTestingModule({
       imports: [LangComponent, TranslatePipe],
-      providers: [{ provide: I18nService, useValue: mockI18nService }]
+      providers: [provideHttpClient(), provideHttpClientTesting(), { provide: I18nService, useValue: mockI18nService }]
     }).compileComponents();
 
     fixture = TestBed.createComponent(LangComponent);

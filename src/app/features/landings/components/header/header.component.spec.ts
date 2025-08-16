@@ -1,3 +1,5 @@
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, provideRouter, Router } from '@angular/router';
 import { routes } from '../../../../core/routes/app.routes';
@@ -18,7 +20,12 @@ describe('HeaderComponent', () => {
 
     await TestBed.configureTestingModule({
       imports: [HeaderComponent],
-      providers: [provideRouter(routes), { provide: ActivatedRoute, useValue: mockActivatedRoute }]
+      providers: [
+        provideRouter(routes),
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        { provide: ActivatedRoute, useValue: mockActivatedRoute }
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(HeaderComponent);
