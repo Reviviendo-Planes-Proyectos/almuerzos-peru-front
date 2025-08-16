@@ -142,7 +142,9 @@ describe('LoginComponent', () => {
 
   it('should have background image', () => {
     const imageElement = debugElement.query(By.css('img'));
-    expect(imageElement.nativeElement.getAttribute('src')).toBe('img/background_almuerza_peru.png');
+    expect(imageElement.nativeElement.getAttribute('src')).toBe(
+      'https://almuerzos-peru-public.s3.us-east-1.amazonaws.com/auth/background_almuerza_peru.png'
+    );
     expect(imageElement.nativeElement.getAttribute('alt')).toBe('Fondo');
   });
 

@@ -1,0 +1,5 @@
+$s3-base-url: 'https://almuerzos-peru-public.s3.us-east-1.amazonaws.com';
+
+@function asset-url($path) {
+  @return url('#{$s3-base-url}/#{$path}');
+}

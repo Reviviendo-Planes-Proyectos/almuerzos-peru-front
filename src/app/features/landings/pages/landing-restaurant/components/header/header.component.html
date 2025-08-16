@@ -14,19 +14,9 @@
       (click)="navigateToHome()"
       (keydown.enter)="navigateToHome()"
     >
-      <!-- <div
-        class="w-10 h-10 rounded-lg flex items-center justify-center"
-        [ngClass]="{
-          'bg-gradient-to-r from-orange-500 to-yellow-500': isDinerLanding,
-          'bg-gradient-to-br from-yellow-400 to-orange-500': isRestaurantLanding || isLegalPage
-        }"
-      >
-      <img src="/img/landing/Logo-Almuerzo-Perú.png" alt="Logo Almuerzos Perú" class="w-10 h-10 rounded-lg bg-transparent" />
-      </div> -->
-
       <div class="w-12 h-12 rounded-lg flex items-center justify-center">
         <img
-          src="/img/landing/Logo-Almuerzo-Perú.png"
+          [src]="assetUrls.LOGO"
           alt="Logo Almuerzos Perú"
           class="h-10 object-contain rounded-lg bg-transparent max-w-full max-h-full"
         />

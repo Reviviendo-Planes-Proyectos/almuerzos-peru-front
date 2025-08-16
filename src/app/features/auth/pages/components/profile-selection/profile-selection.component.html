@@ -2,7 +2,7 @@
 <div class="relative min-h-screen">
   <!-- Fondo -->
   <img
-    src="img/background_almuerza_peru.png"
+    [src]="assetUrls.AUTH_BACKGROUND"
     [attr.alt]="t('common.background')"
     class="absolute inset-0 w-full h-full object-cover opacity-100"
   />
@@ -27,15 +27,16 @@
 
       <!-- Opciones -->
       <div class="grid grid-cols-2 gap-4 w-full">
-        <div
+        <button
+          type="button"
           (click)="elegirTipoUsuario('comensal')"
-          class="cursor-pointer border border-gray-300 hover:border-brand-yellow rounded-lg p-4 shadow-sm hover:shadow-lg transition-all duration-300 transform hover:scale-105 relative"
+          class="cursor-pointer border border-gray-300 hover:border-brand-yellow rounded-lg p-4 shadow-sm hover:shadow-lg transition-all duration-300 transform hover:scale-105 relative bg-white"
           [class.selected-card]="selectedType === 'comensal'"
           [class.unselected-card]="selectedType && selectedType !== 'comensal'"
           [class.pointer-events-none]="isNavigating"
         >
           <img
-            src="img/scomensal.png"
+            [src]="assetUrls.AUTH_PROFILE_COMENSAL"
             alt="Comensal"
             class="transition-transform duration-300"
             [class.animate-bounce]="selectedType === 'comensal'"
@@ -53,17 +54,18 @@
           >
             Encuentra almuerzos cerca de ti en segundos.
           </p>
-        </div>
+        </button>
 
-        <div
+        <button
+          type="button"
           (click)="elegirTipoUsuario('restaurante')"
-          class="cursor-pointer border border-gray-300 hover:border-brand-yellow rounded-lg p-4 shadow-sm hover:shadow-lg transition-all duration-300 transform hover:scale-105"
+          class="cursor-pointer border border-gray-300 hover:border-brand-yellow rounded-lg p-4 shadow-sm hover:shadow-lg transition-all duration-300 transform hover:scale-105 bg-white"
           [class.selected-card]="selectedType === 'restaurante'"
           [class.unselected-card]="selectedType && selectedType !== 'restaurante'"
           [class.pointer-events-none]="isNavigating"
         >
           <img
-            src="img/trestaurante.png"
+            [src]="assetUrls.AUTH_PROFILE_RESTAURANTE"
             alt="Restaurante"
             class="transition-transform duration-300"
             [class.animate-bounce]="selectedType === 'restaurante'"
@@ -81,7 +83,7 @@
           >
             Administra tu menú diario y atrae más clientes.
           </p>
-        </div>
+        </button>
       </div>
 
       <!-- Opción extra -->
