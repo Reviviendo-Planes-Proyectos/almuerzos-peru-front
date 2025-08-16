@@ -3,7 +3,7 @@
   "framework": null,
   "builds": [
     {
-      "src": "api/index.ts",
+      "src": "api/index.js",
       "use": "@vercel/node",
       "config": {
         "includeFiles": ["dist/almuerzos-peru-front/**"]
@@ -45,7 +45,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/api/index.ts"
+      "dest": "/api/index.js"
     }
   ],
   "installCommand": "npm ci"

@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { FileUploadComponent } from '../../../../../shared/components';
 import { ASSET_URLS } from '../../../../../shared/constants';
 import { BaseTranslatableComponent, CoreModule, SharedComponentsModule } from '../../../../../shared/modules';
-import { FileUploadComponent } from '../../../../../shared/components';
 
 @Component({
   selector: 'app-customer-profile-photo',
