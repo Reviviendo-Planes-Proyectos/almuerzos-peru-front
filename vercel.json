@@ -2,11 +2,6 @@
   "version": 2,
   "buildCommand": "npm run build:ssr",
   "framework": null,
-  "functions": {
-    "dist/almuerzos-peru-front/server/server.mjs": {
-      "includeFiles": "dist/almuerzos-peru-front/browser/**"
-    }
-  },
   "builds": [
     {
       "src": "dist/almuerzos-peru-front/server/server.mjs",
