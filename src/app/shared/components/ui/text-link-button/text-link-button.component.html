@@ -1,0 +1,9 @@
+<button
+  [ngClass]="buttonClasses"
+  [disabled]="!isActive"
+  [attr.aria-label]="translateKey && translateKey.length > 0 ? t(translateKey) : label"
+  (click)="onClick()"
+  type="button"
+>
+  {{ translateKey && translateKey.length > 0 ? t(translateKey) : label }}
+</button>

@@ -47,4 +47,8 @@ export class ProfileSelectionComponent extends BaseTranslatableComponent {
       this.router.navigate(['/home-restaurant']);
     }
   }
+
+  goToLogin(): void {
+    this.router.navigate(['auth/login']);
+  }
 }

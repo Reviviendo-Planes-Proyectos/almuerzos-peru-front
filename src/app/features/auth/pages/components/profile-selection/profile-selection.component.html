@@ -95,13 +95,11 @@
 
       <!-- Opción extra -->
       <div class="mt-6">
-        <button
-          type="button"
-          (click)="router.navigate(['auth/login'])"
-          class="text-purple-700 hover:underline font-medium bg-transparent border-none cursor-pointer"
-        >
-          {{ t('auth.profileSelection.registerLater') }}
-        </button>
+        <app-text-link-button
+          translateKey="auth.profileSelection.registerLater"
+          variant="orange"
+          (clicked)="goToLogin()"
+        />
       </div>
     </div>
   </div>
