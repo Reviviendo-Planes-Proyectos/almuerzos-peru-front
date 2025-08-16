@@ -4,23 +4,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
-import { I18nService } from '../../../../../shared/i18n/services/translation.service';
 import { CoreModule, SharedComponentsModule } from '../../../../../shared/modules';
+import { I18N_TEST_PROVIDERS } from '../../../../../testing/pwa-mocks';
 import { CustomerProfilePhotoComponent } from './customer-profile-photo.component';
-
-class MockI18nService {
-  t(key: string): string {
-    const translations: Record<string, string> = {
-      'auth.customer.profilePhoto.title': 'Foto de Perfil',
-      'auth.customer.profilePhoto.subtitle': 'Elige una foto que te represente',
-      'auth.customer.profilePhoto.selectFileButton': 'Seleccionar archivo',
-      'auth.customer.profilePhoto.removeImageButton': 'Quitar imagen',
-      'auth.customer.profilePhoto.verifyEmailButton': 'Verificar email',
-      'common.back': 'Volver'
-    };
-    return translations[key] || key;
-  }
-}
 
 describe('CustomerProfilePhotoComponent', () => {
   let component: CustomerProfilePhotoComponent;
@@ -44,7 +30,7 @@ describe('CustomerProfilePhotoComponent', () => {
         provideHttpClientTesting(),
         { provide: Router, useValue: mockRouter },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
-        { provide: I18nService, useClass: MockI18nService }
+        ...I18N_TEST_PROVIDERS
       ]
     }).compileComponents();
 
@@ -66,7 +52,7 @@ describe('CustomerProfilePhotoComponent', () => {
   it('should display page title', () => {
     const titleElement = fixture.debugElement.query(By.css('h1'));
     expect(titleElement).toBeTruthy();
-    expect(titleElement.nativeElement.textContent.trim()).toContain('app.name');
+    expect(titleElement.nativeElement.textContent.trim()).toContain('ALMUERZOS PERU');
   });
 
   it('should display subtitle', () => {

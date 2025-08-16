@@ -1,8 +1,19 @@
 import { isPlatformBrowser } from '@angular/common';
-import { Component, Inject, Injector, isDevMode, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
+import {
+  Component,
+  computed,
+  Inject,
+  Injector,
+  inject,
+  isDevMode,
+  OnDestroy,
+  OnInit,
+  PLATFORM_ID
+} from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RouterOutlet } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
+import { I18nService } from './shared/i18n';
 import { MaterialModule, SharedComponentsModule } from './shared/modules';
 import { ApiService } from './shared/services/api/api.service';
 import { ImagePreloadService } from './shared/services/image-preload/image-preload.service';
@@ -20,6 +31,10 @@ export class AppComponent implements OnInit, OnDestroy {
   apiStatus: any;
   private scrollTimeout: ReturnType<typeof setTimeout> | null = null;
   private readonly destroy$ = new Subject<void>();
+  private readonly i18n = inject(I18nService);
+
+  // Computed signal para verificar si las traducciones están listas
+  protected readonly isTranslationsReady = computed(() => this.i18n.isReady());
 
   constructor(
     private readonly apiService: ApiService,
@@ -77,7 +92,8 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     this.pwaService.showAppReminder$.pipe(takeUntil(this.destroy$)).subscribe((showReminder) => {
-      if (showReminder) {
+      // Validación adicional: solo mostrar si cumple TODAS las condiciones
+      if (showReminder && this.pwaService.shouldShowReminder()) {
         this.showReminderNotification();
       }
     });
@@ -117,8 +133,23 @@ export class AppComponent implements OnInit, OnDestroy {
       return;
     }
 
-    // No mostrar recordatorio si la app ya está instalada
+    // VALIDACIÓN TRIPLE: No mostrar si ya está instalada O no es móvil
     if (this.pwaService.isInstalled()) {
+      this.pwaService.dismissAppReminder();
+      return;
+    }
+
+    // Verificar si es dispositivo móvil (usando el método del servicio PWA)
+    const debugInfo = this.pwaService.getDebugInfo();
+    const isMobile =
+      debugInfo.userAgent?.toLowerCase().includes('mobile') ||
+      debugInfo.userAgent?.toLowerCase().includes('android') ||
+      debugInfo.userAgent?.toLowerCase().includes('iphone') ||
+      window.innerWidth <= 768;
+
+    if (!isMobile) {
+      this.pwaService.dismissAppReminder();
+      this.logger.info('PWA reminder dismissed - not a mobile device');
       return;
     }
 
@@ -133,7 +164,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
       snackBarRef.onAction().subscribe(() => {
         // Verificar nuevamente antes de mostrar el prompt
-        if (!this.pwaService.isInstalled()) {
+        if (!this.pwaService.isInstalled() && isMobile) {
           this.pwaService.forceShowInstallPrompt();
         }
         this.pwaService.dismissAppReminder();

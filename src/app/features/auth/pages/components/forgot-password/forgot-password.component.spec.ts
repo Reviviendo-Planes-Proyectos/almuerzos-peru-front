@@ -4,22 +4,17 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
-import { I18nService } from '../../../../../shared/i18n';
+import { I18N_TEST_PROVIDERS, mockI18nService } from '../../../../../testing/pwa-mocks';
 import { ForgotPasswordComponent } from './forgot-password.component';
 
 describe('ForgotPasswordComponent', () => {
   let component: ForgotPasswordComponent;
   let fixture: ComponentFixture<ForgotPasswordComponent>;
   let mockRouter: any;
-  let mockI18nService: any;
 
   beforeEach(async () => {
     mockRouter = {
       navigate: jest.fn()
-    };
-
-    mockI18nService = {
-      t: jest.fn().mockReturnValue('Mocked Translation')
     };
 
     await TestBed.configureTestingModule({
@@ -28,7 +23,7 @@ describe('ForgotPasswordComponent', () => {
         provideHttpClient(),
         provideHttpClientTesting(),
         { provide: Router, useValue: mockRouter },
-        { provide: I18nService, useValue: mockI18nService }
+        ...I18N_TEST_PROVIDERS
       ]
     }).compileComponents();
 

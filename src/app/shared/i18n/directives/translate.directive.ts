@@ -7,13 +7,14 @@ import { I18nService } from '../services/translation.service';
 })
 export class TranslateDirective implements OnInit {
   @Input('appTranslate') key!: string;
+  @Input() placeholder?: string;
 
   private readonly elementRef = inject(ElementRef);
   private readonly i18n = inject(I18nService);
 
   constructor() {
     effect(() => {
-      if (this.key && this.i18n.isTranslationsLoaded()) {
+      if (this.key) {
         this.updateText();
       }
     });
@@ -24,8 +25,15 @@ export class TranslateDirective implements OnInit {
   }
 
   private updateText(): void {
-    if (this.key) {
-      this.elementRef.nativeElement.textContent = this.i18n.t(this.key);
+    if (!this.key) return;
+
+    // Optimizado para evitar flash de contenido
+    if (!this.i18n.isReady()) {
+      // Mostrar placeholder o dejar vacío durante la carga
+      this.elementRef.nativeElement.textContent = this.placeholder || '';
+      return;
     }
+
+    this.elementRef.nativeElement.textContent = this.i18n.t(this.key);
   }
 }

@@ -1,37 +1,24 @@
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { I18nService, TranslatePipe } from '../../../i18n';
+import { I18N_TEST_PROVIDERS } from '../../../../testing/pwa-mocks';
+import { TranslatePipe } from '../../../i18n';
 import { MaterialModule } from '../../../modules';
 import { ButtonComponent } from './button.component';
-
-// Mock del servicio de traducción
-class MockI18nService {
-  t(key: string): string {
-    const translations: Record<string, string> = {
-      'auth.login.button': 'Iniciar Sesión',
-      'auth.register.button': 'Registrarse',
-      'common.continue': 'Continuar',
-      'common.cancel': 'Cancelar'
-    };
-    return translations[key] || key;
-  }
-}
 
 describe('ButtonComponent', () => {
   let component: ButtonComponent;
   let fixture: ComponentFixture<ButtonComponent>;
   let debugElement: DebugElement;
   let buttonElement: HTMLButtonElement;
-  let mockI18nService: MockI18nService;
 
   beforeEach(async () => {
-    mockI18nService = new MockI18nService();
-
     await TestBed.configureTestingModule({
       imports: [ButtonComponent, MaterialModule, NoopAnimationsModule, TranslatePipe],
-      providers: [{ provide: I18nService, useValue: mockI18nService }]
+      providers: [provideHttpClient(), provideHttpClientTesting(), ...I18N_TEST_PROVIDERS]
     }).compileComponents();
 
     fixture = TestBed.createComponent(ButtonComponent);
