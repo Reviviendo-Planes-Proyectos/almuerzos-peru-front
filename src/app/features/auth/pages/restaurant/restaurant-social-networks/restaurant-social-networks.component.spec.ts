@@ -18,7 +18,6 @@ describe('RestaurantSocialNetworksComponent', () => {
       navigate: jest.fn()
     };
 
-    // Clear localStorage before each test
     localStorage.clear();
 
     await TestBed.configureTestingModule({
@@ -45,7 +44,7 @@ describe('RestaurantSocialNetworksComponent', () => {
     it('should initialize with correct default values', () => {
       expect(component.currentStep).toBe(6);
       expect(component.showSuccessModal).toBe(false);
-      expect(component.restaurantName).toBe('El charrua'); // Updated to match hardcoded value
+      expect(component.restaurantName).toBe('El charrua');
       expect(component.socialNetworksForm).toBeDefined();
       expect(component.socialNetworksForm.get('contactPhone')?.value).toBe('');
       expect(component.socialNetworksForm.get('whatsappPhone')?.value).toBe('');
@@ -54,7 +53,6 @@ describe('RestaurantSocialNetworksComponent', () => {
     });
 
     it('should use hardcoded restaurant name', () => {
-      // Since the implementation now uses a hardcoded name, test that
       expect(component.restaurantName).toBe('El charrua');
     });
   });
@@ -140,10 +138,8 @@ describe('RestaurantSocialNetworksComponent', () => {
 
   describe('Restaurant Name and Modal Functionality', () => {
     it('should return correct restaurant initial', () => {
-      // Test with the actual hardcoded name
-      expect(component.getRestaurantInitial()).toBe('E'); // 'El charrua' starts with 'E'
+      expect(component.getRestaurantInitial()).toBe('E');
 
-      // Test with manual assignment for other scenarios
       component.restaurantName = 'Test Restaurant';
       expect(component.getRestaurantInitial()).toBe('T');
 
@@ -165,12 +161,7 @@ describe('RestaurantSocialNetworksComponent', () => {
     });
 
     it('should handle localStorage data correctly when implemented', () => {
-      // Since getRestaurantNameFromStorage is currently commented out,
-      // this test verifies the current hardcoded behavior
       expect(component.restaurantName).toBe('El charrua');
-
-      // Note: When localStorage functionality is re-implemented,
-      // this test should be updated to test actual localStorage behavior
     });
   });
 });

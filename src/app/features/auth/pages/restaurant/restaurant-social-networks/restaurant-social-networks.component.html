@@ -1,15 +1,11 @@
 <div class="relative min-h-screen">
-  <!-- Header con pasos -->
-  <!--   <app-header-with-steps [currentStep]="currentStep" [showBackButton]="true"
-    (backClick)="onBackClick()"></app-header-with-steps>
- -->
   <img
     [src]="assetUrls.AUTH_BACKGROUND"
     [attr.alt]="t('common.background')"
     class="absolute inset-0 w-full h-full object-cover opacity-100"
   />
 
-  <app-back-button position="top-left" (click)="onBackClick()"></app-back-button>
+  <app-back-button position="top-left" (click)="onBackClick()" onkeypress="onBackClick()"></app-back-button>
 
   <div class="relative z-10 flex items-end sm:items-center justify-center min-h-[95vh]">
     <div
@@ -73,11 +69,8 @@
           [iconName]="'check_circle'"
           [isOutline]="false"
           (click)="finishRegistration()"
+          (keypress)="finishRegistration()"
         ></app-button>
-
-        <!-- <div class="text-center">
-          <app-button [label]="'Atrás'" [isActive]="true" [outlineGray]="true" (click)="goBack()"></app-button>
-        </div> -->
       </div>
     </div>
   </div>
