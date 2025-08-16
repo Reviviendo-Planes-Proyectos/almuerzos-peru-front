@@ -44,11 +44,16 @@
               "ssr": {
                 "entry": "server.ts"
               },
+              "optimization": true,
+              "extractLicenses": false,
+              "sourceMap": false,
+              "namedChunks": false,
+              "aot": true,
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "800kB",
-                  "maximumError": "1.2MB"
+                  "maximumWarning": "1MB",
+                  "maximumError": "1.5MB"
                 },
                 {
                   "type": "anyComponentStyle",

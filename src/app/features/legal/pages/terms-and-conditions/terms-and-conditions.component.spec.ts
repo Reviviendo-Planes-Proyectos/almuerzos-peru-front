@@ -1,3 +1,5 @@
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -37,6 +39,8 @@ describe('TermsAndConditionsComponent', () => {
     await TestBed.configureTestingModule({
       imports: [TermsAndConditionsComponent, MaterialModule, HeaderComponent],
       providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
         { provide: Router, useValue: routerSpy },
         { provide: ActivatedRoute, useValue: activatedRouteSpy },
         { provide: I18nService, useValue: i18nServiceSpy }

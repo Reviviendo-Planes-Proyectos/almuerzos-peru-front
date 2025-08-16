@@ -44,4 +44,3 @@ Thumbs.db
 # Playwright reports and test results
 /playwright-report
 /test-results
-.vercel

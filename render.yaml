@@ -1,0 +1,15 @@
+version: 2
+services:
+  - type: web
+    name: almuerzos-peru-front
+    runtime: node
+    region: oregon
+    plan: starter
+    buildCommand: npm run build:prod
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_OPTIONS
+        value: "--max-old-space-size=8192"
+    autoDeploy: false

@@ -1,3 +1,5 @@
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -70,6 +72,8 @@ describe('LoginComponent', () => {
         TranslatePipe
       ],
       providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
         { provide: Router, useValue: routerSpyObj },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: LoggerService, useValue: mockLoggerService },

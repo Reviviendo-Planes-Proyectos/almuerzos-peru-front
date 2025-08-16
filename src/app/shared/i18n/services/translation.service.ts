@@ -1,9 +1,14 @@
-import { Injectable, signal } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { Injectable, inject, PLATFORM_ID, signal } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class I18nService {
+  private readonly http = inject(HttpClient);
+  private readonly platformId = inject(PLATFORM_ID);
   private readonly STORAGE_KEY = 'app_language';
   private readonly DEFAULT_LANG = 'es' as const;
 
@@ -35,17 +40,12 @@ export class I18nService {
   private async loadMessagesOptimized(): Promise<void> {
     try {
       const currentLang = this.lang();
-      const response = await fetch(`/messages/${currentLang}.json`);
 
-      if (!response.ok) {
-        throw new Error(`Failed to load ${currentLang} translations`);
-      }
+      // Usar HttpClient en lugar de fetch para compatibilidad SSR
+      const currentMessages = await firstValueFrom(this.http.get<any>(`/messages/${currentLang}.json`));
 
-      const currentMessages = await response.json();
       const otherLang = currentLang === 'es' ? 'en' : 'es';
-      const otherResponse = fetch(`/messages/${otherLang}.json`)
-        .then((r) => r.json())
-        .catch(() => ({}));
+      const otherMessagesPromise = firstValueFrom(this.http.get<any>(`/messages/${otherLang}.json`)).catch(() => ({}));
 
       this.messages.set({
         [currentLang]: currentMessages,
@@ -54,16 +54,17 @@ export class I18nService {
 
       this.isLoaded.set(true);
 
-      const otherMessages = await otherResponse;
+      const otherMessages = await otherMessagesPromise;
       this.messages.update((current) => ({
         ...current,
         [otherLang]: otherMessages
       }));
     } catch (error) {
+      // En caso de error, crear mensajes vacíos para evitar fallos
       this.messages.set({ es: {}, en: {} });
       this.isLoaded.set(true);
 
-      if (typeof window !== 'undefined' && window.location?.hostname === 'localhost') {
+      if (isPlatformBrowser(this.platformId) && window.location?.hostname === 'localhost') {
         console.warn('Error loading translations:', error);
       }
     }
@@ -100,15 +101,14 @@ export class I18nService {
     const messages = this.messages();
     if (!messages[newLang] || Object.keys(messages[newLang]).length === 0) {
       try {
-        const response = await fetch(`/messages/${newLang}.json`);
-        const newMessages = await response.json();
+        const newMessages = await firstValueFrom(this.http.get<any>(`/messages/${newLang}.json`));
 
         this.messages.update((current) => ({
           ...current,
           [newLang]: newMessages
         }));
       } catch (error) {
-        if (typeof window !== 'undefined' && window.location?.hostname === 'localhost') {
+        if (isPlatformBrowser(this.platformId) && window.location?.hostname === 'localhost') {
           console.warn(`Error loading ${newLang} translations:`, error);
         }
       }
@@ -130,21 +130,29 @@ export class I18nService {
   }
 
   private initLanguage(): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return; // No hacer nada en SSR
+    }
+
     try {
       const saved = localStorage.getItem(this.STORAGE_KEY) as 'es' | 'en' | null;
       if (saved === 'es' || saved === 'en') {
         this.lang.set(saved);
       }
     } catch {
-      // Ignorar errores de localStorage (SSR)
+      // Ignorar errores de localStorage
     }
   }
 
   private saveLanguage(lang: 'es' | 'en'): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return; // No hacer nada en SSR
+    }
+
     try {
       localStorage.setItem(this.STORAGE_KEY, lang);
     } catch {
-      // Ignorar errores de localStorage (SSR)
+      // Ignorar errores de localStorage
     }
   }
 }
