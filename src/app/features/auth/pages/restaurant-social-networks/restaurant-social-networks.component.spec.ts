@@ -1,4 +1,6 @@
 import { CommonModule } from '@angular/common';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -21,7 +23,7 @@ describe('RestaurantSocialNetworksComponent', () => {
 
     await TestBed.configureTestingModule({
       imports: [RestaurantSocialNetworksComponent, CommonModule, ReactiveFormsModule],
-      providers: [{ provide: Router, useValue: routerSpy }],
+      providers: [provideHttpClient(), provideHttpClientTesting(), { provide: Router, useValue: routerSpy }],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 

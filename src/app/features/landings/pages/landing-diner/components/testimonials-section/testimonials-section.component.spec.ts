@@ -1,3 +1,5 @@
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { I18nService, TranslatePipe } from '../../../../../../shared/i18n';
@@ -36,7 +38,7 @@ describe('TestimonialsSectionComponent', () => {
 
     await TestBed.configureTestingModule({
       imports: [TestimonialsSectionComponent, BrowserAnimationsModule, TranslatePipe],
-      providers: [{ provide: I18nService, useValue: mockI18nService }]
+      providers: [provideHttpClient(), provideHttpClientTesting(), { provide: I18nService, useValue: mockI18nService }]
     }).compileComponents();
 
     fixture = TestBed.createComponent(TestimonialsSectionComponent);
