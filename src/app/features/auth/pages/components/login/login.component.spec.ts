@@ -175,8 +175,8 @@ describe('LoginComponent', () => {
     expect(emailSpy).toHaveBeenCalled();
   });
 
-  it('should call forgotPassword when forgot password link is clicked', () => {
-    const forgotSpy = jest.spyOn(component, 'forgotPassword');
+  it('should call goToForgotPassword when forgot password link is clicked', () => {
+    const forgotSpy = jest.spyOn(component, 'goToForgotPassword');
     const buttons = debugElement.queryAll(By.css('button'));
     const forgotButton = buttons.find((button) => button.nativeElement.textContent.includes('Olvidé mi Contraseña'));
     expect(forgotButton).toBeTruthy();

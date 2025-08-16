@@ -79,23 +79,19 @@
         {{ t('auth.login.withEmail') }}
       </button>
 
-      <button
-        type="button"
-        (click)="forgotPassword()"
-        onkeypress="if(event.key === 'Enter'){ forgotPassword(); }"
-        class="mt-2 text-purple-700 hover:underline font-medium bg-transparent border-none cursor-pointer"
-      >
-        {{ t('auth.forgot.title') }}
-      </button>
+      <app-text-link-button
+        translateKey="auth.forgot.title"
+        variant="orange"
+        (clicked)="goToForgotPassword()"
+        onkeypress="if(event.key === 'Enter'){ goToForgotPassword(); }"
+      />
 
-      <button
-        type="button"
-        (click)="goToRegister()"
+      <app-text-link-button
+        translateKey="auth.login.noAccount"
+        variant="orange"
+        (clicked)="goToRegister()"
         onkeypress="if(event.key === 'Enter'){ goToRegister(); }"
-        class="mt-4 text-purple-700 hover:underline font-medium bg-transparent border-none cursor-pointer"
-      >
-        {{ t('auth.login.noAccount') }}
-      </button>
+      />
     </div>
   </div>
 </div>

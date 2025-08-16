@@ -76,13 +76,12 @@
         {{ t('auth.register.withEmail') }}
       </button>
 
-      <button
-        type="button"
-        (click)="goToLogin()"
-        class="mt-4 text-purple-700 hover:underline font-medium bg-transparent border-none cursor-pointer"
-      >
-        {{ t('auth.register.later') }}
-      </button>
+      <app-text-link-button
+        translateKey="auth.register.later"
+        variant="orange"
+        (clicked)="goToLogin()"
+        onkeypress="if(event.key === 'Enter'){ goToLogin(); }"
+      />
     </div>
   </div>
 </div>
