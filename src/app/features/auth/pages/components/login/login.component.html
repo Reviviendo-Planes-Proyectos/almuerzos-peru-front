@@ -20,7 +20,7 @@
 
       <button
         (click)="loginWithGoogle()"
-        [disabled]="isGoogleLoading || isFacebookLoading || isEmailLoading"
+        [disabled]="isGoogleLoading"
         onkeypress="if(event.key === 'Enter'){ loginWithGoogle(); }"
         class="w-full flex items-center justify-center gap-2 border border-yellow-500 text-red-600 font-semibold py-2 px-4 rounded-lg hover:bg-red-100 transition mb-3 disabled:opacity-50 disabled:hover:bg-transparent"
       >
@@ -42,7 +42,7 @@
 
       <button
         (click)="loginWithFacebook()"
-        [disabled]="isGoogleLoading || isFacebookLoading || isEmailLoading"
+        [disabled]="isFacebookLoading"
         onkeypress="if(event.key === 'Enter'){ loginWithFacebook(); }"
         class="w-full flex items-center justify-center gap-2 border border-yellow-500 text-blue-600 font-semibold py-2 px-4 rounded-lg hover:bg-blue-100 transition mb-3 disabled:opacity-50 disabled:hover:bg-transparent"
       >
@@ -70,13 +70,16 @@
 
       <button
         (click)="iniciarConEmail()"
-        [disabled]="isGoogleLoading || isFacebookLoading || isEmailLoading"
+        [disabled]="isEmailLoading"
         onkeypress="if(event.key === 'Enter'){ iniciarConEmail(); }"
         class="w-full flex items-center justify-center gap-2 border border-yellow-500 text-gray-800 font-semibold py-2 px-4 rounded-lg hover:bg-gray-100 transition mb-3 disabled:opacity-50 disabled:hover:bg-transparent"
       >
-        <!-- Icono siempre visible (sin spinner) -->
-        <mat-icon>mail</mat-icon>
-        {{ t('auth.login.withEmail') }}
+        <!-- Spinner de carga para email -->
+        <div *ngIf="isEmailLoading" class="animate-spin rounded-full h-5 w-5 border-b-2 border-yellow-500"></div>
+        <!-- Icono normal -->
+        <mat-icon *ngIf="!isEmailLoading">mail</mat-icon>
+        <span *ngIf="!isEmailLoading">{{ t('auth.login.withEmail') }}</span>
+        <span *ngIf="isEmailLoading">{{ t('auth.register.connecting') }}</span>
       </button>
 
       <app-text-link-button

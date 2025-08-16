@@ -44,6 +44,12 @@
               "ssr": {
                 "entry": "server.ts"
               },
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
               "optimization": true,
               "extractLicenses": false,
               "sourceMap": false,

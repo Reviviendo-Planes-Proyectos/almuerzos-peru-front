@@ -113,19 +113,20 @@ describe('AppComponent', () => {
 
     const app = fixture.componentInstance;
     expect(app.apiStatus).toEqual(mockResponse);
-    expect(mockLogger.info).toHaveBeenCalledWith('API status fetched successfully:', mockResponse);
+    expect(mockLogger.info).toHaveBeenCalledWith('API status fetched successfully');
   });
 
   it('debe manejar error del API y registrar error', () => {
     const mockError = { status: 0, message: 'Error en API' };
+    const expectedErrorStatus = { error: 'API not available', offline: true };
     mockApiService.getHealth.mockReturnValue(throwError(() => mockError));
 
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
 
     const app = fixture.componentInstance;
-    expect(app.apiStatus).toEqual(mockError);
-    expect(mockLogger.error).toHaveBeenCalledWith('Error fetching API status:', mockError);
+    expect(app.apiStatus).toEqual(expectedErrorStatus);
+    expect(mockLogger.warn).toHaveBeenCalledWith('API health check failed - running in offline mode');
   });
 
   it('debe inicializar el indicador de scroll al cargar', () => {

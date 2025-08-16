@@ -1,4 +1,3 @@
-version: 2
 services:
   - type: web
     name: almuerzos-peru-front
@@ -6,10 +5,12 @@ services:
     region: oregon
     plan: starter
     buildCommand: npm run build:prod
-    startCommand: npm start
+    startCommand: ./start-render.sh
     envVars:
       - key: NODE_ENV
         value: production
       - key: NODE_OPTIONS
         value: "--max-old-space-size=8192"
+      - key: ANGULAR_ENABLE_BUNDLE_BUDGETS
+        value: "false"
     autoDeploy: false

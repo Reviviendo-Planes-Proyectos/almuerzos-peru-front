@@ -27,18 +27,19 @@ export class AppComponent implements OnInit, OnDestroy {
     private readonly pwaService: PwaService,
     private readonly imagePreloadService: ImagePreloadService,
     private readonly injector: Injector,
-    @Inject(PLATFORM_ID) private platformId: string
+    @Inject(PLATFORM_ID) private readonly platformId: string
   ) {}
 
   ngOnInit(): void {
+    // Health check opcional - no bloquea la aplicación
     this.apiService.getHealth().subscribe({
       next: (data) => {
         this.apiStatus = data;
-        this.logger.info('API status fetched successfully:', this.apiStatus);
+        this.logger.info('API status fetched successfully');
       },
-      error: (err) => {
-        this.apiStatus = err;
-        this.logger.error('Error fetching API status:', this.apiStatus);
+      error: () => {
+        this.apiStatus = { error: 'API not available', offline: true };
+        this.logger.warn('API health check failed - running in offline mode');
       }
     });
 
