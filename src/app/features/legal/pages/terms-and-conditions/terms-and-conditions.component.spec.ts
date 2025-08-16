@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
 import { I18nService } from '../../../../shared/i18n';
 import { MaterialModule } from '../../../../shared/modules';
-import { HeaderComponent } from '../../../landings/pages/landing-restaurant/components/header/header.component';
+import { HeaderComponent } from '../../../landings/components/header/header.component';
 import { TermsAndConditionsComponent } from './terms-and-conditions.component';
 
 describe('TermsAndConditionsComponent', () => {

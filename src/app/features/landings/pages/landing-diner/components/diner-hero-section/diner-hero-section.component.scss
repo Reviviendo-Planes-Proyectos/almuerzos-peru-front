@@ -1,26 +1,9 @@
-// Centrado perfecto de iconos en tarjetas flotantes
-.card-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
-}
-
-.card-icon mat-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 1.8rem;
-  height: 1.8rem;
-  font-size: 1.8rem;
-}
+@import '../../../../../../shared/styles/assets';
 
 .hero-image {
-  background-image: url('/img/landing/cozy-restaurant-hero.png');
-
-  @media (max-width: 768px) {
-    background-position: center center;
-  }
+  background-image: asset-url('landing/cozy-restaurant-hero.png');
+  background-position: center;
+  background-size: cover;
 }
 
 .hero-overlay {

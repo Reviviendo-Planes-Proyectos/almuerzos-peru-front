@@ -25,6 +25,7 @@
             class="w-full sm:flex-1"
             iconName="rocket_launch"
             (click)="handleFeatureClick('registro')"
+            onkeydown="handleFeatureClick('registro')"
           ></app-button>
 
           <app-button
@@ -34,6 +35,7 @@
             iconName="smart_display"
             class="w-full sm:flex-1"
             (click)="handleFeatureClick('demo')"
+            onkeydown="handleFeatureClick('demo')"
           ></app-button>
         </div>
 
@@ -54,9 +56,14 @@
       <div class="relative">
         <div class="floating-animation">
           <img
-            [attr.alt]="t('landing.restaurant.hero.imageAlt')"
+            [attr.alt]="t('landing.restaurant.hero.alt')"
             class="w-full h-auto rounded-2xl shadow-2xl"
-            src="/img/landing/hero-restaurant-phone.png"
+            [src]="assetUrls.LANDING_HERO_RESTAURANT_PHONE"
+            width="518"
+            height="345"
+            sizes="(max-width: 640px) 100vw, (max-width: 768px) 80vw, (max-width: 1024px) 60vw, 50vw"
+            loading="eager"
+            fetchpriority="high"
           />
         </div>
 

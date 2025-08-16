@@ -5,6 +5,7 @@ import { RouterOutlet } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { MaterialModule, SharedComponentsModule } from './shared/modules';
 import { ApiService } from './shared/services/api/api.service';
+import { ImagePreloadService } from './shared/services/image-preload/image-preload.service';
 import { LoggerService } from './shared/services/logger/logger.service';
 import { PwaService } from './shared/services/pwa/pwa.service';
 
@@ -24,6 +25,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private readonly apiService: ApiService,
     public readonly logger: LoggerService,
     private readonly pwaService: PwaService,
+    private readonly imagePreloadService: ImagePreloadService,
     private readonly injector: Injector,
     @Inject(PLATFORM_ID) private platformId: string
   ) {}
@@ -39,6 +41,11 @@ export class AppComponent implements OnInit, OnDestroy {
         this.logger.error('Error fetching API status:', this.apiStatus);
       }
     });
+
+    // Preload critical images
+    if (isPlatformBrowser(this.platformId)) {
+      this.imagePreloadService.preloadCriticalImages();
+    }
 
     this.initCustomScrollIndicator();
     this.setupUpdateNotifications();
@@ -175,32 +182,36 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private initCustomScrollIndicator(): void {
-    window.addEventListener('scroll', this.handleScroll.bind(this));
+    if (this.platformId && isPlatformBrowser(this.platformId)) {
+      window.addEventListener('scroll', this.handleScroll.bind(this));
+    }
   }
 
   private handleScroll(): void {
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+    if (this.platformId && isPlatformBrowser(this.platformId)) {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
 
-    if (scrollHeight > 0) {
-      const viewportHeight = window.innerHeight;
-      const documentHeight = document.documentElement.scrollHeight;
-      const indicatorHeight = Math.max((viewportHeight / documentHeight) * 100, 3);
+      if (scrollHeight > 0) {
+        const viewportHeight = window.innerHeight;
+        const documentHeight = document.documentElement.scrollHeight;
+        const indicatorHeight = Math.max((viewportHeight / documentHeight) * 100, 3);
 
-      const scrollProgress = (scrollTop / scrollHeight) * (100 - indicatorHeight);
+        const scrollProgress = (scrollTop / scrollHeight) * (100 - indicatorHeight);
 
-      document.documentElement.style.setProperty('--scroll-progress', `${indicatorHeight}%`);
-      document.documentElement.style.setProperty('--scroll-position', `${scrollProgress}%`);
+        document.documentElement.style.setProperty('--scroll-progress', `${indicatorHeight}%`);
+        document.documentElement.style.setProperty('--scroll-position', `${scrollProgress}%`);
+      }
+
+      document.body.classList.add('scrolling');
+
+      if (this.scrollTimeout) {
+        clearTimeout(this.scrollTimeout);
+      }
+
+      this.scrollTimeout = setTimeout(() => {
+        document.body.classList.remove('scrolling');
+      }, 1500);
     }
-
-    document.body.classList.add('scrolling');
-
-    if (this.scrollTimeout) {
-      clearTimeout(this.scrollTimeout);
-    }
-
-    this.scrollTimeout = setTimeout(() => {
-      document.body.classList.remove('scrolling');
-    }, 1500);
   }
 }

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MaterialModule } from '../../../../shared/modules';
-import { FooterComponent } from '../landing-restaurant/components/footer/footer.component';
-import { HeaderComponent } from '../landing-restaurant/components/header/header.component';
+import { FooterComponent } from '../../components/footer/footer.component';
+import { HeaderComponent } from '../../components/header/header.component';
 import { DinerHeroSectionComponent } from './components/diner-hero-section/diner-hero-section.component';
 import { EnhancedSearchSectionComponent } from './components/enhanced-search-section/enhanced-search-section.component';
 import { FeaturesSectionComponent } from './components/features-section/features-section.component';

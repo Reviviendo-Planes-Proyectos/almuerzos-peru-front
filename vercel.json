@@ -1,4 +1,53 @@
 {
+  "version": 2,
   "buildCommand": "npm run build:ssr",
-  "framework": "angular"
+  "framework": null,
+  "builds": [
+    {
+      "src": "dist/almuerzos-peru-front/server/server.mjs",
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": ["dist/almuerzos-peru-front/browser/**"]
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*\\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot|webp|avif|txt|xml))",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      },
+      "dest": "/dist/almuerzos-peru-front/browser/$1"
+    },
+    {
+      "src": "/manifest.webmanifest",
+      "headers": {
+        "Content-Type": "application/manifest+json",
+        "Cache-Control": "public, max-age=86400"
+      },
+      "dest": "/dist/almuerzos-peru-front/browser/manifest.webmanifest"
+    },
+    {
+      "src": "/ngsw-worker.js",
+      "headers": {
+        "Content-Type": "application/javascript",
+        "Service-Worker-Allowed": "/",
+        "Cache-Control": "no-cache"
+      },
+      "dest": "/dist/almuerzos-peru-front/browser/ngsw-worker.js"
+    },
+    {
+      "src": "/ngsw.json",
+      "headers": {
+        "Content-Type": "application/json",
+        "Cache-Control": "no-cache"
+      },
+      "dest": "/dist/almuerzos-peru-front/browser/ngsw.json"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/dist/almuerzos-peru-front/server/server.mjs"
+    }
+  ],
+  "installCommand": "npm ci"
 }

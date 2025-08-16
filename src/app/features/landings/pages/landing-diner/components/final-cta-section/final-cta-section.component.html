@@ -3,7 +3,7 @@
   <div class="cta-background absolute inset-0">
     <div
       class="cta-image w-full h-full bg-cover bg-center bg-no-repeat"
-      style="background-image: url('/assets/img/background_almuerza_peru.png')"
+      [style.background-image]="'url(' + assetUrls.AUTH_BACKGROUND + ')'"
     ></div>
     <div class="cta-overlay absolute inset-0 bg-gradient-to-br from-orange-600/90 to-amber-500/90"></div>
     <div class="cta-gradient absolute inset-0 bg-black/20"></div>
