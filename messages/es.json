@@ -13,14 +13,23 @@
     "with": "con",
     "background": "Fondo",
     "google": "Google",
-    "facebook": "Facebook"
+    "facebook": "Facebook",
+    "options": "Opciones",
+    "loading": "Cargando..."
   },
   "auth": {
+    "common": {
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "loading": "Cargando..."
+    },
     "login": {
       "title": "Iniciar Sesión",
+      "emailTitle": "Inicia sesión con tu correo",
       "button": "Iniciar Sesión",
+      "signIn": "Iniciar Sesión",
       "email": "Correo",
-      "noAccount": "¿No tienes cuenta? Regístrate",
+      "noAccount": "¿No tienes cuenta?",
       "withGoogle": "Iniciar Sesión con Google",
       "withFacebook": "Iniciar Sesión con Facebook",
       "withEmail": "Iniciar Sesión con Correo"

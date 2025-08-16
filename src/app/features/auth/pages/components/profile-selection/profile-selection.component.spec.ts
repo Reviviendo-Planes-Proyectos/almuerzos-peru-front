@@ -136,7 +136,7 @@ describe('ProfileSelectionComponent', () => {
 
     tick(800);
 
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['auth/login'], {
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['/auth/login'], {
       queryParams: { userType: 'comensal' }
     });
   }));
@@ -146,7 +146,7 @@ describe('ProfileSelectionComponent', () => {
 
     tick(800);
 
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['auth/login'], {
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['/auth/login'], {
       queryParams: { userType: 'restaurante' }
     });
   }));
@@ -154,7 +154,7 @@ describe('ProfileSelectionComponent', () => {
   it('should navigate to auth/login when register later button is clicked', () => {
     const registerLaterButton = debugElement.query(By.css('.mt-6 button'));
     registerLaterButton.nativeElement.click();
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['auth/login']);
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['/auth/login'], { queryParams: {} });
   });
 
   it('should not allow multiple selections when navigating', () => {

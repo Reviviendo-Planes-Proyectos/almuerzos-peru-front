@@ -30,7 +30,7 @@ export class ProfileSelectionComponent extends BaseTranslatableComponent {
     this.isNavigating = true;
 
     setTimeout(() => {
-      this.router.navigate(['auth/login'], {
+      this.router.navigate(['/auth/login'], {
         queryParams: { userType: tipo }
       });
     }, 800);
@@ -49,6 +49,6 @@ export class ProfileSelectionComponent extends BaseTranslatableComponent {
   }
 
   goToLogin(): void {
-    this.router.navigate(['auth/login']);
+    this.router.navigate(['/auth/login'], { queryParams: {} });
   }
 }
